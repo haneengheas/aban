@@ -2,7 +2,14 @@ import 'package:aban/constant/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-class ProjectList extends StatelessWidget {
+class ProjectList extends StatefulWidget {
+  @override
+  State<ProjectList> createState() => _ProjectListState();
+}
+
+class _ProjectListState extends State<ProjectList> {
+  bool checked= true;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -54,14 +61,30 @@ class ProjectList extends StatelessWidget {
                             width: 10,
                             thickness: 2,
                           ),
-                          Container(
-                            height: 40,
-                            width: 25,
-                            child: ImageIcon(
-                              AssetImage(
-                                'assets/${completed[index][1]}',
-                              ),
-                              color: blue,
+                          InkWell(
+                            onTap: (){
+                              setState(() {
+                                print('1');
+                                completed[index][2]=!completed[index][2];
+                              });
+                            },
+                            child: Container(
+                              height: 40,
+                              width: 25,
+                              margin: EdgeInsets.symmetric(vertical: 10),
+                              child: completed[index][2]?ImageIcon(
+                                AssetImage(
+                                  'assets/${completed[index][1]}',
+                                ),
+                                color: blue,
+                              ):
+                              ImageIcon(
+                                AssetImage(
+                                  'assets/${completed[index][3]}',
+                                ),
+                                color: blue,
+                              )
+
                             ),
                           ),
                         ],
@@ -77,8 +100,8 @@ class ProjectList extends StatelessWidget {
 }
 
 List<List> completed = [
-  ['دكتوراه', 'bookmark (1).png'],
-  ['ماجستير', 'bookmark (2).png'],
-  ['دكتوراه', 'bookmark (1).png'],
-  ['ماجستير', 'bookmark (2).png'],
+  ['دكتوراه', 'bookmark (1).png',true,'bookmark (2).png'],
+  ['ماجستير', 'bookmark (2).png',false,'bookmark (2).png'],
+  ['دكتوراه', 'bookmark (1).png',true,'bookmark (2).png'],
+  ['ماجستير', 'bookmark (2).png',true,'bookmark (2).png'],
 ];

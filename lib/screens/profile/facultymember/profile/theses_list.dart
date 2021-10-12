@@ -2,10 +2,15 @@ import 'package:aban/constant/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-class ThesesList extends StatelessWidget {
+class ThesesList extends StatefulWidget {
  final String text;
  ThesesList({required this.text});
 
+  @override
+  State<ThesesList> createState() => _ThesesListState();
+}
+
+class _ThesesListState extends State<ThesesList> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -14,7 +19,7 @@ class ThesesList extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
           child: Text(
-           text,
+           widget.text,
             style: hintStyle,
           ),
         ),
@@ -69,16 +74,32 @@ class ThesesList extends StatelessWidget {
                                   completed[index][0],
                                   style: labelStyle3,
                                 ),
-                                Container(
-                                  height: 40,
-                                  width: 25,
-                                  child: ImageIcon(
-                                    AssetImage(
-                                      'assets/${completed[index][1]}',
-                                    ),
-                                    color: blue,
+                                InkWell(
+                                  onTap: (){
+                                    setState(() {
+                                      print('1');
+                                      completed[index][3]=!completed[index][3];
+                                    });
+                                  },
+                                  child: Container(
+                                      height: 40,
+                                      width: 25,
+                                      margin: EdgeInsets.symmetric(vertical: 10),
+                                      child: completed[index][3]?ImageIcon(
+                                        AssetImage(
+                                          'assets/${completed[index][1]}',
+                                        ),
+                                        color: blue,
+                                      ):
+                                      ImageIcon(
+                                        AssetImage(
+                                          'assets/${completed[index][2]}',
+                                        ),
+                                        color: blue,
+                                      )
+
                                   ),
-                                )
+                                ),
                               ]),
                         ],
                       ),
@@ -93,8 +114,8 @@ class ThesesList extends StatelessWidget {
 }
 
 List<List> completed = [
-  ['دكتوراه', 'bookmark (1).png'],
-  ['ماجستير', 'bookmark (2).png'],
-  ['دكتوراه', 'bookmark (1).png'],
-  ['ماجستير', 'bookmark (2).png'],
+  ['دكتوراه', 'bookmark (1).png','bookmark (1).png',true],
+  ['ماجستير', 'bookmark (2).png','bookmark (2).png',false],
+  ['دكتوراه', 'bookmark (1).png','bookmark (1).png',true],
+  ['ماجستير', 'bookmark (2).png','bookmark (2).png',false],
 ];

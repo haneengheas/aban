@@ -107,7 +107,7 @@ class MemberProfile extends StatelessWidget {
                                 'assets/user.png',
                               ),
                               color: blue,
-                              height: 80,
+                              height: sizeFromHeight(context, 10),
                             ),
                             SizedBox(
                               width: 20,
@@ -176,7 +176,7 @@ class MemberProfile extends StatelessWidget {
                         child: Text("الذهاب الى ابحاثى", style: hintStyle),
                       ),
                       Container(
-                        height: MediaQuery.of(context).size.height / 1.7,
+                        height: MediaQuery.of(context).size.height / 2,
                         child: Column(
                           children: [
                             Divider(
