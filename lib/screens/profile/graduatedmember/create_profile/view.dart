@@ -26,13 +26,11 @@ class _CreateGraduatedProfileState extends State<CreateGraduatedProfile> {
     var TextController = TextEditingController();
     fields.add(TextController);
     return Card(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10),
-        child: TextFormField(
-          decoration: InputDecoration(
-              hintText: "المجال ${cards.length + 1}",
-              floatingLabelBehavior: FloatingLabelBehavior.always),
-        ),
+      margin: EdgeInsets.symmetric(horizontal: 20),
+      child: TextFormField(
+        decoration: InputDecoration(
+            hintText: "المجال ${cards.length + 1}",
+            floatingLabelBehavior: FloatingLabelBehavior.always),
       ),
     );
   }
@@ -154,7 +152,7 @@ class _CreateGraduatedProfileState extends State<CreateGraduatedProfile> {
             ),
             SizedBox(
               height: 50,
-              width: 200,
+              width: 300,
               child: ListView.builder(
                 itemCount: cards.length,
                 itemBuilder: (BuildContext context, int index) {

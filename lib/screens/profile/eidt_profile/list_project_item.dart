@@ -7,12 +7,20 @@ class ListProjectItem extends StatefulWidget {
 }
 
 class _ListProjectItemState extends State<ListProjectItem> {
-  bool widgetVisible = false ;
-
-  void showWidget(){
-    setState(() {
-      widgetVisible =!widgetVisible ;
-    });
+  var fields = <TextEditingController>[];
+  var cards = <Card>[];
+  Card createCard() {
+    var TextController = TextEditingController();
+    fields.add(TextController);
+    return Card(
+      margin: EdgeInsets.symmetric(horizontal: 20),
+      child: TextFormField(
+        decoration: InputDecoration(
+            hintText: "المجال ${cards.length + 1}",
+            hintStyle: hintStyle3,
+            floatingLabelBehavior: FloatingLabelBehavior.always),
+      ),
+    );
   }
 
   @override
@@ -20,69 +28,26 @@ class _ListProjectItemState extends State<ListProjectItem> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-            width: sizeFromWidth(context, 1.5),
-            child: TextFieldUser(
-                hintText: "المجال الاول",
-                labelText: "المجالات:",
-                scure: true)),
-        Container(
-          width: sizeFromWidth(context, 1.5),
-          child:  Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 35,),
-            child: Directionality(
-              textDirection: TextDirection.rtl,
-              child: TextFormField(
-                decoration: InputDecoration(
-                  // prefixIcon: Icon(Icons.star,size: 5,color: Colors.red,),
-
-                  hintText: 'المجال الثاني',
-                  hintStyle: hintStyle,
-                  floatingLabelBehavior: FloatingLabelBehavior.always,
-                ),
-              ),
-            ),
+        // Container(
+        //     width: sizeFromWidth(context, 1.5),
+        //     child: TextFieldUser(
+        //         hintText: "المجال الاول",
+        //         labelText: "المجالات:",
+        //         scure: true)),
+        SizedBox(
+          height: 50,
+          width: 300,
+          child: ListView.builder(
+            itemCount: cards.length,
+            itemBuilder: (BuildContext context, int index) {
+              return cards[index];
+            },
           ),
         ),
-
-        Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(right: 20),
-              child: IconButton(
-                icon: Icon(
-                  Icons.add_circle_outline_sharp,
-                  size: 15,
-
-                ),
-                onPressed: () {
-                  showWidget();
-                },
-              ),
-            ),
-            Text(
-              'إضافة مجال',
-              style: hintStyle3,
-            )
-          ],
-        ),
-        Visibility(
-          maintainSize: true,
-          maintainAnimation: true,
-          maintainState: true,
-          visible: widgetVisible,
-          child: Container(
-              margin: EdgeInsets.symmetric(horizontal: 40),
-              height: 30,
-              width: 200,
-              child: TextField(
-                decoration: InputDecoration(
-                    hintText: 'ادخل المجال',
-                    hintStyle: hintStyle
-                ),
-              )
-          ),
-        ),
+        TextButton.icon(
+            onPressed: () => setState(() => cards.add(createCard())),
+            icon: Icon(Icons.add_circle_outline,color: black,size: 20,),
+            label: Text('اضافة مجال',style: hintStyle4,)),
       ],
     );
   }

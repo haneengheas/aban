@@ -101,7 +101,7 @@ class _ProjectListState extends State<ProjectList> {
 
 List<List> completed = [
   ['دكتوراه', 'bookmark (1).png',true,'bookmark (2).png'],
-  ['ماجستير', 'bookmark (2).png',false,'bookmark (2).png'],
+  ['ماجستير', 'bookmark (1).png',false,'bookmark (2).png'],
   ['دكتوراه', 'bookmark (1).png',true,'bookmark (2).png'],
-  ['ماجستير', 'bookmark (2).png',true,'bookmark (2).png'],
+  ['ماجستير', 'bookmark (1).png',true,'bookmark (2).png'],
 ];

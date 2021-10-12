@@ -114,8 +114,8 @@ class _ThesesListState extends State<ThesesList> {
 }
 
 List<List> completed = [
-  ['دكتوراه', 'bookmark (1).png','bookmark (1).png',true],
-  ['ماجستير', 'bookmark (2).png','bookmark (2).png',false],
-  ['دكتوراه', 'bookmark (1).png','bookmark (1).png',true],
-  ['ماجستير', 'bookmark (2).png','bookmark (2).png',false],
+  ['دكتوراه', 'bookmark (1).png','bookmark (2).png',true],
+  ['ماجستير', 'bookmark (1).png','bookmark (2).png',true],
+  ['دكتوراه', 'bookmark (1).png','bookmark (2).png',true],
+  ['ماجستير', 'bookmark (1).png','bookmark (2).png',true],
 ];
