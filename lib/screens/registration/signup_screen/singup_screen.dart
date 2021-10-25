@@ -1,11 +1,13 @@
 // ignore_for_file: prefer_typing_uninitialized_variables
 
 import 'package:aban/constant/style.dart';
+import 'package:aban/model.dart';
 import 'package:aban/screens/registration/wellcome_screen/view.dart';
 import 'package:aban/widgets/buttons/submit_button.dart';
 import 'package:aban/widgets/textField.dart';
 import 'package:flutter/material.dart';
-var val;
+import 'package:provider/provider.dart';
+// var val;
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
 
@@ -43,14 +45,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 5),
               child: Row(
                 children: [
-                  Radio(
-                      value: 1,
-                      groupValue: val,
-                      onChanged: (value) {
-                        setState(() {
-                          val = value;
+                  Consumer<MyModel>(builder: (context,object,child){
+                    return  Radio(
+                        value: 1,
+                        groupValue: object.val,
+                        onChanged: (value) {
+                          setState(() {
+                            object.val = value;
+                          });
                         });
-                      }),
+                  }),
                   Text(
                     'عضو هيئة تدريس',
                     style: hintStyle,
@@ -58,14 +62,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   // SizedBox(
                   //   width: sizeFromWidth(context, 8),
                   // ),
-                  Radio(
-                      value: 2,
-                      groupValue: val,
-                      onChanged: (value) {
-                        setState(() {
-                          val = value;
+                  Consumer<MyModel>(builder: (context,object,child){
+                    return Radio(
+                        value: 2,
+                        groupValue: object.val,
+                        onChanged: (value) {
+                          setState(() {
+                            object. val = value;
+                          });
                         });
-                      }),
+                  },
+
+                  ),
                   Text(
                     'طالب دراسات عليا',
                     style: hintStyle,
@@ -82,7 +90,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => WellcomeScreen(value: val,)));
+                            builder: (context) => const WellcomeScreen()));
                   }),
             ),
             const Center(
