@@ -25,7 +25,7 @@ class _GraduatedProfileState extends State<GraduatedProfile> {
               backgroundColor: white,
               title: Text('أسم الباحث',
                   style: GoogleFonts.cairo(
-                    textStyle: TextStyle(
+                    textStyle:const TextStyle(
                         color: blue, fontWeight: FontWeight.bold, fontSize: 28),
                   )),
               centerTitle: true,
@@ -34,7 +34,7 @@ class _GraduatedProfileState extends State<GraduatedProfile> {
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                icon: Icon(
+                icon:const Icon(
                   Icons.arrow_back,
                   color: blue,
                 ),
@@ -56,9 +56,9 @@ class _GraduatedProfileState extends State<GraduatedProfile> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => ChatScreen()));
+                                    builder: (context) =>const ChatScreen()));
                           },
-                          icon: Icon(
+                          icon:const Icon(
                             Icons.chat_rounded,
                             color: blue,
                             size: 20,
@@ -82,14 +82,14 @@ class _GraduatedProfileState extends State<GraduatedProfile> {
                       Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Image(
+                            const Image(
                               image: AssetImage(
                                 'assets/user.png',
                               ),
                               color: blue,
                               height: 80,
                             ),
-                            SizedBox(
+                            const  SizedBox(
                               width: 20,
                             ),
                             Column(
@@ -136,12 +136,12 @@ class _GraduatedProfileState extends State<GraduatedProfile> {
                               ],
                             ),
                           ]),
-                      SizedBox(
+                      const  SizedBox(
                         height: 10,
                       ),
                       Row(
                         children: [
-                          Icon(
+                          const Icon(
                             Icons.check,
                             color: Colors.green,
                           ),
@@ -155,11 +155,11 @@ class _GraduatedProfileState extends State<GraduatedProfile> {
                         padding: const EdgeInsets.symmetric(horizontal: 15),
                         child: Text("الذهاب الى ابحاثى", style: hintStyle),
                       ),
-                      Container(
+                      SizedBox(
                         height: MediaQuery.of(context).size.height / 1.7,
                         child: Column(
                           children: [
-                            Divider(
+                            const Divider(
                               color: gray,
                               thickness: .5,
                             ),
@@ -170,7 +170,7 @@ class _GraduatedProfileState extends State<GraduatedProfile> {
                                 unselectedLabelColor: gray,
                                 labelStyle: hintStyle,
                                 isScrollable: true,
-                                tabs: <Widget>[
+                                tabs: const <Widget>[
                                   Tab(
                                     text: 'المجالات',
                                   ),
@@ -189,15 +189,15 @@ class _GraduatedProfileState extends State<GraduatedProfile> {
                                 ],
                               )),
                             ),
-                            Divider(
+                            const Divider(
                               color: gray,
                               thickness: .5,
                             ),
-                            Expanded(
+                            const Expanded(
                               child: SizedBox(
                                 child: TabBarView(
                                   children: [
-                                    FieldList(),
+                                     FieldList(),
                                     ThesesList(
                                       text: 'اطروحة مكتملة تحت اشرافي',
                                     ),

@@ -12,7 +12,7 @@ class ProjectItem extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+          padding:const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
           child: Text(
             "المشاريع:",
             style: labelStyle3,
@@ -21,7 +21,7 @@ class ProjectItem extends StatelessWidget {
         Row(
           children: [
             Container(
-              margin: EdgeInsets.symmetric(
+              margin:const EdgeInsets.symmetric(
                 horizontal: 10,
               ),
               width: 280,
@@ -36,7 +36,7 @@ class ProjectItem extends StatelessWidget {
                   children: [
                     Padding(
                       padding:
-                          EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                         const  EdgeInsets.symmetric(vertical: 15, horizontal: 10),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -60,22 +60,22 @@ class ProjectItem extends StatelessWidget {
                 ),
               ),
             ),
-            Container(
+            SizedBox(
               width: 30,
               child: IconButton(
                 onPressed: () {
                   showDialogProject(context,text: 'تعديل مشروع');
                 },
-                icon: Icon(Icons.edit),
+                icon: const Icon(Icons.edit),
                 color: blue,
                 iconSize: 20,
               ),
             ),
-            Container(
+            SizedBox(
               width: 30,
               child: IconButton(
                 onPressed: () {},
-                icon: Icon(Icons.delete),
+                icon: const Icon(Icons.delete),
                 color: Colors.red,
                 iconSize: 20,
               ),

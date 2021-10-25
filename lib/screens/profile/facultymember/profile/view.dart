@@ -19,7 +19,7 @@ class ProfileScreen extends StatelessWidget {
               backgroundColor: white,
               title: Text('الملف الشخصي',
                   style: GoogleFonts.cairo(
-                    textStyle: TextStyle(
+                    textStyle:const TextStyle(
                         color: blue, fontWeight: FontWeight.bold, fontSize: 28),
                   )),
               centerTitle: true,
@@ -28,7 +28,7 @@ class ProfileScreen extends StatelessWidget {
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                icon: Icon(
+                icon:const Icon(
                   Icons.arrow_back,
                   color: blue,
                 ),
@@ -48,20 +48,20 @@ class ProfileScreen extends StatelessWidget {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => EditProfile()));
+                                  builder: (context) =>const EditProfile()));
                         },
                         child: Container(
-                          margin: EdgeInsets.symmetric(horizontal: 15),
+                          margin:  const EdgeInsets.symmetric(horizontal: 15),
                           child: Row(
                             children: [
                               Text(
                                 "تعديل",
                                 style: hintStyle,
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 5,
                               ),
-                              Icon(
+                              const  Icon(
                                 Icons.edit,
                                 color: blue,
                                 size: 20,
@@ -82,14 +82,14 @@ class ProfileScreen extends StatelessWidget {
                       Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Image(
+                            const Image(
                               image: AssetImage(
                                 'assets/user.png',
                               ),
                               color: blue,
                               height: 60,
                             ),
-                            SizedBox(
+                            const  SizedBox(
                               width: 20,
                             ),
                             Column(
@@ -136,12 +136,12 @@ class ProfileScreen extends StatelessWidget {
                               ],
                             ),
                           ]),
-                      SizedBox(
+                      const  SizedBox(
                         height: 10,
                       ),
                       Row(
                         children: [
-                          Icon(
+                          const Icon(
                             Icons.check,
                             color: Colors.green,
                           ),
@@ -155,11 +155,11 @@ class ProfileScreen extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 15),
                         child: Text("الذهاب الى ابحاثى", style: hintStyle),
                       ),
-                      Container(
+                      SizedBox(
                         height: MediaQuery.of(context).size.height / 1.85,
                         child: Column(
                           children: [
-                            Divider(
+                            const Divider(
                               color: gray,
                               thickness: .5,
                             ),
@@ -170,7 +170,7 @@ class ProfileScreen extends StatelessWidget {
                                 unselectedLabelColor: gray,
                                 labelStyle: hintStyle,
                                 isScrollable: true,
-                                tabs: <Widget>[
+                                tabs: const <Widget>[
                                   Tab(
                                     text: 'المجالات',
                                   ),
@@ -189,15 +189,15 @@ class ProfileScreen extends StatelessWidget {
                                 ],
                               )),
                             ),
-                            Divider(
+                            const Divider(
                               color: gray,
                               thickness: .5,
                             ),
-                            Expanded(
+                            const  Expanded(
                               child: SizedBox(
                                 child: TabBarView(
                                   children: [
-                                    FieldList(),
+                                     FieldList(),
                                     ThesesList(
                                       text: 'اطروحة مكتملة تحت اشرافي',
                                     ),

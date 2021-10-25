@@ -1,6 +1,10 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
+
 import 'package:aban/constant/style.dart';
 import 'package:flutter/material.dart';
 class ThesesMontorAccpetItem extends StatefulWidget {
+  const ThesesMontorAccpetItem({Key? key}) : super(key: key);
+
   @override
   _ThesesMontorAccpetItemState createState() => _ThesesMontorAccpetItemState();
 }

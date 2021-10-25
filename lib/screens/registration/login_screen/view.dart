@@ -8,6 +8,8 @@ import 'package:aban/widgets/textField.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
+  const LoginScreen({Key? key}) : super(key: key);
+
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
@@ -28,19 +30,19 @@ class _LoginScreenState extends State<LoginScreen> {
                 style: hintStyle,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
-            TextFieldItem(
+            const TextFieldItem(
                 hintText: "Reasearsh@ksuedu.sa",
                 labelText: 'بريدك الجامعي',
                 scure: false),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
-            TextFieldItem(
+            const TextFieldItem(
                 hintText: "*****", labelText: "كلمة المرور", scure: true),
-            SizedBox(
+            const  SizedBox(
               height: 20,
             ),
             SubmitButton(
@@ -57,7 +59,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => EditPasswordScreen()));
+                          builder: (context) => const EditPasswordScreen()));
                 },
                 child: Text(
                   'هل نسيت كلمة المرور',

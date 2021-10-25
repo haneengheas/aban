@@ -16,7 +16,7 @@ class _UnCompletedProjectState extends State<UnCompletedProject> {
       itemCount: 5,
       itemBuilder: (context,index){
         return Container(
-          margin: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+          margin: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
           width: sizeFromWidth(context, 1),
           height: 120,
           decoration: BoxDecoration(
@@ -28,7 +28,7 @@ class _UnCompletedProjectState extends State<UnCompletedProject> {
             child: Row(
               children: [
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10,vertical: 15),
+                  padding:const EdgeInsets.symmetric(horizontal: 10,vertical: 15),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -41,14 +41,14 @@ class _UnCompletedProjectState extends State<UnCompletedProject> {
                   ),
                 ),
                 SizedBox(width: sizeFromWidth(context, 8),),
-                VerticalDivider(
+                const VerticalDivider(
                   color: gray,
                   endIndent: 10,
                   indent: 10,
                   width: 5,
                   thickness: 2,
                 ),
-                SizedBox(
+                const  SizedBox(
                   width: 20,
                 ),
                 Padding(
@@ -65,10 +65,10 @@ class _UnCompletedProjectState extends State<UnCompletedProject> {
                           child: Container(
                             height: 40,
                             width: 25,
-                            margin: EdgeInsets.symmetric(vertical: 10),
-                            child: checked? ImageIcon(
+                            margin: const EdgeInsets.symmetric(vertical: 10),
+                            child: checked? const ImageIcon(
                               AssetImage('assets/bookmark (1).png',),color: blue,size: 50,):
-                            ImageIcon(
+                           const  ImageIcon(
                               AssetImage('assets/bookmark (2).png',),color: blue,size: 50,)
 
                             ,

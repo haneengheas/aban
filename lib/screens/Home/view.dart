@@ -6,10 +6,10 @@ import 'college_views.dart';
 class HomeScreen extends StatelessWidget {
   final  Widget c;
   final  String title;
-  HomeScreen({
+  const HomeScreen({Key? key,
     required this.c,
     required this.title,
-  }) ;
+  }) : super(key: key) ;
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +51,7 @@ class HomeScreen extends StatelessWidget {
                   borderRadius: BorderRadius.only(
                       topRight: Radius.circular(20),
                       topLeft: Radius.circular(20))),
-              child: CollegeView()),
+              child: const CollegeView()),
           // Expanded(child: NavigationFile()),
         ],
       ),

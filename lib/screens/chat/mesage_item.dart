@@ -1,8 +1,10 @@
+// ignore_for_file: use_key_in_widget_constructors
+
 import 'package:aban/constant/style.dart';
 import 'package:flutter/material.dart';
 
 class MessageItem extends StatelessWidget {
-  MessageItem({required this.text, required this.date, required this.isMe});
+  const MessageItem({required this.text, required this.date, required this.isMe});
 
   final String text;
 
@@ -20,15 +22,15 @@ class MessageItem extends StatelessWidget {
           children: [
             Row(
               children: [
-                Image(
+                const Image(
                   image: AssetImage('assets/user.png'),
                   width: 40,
                   color: blue,
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 5,
                 ),
-                Container(
+                SizedBox(
                   width: sizeFromWidth(context, 1.3),
                   height: 80,
                   child: Material(

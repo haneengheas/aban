@@ -19,7 +19,7 @@ class _ThesesGraduatedMontorItemState extends State<ThesesGraduatedMontorItem> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+          padding:const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
           child: Text(
             "اطروحات تحت اشرافك :",
             style: labelStyle3,
@@ -28,8 +28,8 @@ class _ThesesGraduatedMontorItemState extends State<ThesesGraduatedMontorItem> {
         Row(
         children: [
           Container(
-           padding: EdgeInsets.symmetric(horizontal: 5),
-           margin: EdgeInsets.symmetric(horizontal: 10),
+           padding:const EdgeInsets.symmetric(horizontal: 5),
+           margin:const EdgeInsets.symmetric(horizontal: 10),
             width:sizeFromWidth(context, 1.3),
             height: 100,
             decoration: BoxDecoration(
@@ -60,7 +60,7 @@ class _ThesesGraduatedMontorItemState extends State<ThesesGraduatedMontorItem> {
                       ),
                     ],
                   ),
-                  VerticalDivider(
+                  const VerticalDivider(
                     color: gray,
                     endIndent: 10,
                     indent: 10,
@@ -78,22 +78,22 @@ class _ThesesGraduatedMontorItemState extends State<ThesesGraduatedMontorItem> {
 
             Row(
               children: [
-                Container(
+                SizedBox(
                   width: 30,
                   child: IconButton(
                     onPressed: () {
                       showDialogTheses(context, text: 'تعديل اطروحة');
                     },
-                    icon: Icon(Icons.edit),
+                    icon: const Icon(Icons.edit),
                     color: blue,
                     iconSize: 20,
                   ),
                 ),
-                Container(
+                  SizedBox(
                   width: 30,
                   child: IconButton(
                     onPressed: () {},
-                    icon: Icon(Icons.delete),
+                    icon:const Icon(Icons.delete),
                     color: Colors.red,
                     iconSize: 20,
                   ),

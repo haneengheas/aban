@@ -1,10 +1,12 @@
+// ignore_for_file: avoid_print, use_key_in_widget_constructors
+
 import 'package:aban/constant/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class ThesesList extends StatefulWidget {
  final String text;
- ThesesList({required this.text});
+ const ThesesList({required this.text});
 
   @override
   State<ThesesList> createState() => _ThesesListState();
@@ -29,7 +31,7 @@ class _ThesesListState extends State<ThesesList> {
                 itemCount: 4,
                 itemBuilder: (context, index) {
                   return Container(
-                    margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                    margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                     width: sizeFromWidth(context, 1),
                     height: 100,
                     decoration: BoxDecoration(
@@ -59,7 +61,7 @@ class _ThesesListState extends State<ThesesList> {
                               ),
                             ],
                           ),
-                          VerticalDivider(
+                          const VerticalDivider(
                             color: gray,
                             endIndent: 10,
                             indent: 10,
@@ -84,7 +86,7 @@ class _ThesesListState extends State<ThesesList> {
                                   child: Container(
                                       height: 40,
                                       width: 25,
-                                      margin: EdgeInsets.symmetric(vertical: 10),
+                                      margin: const EdgeInsets.symmetric(vertical: 10),
                                       child: completed[index][3]?ImageIcon(
                                         AssetImage(
                                           'assets/${completed[index][1]}',

@@ -21,7 +21,7 @@ class _UnCompletedProjectState extends State<LaterSeminar> {
         TextButton(
           onPressed: () {
             Navigator.push(
-                context, MaterialPageRoute(builder: (context) => AddSeminar()));
+                context, MaterialPageRoute(builder: (context) =>const AddSeminar()));
           },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -30,7 +30,7 @@ class _UnCompletedProjectState extends State<LaterSeminar> {
                 'أضف ندوة  ',
                 style: hintStyle2,
               ),
-              Icon(
+              const Icon(
                 Icons.add_circle_outline,
                 color: blue,
                 size: 20,
@@ -47,10 +47,10 @@ class _UnCompletedProjectState extends State<LaterSeminar> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => SeminarDetails()));
+                          builder: (context) =>const SeminarDetails()));
                 },
                 child: Container(
-                  margin: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+                  margin: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
                   width: sizeFromWidth(context, 1),
                   height: 125,
                   decoration: BoxDecoration(
@@ -79,14 +79,14 @@ class _UnCompletedProjectState extends State<LaterSeminar> {
                                   '24 ابريل2021',
                                   style: hintStyle3,
                                 ),
-                                Icon(
+                                const Icon(
                                   Icons.date_range,
                                   color: blue,
                                   size: 20,
                                 )
                               ],
                             ),
-                            SizedBox(
+                            const  SizedBox(
                               height: 10,
                             ),
                             Text(
@@ -95,7 +95,7 @@ class _UnCompletedProjectState extends State<LaterSeminar> {
                             ),
                           ],
                         ),
-                        VerticalDivider(
+                        const VerticalDivider(
                           color: gray,
                           endIndent: 10,
                           indent: 10,
@@ -120,10 +120,10 @@ class _UnCompletedProjectState extends State<LaterSeminar> {
                                   child: Container(
                                     height: 40,
                                     width: 25,
-                                    margin: EdgeInsets.symmetric(vertical: 10),
-                                    child: checked? ImageIcon(
+                                    margin:const EdgeInsets.symmetric(vertical: 10),
+                                    child: checked?const ImageIcon(
                                       AssetImage('assets/bookmark (1).png',),color: blue,size: 50,):
-                                    ImageIcon(
+                                    const ImageIcon(
                                       AssetImage('assets/bookmark (2).png',),color: blue,size: 50,)
 
                                     ,

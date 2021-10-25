@@ -1,9 +1,11 @@
+// ignore_for_file: use_key_in_widget_constructors
+
 import 'package:aban/constant/style.dart';
 import 'package:flutter/material.dart';
 
 class SearchTextField extends StatefulWidget {
    final String text;
-   SearchTextField({
+   const SearchTextField({
      required this.text,
 });
 
@@ -19,13 +21,13 @@ class _SearchTextFieldState extends State<SearchTextField> {
       child: Container(
         height: 40,
         width: sizeFromWidth(context, 1),
-        padding: EdgeInsets.symmetric(horizontal:10),
-        margin: EdgeInsets.symmetric(horizontal: 20,vertical: 15),
+        padding:const EdgeInsets.symmetric(horizontal:10),
+        margin:const EdgeInsets.symmetric(horizontal: 20,vertical: 15),
         child: TextFormField(
           decoration: InputDecoration(
             hintText: widget.text,
             hintStyle: hintStyle2,
-            suffixIcon: Icon(
+            suffixIcon: const Icon(
               Icons.search,
               color: lightBlue,
             ),
@@ -33,7 +35,7 @@ class _SearchTextFieldState extends State<SearchTextField> {
             filled: true,
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(15),
-              borderSide: BorderSide(
+              borderSide: const BorderSide(
                 color: lightGray
               )
 

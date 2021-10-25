@@ -1,7 +1,8 @@
 import 'package:aban/constant/style.dart';
-import 'package:aban/widgets/buttons/tetfielduser.dart';
 import 'package:flutter/material.dart';
 class ListProjectItem extends StatefulWidget {
+  const ListProjectItem({Key? key}) : super(key: key);
+
   @override
   State<ListProjectItem> createState() => _ListProjectItemState();
 }
@@ -10,10 +11,10 @@ class _ListProjectItemState extends State<ListProjectItem> {
   var fields = <TextEditingController>[];
   var cards = <Card>[];
   Card createCard() {
-    var TextController = TextEditingController();
-    fields.add(TextController);
+    var textController = TextEditingController();
+    fields.add(textController);
     return Card(
-      margin: EdgeInsets.symmetric(horizontal: 20),
+      margin: const EdgeInsets.symmetric(horizontal: 20),
       child: TextFormField(
         decoration: InputDecoration(
             hintText: "المجال ${cards.length + 1}",
@@ -46,7 +47,7 @@ class _ListProjectItemState extends State<ListProjectItem> {
         ),
         TextButton.icon(
             onPressed: () => setState(() => cards.add(createCard())),
-            icon: Icon(Icons.add_circle_outline,color: black,size: 20,),
+            icon:const Icon(Icons.add_circle_outline,color: black,size: 20,),
             label: Text('اضافة مجال',style: hintStyle4,)),
       ],
     );

@@ -24,30 +24,30 @@ import 'package:quds_ui_kit/screens/quds_popup_menu.dart';
                   child: Text('تسجيل جديد',)),
               onPressed: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => LoginScreen()));
+                    MaterialPageRoute(builder: (context) =>const LoginScreen()));
               }),
           QudsPopupMenuDivider(color: gray, thickness: .5),
 
           QudsPopupMenuItem(popOnTap: false,
               trailing: const Icon(Icons.logout,color: blue,),
-              title: Align(
+              title: const Align(
                   alignment: Alignment.centerRight,
                   child: Text('تسجيل خروج',)),
               onPressed: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => RegistScreen()));              }),
+                    MaterialPageRoute(builder: (context) =>const RegistScreen()));              }),
           QudsPopupMenuDivider(color: gray, thickness: .5),
           QudsPopupMenuItem(
-              trailing: Icon(Icons.help,color: blue,),
-              title: Align(
+              trailing: const Icon(Icons.help,color: blue,),
+              title: const Align(
                   alignment: Alignment.centerRight,
                   child: Text('مساعدة',)),
               onPressed: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => HelpScreen()));
+                    MaterialPageRoute(builder: (context) =>const HelpScreen()));
               }),
 
         ],
-        child: Icon(Icons.menu,size: 33,));
+        child: const Icon(Icons.menu,size: 33,));
   }
 

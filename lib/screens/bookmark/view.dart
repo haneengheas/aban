@@ -17,7 +17,7 @@ class _BookmarkScreenState extends State<BookmarkScreen> {
         backgroundColor: white,
         title: Text('المحفوظات',
             style: GoogleFonts.cairo(
-              textStyle: TextStyle(
+              textStyle: const TextStyle(
                   color: blue, fontWeight: FontWeight.bold, fontSize: 28),
             )),
         centerTitle: true,
@@ -26,7 +26,7 @@ class _BookmarkScreenState extends State<BookmarkScreen> {
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           color: blue,
         ),
       ),
@@ -46,7 +46,7 @@ class _BookmarkScreenState extends State<BookmarkScreen> {
                   height: sizeFromHeight(context, 2.5),
                   child: ListView.builder(itemBuilder: (context,index){
                     return Container(
-                      margin: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+                      margin: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
                       width: sizeFromWidth(context, 1),
                       height: 110,
                       decoration: BoxDecoration(
@@ -60,7 +60,7 @@ class _BookmarkScreenState extends State<BookmarkScreen> {
 
                           children: [
                             Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 10,vertical: 15),
+                              padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 15),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -72,7 +72,7 @@ class _BookmarkScreenState extends State<BookmarkScreen> {
                                         width: sizeFromWidth(context, 5),
                                       ),
                                       Text('24 ابريل2021',style:hintStyle3,),
-                                      Icon(Icons.date_range,color: blue,size: 20,)
+                                      const Icon(Icons.date_range,color: blue,size: 20,)
 
 
                                     ],
@@ -83,7 +83,7 @@ class _BookmarkScreenState extends State<BookmarkScreen> {
                                 ],
                               ),
                             ),
-                            VerticalDivider(
+                            const VerticalDivider(
                               color: gray,
                               endIndent: 10,
                               indent: 10,
@@ -100,9 +100,9 @@ class _BookmarkScreenState extends State<BookmarkScreen> {
                                     Container(
                                       height: 30,
                                       width: 20,
-                                      margin: EdgeInsets.symmetric(vertical: 10),
+                                      margin: const EdgeInsets.symmetric(vertical: 10),
 
-                                      child: ImageIcon(
+                                      child: const ImageIcon(
                                         AssetImage('assets/bookmark (2).png',),color: blue,
                                       ),
                                     )
@@ -123,7 +123,7 @@ class _BookmarkScreenState extends State<BookmarkScreen> {
                   height: sizeFromHeight(context, 2.2),
                   child: ListView.builder(itemBuilder: (context,index){
                     return Container(
-                      margin: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+                      margin: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
                       width: sizeFromWidth(context, 1),
                       height: 120,
                       decoration: BoxDecoration(
@@ -136,7 +136,7 @@ class _BookmarkScreenState extends State<BookmarkScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 10,vertical: 15),
+                              padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 15),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -147,8 +147,8 @@ class _BookmarkScreenState extends State<BookmarkScreen> {
                                 ],
                               ),
                             ),
-                            SizedBox(width: 10,),
-                            VerticalDivider(
+                            const SizedBox(width: 10,),
+                            const VerticalDivider(
                               color: gray,
                               endIndent: 10,
                               indent: 10,
@@ -165,9 +165,9 @@ class _BookmarkScreenState extends State<BookmarkScreen> {
                                     Container(
                                       height: 30,
                                       width: 20,
-                                      margin: EdgeInsets.symmetric(vertical: 10),
+                                      margin: const EdgeInsets.symmetric(vertical: 10),
 
-                                      child: ImageIcon(
+                                      child: const ImageIcon(
                                         AssetImage('assets/bookmark (2).png',),color: blue,
                                       ),
                                     )
@@ -188,7 +188,7 @@ class _BookmarkScreenState extends State<BookmarkScreen> {
                   height: sizeFromHeight(context, 2),
                   child: ListView.builder(itemBuilder: (context,index){
                     return Container(
-                      margin: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+                      margin: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
                       width: sizeFromWidth(context, 1),
                       height: 120,
                       decoration: BoxDecoration(
@@ -201,7 +201,7 @@ class _BookmarkScreenState extends State<BookmarkScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 10,vertical: 15),
+                              padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 15),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -212,8 +212,8 @@ class _BookmarkScreenState extends State<BookmarkScreen> {
                                 ],
                               ),
                             ),
-                            SizedBox(width: 50,),
-                            VerticalDivider(
+                            const SizedBox(width: 50,),
+                            const VerticalDivider(
                               color: gray,
                               endIndent: 10,
                               indent: 10,
@@ -229,9 +229,9 @@ class _BookmarkScreenState extends State<BookmarkScreen> {
                                     Container(
                                       height: 30,
                                       width: 20,
-                                      margin: EdgeInsets.symmetric(vertical: 10),
+                                      margin: const EdgeInsets.symmetric(vertical: 10),
 
-                                      child: ImageIcon(
+                                      child: const ImageIcon(
                                         AssetImage('assets/bookmark (2).png',),color: blue,
                                       ),
                                     )

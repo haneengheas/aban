@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class HelpScreen extends StatelessWidget {
+  const HelpScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -12,7 +14,7 @@ class HelpScreen extends StatelessWidget {
         backgroundColor: white,
         title: Text('مساعدة',
             style: GoogleFonts.cairo(
-              textStyle: TextStyle(
+              textStyle:const TextStyle(
                   color: blue, fontWeight: FontWeight.bold, fontSize: 28),
             )),
         centerTitle: true,
@@ -21,7 +23,7 @@ class HelpScreen extends StatelessWidget {
           onPressed: (){
             Navigator.pop(context);
           },
-          icon: Icon(Icons.arrow_back),
+          icon:const  Icon(Icons.arrow_back),
           color: blue,
         ),
       ),
@@ -31,29 +33,29 @@ class HelpScreen extends StatelessWidget {
           Container(
             width: sizeFromWidth(context, 1),
             height: sizeFromHeight(context, 1.5),
-            margin: EdgeInsets.symmetric(horizontal: 20,vertical: 20),
+            margin: const EdgeInsets.symmetric(horizontal: 20,vertical: 20),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(25),
               color: clearblue,
             ),
             child:  Column(
               children: [
-                TextFieldItem(
+                const TextFieldItem(
                   labelText: "البريد الالكترونى",
                   scure: true,
                   hintText: "Reasearsh@ksuedu.sa",
                 ),
-                TextFieldItem(
+                const TextFieldItem(
                   labelText: "عنوان المشكلة",
                   scure: true,
                   hintText: "العنوان",
                 ),
-                TextFieldItem(
+                const   TextFieldItem(
                   labelText: "وصف المشكلة",
                   scure: true,
                   hintText: "الوصف",
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 50,
                 ),
                 SubmitButton(

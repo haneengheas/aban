@@ -1,14 +1,17 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
+
 import 'package:aban/constant/alert_methods.dart';
 import 'package:aban/widgets/buttons/buttonsuser.dart';
 import 'package:flutter/material.dart';
 import 'package:aban/constant/style.dart';
-import 'package:aban/screens/seminar/view.dart';
 import 'package:aban/widgets/textField.dart';
 import 'package:aban/widgets/textfieldtime.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class EditSeminar extends StatefulWidget {
+  const EditSeminar({Key? key}) : super(key: key);
+
   @override
   _EditSeminarState createState() => _EditSeminarState();
 }
@@ -23,7 +26,7 @@ class _EditSeminarState extends State<EditSeminar> {
         backgroundColor: white,
         title: Text('تعديل ندوة',
             style: GoogleFonts.cairo(
-              textStyle: TextStyle(
+              textStyle:const TextStyle(
                   color: blue, fontWeight: FontWeight.bold, fontSize: 28),
             )),
         centerTitle: true,
@@ -32,7 +35,7 @@ class _EditSeminarState extends State<EditSeminar> {
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: Icon(Icons.arrow_back),
+          icon:const Icon(Icons.arrow_back),
           color: blue,
         ),
       ),
@@ -40,12 +43,12 @@ class _EditSeminarState extends State<EditSeminar> {
       body: SingleChildScrollView(
         child: Container(
           width: sizeFromWidth(context, 1),
-          padding: EdgeInsets.symmetric(horizontal: 10,vertical: 5),
+          padding:const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
           // height: MediaQuery
           //     .of(context)
           //     .size
           //     .height,
-          margin: EdgeInsets.symmetric(
+          margin:const EdgeInsets.symmetric(
             horizontal: 20,
           ),
           decoration: BoxDecoration(
@@ -56,7 +59,7 @@ class _EditSeminarState extends State<EditSeminar> {
             crossAxisAlignment: CrossAxisAlignment.end,
 
             children: [
-              TextFieldItem(
+              const TextFieldItem(
                 labelText: "العنوان",
                 scure: true,
                 hintText: "عنوان الندوة",
@@ -70,10 +73,10 @@ class _EditSeminarState extends State<EditSeminar> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.symmetric(
+                margin:const  EdgeInsets.symmetric(
                   horizontal: 10,
                 ),
-                padding: EdgeInsets.symmetric(
+                padding:const EdgeInsets.symmetric(
                   horizontal: 10,
                 ),
                 child: TableCalendar(
@@ -101,21 +104,21 @@ class _EditSeminarState extends State<EditSeminar> {
                         'من',
                         style: hintStyle,
                       ),
-                      TimeTextField(
+                      const TimeTextField(
                         text: '00:00   ص م',
                       ),
                       Text(
                         'إلى',
                         style: hintStyle,
                       ),
-                      TimeTextField(
+                      const  TimeTextField(
                         text: '00:00   ص م',
                       ),
                     ],
                   ),
                 ),
               ),
-              TextFieldItem(
+              const TextFieldItem(
                 labelText: "الموقع",
                 scure: true,
                 hintText: "موقع الندوة",
@@ -164,12 +167,12 @@ class _EditSeminarState extends State<EditSeminar> {
                   ],
                 ),
               ),
-              TextFieldItem(
+             const TextFieldItem(
                 labelText: "الوصف",
                 scure: true,
                 hintText: "وصف الندوة",
               ),
-              TextFieldItem(
+              const TextFieldItem(
                 labelText: "رابط الوصول الى الندوة",
                 scure: true,
                 hintText: "الرابط",

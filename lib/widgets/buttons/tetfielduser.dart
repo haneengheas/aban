@@ -7,7 +7,8 @@ class TextFieldUser extends StatefulWidget {
   final String labelText;
   final bool scure;
 
-  TextFieldUser({
+  // ignore: use_key_in_widget_constructors
+  const TextFieldUser({
     required this.hintText,
     required this.labelText,
     required this.scure,

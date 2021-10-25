@@ -1,5 +1,6 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
+
 import 'package:aban/constant/style.dart';
-import 'package:aban/screens/seminar/view.dart';
 import 'package:aban/widgets/buttons/submit_button.dart';
 import 'package:aban/widgets/textField.dart';
 import 'package:aban/widgets/textfieldtime.dart';
@@ -8,6 +9,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class AddSeminar extends StatefulWidget {
+  const AddSeminar({Key? key}) : super(key: key);
+
   @override
   _AddSeminarState createState() => _AddSeminarState();
 }
@@ -22,7 +25,7 @@ class _AddSeminarState extends State<AddSeminar> {
         backgroundColor: white,
         title: Text('إضافة ندوة',
             style: GoogleFonts.cairo(
-              textStyle: TextStyle(
+              textStyle: const TextStyle(
                   color: blue, fontWeight: FontWeight.bold, fontSize: 28),
             )),
         centerTitle: true,
@@ -31,7 +34,7 @@ class _AddSeminarState extends State<AddSeminar> {
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: Icon(Icons.arrow_back),
+          icon:const Icon(Icons.arrow_back),
           color: blue,
         ),
       ),
@@ -40,12 +43,12 @@ class _AddSeminarState extends State<AddSeminar> {
         child: SingleChildScrollView(
           child: Container(
             width: sizeFromWidth(context, 1),
-            padding: EdgeInsets.symmetric(horizontal: 10),
+            padding:const EdgeInsets.symmetric(horizontal: 10),
             // height: MediaQuery
             //     .of(context)
             //     .size
             //     .height,
-            margin: EdgeInsets.symmetric(
+            margin:const EdgeInsets.symmetric(
               horizontal: 20,
             ),
             decoration: BoxDecoration(
@@ -55,7 +58,7 @@ class _AddSeminarState extends State<AddSeminar> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                TextFieldItem(
+                const TextFieldItem(
                   labelText: "العنوان",
                   scure: true,
                   hintText: "عنوان الندوة",
@@ -69,10 +72,10 @@ class _AddSeminarState extends State<AddSeminar> {
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.symmetric(
+                  margin: const EdgeInsets.symmetric(
                     horizontal: 10,
                   ),
-                  padding: EdgeInsets.symmetric(
+                  padding:const EdgeInsets.symmetric(
                     horizontal: 10,
                   ),
                   child: TableCalendar(
@@ -100,21 +103,21 @@ class _AddSeminarState extends State<AddSeminar> {
                           'من',
                           style: hintStyle,
                         ),
-                        TimeTextField(
+                        const TimeTextField(
                           text: '00:00   ص م',
                         ),
                         Text(
                           'إلى',
                           style: hintStyle,
                         ),
-                        TimeTextField(
+                        const TimeTextField(
                           text: '00:00   ص م',
                         ),
                       ],
                     ),
                   ),
                 ),
-                TextFieldItem(
+                const  TextFieldItem(
                   labelText: "الموقع",
                   scure: true,
                   hintText: "موقع الندوة",
@@ -163,12 +166,12 @@ class _AddSeminarState extends State<AddSeminar> {
                     ],
                   ),
                 ),
-                TextFieldItem(
+                const TextFieldItem(
                   labelText: "الوصف",
                   scure: true,
                   hintText: "وصف الندوة",
                 ),
-                TextFieldItem(
+                const TextFieldItem(
                   labelText: "رابط الوصول الى الندوة",
                   scure: true,
                   hintText: "الرابط",
@@ -179,7 +182,7 @@ class _AddSeminarState extends State<AddSeminar> {
                     text: TextSpan(
                         text: 'ملاحظة: ',
                         style: GoogleFonts.cairo(
-                            textStyle: TextStyle(
+                            textStyle: const TextStyle(
                                 color: Colors.red,
                                 fontWeight: FontWeight.w700,
                                 fontSize: 12)),
@@ -188,7 +191,7 @@ class _AddSeminarState extends State<AddSeminar> {
                             text:
                                 'عند اضافة ندوة قادمة سيتم حذفها تلقائيابعد انتهاء موعدها؛ و يمكنك اضافتهالاحقا كندوة مكتملة لاجل توثيقها',
                             style: GoogleFonts.cairo(
-                                textStyle: TextStyle(
+                                textStyle:const TextStyle(
                                     color: Colors.red,
                                     fontWeight: FontWeight.w500,
                                     fontSize: 11)),

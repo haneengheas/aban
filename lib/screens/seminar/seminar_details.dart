@@ -12,14 +12,14 @@ class SeminarDetails extends StatelessWidget {
     return Scaffold(
       appBar: PreferredSize(
           child: customAppBar(context, title: 'ندوة'),
-          preferredSize: Size.fromHeight(50)),
+          preferredSize: const Size.fromHeight(50)),
       body: Column(
         children: [
           Container(
             height: 240,
             width: sizeFromWidth(context, 1),
-            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+            margin:const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+            padding:const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
             decoration: BoxDecoration(
               color: clearblue,
               borderRadius: BorderRadius.circular(25),
@@ -50,7 +50,7 @@ class SeminarDetails extends StatelessWidget {
                                 '24 ابريل2021',
                                 style: hintStyle3,
                               ),
-                              Icon(
+                              const Icon(
                                 Icons.date_range,
                                 color: blue,
                                 size: 20,
@@ -71,7 +71,7 @@ class SeminarDetails extends StatelessWidget {
                           ),
                         ],
                       ),
-                      VerticalDivider(
+                      const VerticalDivider(
                         color: gray,
                         endIndent: 10,
                         indent: 10,
@@ -88,8 +88,8 @@ class SeminarDetails extends StatelessWidget {
                             Container(
                               height: 30,
                               width: 20,
-                              margin: EdgeInsets.symmetric(vertical: 10),
-                              child: ImageIcon(
+                              margin:const EdgeInsets.symmetric(vertical: 10),
+                              child:const ImageIcon(
                                 AssetImage(
                                   'assets/bookmark (2).png',
                                 ),
@@ -99,7 +99,7 @@ class SeminarDetails extends StatelessWidget {
                           ]),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Text(
@@ -115,11 +115,11 @@ class SeminarDetails extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => EditSeminar()));
+                              builder: (context) => const EditSeminar()));
                     },
                     child: Row(
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.edit,
                           color: blue,
                           size: 15,

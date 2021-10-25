@@ -1,22 +1,24 @@
 import 'package:aban/constant/style.dart';
 import 'package:aban/screens/profile/facultymember/overview_profile/view.dart';
-import 'package:aban/screens/profile/graduatedmember/overview_profile/view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class SearchItem extends StatefulWidget {
+  const SearchItem({Key? key}) : super(key: key);
+
   @override
   _SearchItemState createState() => _SearchItemState();
 }
 
 class _SearchItemState extends State<SearchItem> {
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: GestureDetector(
         onTap: (){
 
           // Navigator.push(context, MaterialPageRoute(builder: (context)=>GraduatedProfile()));
-            Navigator.push(context, MaterialPageRoute(builder: (context)=>MemberProfile()));
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>const MemberProfile()));
 
         },
         child: Container(
@@ -30,7 +32,7 @@ class _SearchItemState extends State<SearchItem> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Image(
-                  image: AssetImage(
+                  image:const AssetImage(
                     'assets/user.png',
                   ),
                   height: sizeFromHeight(context, 13),
@@ -47,7 +49,7 @@ class _SearchItemState extends State<SearchItem> {
                       'اسم الباحث',
                       style: hintStyle4,
                     ),
-                    Divider(
+                    const Divider(
                       thickness: 1,
                       color: gray,
                       height: 1.5,

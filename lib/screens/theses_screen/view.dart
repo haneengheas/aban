@@ -12,9 +12,9 @@ import 'package:google_fonts/google_fonts.dart';
 class ThesesScreen extends StatefulWidget {
   final int counter;
 
-  ThesesScreen({
+  const ThesesScreen({Key? key,
     required this.counter,
-  });
+  }) : super(key: key);
 
   @override
   _ThesesScreenState createState() => _ThesesScreenState();
@@ -32,7 +32,7 @@ class _ThesesScreenState extends State<ThesesScreen> {
           backgroundColor: white,
           title: Text('أطروحات',
               style: GoogleFonts.cairo(
-                textStyle: TextStyle(
+                textStyle: const TextStyle(
                     color: blue, fontWeight: FontWeight.bold, fontSize: 28),
               )),
           centerTitle: true,
@@ -57,15 +57,15 @@ class _ThesesScreenState extends State<ThesesScreen> {
                             counter: 2)));
               }
             },
-            icon: Icon(Icons.arrow_back),
+            icon: const Icon(Icons.arrow_back),
             color: blue,
           ),
         ),
         body: SingleChildScrollView(
-          physics: ClampingScrollPhysics(parent: NeverScrollableScrollPhysics()),
+          physics: const ClampingScrollPhysics(parent: NeverScrollableScrollPhysics()),
           child: Column(
             children: [
-              SearchTextField(
+              const SearchTextField(
                 text: 'البحث عن اطروحة',
               ),
               Container(
@@ -91,7 +91,7 @@ class _ThesesScreenState extends State<ThesesScreen> {
                             fontWeight: FontWeight.w800),
                       ),
                       isScrollable: true,
-                      tabs: <Widget>[
+                      tabs: const<Widget>[
                         Tab(
                           text: 'غير مكتملة',
                         ),
@@ -101,10 +101,10 @@ class _ThesesScreenState extends State<ThesesScreen> {
                       ],
                     )),
                   ),
-                  Expanded(
-                    child: SizedBox(
-                      child: TabBarView(
-                        children: [UnCompletedTheses(), CompletedTheses()],
+                const   Expanded(
+                    child:   SizedBox(
+                      child:  TabBarView(
+                        children:  [UnCompletedTheses(), CompletedTheses()],
                       ),
                     ),
                   ),

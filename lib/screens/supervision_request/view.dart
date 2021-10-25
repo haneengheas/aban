@@ -14,7 +14,7 @@ class SupervisionScreen extends StatelessWidget {
     return Scaffold(
       appBar: PreferredSize(
           child: customAppBar(context, title: 'طلب اشراف'),
-          preferredSize: Size.fromHeight(50)),
+          preferredSize:const Size.fromHeight(50)),
       body: Column(
         children: [
           Text(
@@ -23,21 +23,21 @@ class SupervisionScreen extends StatelessWidget {
           ),
           Container(
             height: 400,
-            margin: EdgeInsets.symmetric(horizontal: 15,vertical: 15),
-            padding: EdgeInsets.symmetric(vertical: 10),
+            margin:const EdgeInsets.symmetric(horizontal: 15,vertical: 15),
+            padding:const  EdgeInsets.symmetric(vertical: 10),
             decoration: BoxDecoration(
               color: lightgray,
               borderRadius: BorderRadius.circular(15),
             ),
             child: Column(
               children: [
-                TextFieldItem(
+                const  TextFieldItem(
                     hintText: 'العنوان',
                     labelText: "عنوان الاطروحة",
                     scure: false),
-                TextFieldItem(
+                const  TextFieldItem(
                     hintText: 'الوصف', labelText: "وصف الاطروحة", scure: false),
-                Expanded(
+                const Expanded(
                   child: SizedBox(
                   ),
                 ),
@@ -46,7 +46,7 @@ class SupervisionScreen extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
-                              MemberProfile()));
+                              const MemberProfile()));
                 })
               ],
             ),

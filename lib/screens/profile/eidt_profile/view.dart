@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
+
 import 'package:aban/constant/alert_methods.dart';
 import 'package:aban/constant/style.dart';
 import 'package:aban/screens/profile/eidt_profile/information_items.dart';
@@ -28,7 +30,7 @@ class _EditProfileState extends State<EditProfile> {
         backgroundColor: white,
         title: Text('تعديل ملفك الشخصي',
             style: GoogleFonts.cairo(
-              textStyle: TextStyle(
+              textStyle: const TextStyle(
                   color: blue, fontWeight: FontWeight.bold, fontSize: 28),
             )),
         centerTitle: true,
@@ -37,7 +39,7 @@ class _EditProfileState extends State<EditProfile> {
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: Icon(Icons.arrow_back),
+          icon:const Icon(Icons.arrow_back),
           color: blue,
         ),
       ),
@@ -47,26 +49,26 @@ class _EditProfileState extends State<EditProfile> {
             child: Column(
              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-               InformationItem(),
-                ThesesMontorAccpetItem(),
-            Divider(
+                const InformationItem(),
+                const ThesesMontorAccpetItem(),
+            const Divider(
               height: 10,
               thickness: 1,
               color: lightGray,
             ),
-            ListProjectItem(),
-            Divider(
+                const ListProjectItem(),
+             const  Divider(
               height: 10,
               thickness: 1,
               color: lightGray,
             ),
-            ThesesGraduatedMontorItem(),
-            Divider(
+                const  ThesesGraduatedMontorItem(),
+                const Divider(
               height: 20,
               thickness: 1,
               color: lightGray,
             ),
-            ProjectItem(),
+                const ProjectItem(),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30),
               child: Row(

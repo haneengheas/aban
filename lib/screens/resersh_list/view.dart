@@ -9,9 +9,9 @@ class ResershList extends StatelessWidget {
   final String title;
 
 
-  ResershList({
+  const ResershList({Key? key,
     required this.title,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,12 +23,12 @@ class ResershList extends StatelessWidget {
             backgroundColor: white,
             title: Text(title,
                 style: GoogleFonts.cairo(
-                  textStyle: TextStyle(
+                  textStyle:const TextStyle(
                       color: blue, fontWeight: FontWeight.bold, fontSize: 28),
                 )),
             centerTitle: true,
             elevation: 0,
-            leading: IconButton(onPressed: (){Navigator.pop(context);}, icon: Icon(
+            leading: IconButton(onPressed: (){Navigator.pop(context);}, icon:const Icon(
               Icons.arrow_back,
               color: blue,
             ),)
@@ -45,15 +45,15 @@ class ResershList extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Container(
+                        SizedBox(
                             width: sizeFromWidth(context, 1),
-                            child: SearchTextField(
+                            child:const SearchTextField(
                               text: 'البحث باسم الباحث',
                             )),
-                        SizedBox(
+                        const SizedBox(
                           height: 7,
                         ),
-                        Container(
+                        SizedBox(
                           height: MediaQuery.of(context).size.height / 1.5,
                           child: Column(
                             children: [
@@ -63,12 +63,12 @@ class ResershList extends StatelessWidget {
                                   labelColor: blue,
                                   unselectedLabelColor: gray,
                                   labelStyle: GoogleFonts.cairo(
-                                    textStyle: TextStyle(
+                                    textStyle: const TextStyle(
                                         fontSize: 12,
                                         fontWeight: FontWeight.bold),
                                   ),
                                   isScrollable: false,
-                                  tabs: <Widget>[
+                                  tabs: const <Widget>[
                                     Tab(
                                       text: 'هندسة \nالبرمجيات',
                                     ),
@@ -84,7 +84,7 @@ class ResershList extends StatelessWidget {
                                   ],
                                 )),
                               ),
-                              Expanded(
+                              const  Expanded(
                                 child: SizedBox(
                                   child: TabBarView(
                                     children: [

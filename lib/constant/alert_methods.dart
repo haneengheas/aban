@@ -50,10 +50,10 @@ void showDialogTheses(BuildContext context, {required String text}) {
             side: BorderSide(color: clearblue, width: 10),
             borderRadius: BorderRadius.all(Radius.circular(15))),
         content:  SingleChildScrollView(
-          child: Container(
+          child :SizedBox(
             height: MediaQuery.of(context).size.height / 1.7,
             child: Column(
-              children: [
+              children: const [
                 TextFieldUser(
                     hintText: 'اسم الاطروحة',
                     labelText: "اسم الاطروحة",
@@ -110,10 +110,10 @@ void showDialogProject(BuildContext context, {required String text}) {
             side: BorderSide(color: clearblue, width: 10),
             borderRadius: BorderRadius.all(Radius.circular(15))),
         content: SingleChildScrollView(
-          child: Container(
+          child: SizedBox(
             height: MediaQuery.of(context).size.height / 2.5,
             child: Column(
-              children: [
+              children: const [
                 TextFieldUser(
                     hintText: 'اسم المشروع',
                     labelText: "اسم المشروع",

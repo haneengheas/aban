@@ -11,7 +11,7 @@ class NavigationFile extends StatefulWidget {
   final int counter;
 
   late final List <Widget> pages;
-  NavigationFile({ required this.d,required this.title,required this.counter,}){
+  NavigationFile({Key? key,  required this.d,required this.title,required this.counter,}) : super(key: key){
     pages=[
       HomeScreen(c: d, title: title,),
       ProjectScreen(counter: counter,),
@@ -42,7 +42,7 @@ class _NavigationFileState extends State<NavigationFile> {
             index = value;
           });
         },
-        items: [
+        items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home,size: 25,color: white,), label: 'الرئيسية',),
           BottomNavigationBarItem(icon: Image(image: AssetImage('assets/bar-chart.png',),height: 25,color: white,), label: 'مشاريع'),
           BottomNavigationBarItem(icon: Image(image: AssetImage('assets/newsletter.png'),height: 25,color: white,), label: 'أطروحات'),

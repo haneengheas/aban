@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class RegistScreen extends StatefulWidget {
+  const RegistScreen({Key? key}) : super(key: key);
+
   @override
   _RegistScreenState createState() => _RegistScreenState();
 }
@@ -23,18 +25,18 @@ class _RegistScreenState extends State<RegistScreen> {
               alignment: Alignment.topCenter,
               height: MediaQuery.of(context).size.height,
               width: sizeFromWidth(context, 1),
-              padding: EdgeInsets.symmetric(vertical: 20),
-              decoration: BoxDecoration(
+              padding:const EdgeInsets.symmetric(vertical: 20),
+              decoration:const BoxDecoration(
                 color: blue,
               ),
-              child: Image(
+              child:const Image(
                 image: AssetImage('assets/logo.png'),height: 185,
               ),
             ),
             Container(
               width: sizeFromWidth(context, 1),
               height: MediaQuery.of(context).size.height / 1.4,
-              decoration: BoxDecoration(
+              decoration:const BoxDecoration(
                   color: white,
                   borderRadius: BorderRadius.only(
                       topRight: Radius.circular(15),
@@ -47,12 +49,12 @@ class _RegistScreenState extends State<RegistScreen> {
                     unselectedLabelColor: gray,
                     isScrollable: true,
                     labelStyle: GoogleFonts.cairo(
-                      textStyle: TextStyle(
+                      textStyle: const TextStyle(
                           fontSize: 25,
                           height: 1.5,
                           fontWeight: FontWeight.w800),
                     ),
-                    tabs: <Widget>[
+                    tabs: const <Widget>[
                       Tab(
                         text: 'تسجيل جديد',
 
@@ -63,7 +65,7 @@ class _RegistScreenState extends State<RegistScreen> {
                     ],
                   )),
                 ),
-                Expanded(
+                const  Expanded(
                   child: SizedBox(
                     child: TabBarView(
                       children: [

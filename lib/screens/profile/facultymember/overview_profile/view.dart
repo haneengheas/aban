@@ -20,7 +20,7 @@ class MemberProfile extends StatelessWidget {
               backgroundColor: white,
               title: Text('أسم الباحث',
                   style: GoogleFonts.cairo(
-                    textStyle: TextStyle(
+                    textStyle: const TextStyle(
                         color: blue, fontWeight: FontWeight.bold, fontSize: 28),
                   )),
               centerTitle: true,
@@ -29,7 +29,7 @@ class MemberProfile extends StatelessWidget {
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                icon: Icon(
+                icon:const Icon(
                   Icons.arrow_back,
                   color: blue,
                 ),
@@ -45,7 +45,7 @@ class MemberProfile extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        margin: EdgeInsets.symmetric(horizontal: 15),
+                        margin:const EdgeInsets.symmetric(horizontal: 15),
                         child: Row(
                           children: [
                             TextButton.icon(
@@ -53,9 +53,9 @@ class MemberProfile extends StatelessWidget {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => ChatScreen()));
+                                        builder: (context) =>const ChatScreen()));
                               },
-                              icon: Icon(
+                              icon:const Icon(
                                 Icons.chat_rounded,
                                 color: blue,
                                 size: 20,
@@ -65,7 +65,7 @@ class MemberProfile extends StatelessWidget {
                                 style: hintStyle,
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 10,
                             ),
                             TextButton.icon(
@@ -74,9 +74,9 @@ class MemberProfile extends StatelessWidget {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            SupervisionScreen()));
+                                        const SupervisionScreen()));
                               },
-                              icon: Icon(
+                              icon:const Icon(
                                 Icons.cast_for_education,
                                 color: blue,
                                 size: 20,
@@ -103,13 +103,13 @@ class MemberProfile extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Image(
-                              image: AssetImage(
+                              image:const AssetImage(
                                 'assets/user.png',
                               ),
                               color: blue,
                               height: sizeFromHeight(context, 10),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 20,
                             ),
                             Column(
@@ -156,12 +156,12 @@ class MemberProfile extends StatelessWidget {
                               ],
                             ),
                           ]),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       Row(
                         children: [
-                          Icon(
+                          const Icon(
                             Icons.check,
                             color: Colors.green,
                           ),
@@ -175,11 +175,11 @@ class MemberProfile extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 15),
                         child: Text("الذهاب الى ابحاثى", style: hintStyle),
                       ),
-                      Container(
+                      SizedBox(
                         height: MediaQuery.of(context).size.height / 2,
                         child: Column(
                           children: [
-                            Divider(
+                            const Divider(
                               color: gray,
                               thickness: .5,
                             ),
@@ -190,7 +190,7 @@ class MemberProfile extends StatelessWidget {
                                 unselectedLabelColor: gray,
                                 labelStyle: hintStyle,
                                 isScrollable: true,
-                                tabs: <Widget>[
+                                tabs: const <Widget>[
                                   Tab(
                                     text: 'المجالات',
                                   ),
@@ -209,15 +209,15 @@ class MemberProfile extends StatelessWidget {
                                 ],
                               )),
                             ),
-                            Divider(
+                            const Divider(
                               color: gray,
                               thickness: .5,
                             ),
-                            Expanded(
+                            const Expanded(
                               child: SizedBox(
                                 child: TabBarView(
                                   children: [
-                                    FieldList(),
+                                     FieldList(),
                                     ThesesList(
                                       text: 'اطروحة مكتملة تحت اشرافي',
                                     ),

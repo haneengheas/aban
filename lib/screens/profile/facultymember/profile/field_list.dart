@@ -11,8 +11,8 @@ class FieldList extends StatelessWidget {
       itemBuilder: (context,index){
         return Row(
           children: [
-            Icon(Icons.circle,size: 10,) ,
-            SizedBox(
+            const Icon(Icons.circle,size: 10,) ,
+            const SizedBox(
               width: 10,
             ),
             Text(fields[index],style: hintStyle,)

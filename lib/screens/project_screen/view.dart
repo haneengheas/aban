@@ -12,7 +12,7 @@ import 'package:google_fonts/google_fonts.dart';
 class ProjectScreen extends StatefulWidget {
   final int counter;
 
-  ProjectScreen({required this.counter});
+ const ProjectScreen({Key? key, required this.counter}) : super(key: key);
 
   @override
   _ProjectScreenState createState() => _ProjectScreenState();
@@ -29,7 +29,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
           backgroundColor: white,
           title: Text('مشاريع',
               style: GoogleFonts.cairo(
-                textStyle: TextStyle(
+                textStyle:const TextStyle(
                     color: blue, fontWeight: FontWeight.bold, fontSize: 28),
               )),
           centerTitle: true,
@@ -55,15 +55,15 @@ class _ProjectScreenState extends State<ProjectScreen> {
                             )));
               }
             },
-            icon: Icon(Icons.arrow_back),
+            icon: const Icon(Icons.arrow_back),
             color: blue,
           ),
         ),
         body: SingleChildScrollView(
-          physics: ClampingScrollPhysics(parent: NeverScrollableScrollPhysics()),
+          physics:const ClampingScrollPhysics(parent:  NeverScrollableScrollPhysics()),
           child: Column(
             children: [
-              SearchTextField(
+              const SearchTextField(
                 text: "البحث عن مشروع",
               ),
               Container(
@@ -83,13 +83,13 @@ class _ProjectScreenState extends State<ProjectScreen> {
                       labelColor: blue,
                       unselectedLabelColor: gray,
                       labelStyle: GoogleFonts.cairo(
-                        textStyle: TextStyle(
+                        textStyle:const TextStyle(
                             fontSize: 22,
                             height: 1.5,
                             fontWeight: FontWeight.w800),
                       ),
                       isScrollable: true,
-                      tabs: <Widget>[
+                      tabs: const <Widget>[
                         Tab(
                           text: "غير مكتملة",
                         ),
@@ -99,10 +99,10 @@ class _ProjectScreenState extends State<ProjectScreen> {
                       ],
                     )),
                   ),
-                  Expanded(
+                  const Expanded(
                     child: SizedBox(
                       child: TabBarView(
-                        children: [UnCompletedProject(), CompletedProject()],
+                        children: [ UnCompletedProject(), CompletedProject()],
                       ),
                     ),
                   ),

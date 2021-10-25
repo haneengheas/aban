@@ -8,6 +8,8 @@ import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 
 
 class ChatRoom extends StatefulWidget {
+  const ChatRoom({Key? key}) : super(key: key);
+
   @override
   State<ChatRoom> createState() => _ChatRoomState();
 }
@@ -36,14 +38,14 @@ class _ChatRoomState extends State<ChatRoom> {
           backgroundColor: white,
           title: Text('أسم الباحث',
               style: GoogleFonts.cairo(
-                textStyle: TextStyle(
+                textStyle: const TextStyle(
                     color: blue, fontWeight: FontWeight.bold, fontSize: 28),
               )),
           centerTitle: true,
           elevation: 0,
           leading: IconButton(onPressed: (){
             Navigator.pop(context);
-          }, icon: Icon(
+          }, icon: const Icon(
             Icons.arrow_back,
             color: blue,
           ),)
@@ -53,14 +55,14 @@ class _ChatRoomState extends State<ChatRoom> {
             Expanded(
               child: Container(
                 height: MediaQuery.of(context).size.height / 1.2,
-                margin: EdgeInsets.symmetric(horizontal: 10),
-                padding:  EdgeInsets.symmetric(vertical: 10),
+                margin:const EdgeInsets.symmetric(horizontal: 10),
+                padding:const  EdgeInsets.symmetric(vertical: 10),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(25),
                   color: lightgray,
                 ),
                 child: ListView(
-                  children: [
+                  children: const [
                     MessageItem(
                         text:
                             "ويجري حاليا نجم ليفربول محادثات بشأن\n تجديد عقده مع ناديه، حيث من\n المقرر أن ينتهي بنهاية يونيو 2023",
@@ -102,7 +104,7 @@ class _ChatRoomState extends State<ChatRoom> {
             ),
             Container(
               height: 70,
-              margin: EdgeInsets.symmetric(horizontal: 15),
+              margin:const EdgeInsets.symmetric(horizontal: 15),
               decoration: BoxDecoration(
                   color: white, borderRadius: BorderRadius.circular(15)),
               child: Directionality(
@@ -111,7 +113,7 @@ class _ChatRoomState extends State<ChatRoom> {
                   controller: _controller,
                   decoration: InputDecoration(
                     suffixIcon: IconButton(
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.send,
                         color: blue,
                       ),
@@ -137,7 +139,7 @@ class _ChatRoomState extends State<ChatRoom> {
                     hintStyle: hintStyle,
                     enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(color: lightGray)),
+                        borderSide: const BorderSide(color: lightGray)),
                   ),
 
                 ),

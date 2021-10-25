@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
+
 import 'package:aban/constant/alert_methods.dart';
 import 'package:aban/constant/style.dart';
 import 'package:aban/screens/Home/navigation.dart';
@@ -11,9 +13,9 @@ import 'package:flutter/material.dart';
 class CreateGraduatedProfile extends StatefulWidget {
   final int value;
 
-  CreateGraduatedProfile({
+  const CreateGraduatedProfile({Key? key,
     required this.value,
-  });
+  }) : super(key: key);
 
   @override
   _CreateGraduatedProfileState createState() => _CreateGraduatedProfileState();
@@ -23,10 +25,10 @@ class _CreateGraduatedProfileState extends State<CreateGraduatedProfile> {
   var fields = <TextEditingController>[];
   var cards = <Card>[];
   Card createCard() {
-    var TextController = TextEditingController();
-    fields.add(TextController);
+    var textController = TextEditingController();
+    fields.add(textController);
     return Card(
-      margin: EdgeInsets.symmetric(horizontal: 20),
+      margin:const EdgeInsets.symmetric(horizontal: 20),
       child: TextFormField(
         decoration: InputDecoration(
             hintText: "المجال ${cards.length + 1}",
@@ -42,7 +44,7 @@ class _CreateGraduatedProfileState extends State<CreateGraduatedProfile> {
     return Scaffold(
       backgroundColor: white,
       appBar: PreferredSize(
-          preferredSize: Size.fromHeight(50),
+          preferredSize: const Size.fromHeight(50),
           child: customAppBar(context, title: 'إنشىء ملفك الشخصي')),
       body: Directionality(
         textDirection: TextDirection.rtl,
@@ -54,18 +56,16 @@ class _CreateGraduatedProfileState extends State<CreateGraduatedProfile> {
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: Row(
                 children: [
-                  Container(
-                    child: Image(
-                      image: AssetImage(
-                        'assets/user.png',
-                      ),
-                      color: blue,
-                      height: 80,
+                  const Image(
+                    image:  AssetImage(
+                      'assets/user.png',
                     ),
+                    color: blue,
+                    height: 80,
                   ),
-                  Container(
+                  SizedBox(
                     width: sizeFromWidth(context, 1.5),
-                    child: TextFieldUser(
+                    child: const TextFieldUser(
                       labelText: "اسم الباحث",
                       hintText: "أسمك",
                       scure: true,
@@ -77,17 +77,17 @@ class _CreateGraduatedProfileState extends State<CreateGraduatedProfile> {
             Row(
               // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Container(
+                SizedBox(
                   width: sizeFromWidth(context, 2),
-                  child: TextFieldUser(
+                  child:const TextFieldUser(
                     hintText: "الكلية/التخصص",
                     labelText: "الكلية/التخصص",
                     scure: true,
                   ),
                 ),
-                Container(
+                SizedBox(
                   width: sizeFromWidth(context, 2),
-                  child: TextFieldUser(
+                  child:const TextFieldUser(
                     hintText: "Reasearsh@ksuedu.sa",
                     labelText: "البريد الجامعى",
                     scure: true,
@@ -97,17 +97,17 @@ class _CreateGraduatedProfileState extends State<CreateGraduatedProfile> {
             ),
             Row(
               children: [
-                Container(
+                SizedBox(
                   width: sizeFromWidth(context, 2),
-                  child: TextFieldUser(
+                  child:const TextFieldUser(
                     hintText: "اختر درجتك",
                     labelText: "الدرجة العلمية",
                     scure: true,
                   ),
                 ),
-                Container(
+                SizedBox(
                   width: sizeFromWidth(context, 2),
-                  child: TextFieldUser(
+                  child:const TextFieldUser(
                     hintText: "+96655...",
                     labelText: "رقم الهاتف",
                     scure: true,
@@ -117,17 +117,17 @@ class _CreateGraduatedProfileState extends State<CreateGraduatedProfile> {
             ),
             Row(
               children: [
-                Container(
+                SizedBox(
                   width: sizeFromWidth(context, 2),
-                  child: TextFieldUser(
+                  child:const TextFieldUser(
                     hintText: "المعرف الخاص بك",
                     labelText: "orcid iD",
                     scure: true,
                   ),
                 ),
-                Container(
+                SizedBox(
                   width: sizeFromWidth(context, 2),
-                  child: TextFieldUser(
+                  child:const TextFieldUser(
                     hintText: "ادخل رابط GooGel School",
                     labelText: " ابحاثى",
                     scure: true,
@@ -135,10 +135,10 @@ class _CreateGraduatedProfileState extends State<CreateGraduatedProfile> {
                 ),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
-            Divider(
+            const Divider(
               height: 10,
               thickness: 1,
               color: lightGray,
@@ -162,9 +162,9 @@ class _CreateGraduatedProfileState extends State<CreateGraduatedProfile> {
             ),
             TextButton.icon(
                 onPressed: () => setState(() => cards.add(createCard())),
-                icon: Icon(Icons.add_circle_outline,color: black,size: 20,),
+                icon:const Icon(Icons.add_circle_outline,color: black,size: 20,),
                 label: Text('اضافة مجال',style: hintStyle4,)),
-            Divider(
+            const Divider(
               height: 10,
               thickness: 1,
               color: lightGray,
@@ -182,7 +182,7 @@ class _CreateGraduatedProfileState extends State<CreateGraduatedProfile> {
                 onTap: () {
                   showDialogTheses(context, text: 'إضافة اطروحة');
                 }),
-            Divider(
+            const Divider(
               height: 30,
               thickness: 1,
               color: lightGray,

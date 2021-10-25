@@ -3,6 +3,8 @@ import 'package:aban/screens/resersh_list/view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 class CollegeView extends StatelessWidget {
+  const CollegeView({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Padding(

@@ -24,25 +24,25 @@ class _EditPasswordScreenState extends State<EditPasswordScreen> {
             backgroundColor: white,
             title: Text('إعادة ضبط كلمة المرور',
                 style: GoogleFonts.cairo(
-                  textStyle: TextStyle(
+                  textStyle: const TextStyle(
                       color: blue, fontWeight: FontWeight.bold, fontSize: 28),
                 )),
             centerTitle: true,
             elevation: 0,
             leading: IconButton(
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>RegistScreen()));
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>const RegistScreen()));
               },
-              icon: Icon(Icons.arrow_back),
+              icon:const Icon(Icons.arrow_back),
               color: blue,
             ),
           ),
-          SizedBox(height: 20),
-          TextFieldItem(
+          const SizedBox(height: 20),
+          const TextFieldItem(
               hintText: 'Researcher@ksuedu.sa',
               labelText: 'بريديك الجامعي',
               scure: false),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           SubmitButton(

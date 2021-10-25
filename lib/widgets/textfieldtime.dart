@@ -1,3 +1,5 @@
+// ignore_for_file: use_key_in_widget_constructors
+
 import 'package:aban/constant/style.dart';
 import 'package:flutter/material.dart';
 
@@ -20,7 +22,7 @@ class _SearchTextFieldState extends State<TimeTextField> {
         height: 35,
         width: 100,
         //padding: EdgeInsets.symmetric(horizontal:10),
-        margin: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+        margin:const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
         child: TextFormField(
           decoration: InputDecoration(
             hintText: widget.text,

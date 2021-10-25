@@ -18,13 +18,13 @@ class _UnCompletedProjectState extends State<CompleteSeminar> {
     return Column(
       children: [
         TextButton(onPressed: (){
-          Navigator.push(context, MaterialPageRoute(builder: (context)=> AddSeminar()));
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>const AddSeminar()));
         }, child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text('أضف ندوة  ',style: hintStyle2,),
 
-            Icon(Icons.add_circle_outline,color: blue,size: 20,),
+            const Icon(Icons.add_circle_outline,color: blue,size: 20,),
           ],
         ),),
         Expanded(
@@ -32,7 +32,7 @@ class _UnCompletedProjectState extends State<CompleteSeminar> {
             itemCount: 5,
             itemBuilder: (context, index) {
               return Container(
-                margin: EdgeInsets.symmetric(horizontal: 10,vertical: 5),
+                margin:const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
                 width: sizeFromWidth(context, 1),
                 height: 120,
                 decoration: BoxDecoration(
@@ -46,7 +46,7 @@ class _UnCompletedProjectState extends State<CompleteSeminar> {
 
                     children: [
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 10,vertical: 15),
+                        padding:const EdgeInsets.symmetric(horizontal: 10,vertical: 15),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -58,7 +58,7 @@ class _UnCompletedProjectState extends State<CompleteSeminar> {
                                   width: sizeFromWidth(context, 5),
                                 ),
                                 Text('24 ابريل2021',style:hintStyle3,),
-                                Icon(Icons.date_range,color: blue,size: 20,)
+                                const Icon(Icons.date_range,color: blue,size: 20,)
 
 
                               ],
@@ -69,7 +69,7 @@ class _UnCompletedProjectState extends State<CompleteSeminar> {
                           ],
                         ),
                       ),
-                      VerticalDivider(
+                      const VerticalDivider(
                         color: gray,
                         endIndent: 10,
                         indent: 10,
@@ -89,10 +89,10 @@ class _UnCompletedProjectState extends State<CompleteSeminar> {
                               },
                               child: Container(
 
-                                 margin: EdgeInsets.symmetric(vertical: 5),
-                                child: checked? ImageIcon(
-                                  AssetImage('assets/bookmark (1).png',),color: blue,):
-                                ImageIcon(
+                                 margin: const EdgeInsets.symmetric(vertical: 5),
+                                child: checked?const ImageIcon(
+                                   AssetImage('assets/bookmark (1).png',),color: blue,):
+                                const  ImageIcon(
                                   AssetImage('assets/bookmark (2).png',),color: blue,)
 
                                 ,

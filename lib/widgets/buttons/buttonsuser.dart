@@ -1,8 +1,10 @@
+// ignore_for_file: use_key_in_widget_constructors
+
 import 'package:aban/constant/style.dart';
 import 'package:flutter/material.dart';
 
 class ButtonUser extends StatefulWidget {
-  ButtonUser({ required this.text, required this.color,required this.onTap});
+  const ButtonUser({ required this.text, required this.color,required this.onTap});
 final String text;
 final Gradient color;
 final Function onTap;
@@ -18,7 +20,7 @@ class _ButtonUserState extends State<ButtonUser> {
       onTap: () => widget.onTap(),
       child: Container(
         height: 35,
-        margin: EdgeInsets.symmetric(horizontal: 15,vertical: 5),
+        margin:const EdgeInsets.symmetric(horizontal: 15,vertical: 5),
         width: sizeFromWidth(context, 3.5),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),

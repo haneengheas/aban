@@ -16,33 +16,33 @@ import "package:quds_ui_kit/quds_ui_kit.dart";
           QudsPopupMenuItem(
               title: null,
               onPressed: () {},
-              trailing: Icon(
+              trailing: const Icon(
                 Icons.menu,
                 color: blue,
               )),
           QudsPopupMenuDivider(color: gray, thickness: .5),
 
           QudsPopupMenuItem(
-              trailing: Icon(
+              trailing: const Icon(
                 Icons.info_outline,
                 color: blue,
               ),
-              title: Align(
+              title: const   Align(
                 alignment: Alignment.centerRight,
                   child: Text(
                 'الملف الشخصي',
               )),
               onPressed: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => ProfileScreen()));
+                    MaterialPageRoute(builder: (context) => const ProfileScreen()));
               }),
           QudsPopupMenuDivider(color: gray, thickness: .5),
           QudsPopupMenuItem(
-              trailing: Icon(
+              trailing: const Icon(
                 Icons.bookmark_border,
                 color: blue,
               ),
-              title: Align(
+              title: const Align(
                   alignment: Alignment.centerRight,
 
                   child: Text(
@@ -50,16 +50,16 @@ import "package:quds_ui_kit/quds_ui_kit.dart";
               )),
               onPressed: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => BookmarkScreen()));
+                    MaterialPageRoute(builder: (context) => const BookmarkScreen()));
               }),
           QudsPopupMenuDivider(color: gray, thickness: .5),
 
           QudsPopupMenuItem(
-              trailing: Icon(
+              trailing:const  Icon(
                 Icons.chat_bubble_outline_outlined,
                 color: blue,
               ),
-              title: Align(
+              title: const Align(
                   alignment: Alignment.centerRight,
 
                   child: Text(
@@ -67,16 +67,16 @@ import "package:quds_ui_kit/quds_ui_kit.dart";
               )),
               onPressed: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => ChatScreen()));
+                    MaterialPageRoute(builder: (context) =>const ChatScreen()));
               }),
           QudsPopupMenuDivider(color: gray, thickness: .5),
 
           QudsPopupMenuItem(
-              trailing: Icon(
+              trailing: const Icon(
                 Icons.settings,
                 color: blue,
               ),
-              title: Align(
+              title: const Align(
                   alignment: Alignment.centerRight,
 
                   child: Text(
@@ -84,16 +84,16 @@ import "package:quds_ui_kit/quds_ui_kit.dart";
               )),
               onPressed: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => EditProfile()));
+                    MaterialPageRoute(builder: (context) => const EditProfile()));
               }),
           QudsPopupMenuDivider(color: gray, thickness: .5),
 
           QudsPopupMenuItem(
-              trailing: Icon(
+              trailing: const Icon(
                 Icons.help,
                 color: blue,
               ),
-              title: Align(
+              title: const Align(
                   alignment: Alignment.centerRight,
 
                   child: Text(
@@ -101,26 +101,26 @@ import "package:quds_ui_kit/quds_ui_kit.dart";
               )),
               onPressed: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => HelpScreen()));
+                    MaterialPageRoute(builder: (context) =>const HelpScreen()));
               }),
           QudsPopupMenuDivider(color: gray, thickness: .5),
           QudsPopupMenuItem(
               popOnTap: false,
-              trailing: Icon(
+              trailing: const Icon(
                 Icons.logout,
                 color: blue,
               ),
-              title: Align(
+              title: const Align(
                   alignment: Alignment.centerRight,
                   child: Text(
                 'تسجيل خروج',
               )),
               onPressed: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => LoginScreen()));
+                    MaterialPageRoute(builder: (context) =>const LoginScreen()));
               }),
         ],
-        child: Icon(
+        child: const Icon(
           Icons.menu,
           size: 33,
           color: white,

@@ -1,5 +1,4 @@
 import 'package:aban/constant/style.dart';
-import 'package:aban/screens/project_screen/view.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -18,7 +17,7 @@ class _ProJectDetailsScreenState extends State<ProJectDetailsScreen> {
         backgroundColor: white,
         title: Text('مشاريع',
             style: GoogleFonts.cairo(
-              textStyle: TextStyle(
+              textStyle:const TextStyle(
                   color: blue, fontWeight: FontWeight.bold, fontSize: 28),
             )),
         centerTitle: true,
@@ -29,7 +28,7 @@ class _ProJectDetailsScreenState extends State<ProJectDetailsScreen> {
             // Navigator.push(context,
             //     MaterialPageRoute(builder: (context) => ProjectScreen()));
           },
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           color: blue,
         ),
       ),
@@ -38,7 +37,7 @@ class _ProJectDetailsScreenState extends State<ProJectDetailsScreen> {
           Container(
             height: 200,
             width: sizeFromWidth(context, 1),
-            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+            margin:const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
             decoration: BoxDecoration(
               color: clearblue,
               borderRadius: BorderRadius.circular(25),
@@ -52,7 +51,7 @@ class _ProJectDetailsScreenState extends State<ProJectDetailsScreen> {
                   Row(
                     children: [
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+                        padding:const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -83,7 +82,7 @@ class _ProJectDetailsScreenState extends State<ProJectDetailsScreen> {
                       SizedBox(
                         width: sizeFromWidth(context, 8),
                       ),
-                      VerticalDivider(
+                      const VerticalDivider(
                         color: gray,
                         endIndent: 15,
                         indent: 10,
@@ -91,7 +90,7 @@ class _ProJectDetailsScreenState extends State<ProJectDetailsScreen> {
                         thickness:5,
                       ),
 
-                      SizedBox(
+                      const SizedBox(
                         width: 20,
                       ),
                       Padding(
@@ -102,9 +101,9 @@ class _ProJectDetailsScreenState extends State<ProJectDetailsScreen> {
                               Container(
                                 height: 40,
                                 width: 25,
-                                margin: EdgeInsets.symmetric(
+                                margin:const EdgeInsets.symmetric(
                                     vertical: 10, horizontal: 10),
-                                child: ImageIcon(
+                                child: const ImageIcon(
                                   AssetImage(
                                     'assets/bookmark (1).png',
                                   ),
@@ -116,7 +115,7 @@ class _ProJectDetailsScreenState extends State<ProJectDetailsScreen> {
                     ],
                   ),
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    padding:const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,

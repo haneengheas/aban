@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
+
 import 'package:aban/constant/alert_methods.dart';
 import 'package:aban/constant/style.dart';
 import 'package:aban/screens/Home/navigation.dart';
@@ -11,9 +13,9 @@ import 'package:google_fonts/google_fonts.dart';
 class CreateMemberProfile extends StatefulWidget {
   final int value;
 
-  CreateMemberProfile({
+  const CreateMemberProfile({Key? key,
     required this.value,
-  });
+  }) : super(key: key);
 
   @override
   _CreateMemberProfileState createState() => _CreateMemberProfileState();
@@ -24,8 +26,8 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
   var cards = <Card>[];
 
   Card createCard() {
-    var TextController = TextEditingController();
-    fields.add(TextController);
+    var textController = TextEditingController();
+    fields.add(textController);
     return Card(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -48,7 +50,7 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
           backgroundColor: white,
           title: Text('إنشىء ملفك الشخصي',
               style: GoogleFonts.cairo(
-                textStyle: TextStyle(
+                textStyle:const TextStyle(
                     color: blue, fontWeight: FontWeight.bold, fontSize: 28),
               )),
           centerTitle: true,
@@ -57,7 +59,7 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
             onPressed: () {
               Navigator.pop(context);
             },
-            icon: Icon(
+            icon:const Icon(
               Icons.arrow_back,
               color: blue,
             ),
@@ -72,18 +74,16 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: Row(
                 children: [
-                  Container(
-                    child: Image(
-                      image: AssetImage(
-                        'assets/user.png',
-                      ),
-                      color: blue,
-                      height: 80,
+                  const Image(
+                    image: AssetImage(
+                      'assets/user.png',
                     ),
+                    color: blue,
+                    height: 80,
                   ),
-                  Container(
+                  SizedBox(
                     width: sizeFromWidth(context, 1.5),
-                    child: TextFieldUser(
+                    child:const TextFieldUser(
                       labelText: "اسم الباحث",
                       hintText: "أسمك",
                       scure: true,
@@ -95,17 +95,17 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
             Row(
               // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Container(
+                SizedBox(
                   width: sizeFromWidth(context, 2),
-                  child: TextFieldUser(
+                  child: const TextFieldUser(
                     hintText: "الكلية/التخصص",
                     labelText: "الكلية/التخصص",
                     scure: true,
                   ),
                 ),
-                Container(
+                SizedBox(
                   width: sizeFromWidth(context, 2),
-                  child: TextFieldUser(
+                  child:const  TextFieldUser(
                     hintText: "Reasearsh@ksuedu.sa",
                     labelText: "البريد الجامعى",
                     scure: true,
@@ -115,17 +115,17 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
             ),
             Row(
               children: [
-                Container(
+                SizedBox(
                   width: sizeFromWidth(context, 2),
-                  child: TextFieldUser(
+                  child:const TextFieldUser(
                     hintText: "اختر درجتك",
                     labelText: "الدرجة العلمية",
                     scure: true,
                   ),
                 ),
-                Container(
+                SizedBox(
                   width: sizeFromWidth(context, 2),
-                  child: TextFieldUser(
+                  child:const TextFieldUser(
                     hintText: "+96655...",
                     labelText: "رقم الهاتف",
                     scure: true,
@@ -135,17 +135,17 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
             ),
             Row(
               children: [
-                Container(
+                SizedBox(
                   width: sizeFromWidth(context, 2),
-                  child: TextFieldUser(
+                  child:const TextFieldUser(
                     hintText: "المعرف الخاص بك",
                     labelText: "orcid iD",
                     scure: true,
                   ),
                 ),
-                Container(
+                SizedBox(
                   width: sizeFromWidth(context, 2),
-                  child: TextFieldUser(
+                  child:const TextFieldUser(
                     hintText: "ادخل رابط GooGel School",
                     labelText: " ابحاثى",
                     scure: true,
@@ -201,7 +201,7 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                 ),
               ),
             ),
-            Divider(
+            const Divider(
               height: 10,
               thickness: 1,
               color: lightGray,
@@ -225,7 +225,7 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
             ),
             TextButton.icon(
                 onPressed: () => setState(() => cards.add(createCard())),
-                icon: Icon(
+                icon:const Icon(
                   Icons.add_circle_outline,
                   color: black,
                   size: 20,
@@ -235,7 +235,7 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                   style: hintStyle4,
                 )),
 
-            Divider(
+            const Divider(
               height: 10,
               thickness: 1,
               color: lightGray,
@@ -253,7 +253,7 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                 onTap: () {
                   showDialogTheses(context, text: 'اضافة اطروحة');
                 }),
-            Divider(
+            const Divider(
               height: 20,
               thickness: 1,
               color: lightGray,

@@ -9,7 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 class SeminarScreen extends StatefulWidget {
 final int counter;
-SeminarScreen({required this.counter});
+const SeminarScreen({Key? key, required this.counter}) : super(key: key);
   @override
   _ProjectScreenState createState() => _ProjectScreenState();
 }
@@ -22,19 +22,19 @@ class _ProjectScreenState extends State< SeminarScreen> {
       child: Scaffold(
         backgroundColor: white,
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(50),
+          preferredSize:const Size.fromHeight(50),
           child: customAppBar(context, title: 'ندوة'),
         ),
         body: SingleChildScrollView(child:
           Column(
             children: [
-              SearchTextField(
+              const SearchTextField(
                 text: "البحث عن ندوة",
               ),
               Container(
                 height: MediaQuery.of(context).size.height / 1.4,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
+                decoration:const BoxDecoration(
+                  borderRadius:  BorderRadius.only(
                     topLeft: Radius.circular(25),
                     topRight: Radius.circular(25),
                   ),
@@ -48,13 +48,13 @@ class _ProjectScreenState extends State< SeminarScreen> {
                       labelColor: blue,
                       unselectedLabelColor: gray,
                       labelStyle: GoogleFonts.cairo(
-                        textStyle: TextStyle(
+                        textStyle:const TextStyle(
                             fontSize: 22, height: 1.5, fontWeight: FontWeight.w800),
                       ),
                       isScrollable: false,
                       unselectedLabelStyle: labelStyle,
                       indicatorWeight: 0.1,
-                      tabs: <Widget>[
+                      tabs: const <Widget>[
                         Tab(
                           text: "قادمة",
                         ),
@@ -65,10 +65,10 @@ class _ProjectScreenState extends State< SeminarScreen> {
                       ],
                     )),
                   ),
-                  Expanded(
+                  const  Expanded(
                     child: SizedBox(
-                      child: TabBarView(
-                        children: [LaterSeminar(), CompleteSeminar()],
+                      child:  TabBarView(
+                        children:  [LaterSeminar(), CompleteSeminar()],
                       ),
                     ),
                   ),

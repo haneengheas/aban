@@ -1,8 +1,12 @@
+// ignore_for_file: avoid_print
+
 import 'package:aban/constant/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class ProjectList extends StatefulWidget {
+  const ProjectList({Key? key}) : super(key: key);
+
   @override
   State<ProjectList> createState() => _ProjectListState();
 }
@@ -21,7 +25,7 @@ class _ProjectListState extends State<ProjectList> {
                 itemCount: 4,
                 itemBuilder: (context, index) {
                   return Container(
-                    margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                    margin:const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                     width: sizeFromWidth(context, 1),
                     height: 100,
                     decoration: BoxDecoration(
@@ -51,10 +55,10 @@ class _ProjectListState extends State<ProjectList> {
                               ),
                             ],
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 50,
                           ),
-                          VerticalDivider(
+                          const VerticalDivider(
                             color: gray,
                             endIndent: 10,
                             indent: 10,
@@ -71,7 +75,7 @@ class _ProjectListState extends State<ProjectList> {
                             child: Container(
                               height: 40,
                               width: 25,
-                              margin: EdgeInsets.symmetric(vertical: 10),
+                              margin: const EdgeInsets.symmetric(vertical: 10),
                               child: completed[index][2]?ImageIcon(
                                 AssetImage(
                                   'assets/${completed[index][1]}',

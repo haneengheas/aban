@@ -6,6 +6,8 @@ import 'package:google_fonts/google_fonts.dart';
 
 
 class ChatScreen extends StatelessWidget {
+  const ChatScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,7 +16,7 @@ class ChatScreen extends StatelessWidget {
           backgroundColor: white,
           title: Text('المحادثة',
               style: GoogleFonts.cairo(
-                textStyle: TextStyle(
+                textStyle: const TextStyle(
                     color: blue, fontWeight: FontWeight.bold, fontSize: 28),
               )),
           centerTitle: true,
@@ -23,19 +25,19 @@ class ChatScreen extends StatelessWidget {
             onPressed: () {
               Navigator.pop(context);
             },
-            icon: Icon(
+            icon: const Icon(
               Icons.arrow_back,
               color: blue,
             ),
           )),
       body: ListView(
-        children: [
+        children:const [
           SearchTextField(
             text: 'ابحث باسم باحث',
           ),
-          ChatItem(),
-          ChatItem(),
-          ChatItem(),
+           ChatItem(),
+           ChatItem(),
+           ChatItem(),
         ],
       ),
     );
