@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_typing_uninitialized_variables
-
 import 'package:aban/constant/alert_methods.dart';
 import 'package:aban/constant/style.dart';
+import 'package:aban/provider/profile_provider.dart';
 import 'package:aban/screens/Home/navigation.dart';
 import 'package:aban/screens/Home/studentdrawer.dart';
 import 'package:aban/widgets/buttons/buttonsuser.dart';
@@ -9,11 +9,13 @@ import 'package:aban/widgets/buttons/submit_button.dart';
 import 'package:aban/widgets/buttons/tetfielduser.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class CreateMemberProfile extends StatefulWidget {
   final int value;
 
-  const CreateMemberProfile({Key? key,
+  const CreateMemberProfile({
+    Key? key,
     required this.value,
   }) : super(key: key);
 
@@ -42,15 +44,20 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
 
   var val;
 
+  // late String name;
+  // late String fuclty;
+  // late String phone;
+
   @override
   Widget build(BuildContext context) {
+    var prov = Provider.of<ProfileProvider>(context);
     return Scaffold(
       backgroundColor: white,
       appBar: AppBar(
           backgroundColor: white,
           title: Text('إنشىء ملفك الشخصي',
               style: GoogleFonts.cairo(
-                textStyle:const TextStyle(
+                textStyle: const TextStyle(
                     color: blue, fontWeight: FontWeight.bold, fontSize: 28),
               )),
           centerTitle: true,
@@ -59,7 +66,7 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
             onPressed: () {
               Navigator.pop(context);
             },
-            icon:const Icon(
+            icon: const Icon(
               Icons.arrow_back,
               color: blue,
             ),
@@ -74,19 +81,39 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: Row(
                 children: [
-                  const Image(
-                    image: AssetImage(
-                      'assets/user.png',
+                  InkWell(
+                    onTap: (){
+
+                    },
+                    child: const Image(
+                      image: AssetImage(
+                        'assets/user.png',
+                      ),
+                      color: blue,
+                      height: 80,
                     ),
-                    color: blue,
-                    height: 80,
                   ),
                   SizedBox(
                     width: sizeFromWidth(context, 1.5),
-                    child:const TextFieldUser(
-                      labelText: "اسم الباحث",
-                      hintText: "أسمك",
-                      scure: true,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 35,
+                      ),
+                      child: Directionality(
+                        textDirection: TextDirection.rtl,
+                        child: TextFormField(
+                          onChanged: (value) {
+                            prov.name = value;
+                          },
+                          decoration: InputDecoration(
+                            labelText: 'اسم الباحث',
+                            labelStyle: labelStyle,
+                            hintText: 'اسمك ',
+                            hintStyle: hintStyle,
+                            floatingLabelBehavior: FloatingLabelBehavior.always,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ],
@@ -97,15 +124,30 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
               children: [
                 SizedBox(
                   width: sizeFromWidth(context, 2),
-                  child: const TextFieldUser(
-                    hintText: "الكلية/التخصص",
-                    labelText: "الكلية/التخصص",
-                    scure: true,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 35,
+                    ),
+                    child: Directionality(
+                      textDirection: TextDirection.rtl,
+                      child: TextFormField(
+                        onChanged: (value) {
+                          prov.fuclty = value;
+                        },
+                        decoration: InputDecoration(
+                          labelText: 'ادخل كليتك',
+                          labelStyle: labelStyle,
+                          hintText: 'كليتك ',
+                          hintStyle: hintStyle,
+                          floatingLabelBehavior: FloatingLabelBehavior.always,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
                 SizedBox(
                   width: sizeFromWidth(context, 2),
-                  child:const  TextFieldUser(
+                  child: const TextFieldUser(
                     hintText: "Reasearsh@ksuedu.sa",
                     labelText: "البريد الجامعى",
                     scure: true,
@@ -117,7 +159,7 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
               children: [
                 SizedBox(
                   width: sizeFromWidth(context, 2),
-                  child:const TextFieldUser(
+                  child: const TextFieldUser(
                     hintText: "اختر درجتك",
                     labelText: "الدرجة العلمية",
                     scure: true,
@@ -125,10 +167,25 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                 ),
                 SizedBox(
                   width: sizeFromWidth(context, 2),
-                  child:const TextFieldUser(
-                    hintText: "+96655...",
-                    labelText: "رقم الهاتف",
-                    scure: true,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 35,
+                    ),
+                    child: Directionality(
+                      textDirection: TextDirection.rtl,
+                      child: TextFormField(
+                        onChanged: (value) {
+                          prov.phone = value;
+                        },
+                        decoration: InputDecoration(
+                          labelText: 'رقم الهاتف',
+                          labelStyle: labelStyle,
+                          hintText: 'الهاتف ',
+                          hintStyle: hintStyle,
+                          floatingLabelBehavior: FloatingLabelBehavior.always,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ],
@@ -137,7 +194,7 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
               children: [
                 SizedBox(
                   width: sizeFromWidth(context, 2),
-                  child:const TextFieldUser(
+                  child: const TextFieldUser(
                     hintText: "المعرف الخاص بك",
                     labelText: "orcid iD",
                     scure: true,
@@ -145,7 +202,7 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                 ),
                 SizedBox(
                   width: sizeFromWidth(context, 2),
-                  child:const TextFieldUser(
+                  child: const TextFieldUser(
                     hintText: "ادخل رابط GooGel School",
                     labelText: " ابحاثى",
                     scure: true,
@@ -225,7 +282,7 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
             ),
             TextButton.icon(
                 onPressed: () => setState(() => cards.add(createCard())),
-                icon:const Icon(
+                icon: const Icon(
                   Icons.add_circle_outline,
                   color: black,
                   size: 20,
@@ -234,7 +291,6 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                   'اضافة مجال',
                   style: hintStyle4,
                 )),
-
             const Divider(
               height: 10,
               thickness: 1,
@@ -273,7 +329,9 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                 }),
             Center(
               child: SubmitButton(
-                onTap: () {
+                onTap: () async {
+                  await prov.addData(prov.name, prov.fuclty, prov.phone);
+                  print('==========================');
                   Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(

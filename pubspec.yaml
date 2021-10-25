@@ -32,6 +32,10 @@ dependencies:
   table_calendar: ^3.0.2
   emoji_picker_flutter: ^1.0.7
   provider: ^6.0.1
+  firebase_core:
+  firebase_auth:
+  cloud_firestore:
+
 
 
 

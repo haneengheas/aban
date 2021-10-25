@@ -1,5 +1,5 @@
 import 'package:aban/constant/style.dart';
-import 'package:aban/model.dart';
+import 'package:aban/provider/model.dart';
 import 'package:aban/screens/profile/facultymember/create_profile/view.dart';
 import 'package:aban/screens/profile/graduatedmember/create_profile/view.dart';
 import 'package:aban/widgets/buttons/submit_button.dart';
