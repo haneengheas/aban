@@ -21,6 +21,8 @@ class WellcomeScreen extends StatefulWidget {
 class _WellcomeScreenState extends State<WellcomeScreen> {
   @override
   Widget build(BuildContext context) {
+    var provider = Provider.of<AuthProvider>(context);
+
     return Scaffold(
       body: Column(
         children: [
@@ -72,7 +74,7 @@ class _WellcomeScreenState extends State<WellcomeScreen> {
                             text: ' أنشيء ملفك الشخصي     ',
                             onTap: () {
                               print(object.val);
-                              if (object.val == 1) {
+                              if (provider.val == 1) {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -80,7 +82,7 @@ class _WellcomeScreenState extends State<WellcomeScreen> {
                                             const CreateMemberProfile(
                                               value: 1,
                                             )));
-                              } else if (object.val == 2) {
+                              } else if (provider.val== 2) {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
