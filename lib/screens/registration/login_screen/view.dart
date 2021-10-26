@@ -43,9 +43,11 @@ class _LoginScreenState extends State<LoginScreen> {
             TextFieldRegistation(
               hintText: "Reasearsh@ksuedu.sa",
               labelText: 'بريدك الجامعي',
-              scure: false, onChanged: (val) {
-              email = val;
-            },),
+              scure: false,
+              onChanged: (val) {
+                email = val;
+              },
+            ),
             const SizedBox(
               height: 20,
             ),
@@ -53,10 +55,10 @@ class _LoginScreenState extends State<LoginScreen> {
               hintText: "*****",
               labelText: "كلمة المرور",
               scure: true,
-              onChanged
-                  : (val) {
+              onChanged: (val) {
                 password = val;
-              },),
+              },
+            ),
             const SizedBox(
               height: 20,
             ),
@@ -64,10 +66,21 @@ class _LoginScreenState extends State<LoginScreen> {
                 gradient: blueGradient,
                 text: 'تسجيل دخول',
                 onTap: () {
-                  provider.login(email, password);
-
-                  // Navigator.push(context,
-                  //     MaterialPageRoute(builder: (context) =>NavigationFile(d: studentDrawer(context),title: 'مرحبا"اسم الباحث"',counter: 1,)));
+                  try {
+                    var login = provider.login(email, password);
+                    if (login != null) {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => NavigationFile(
+                                    d: studentDrawer(context),
+                                    title: 'مرحبا"اسم الباحث"',
+                                    counter: provider.val,
+                                  )));
+                    }
+                  } catch (e) {
+                    print(e);
+                  }
                 }),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
@@ -90,11 +103,14 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               child: InkWell(
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(
-                      builder: (context) =>
-                          NavigationFile(d: guestDrawer(context),
-                            title: 'مرحبا',
-                            counter: 2,)));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => NavigationFile(
+                                d: guestDrawer(context),
+                                title: 'مرحبا',
+                                counter: 2,
+                              )));
                 },
                 child: Text(
                   'المواصلة كزائر',

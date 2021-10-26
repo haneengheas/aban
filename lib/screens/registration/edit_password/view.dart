@@ -2,8 +2,10 @@ import 'package:aban/constant/style.dart';
 import 'package:aban/screens/registration/regist_screen/view.dart';
 import 'package:aban/widgets/buttons/submit_button.dart';
 import 'package:aban/widgets/textField.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class EditPasswordScreen extends StatefulWidget {
@@ -14,6 +16,8 @@ class EditPasswordScreen extends StatefulWidget {
 }
 
 class _EditPasswordScreenState extends State<EditPasswordScreen> {
+  TextEditingController editController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,20 +42,50 @@ class _EditPasswordScreenState extends State<EditPasswordScreen> {
             ),
           ),
           const SizedBox(height: 20),
-          const TextFieldItem(
-              hintText: 'Researcher@ksuedu.sa',
-              labelText: 'بريديك الجامعي',
-              scure: false),
+           Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+            child: Directionality(
+              textDirection: TextDirection.rtl,
+              child: TextFormField(
+                controller: editController,
+
+                decoration: InputDecoration(
+                  labelText: 'بريديك الجامعي',
+                  labelStyle: labelStyle,
+                  hintText:'Researcher@ksuedu.sa',
+                  hintStyle: hintStyle,
+                  floatingLabelBehavior: FloatingLabelBehavior.always,
+                ),
+              ),
+            ),
+          ),
+
           const SizedBox(
             height: 20,
           ),
           SubmitButton(
             text: 'إرسال',
             gradient: blueGradient,
-            onTap: () {},
+            onTap: () {
+              resetPassword(context);},
           ),
         ],
       ),
     );
+  }
+
+  void resetPassword(BuildContext context) async {
+    if (editController.text.isEmpty || !editController.text.contains("@")) {
+      Fluttertoast.showToast(msg: "Enter valid email", backgroundColor: blue);
+      return;
+    }
+
+    await FirebaseAuth.instance
+        .sendPasswordResetEmail(email: editController.text);
+    Fluttertoast.showToast(
+      msg:
+      "Reset password link has sent your mail please use it to change the password.",
+      backgroundColor: blue,);
+    Navigator.pop(context);
   }
 }

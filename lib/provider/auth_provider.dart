@@ -11,7 +11,7 @@ class AuthProvider with ChangeNotifier {
   late User _user;
   late AuthStatus _authStatus;
   late String errorMessage;
-
+   var val;
    authProvider() {
     _auth = FirebaseAuth.instance;
     _auth.authStateChanges().listen(( user) {
@@ -28,9 +28,9 @@ class AuthProvider with ChangeNotifier {
 
   User get user => _user;
 
-  Future singup(String email, String password,String name) async {
+   singup(String email, String password,String name) async {
     try {
-      UserCredential userCredential = await _auth
+      UserCredential userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
           email: email, password: password);
 
@@ -41,6 +41,7 @@ class AuthProvider with ChangeNotifier {
           "username": name,
           "email": email,
           "userid": FirebaseAuth.instance.currentUser!.uid,
+          "var":val,
         });
       }
 
@@ -49,24 +50,13 @@ class AuthProvider with ChangeNotifier {
       print('=========================');
     }
   }
-  Future login (String email, String password) async {
+  login (String email, String password) async {
     try {
       UserCredential credential = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
       _authStatus = AuthStatus.authentecating;
       notifyListeners();
       return true;
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'invalid-email') {
-        errorMessage = "Your email is invalid";
-        print('Invalid email');
-      }
-      if (e.code == 'user-not-found') {
-        errorMessage = "User not found";
-        print('Hi, User not found');
-      } else if (e.code == 'wrong-password') {
-        errorMessage = "Your password is not correct";
-      }
     } catch (e) {
       print(e);
     }

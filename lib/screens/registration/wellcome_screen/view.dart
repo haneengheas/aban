@@ -1,4 +1,5 @@
 import 'package:aban/constant/style.dart';
+import 'package:aban/provider/auth_provider.dart';
 import 'package:aban/provider/model.dart';
 import 'package:aban/screens/profile/facultymember/create_profile/view.dart';
 import 'package:aban/screens/profile/graduatedmember/create_profile/view.dart';
@@ -65,7 +66,7 @@ class _WellcomeScreenState extends State<WellcomeScreen> {
                           size: 200,
                         ),
                       ),
-                      Consumer<MyModel>(builder: (context, object, child) {
+                      Consumer<AuthProvider>(builder: (context, object, child) {
                         return SubmitButton(
                             gradient: blueGradient,
                             text: ' أنشيء ملفك الشخصي     ',

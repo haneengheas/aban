@@ -74,7 +74,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 5),
               child: Row(
                 children: [
-                  Consumer<MyModel>(builder: (context, object, child) {
+                  Consumer<AuthProvider>(builder: (context, object, child) {
                     return Radio(
                         value: 1,
                         groupValue: object.val,
@@ -91,7 +91,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   // SizedBox(
                   //   width: sizeFromWidth(context, 8),
                   // ),
-                  Consumer<MyModel>(
+                  Consumer<AuthProvider>(
                     builder: (context, object, child) {
                       return Radio(
                           value: 2,

@@ -12,10 +12,10 @@ void main()async {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(
-          create: (context) => MyModel(),
-          // child:const MyApp(),
-        ),
+        // ChangeNotifierProvider(
+        //   create: (context) => MyModel(),
+        //   // child:const MyApp(),
+        // ),
         ChangeNotifierProvider(
           create: (context) => ProfileProvider(),
           // child:const MyApp(),
