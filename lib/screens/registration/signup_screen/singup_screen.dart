@@ -1,12 +1,17 @@
 // ignore_for_file: prefer_typing_uninitialized_variables
 
 import 'package:aban/constant/style.dart';
+import 'package:aban/provider/auth_provider.dart';
 import 'package:aban/provider/model.dart';
 import 'package:aban/screens/registration/wellcome_screen/view.dart';
 import 'package:aban/widgets/buttons/submit_button.dart';
 import 'package:aban/widgets/textField.dart';
+import 'package:aban/widgets/textfield_registation.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 // var val;
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -16,24 +21,74 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  late String name, email, password;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
+
+ void createuser() async {
+
+    try {
+      UserCredential userCredential = await _auth.createUserWithEmailAndPassword(email: email, password: password);
+
+      if (userCredential != null) {
+        // ignore: unnecessary_null_comparison
+        await FirebaseFirestore.instance.collection("user").add({
+          "username": name,
+          "email": email,
+          "userid": FirebaseAuth.instance.currentUser!.uid,
+        });
+      }
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => WellcomeScreen()));
+    } catch (e) {
+      print(e);
+      print('=========================');
+    }
+  }
+@override
+  void initState() {
+    // TODO: implement initState
+
+    super.initState();
+    createuser();
+
+  }
   @override
   Widget build(BuildContext context) {
+    // var provider = Provider.of<AuthProvider>(context);
     return Scaffold(
       backgroundColor: white,
       body: Directionality(
         textDirection: TextDirection.rtl,
         child: ListView(
           children: [
-            const  TextFieldItem(hintText: 'اسمك', labelText: "الاسم", scure: false),
-            const  TextFieldItem(
-                hintText: "Reasearsh@ksuedu.sa",
-                labelText: 'بريدك الجامعي',
-                scure: false),
-            const  TextFieldItem(
-                hintText: "*****", labelText: "كلمة المرور", scure: true),
-            const  TextFieldItem(
-                hintText: "*****", labelText: 'تأكيد كلمة المرور', scure: true),
+            TextFieldRegistation(
+              hintText: 'اسمك',
+              labelText: "الاسم",
+              scure: false,
+              onChanged: (val) {
+                name = val;
+              },
+            ),
+            TextFieldRegistation(
+              hintText: "Reasearsh@ksuedu.sa",
+              labelText: 'بريدك الجامعي',
+              scure: false,
+              onChanged: (val) {
+                email = val;
+              },
+            ),
+            TextFieldRegistation(
+              hintText: "*****",
+              labelText: "كلمة المرور",
+              scure: true,
+              onChanged: (val) {
+                password = val;
+              },
+            ),
+            // TextFieldItem(
+            //  hintText: "*****", labelText: 'تأكيد كلمة المرور', scure: true,
+            //    onChanged: (val){name=val;},),
             Padding(
               padding: const EdgeInsets.only(right: 30, top: 10),
               child: Text(
@@ -45,8 +100,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 5),
               child: Row(
                 children: [
-                  Consumer<MyModel>(builder: (context,object,child){
-                    return  Radio(
+                  Consumer<MyModel>(builder: (context, object, child) {
+                    return Radio(
                         value: 1,
                         groupValue: object.val,
                         onChanged: (value) {
@@ -62,17 +117,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   // SizedBox(
                   //   width: sizeFromWidth(context, 8),
                   // ),
-                  Consumer<MyModel>(builder: (context,object,child){
-                    return Radio(
-                        value: 2,
-                        groupValue: object.val,
-                        onChanged: (value) {
-                          setState(() {
-                            object. val = value;
+                  Consumer<MyModel>(
+                    builder: (context, object, child) {
+                      return Radio(
+                          value: 2,
+                          groupValue: object.val,
+                          onChanged: (value) {
+                            setState(() {
+                              object.val = value;
+                            });
                           });
-                        });
-                  },
-
+                    },
                   ),
                   Text(
                     'طالب دراسات عليا',
@@ -86,17 +141,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
               child: SubmitButton(
                   gradient: blueGradient,
                   text: 'متابعة',
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const WellcomeScreen()));
+                  onTap: ()  {
+              createuser();
                   }),
             ),
             const Center(
               child: Text(
                 'خطوة 1 من 2',
-                style:  TextStyle(
+                style: TextStyle(
                     fontSize: 18, color: blue, fontWeight: FontWeight.bold),
               ),
             )
