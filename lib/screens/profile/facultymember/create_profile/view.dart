@@ -1,4 +1,6 @@
-// ignore_for_file: prefer_typing_uninitialized_variables
+// ignore_for_file: prefer_typing_uninitialized_variables, avoid_print
+import 'dart:io';
+import 'dart:math';
 import 'package:aban/constant/alert_methods.dart';
 import 'package:aban/constant/style.dart';
 import 'package:aban/provider/profile_provider.dart';
@@ -6,9 +8,11 @@ import 'package:aban/screens/Home/navigation.dart';
 import 'package:aban/screens/Home/studentdrawer.dart';
 import 'package:aban/widgets/buttons/buttonsuser.dart';
 import 'package:aban/widgets/buttons/submit_button.dart';
-import 'package:aban/widgets/buttons/tetfielduser.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 
 class CreateMemberProfile extends StatefulWidget {
@@ -42,7 +46,6 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
     );
   }
 
-  var val;
 
   // late String name;
   // late String fuclty;
@@ -82,8 +85,8 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
               child: Row(
                 children: [
                   InkWell(
-                    onTap: (){
-
+                    onTap: () async {
+                      await showBottomSheet(context);
                     },
                     child: const Image(
                       image: AssetImage(
@@ -132,7 +135,7 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                       textDirection: TextDirection.rtl,
                       child: TextFormField(
                         onChanged: (value) {
-                          prov.fuclty = value;
+                          prov.faculty = value;
                         },
                         decoration: InputDecoration(
                           labelText: 'ادخل كليتك',
@@ -147,10 +150,25 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                 ),
                 SizedBox(
                   width: sizeFromWidth(context, 2),
-                  child: const TextFieldUser(
-                    hintText: "Reasearsh@ksuedu.sa",
-                    labelText: "البريد الجامعى",
-                    scure: true,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 35,
+                    ),
+                    child: Directionality(
+                      textDirection: TextDirection.rtl,
+                      child: TextFormField(
+                        onChanged: (value) {
+                          prov.email = value;
+                        },
+                        decoration: InputDecoration(
+                          hintText: "Reasearsh@ksuedu.sa",
+                          labelText: "البريد الجامعى",
+                          labelStyle: labelStyle,
+                          hintStyle: hintStyle,
+                          floatingLabelBehavior: FloatingLabelBehavior.always,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ],
@@ -159,10 +177,25 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
               children: [
                 SizedBox(
                   width: sizeFromWidth(context, 2),
-                  child: const TextFieldUser(
-                    hintText: "اختر درجتك",
-                    labelText: "الدرجة العلمية",
-                    scure: true,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 35,
+                    ),
+                    child: Directionality(
+                      textDirection: TextDirection.rtl,
+                      child: TextFormField(
+                        onChanged: (value) {
+                          prov.degree = value;
+                        },
+                        decoration: InputDecoration(
+                          hintText: "اختر درجتك",
+                          labelText: "الدرجة العلمية",
+                          labelStyle: labelStyle,
+                          hintStyle: hintStyle,
+                          floatingLabelBehavior: FloatingLabelBehavior.always,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
                 SizedBox(
@@ -179,8 +212,8 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                         },
                         decoration: InputDecoration(
                           labelText: 'رقم الهاتف',
-                          labelStyle: labelStyle,
                           hintText: 'الهاتف ',
+                          labelStyle: labelStyle,
                           hintStyle: hintStyle,
                           floatingLabelBehavior: FloatingLabelBehavior.always,
                         ),
@@ -194,18 +227,48 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
               children: [
                 SizedBox(
                   width: sizeFromWidth(context, 2),
-                  child: const TextFieldUser(
-                    hintText: "المعرف الخاص بك",
-                    labelText: "orcid iD",
-                    scure: true,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 35,
+                    ),
+                    child: Directionality(
+                      textDirection: TextDirection.rtl,
+                      child: TextFormField(
+                        onChanged: (value) {
+                          prov.id = value;
+                        },
+                        decoration: InputDecoration(
+                          hintText: "المعرف الخاص بك",
+                          labelText: "orcid iD",
+                          labelStyle: labelStyle,
+                          hintStyle: hintStyle,
+                          floatingLabelBehavior: FloatingLabelBehavior.always,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
                 SizedBox(
                   width: sizeFromWidth(context, 2),
-                  child: const TextFieldUser(
-                    hintText: "ادخل رابط GooGel School",
-                    labelText: " ابحاثى",
-                    scure: true,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 35,
+                    ),
+                    child: Directionality(
+                      textDirection: TextDirection.rtl,
+                      child: TextFormField(
+                        onChanged: (value) {
+                          prov.link = value;
+                        },
+                        decoration: InputDecoration(
+                          hintText: "ادخل رابط GooGel School",
+                          labelText: " ابحاثى",
+                          labelStyle: labelStyle,
+                          hintStyle: hintStyle,
+                          floatingLabelBehavior: FloatingLabelBehavior.always,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ],
@@ -225,10 +288,10 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                   children: [
                     Radio(
                         value: 1,
-                        groupValue: val,
+                        groupValue: prov.accept,
                         onChanged: (value) {
                           setState(() {
-                            val = value;
+                            prov.accept = value;
                           });
                         }),
                     Text('نعم', style: hintStyle3),
@@ -244,10 +307,10 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                   children: [
                     Radio(
                         value: 2,
-                        groupValue: val,
+                        groupValue: prov.accept,
                         onChanged: (value) {
                           setState(() {
-                            val = value;
+                            prov.accept = value;
                           });
                         }),
                     Text(
@@ -330,7 +393,19 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
             Center(
               child: SubmitButton(
                 onTap: () async {
-                  await prov.addData(prov.name, prov.fuclty, prov.phone);
+                  print (prov.accept);
+                  print('=====/==========================/==');
+                  // showLoading(context);
+                  await prov.addData(
+                      faculty: prov.faculty,
+                      degree: prov.degree,
+                      // file: prov.file,
+                      id: prov.id,
+                      // imageUrl: prov.imageurl,
+                      name: prov.name,
+                      phone: prov.phone,
+                      link: prov.link,);
+                      // ref: prov.ref);
                   print('==========================');
                   Navigator.pushReplacement(
                       context,
@@ -350,4 +425,85 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
       ),
     );
   }
+}
+
+showBottomSheet(context) {
+  return showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        var prov = Provider.of<ProfileProvider>(context);
+        return Container(
+          padding: const EdgeInsets.all(20),
+          height: 180,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                "Please Choose Image",
+                style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+              ),
+              InkWell(
+                onTap: () async {
+                  var picked = await ImagePicker()
+                      .pickImage(source: ImageSource.gallery);
+                  if (picked != null) {
+                    prov.file = File(picked.path);
+                    var rang = Random().nextInt(100000);
+                    var imagename = "$rang" + basename(picked.path);
+                    prov.ref =
+                        FirebaseStorage.instance.ref("images").child(imagename);
+                    Navigator.of(context).pop();
+                  }
+                },
+                child: Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(10),
+                    child: Row(
+                      children: const [
+                        Icon(
+                          Icons.photo_outlined,
+                          size: 30,
+                        ),
+                        SizedBox(width: 20),
+                        Text(
+                          "From Gallery",
+                          style: TextStyle(fontSize: 20),
+                        )
+                      ],
+                    )),
+              ),
+              InkWell(
+                onTap: () async {
+                  var picked =
+                      await ImagePicker().pickImage(source: ImageSource.camera);
+                  if (picked != null) {
+                    prov.file = File(picked.path);
+                    var rang = Random().nextInt(100000);
+                    var imagename = "$rang" + basename(picked.path);
+                    prov.ref =
+                        FirebaseStorage.instance.ref("images").child(imagename);
+                    Navigator.of(context).pop();
+                  }
+                },
+                child: Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(10),
+                    child: Row(
+                      children: const [
+                        Icon(
+                          Icons.camera,
+                          size: 30,
+                        ),
+                        SizedBox(width: 20),
+                        Text(
+                          "From Camera",
+                          style: TextStyle(fontSize: 20),
+                        )
+                      ],
+                    )),
+              ),
+            ],
+          ),
+        );
+      });
 }

@@ -27,10 +27,12 @@ void showDialogWarning(BuildContext context, {required String text}) {
               onTap: () {
                 Navigator.pop(context);
               }),
-          ButtonUser(text: 'نعم', color: redGradient, onTap: () {
-            Navigator.pop(context);
-
-          }),
+          ButtonUser(
+              text: 'نعم',
+              color: redGradient,
+              onTap: () {
+                Navigator.pop(context);
+              }),
         ],
       );
     },
@@ -49,30 +51,39 @@ void showDialogTheses(BuildContext context, {required String text}) {
         shape: const RoundedRectangleBorder(
             side: BorderSide(color: clearblue, width: 10),
             borderRadius: BorderRadius.all(Radius.circular(15))),
-        content:  SingleChildScrollView(
-          child :SizedBox(
+        content: SingleChildScrollView(
+          child: SizedBox(
             height: MediaQuery.of(context).size.height / 1.7,
             child: Column(
-              children: const [
+              children: [
                 TextFieldUser(
-                    hintText: 'اسم الاطروحة',
-                    labelText: "اسم الاطروحة",
-                    scure: false),
+                  hintText: 'اسم الاطروحة',
+                  labelText: "اسم الاطروحة",
+                  scure: false,
+                  onChanged: () {},
+                ),
                 TextFieldUser(
+                    onChanged: () {},
                     hintText: 'رابط الاطروحة',
                     labelText: 'رابط الاطروحة',
                     scure: false),
                 TextFieldUser(
-                    hintText: 'اسم المشرف', labelText: "المشرف", scure: false),
+                    onChanged: () {},
+                    hintText: 'اسم المشرف',
+                    labelText: "المشرف",
+                    scure: false),
                 TextFieldUser(
+                    onChanged: () {},
                     hintText: 'اسماء المشرفين المساعدين',
                     labelText: "المشرفون المساعدون",
                     scure: false),
                 TextFieldUser(
+                    onChanged: () {},
                     hintText: 'اختر الدرجة العمليه',
                     labelText: "الدرجة العلميه",
                     scure: false),
                 TextFieldUser(
+                    onChanged: () {},
                     hintText: 'اختر حالة الاطروحة',
                     labelText: "حالة الاطروحة",
                     scure: false),
@@ -87,10 +98,12 @@ void showDialogTheses(BuildContext context, {required String text}) {
               onTap: () {
                 Navigator.pop(context);
               }),
-          ButtonUser(text: 'أضافة', color: blueGradient, onTap: () {
-            Navigator.pop(context);
-
-          }),
+          ButtonUser(
+              text: 'أضافة',
+              color: blueGradient,
+              onTap: () {
+                Navigator.pop(context);
+              }),
         ],
       );
     },
@@ -113,18 +126,24 @@ void showDialogProject(BuildContext context, {required String text}) {
           child: SizedBox(
             height: MediaQuery.of(context).size.height / 2.5,
             child: Column(
-              children: const [
+              children:  [
                 TextFieldUser(
+                    onChanged: (){},
+
                     hintText: 'اسم المشروع',
                     labelText: "اسم المشروع",
                     scure: false),
                 TextFieldUser(
+                    onChanged: (){},
                     hintText: 'وصف المشروع',
                     labelText: "وصف المشروع",
                     scure: false),
                 TextFieldUser(
+                    onChanged: (){},
+
                     hintText: 'اسم القائد', labelText: "القائد", scure: false),
                 TextFieldUser(
+                    onChanged: (){},
                     hintText: 'اختر حالة المشروع',
                     labelText: "حالة المشروع",
                     scure: false),
@@ -139,10 +158,12 @@ void showDialogProject(BuildContext context, {required String text}) {
               onTap: () {
                 Navigator.pop(context);
               }),
-          ButtonUser(text: 'أضافة', color: blueGradient, onTap: () {
-            Navigator.pop(context);
-
-          }),
+          ButtonUser(
+              text: 'أضافة',
+              color: blueGradient,
+              onTap: () {
+                Navigator.pop(context);
+              }),
         ],
       );
     },
