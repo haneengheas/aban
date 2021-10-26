@@ -25,7 +25,6 @@ class AuthProvider with ChangeNotifier {
   }
 
   AuthStatus get authStatus => _authStatus;
-
   User get user => _user;
 
    singup(String email, String password,String name) async {

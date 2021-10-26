@@ -28,11 +28,11 @@ class CreateMemberProfile extends StatefulWidget {
 }
 
 class _CreateMemberProfileState extends State<CreateMemberProfile> {
-  var fields = <TextEditingController>[];
+  var fields =[];
   var cards = <Card>[];
-
+  var text;
+  var textController = TextEditingController();
   Card createCard() {
-    var textController = TextEditingController();
     fields.add(textController);
     return Card(
       child: Padding(
@@ -388,7 +388,7 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                 text: "اضافة مشروع",
                 color: blueGradient,
                 onTap: () {
-                  showDialogProject(context, text: 'إضافة مشروع');
+                  // showDialogProject(context, text: 'إضافة مشروع');
                 }),
             Center(
               child: SubmitButton(
@@ -401,11 +401,14 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                       degree: prov.degree,
                       // file: prov.file,
                       id: prov.id,
+                      accept: prov.accept,
+                      // fields: fields,
                       // imageUrl: prov.imageurl,
                       name: prov.name,
                       phone: prov.phone,
                       link: prov.link,);
                       // ref: prov.ref);
+
                   print('==========================');
                   Navigator.pushReplacement(
                       context,

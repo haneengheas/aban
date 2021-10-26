@@ -64,7 +64,7 @@ class ProjectItem extends StatelessWidget {
               width: 30,
               child: IconButton(
                 onPressed: () {
-                  showDialogProject(context,text: 'تعديل مشروع');
+                  // showDialogProject(context,text: 'تعديل مشروع');
                 },
                 icon: const Icon(Icons.edit),
                 color: blue,
@@ -83,7 +83,7 @@ class ProjectItem extends StatelessWidget {
           ],
         ),
         ButtonUser(text:"اضافة مشروع",color: blueGradient,onTap: (){
-          showDialogProject(context,text: 'إضافة مشروع');
+          // showDialogProject(context,text: 'إضافة مشروع');
 
         }),
       ],

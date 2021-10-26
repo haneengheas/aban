@@ -16,6 +16,19 @@ class ProfileProvider with ChangeNotifier {
   late String link;
    var accept;
   late String degree;
+  var fields = <TextEditingController>[];
+  late String nameTheses;
+  late String linkTheses;
+  late String assistantSupervisors;
+  late String nameSupervisors;
+  late String degreeTheses;
+  late String thesesStatus;
+
+
+
+
+
+
   // late String imageurl;
   addData({
     required String name,
@@ -25,6 +38,8 @@ class ProfileProvider with ChangeNotifier {
     required String id,
     required String degree,
     required String link,
+    required var accept,
+    // required var fields,
     // required File file,
     // required Reference ref,
   }) async {
@@ -39,6 +54,8 @@ class ProfileProvider with ChangeNotifier {
       'id': id,
       'degree': degree,
       'link': link,
+      'accept':accept,
+      // 'field':fields,
       // 'userId':FirebaseAuth.instance.currentUser!.uid,
     });
     notifyListeners();

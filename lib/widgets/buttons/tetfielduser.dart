@@ -6,7 +6,7 @@ class TextFieldUser extends StatefulWidget {
   final String hintText;
   final String labelText;
   final bool scure;
-  final Function onChanged;
+  final Function(String) onChanged;
   // ignore: use_key_in_widget_constructors
    const TextFieldUser({
     required this.hintText,
@@ -27,7 +27,7 @@ class _TextFieldUserState extends State<TextFieldUser> {
       child: Directionality(
         textDirection: TextDirection.rtl,
         child: TextFormField(
-          onChanged: widget.onChanged(),
+          onChanged: widget.onChanged,
           decoration: InputDecoration(
             // prefixIcon: Icon(Icons.star,size: 5,color: Colors.red,),
 

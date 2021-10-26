@@ -49,7 +49,7 @@ class _EditProfileState extends State<EditProfile> {
             child: Column(
              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const InformationItem(),
+                // const InformationItem(),
                 const ThesesMontorAccpetItem(),
             const Divider(
               height: 10,

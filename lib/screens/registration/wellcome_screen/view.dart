@@ -83,13 +83,13 @@ class _WellcomeScreenState extends State<WellcomeScreen> {
                                               value: 1,
                                             )));
                               } else if (provider.val== 2) {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const CreateGraduatedProfile(
-                                              value: 2,
-                                            )));
+                                // Navigator.push(
+                                //     context,
+                                //     MaterialPageRoute(
+                                //         builder: (context) =>
+                                //             const CreateGraduatedProfile(
+                                //               value: 2,
+                                //             )));
                               }
                             });
                       }),
