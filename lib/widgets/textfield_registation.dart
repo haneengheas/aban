@@ -29,7 +29,7 @@ class _TextFieldRegistationState extends State<TextFieldRegistation> {
       child: Directionality(
         textDirection: TextDirection.rtl,
         child: TextFormField(
-          onChanged:(value) =>
+          onChanged:
             widget.onChanged,
 
           decoration: InputDecoration(

@@ -1,5 +1,8 @@
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 enum AuthStatus { unAuthenticated, authentecating, authenticated }
 
@@ -25,7 +28,28 @@ class AuthProvider with ChangeNotifier {
 
   User get user => _user;
 
-  Future<bool>  (String email, String password) async {
+  Future singup(String email, String password,String name) async {
+    try {
+      UserCredential userCredential = await _auth
+          .createUserWithEmailAndPassword(
+          email: email, password: password);
+
+      if (userCredential != null) {
+        // ignore: unnecessary_null_comparison
+        await FirebaseFirestore.instance.collection("user")
+            .add({
+          "username": name,
+          "email": email,
+          "userid": FirebaseAuth.instance.currentUser!.uid,
+        });
+      }
+
+    } catch (e) {
+      print(e);
+      print('=========================');
+    }
+  }
+  Future login (String email, String password) async {
     try {
       UserCredential credential = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
@@ -47,6 +71,7 @@ class AuthProvider with ChangeNotifier {
       print(e);
     }
   }
+
 
   logout() async {
     await _auth.signOut();

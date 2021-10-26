@@ -25,37 +25,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
 
- void createuser() async {
 
-    try {
-      UserCredential userCredential = await _auth.createUserWithEmailAndPassword(email: email, password: password);
-
-      if (userCredential != null) {
-        // ignore: unnecessary_null_comparison
-        await FirebaseFirestore.instance.collection("user").add({
-          "username": name,
-          "email": email,
-          "userid": FirebaseAuth.instance.currentUser!.uid,
-        });
-      }
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => WellcomeScreen()));
-    } catch (e) {
-      print(e);
-      print('=========================');
-    }
-  }
-@override
-  void initState() {
-    // TODO: implement initState
-
-    super.initState();
-    createuser();
-
-  }
   @override
   Widget build(BuildContext context) {
-    // var provider = Provider.of<AuthProvider>(context);
+    var provider = Provider.of<AuthProvider>(context);
+
     return Scaffold(
       backgroundColor: white,
       body: Directionality(
@@ -142,7 +116,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   gradient: blueGradient,
                   text: 'متابعة',
                   onTap: ()  {
-              createuser();
+                    provider.singup(email, password, name);
+                    Navigator.push(
+                        context, MaterialPageRoute(
+                        builder: (context) => WellcomeScreen()));
+
+
+
                   }),
             ),
             const Center(
