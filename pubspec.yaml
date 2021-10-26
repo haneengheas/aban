@@ -35,6 +35,12 @@ dependencies:
   firebase_core:
   firebase_auth:
   cloud_firestore:
+  fluttertoast: ^8.0.8
+  awesome_dialog: ^2.1.1
+  image_picker:
+  path: ^1.8.0
+  firebase_storage:
+
 
 
 
