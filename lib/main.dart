@@ -1,3 +1,4 @@
+import 'package:aban/provider/auth_provider.dart';
 import 'package:aban/provider/model.dart';
 import 'package:aban/provider/profile_provider.dart';
 import 'package:aban/screens/splash_screen/view.dart';
@@ -17,6 +18,10 @@ void main()async {
         ),
         ChangeNotifierProvider(
           create: (context) => ProfileProvider(),
+          // child:const MyApp(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => AuthProvider(),
           // child:const MyApp(),
         ),
 
