@@ -10,7 +10,7 @@ class CollegeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var prov = Provider.of<MyModel>(context);
+    var prov = Provider.of<MyModel>(context, listen: false);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 40),
       child: Column(
@@ -33,20 +33,22 @@ class CollegeView extends StatelessWidget {
                   itemCount: prov.departments.length,
                   itemBuilder: (BuildContext context, int index) {
                     return InkWell(
-
                       onTap: () {
                         // prov.departments.map((key, value) => departments(key,value)).toList();
-                        prov.departments.forEach((key, value) {
-                          print(key.length);
-                          print(value[index]);
-                          print("=/=/=/=/");
-                        });
+                        // prov.departments.forEach((key, value) {
+                        //   print(key.length);
+                        //   print(value[index]);
+                        // });
+
+                        List<List<String>> department =
+                            prov.departments.values.toList();
+                        print(department[index]);
                         Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => ResershList(
-                                      title: colleges[index],
-                                    )));
+                                    title: colleges[index],
+                                    departments: department[index])));
                       },
                       child: Card(
                         color: lightgray,
@@ -71,7 +73,7 @@ class CollegeView extends StatelessWidget {
                                       height: 50,
                                     )),
                                 Text(
-                                  '${prov.departments.keys}',
+                                  '${prov.departments.keys.toList()[index]}',
                                   maxLines: 3,
                                   overflow: TextOverflow.fade,
                                   textAlign: TextAlign.center,
@@ -114,7 +116,6 @@ List colleges = [
   'كلية السياحة والاثار',
   'كلية الدراسات التطبيقة وخدمة المجتمع',
 ];
-
 
 List images = [
   'حاسبات',

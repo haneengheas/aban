@@ -35,9 +35,8 @@ class _LoginScreenState extends State<LoginScreen> {
   }
   @override
   void initState() {
-    // TODO: implement initState
     print('---------------------///-------------');
-    getUserStatus();
+    // getUserStatus();
     super.initState();
   }
   @override
@@ -86,11 +85,11 @@ class _LoginScreenState extends State<LoginScreen> {
             SubmitButton(
                 gradient: blueGradient,
                 text: 'تسجيل دخول',
-                onTap: () {
+                onTap: ()async {
                   try {
-                    var login = provider.login(email, password);
+                    var login = await provider.login(email, password);
                     if (login != null) {
-                     provider.getUserStatus();
+                     // provider.getUserStatus();
                      print('===================');
                       Navigator.push(
                           context,

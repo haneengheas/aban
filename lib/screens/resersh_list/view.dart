@@ -9,10 +9,12 @@ import 'package:provider/provider.dart';
 
 class ResershList extends StatelessWidget {
   final String title;
+  final List<String> departments;
 
 
   const ResershList({Key? key,
     required this.title,
+    required this.departments,
   }) : super(key: key);
 
 
@@ -24,7 +26,7 @@ class ResershList extends StatelessWidget {
 
     var prov = Provider.of<MyModel>(context);
     return DefaultTabController(
-      length: 4,
+      length: departments.length,
       child: Scaffold(
           backgroundColor: white,
           appBar: AppBar(
@@ -75,34 +77,16 @@ class ResershList extends StatelessWidget {
                                         fontSize: 12,
                                         fontWeight: FontWeight.bold),
                                   ),
-                                  isScrollable: false,
-                                  tabs: const <Widget>[
-                                    Tab(
-                                      text: 'هندسة \nالبرمجيات',
-                                    ),
-                                    Tab(
-                                      text: 'نظم \n المعلومات',
-                                    ),
-                                    Tab(
-                                      text: 'تقنية \n المعلومات',
-                                    ),
-                                    Tab(
-                                      text: 'علوم \n الحاسب',
-                                    ),
-                                  ],
+                                  isScrollable: true,
+                                  tabs: this.departments.map((e) => Tab(
+                                    text: e,
+                                  ),).toList(),
                                 )),
                               ),
-                              const  Expanded(
+                              Expanded(
                                 child: SizedBox(
                                   child: TabBarView(
-                                    children: [
-                                      SearchItem(),
-                                      SearchItem(),
-                                      SearchItem(),
-                                      SearchItem(),
-
-                                      // Text('data'),
-                                    ],
+                                    children: this.departments.map((e) => SearchItem(),).toList(),
                                   ),
                                 ),
                               ),

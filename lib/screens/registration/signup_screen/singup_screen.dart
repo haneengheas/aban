@@ -1,5 +1,3 @@
-
-
 import 'package:aban/constant/style.dart';
 import 'package:aban/provider/auth_provider.dart';
 import 'package:aban/provider/model.dart';
@@ -8,7 +6,6 @@ import 'package:aban/widgets/buttons/submit_button.dart';
 
 import 'package:aban/widgets/textfield_registation.dart';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -22,7 +19,6 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   late String name, email, password;
-  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +71,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 children: [
                   Consumer<AuthProvider>(builder: (context, object, child) {
                     return Radio(
-
                         value: 1,
                         groupValue: object.val,
                         onChanged: (value) {
@@ -99,6 +94,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           value: 2,
                           groupValue: object.val,
                           onChanged: (value) {
+                            print(value);
                             setState(() {
                               object.val = value;
                             });
@@ -118,12 +114,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   gradient: blueGradient,
                   text: 'متابعة',
                   onTap: () {
-                    provider.singup(email, password, name);
+                    String userType =
+                        Provider.of<AuthProvider>(context,listen: false).val == 1
+                            ? 'member'
+                            : 'student';
+                    provider.singup(email, password, name, userType);
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => WellcomeScreen()));
-
                   }),
             ),
             const Center(

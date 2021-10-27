@@ -30,17 +30,21 @@ class AuthProvider with ChangeNotifier {
 
   User get user => _user;
 
-  singup(String email, String password, String name) async {
+  singup(String email, String password, String name, String userType) async {
     try {
       UserCredential userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
 
       if (userCredential != null) {
         // ignore: unnecessary_null_comparison
-        await FirebaseFirestore.instance.collection("user").add({
+        await FirebaseFirestore.instance
+            .collection("user")
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .set({
           "username": name,
           "email": email,
           "userid": FirebaseAuth.instance.currentUser!.uid,
+          "userType": userType,
           "var": val,
         });
       }
@@ -51,10 +55,21 @@ class AuthProvider with ChangeNotifier {
   }
 
   login(String email, String password) async {
+    authProvider();
     try {
       UserCredential credential = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
       _authStatus = AuthStatus.authentecating;
+
+      DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
+          .collection("user")
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .get();
+
+      print('userType is ${documentSnapshot.get('userType')}');
+
+      val = documentSnapshot.get('userType') == 'student' ? 1 : 0;
+
       notifyListeners();
       return true;
     } catch (e) {
@@ -65,9 +80,9 @@ class AuthProvider with ChangeNotifier {
   getUserStatus() async {
     await FirebaseFirestore.instance
         .collection('users')
-    //get all docs and make for loop in it and get what i need ==> userid == my unique id
+        //get all docs and make for loop in it and get what i need ==> userid == my unique id
         .where('userid', isEqualTo: (FirebaseAuth.instance.currentUser!).uid)
-    // get it
+        // get it
         .get()
         .then((value) {
       //this return a list of query snapshot , but it include a one item - because the firebase uid is unique for each user -
