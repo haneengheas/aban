@@ -1,9 +1,11 @@
 import 'package:aban/constant/style.dart';
+import 'package:aban/provider/model.dart';
 import 'package:aban/screens/resersh_list/search_item.dart';
 import 'package:aban/widgets/search_textfield.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class ResershList extends StatelessWidget {
   final String title;
@@ -13,8 +15,14 @@ class ResershList extends StatelessWidget {
     required this.title,
   }) : super(key: key);
 
+
   @override
   Widget build(BuildContext context) {
+
+
+
+
+    var prov = Provider.of<MyModel>(context);
     return DefaultTabController(
       length: 4,
       child: Scaffold(

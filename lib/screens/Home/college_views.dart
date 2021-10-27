@@ -1,32 +1,53 @@
 import 'package:aban/constant/style.dart';
+import 'package:aban/provider/model.dart';
 import 'package:aban/screens/resersh_list/view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 class CollegeView extends StatelessWidget {
   const CollegeView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var prov = Provider.of<MyModel>(context);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 40),
       child: Column(
         children: [
           Padding(
             padding: const EdgeInsets.only(top: 10),
-            child: Text('الكليات',style: bluebold,),
+            child: Text(
+              'الكليات',
+              style: bluebold,
+            ),
           ),
           Expanded(
-            child: Directionality(textDirection: TextDirection.rtl,
+            child: Directionality(
+              textDirection: TextDirection.rtl,
               child: GridView.builder(
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     //childAspectRatio: 1,
                   ),
-                  itemCount: colleges.length,
+                  itemCount: prov.departments.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return InkWell(onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>ResershList(title: colleges[index],)));
-                    },
+                    return InkWell(
+
+                      onTap: () {
+                        // prov.departments.map((key, value) => departments(key,value)).toList();
+                        prov.departments.forEach((key, value) {
+                          print(key.length);
+                          print(value[index]);
+                          print("=/=/=/=/");
+                        });
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ResershList(
+                                      title: colleges[index],
+                                    )));
+                      },
                       child: Card(
                         color: lightgray,
                         shape: RoundedRectangleBorder(
@@ -40,14 +61,22 @@ class CollegeView extends StatelessWidget {
                               //crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
-                                IconButton(onPressed:null , icon: Image(image: AssetImage('assets/${images[index]}.png',),color: blue,height: 50,)),
+                                IconButton(
+                                    onPressed: null,
+                                    icon: Image(
+                                      image: AssetImage(
+                                        'assets/${images[index]}.png',
+                                      ),
+                                      color: blue,
+                                      height: 50,
+                                    )),
                                 Text(
-                                  '${colleges[index]}',
+                                  '${prov.departments.keys}',
                                   maxLines: 3,
                                   overflow: TextOverflow.fade,
                                   textAlign: TextAlign.center,
                                   //overflow: TextOverflow.fade,
-                              // textWidthBasis: TextWidthBasis.parent,
+                                  // textWidthBasis: TextWidthBasis.parent,
                                   style: hintStyle4,
                                 ),
                               ],
@@ -85,24 +114,25 @@ List colleges = [
   'كلية السياحة والاثار',
   'كلية الدراسات التطبيقة وخدمة المجتمع',
 ];
-List images = [
- 'حاسبات',
- 'علوم',
- 'علوم رياضة',
- 'هندسة',
- 'علوم اغذية',
- 'عمارة',
- 'ادارة اعمال',
- 'تمريض',
- 'طب',
- 'طب اسنان',
- 'صيدلة',
- 'علوم طبية',
- 'حقوق',
- 'اداب',
- 'تربية',
- 'لغات',
- 'سياحة',
- 'دراسات',
-];
 
+
+List images = [
+  'حاسبات',
+  'علوم',
+  'علوم رياضة',
+  'هندسة',
+  'علوم اغذية',
+  'عمارة',
+  'ادارة اعمال',
+  'تمريض',
+  'طب',
+  'طب اسنان',
+  'صيدلة',
+  'علوم طبية',
+  'حقوق',
+  'اداب',
+  'تربية',
+  'لغات',
+  'سياحة',
+  'دراسات',
+];

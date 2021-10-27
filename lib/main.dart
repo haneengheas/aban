@@ -1,6 +1,7 @@
 import 'package:aban/provider/auth_provider.dart';
 import 'package:aban/provider/model.dart';
 import 'package:aban/provider/profile_provider.dart';
+
 import 'package:aban/screens/splash_screen/view.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -12,10 +13,10 @@ void main()async {
   runApp(
     MultiProvider(
       providers: [
-        // ChangeNotifierProvider(
-        //   create: (context) => MyModel(),
-        //   // child:const MyApp(),
-        // ),
+        ChangeNotifierProvider(
+          create: (context) => MyModel(),
+          // child:const MyApp(),
+        ),
         ChangeNotifierProvider(
           create: (context) => ProfileProvider(),
           // child:const MyApp(),

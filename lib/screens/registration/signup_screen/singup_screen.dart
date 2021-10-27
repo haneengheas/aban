@@ -1,13 +1,13 @@
-// ignore_for_file: prefer_typing_uninitialized_variables
+
 
 import 'package:aban/constant/style.dart';
 import 'package:aban/provider/auth_provider.dart';
 import 'package:aban/provider/model.dart';
 import 'package:aban/screens/registration/wellcome_screen/view.dart';
 import 'package:aban/widgets/buttons/submit_button.dart';
-import 'package:aban/widgets/textField.dart';
+
 import 'package:aban/widgets/textfield_registation.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -24,11 +24,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
   late String name, email, password;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-
-
   @override
   Widget build(BuildContext context) {
     var provider = Provider.of<AuthProvider>(context);
+    var prov = Provider.of<MyModel>(context);
 
     return Scaffold(
       backgroundColor: white,
@@ -76,11 +75,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 children: [
                   Consumer<AuthProvider>(builder: (context, object, child) {
                     return Radio(
+
                         value: 1,
                         groupValue: object.val,
                         onChanged: (value) {
                           setState(() {
                             object.val = value;
+                            print("============////////=========");
+                            print(prov.departments);
                           });
                         });
                   }),
@@ -115,13 +117,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
               child: SubmitButton(
                   gradient: blueGradient,
                   text: 'متابعة',
-                  onTap: ()  {
+                  onTap: () {
                     provider.singup(email, password, name);
                     Navigator.push(
-                        context, MaterialPageRoute(
-                        builder: (context) => WellcomeScreen()));
-
-
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => WellcomeScreen()));
 
                   }),
             ),
