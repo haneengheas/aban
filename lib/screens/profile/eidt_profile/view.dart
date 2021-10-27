@@ -1,8 +1,6 @@
 // ignore_for_file: prefer_typing_uninitialized_variables
-
 import 'package:aban/constant/alert_methods.dart';
 import 'package:aban/constant/style.dart';
-import 'package:aban/screens/profile/eidt_profile/information_items.dart';
 import 'package:aban/screens/profile/eidt_profile/list_project_item.dart';
 import 'package:aban/screens/profile/eidt_profile/project_item.dart';
 import 'package:aban/screens/profile/eidt_profile/theses_montor_accpet_item.dart';
@@ -19,7 +17,6 @@ class EditProfile extends StatefulWidget {
 }
 
 class _EditProfileState extends State<EditProfile> {
-
   var val;
 
   @override
@@ -39,7 +36,7 @@ class _EditProfileState extends State<EditProfile> {
           onPressed: () {
             Navigator.pop(context);
           },
-          icon:const Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           color: blue,
         ),
       ),
@@ -47,28 +44,28 @@ class _EditProfileState extends State<EditProfile> {
         textDirection: TextDirection.rtl,
         child: SingleChildScrollView(
             child: Column(
-             crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // const InformationItem(),
-                const ThesesMontorAccpetItem(),
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // const InformationItem(),
+            const ThesesMontorAccpetItem(),
             const Divider(
               height: 10,
               thickness: 1,
               color: lightGray,
             ),
-                const ListProjectItem(),
-             const  Divider(
+            const ListProjectItem(),
+            const Divider(
               height: 10,
               thickness: 1,
               color: lightGray,
             ),
-                const  ThesesGraduatedMontorItem(),
-                const Divider(
+            const ThesesGraduatedMontorItem(),
+            const Divider(
               height: 20,
               thickness: 1,
               color: lightGray,
             ),
-                const ProjectItem(),
+            const ProjectItem(),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30),
               child: Row(

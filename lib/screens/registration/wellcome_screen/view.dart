@@ -80,7 +80,6 @@ class _WellcomeScreenState extends State<WellcomeScreen> {
                                     MaterialPageRoute(
                                         builder: (context) =>
                                             const CreateMemberProfile(
-                                              value: 1,
                                             )));
                               } else if (provider.val== 2) {
                                 // Navigator.push(

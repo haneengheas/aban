@@ -8,6 +8,7 @@ import 'package:aban/screens/Home/navigation.dart';
 import 'package:aban/screens/Home/studentdrawer.dart';
 import 'package:aban/widgets/buttons/buttonsuser.dart';
 import 'package:aban/widgets/buttons/submit_button.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -16,11 +17,9 @@ import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 
 class CreateMemberProfile extends StatefulWidget {
-  final int value;
 
   const CreateMemberProfile({
     Key? key,
-    required this.value,
   }) : super(key: key);
 
   @override
@@ -28,6 +27,19 @@ class CreateMemberProfile extends StatefulWidget {
 }
 
 class _CreateMemberProfileState extends State<CreateMemberProfile> {
+  
+  getusers()async{
+    var x= await FirebaseFirestore.instance.collection('member').doc().get();
+   print(x);
+  }
+  @override
+  void initState(){
+    print('----------------------------------------------------');
+    getusers();
+    print('----------------------------------------------------');
+
+    super.initState();
+  }
   var fields =[];
   var cards = <Card>[];
   var text;
@@ -393,7 +405,10 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
             Center(
               child: SubmitButton(
                 onTap: () async {
-                  print (prov.accept);
+                  fields.forEach((element) {
+                    print(element.toString());
+                  });
+                  // print (prov.accept);
                   print('=====/==========================/==');
                   // showLoading(context);
                   await prov.addData(

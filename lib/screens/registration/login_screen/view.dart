@@ -7,6 +7,8 @@ import 'package:aban/screens/registration/edit_password/view.dart';
 import 'package:aban/widgets/buttons/submit_button.dart';
 import 'package:aban/widgets/textField.dart';
 import 'package:aban/widgets/textfield_registation.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -19,8 +21,27 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   late String email, password;
-
+  getUserStatus() async {
+    await FirebaseFirestore.instance
+        .collection('users')
+    //get all docs and make for loop in it and get what i need ==> userid == my unique id
+        .where('userid', isEqualTo: (FirebaseAuth.instance.currentUser!).uid)
+    // get it
+        .get()
+        .then((value) {
+      //this return a list of query snapshot , but it include a one item - because the firebase uid is unique for each user -
+      print(value.docs[0]['var']);
+    });
+  }
   @override
+  void initState() {
+    // TODO: implement initState
+    print('---------------------///-------------');
+    getUserStatus();
+    super.initState();
+  }
+  @override
+
   Widget build(BuildContext context) {
     var provider = Provider.of<AuthProvider>(context);
 
@@ -69,6 +90,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   try {
                     var login = provider.login(email, password);
                     if (login != null) {
+                     provider.getUserStatus();
+                     print('===================');
                       Navigator.push(
                           context,
                           MaterialPageRoute(
