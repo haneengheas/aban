@@ -78,7 +78,7 @@ class ResershList extends StatelessWidget {
                                         fontWeight: FontWeight.bold),
                                   ),
                                   isScrollable: true,
-                                  tabs: this.departments.map((e) => Tab(
+                                  tabs: departments.map((e) => Tab(
                                     text: e,
                                   ),).toList(),
                                 )),
@@ -86,7 +86,7 @@ class ResershList extends StatelessWidget {
                               Expanded(
                                 child: SizedBox(
                                   child: TabBarView(
-                                    children: this.departments.map((e) => SearchItem(),).toList(),
+                                    children: departments.map((e) => const SearchItem(),).toList(),
                                   ),
                                 ),
                               ),

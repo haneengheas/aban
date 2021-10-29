@@ -129,7 +129,7 @@ class _ProfileInformationState extends State<ProfileInformation> {
                     onChanged: (value) {
                       prov.phone = value;
                     },
-                    validator: (String value) {
+                    validator: (value) {
                       if (value.isEmpty) {
                         return 'برجاءادخال رقم الهاتف ';
                       }

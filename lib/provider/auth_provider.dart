@@ -13,6 +13,7 @@ class AuthProvider with ChangeNotifier {
   late AuthStatus _authStatus;
   late String errorMessage;
   var usertype;
+  var userName;
 
 
   authProvider() {
@@ -68,8 +69,13 @@ class AuthProvider with ChangeNotifier {
           .get();
 
       debugPrint('userType is ${documentSnapshot.get('userType')}');
+      debugPrint('userName is ${documentSnapshot.get('username')}');
+
 
       usertype = documentSnapshot.get('userType') == 'student' ? 1 : 0;
+      userName = documentSnapshot.get('username') ;
+      print(userName);
+
       notifyListeners();
       return true;
     } catch (e) {

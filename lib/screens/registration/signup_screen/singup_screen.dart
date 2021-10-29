@@ -46,7 +46,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         validator: (value) {
                           if (value!.isEmpty) {
                             return 'برجاءادخال الاسم';
-                          } else if (value.length < 4) {
+                          } else if (value.length < 2) {
                             return 'برجاء كتابه الاسم بشكل صحيح';
                           }
                         }),

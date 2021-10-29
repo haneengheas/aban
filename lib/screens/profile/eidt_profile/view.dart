@@ -6,8 +6,6 @@ import 'package:aban/screens/profile/eidt_profile/project_item.dart';
 import 'package:aban/screens/profile/eidt_profile/theses_montor_accpet_item.dart';
 import 'package:aban/screens/profile/eidt_profile/theses_montor_item.dart';
 import 'package:aban/widgets/buttons/buttonsuser.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -66,7 +64,7 @@ void initState(){
             child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-             // const InformationItem(),
+             const InformationItem(),
             const ThesesMontorAccpetItem(),
             const Divider(
               height: 10,

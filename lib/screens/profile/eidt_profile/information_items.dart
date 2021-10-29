@@ -1,7 +1,7 @@
 import 'package:aban/constant/style.dart';
 import 'package:aban/provider/auth_provider.dart';
 import 'package:aban/provider/profile_provider.dart';
-import 'package:aban/widgets/eidt_text_field.dart';
+import 'package:aban/widgets/buttons/tetfielduser.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -63,15 +63,18 @@ class _InformationItemState extends State<InformationItem> {
             ),
             SizedBox(
               width: sizeFromWidth(context, 1.5),
-              child: EidtTextFieldUser(
+              child: TextFieldUser(
                 onChanged: (val) {
                   prov.name = val;
                 },
                 labelText: "اسم الباحث",
                 hintText: "أسمك",
                 scure: true,
-                validator: (String) {},
-                initialValue: name,
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'برجاءادخال اسماء المشرفين المساعدين ';
+                  }
+                }, // initialValue: name,
               ),
             ),
           ],
@@ -82,28 +85,36 @@ class _InformationItemState extends State<InformationItem> {
         children: [
           SizedBox(
             width: sizeFromWidth(context, 2),
-            child: EidtTextFieldUser(
+            child: TextFieldUser(
               onChanged: (val) {
                 prov.faculty = val;
               },
-              validator: (String) {},
+              validator: (value) {
+                if (value.isEmpty) {
+                  return 'برجاءادخال اسماء المشرفين المساعدين ';
+                }
+              },
               hintText: "الكلية/التخصص",
               labelText: "الكلية/التخصص",
               scure: true,
-              initialValue: faculty,
+              // initialValue: faculty,
             ),
           ),
           SizedBox(
             width: sizeFromWidth(context, 2),
-            child: EidtTextFieldUser(
+            child: TextFieldUser(
               onChanged: (val) {
                 prov.email = val;
               },
-              validator: (String) {},
+              validator: (value) {
+                if (value.isEmpty) {
+                  return 'برجاءادخال اسماء المشرفين المساعدين ';
+                }
+              },
               hintText: "Reasearsh@ksuedu.sa",
               labelText: "البريد الجامعى",
               scure: true,
-              initialValue: emailuser,
+              // initialValue: emailuser,
             ),
           ),
         ],
@@ -112,28 +123,36 @@ class _InformationItemState extends State<InformationItem> {
         children: [
           SizedBox(
             width: sizeFromWidth(context, 2),
-            child: EidtTextFieldUser(
+            child: TextFieldUser(
               onChanged: (val) {
                 prov.email = val;
               },
-              validator: (String) {},
+              validator: (value) {
+                if (value.isEmpty) {
+                  return 'برجاءادخال اسماء المشرفين المساعدين ';
+                }
+              },
               hintText: "اختر درجتك",
               labelText: "الدرجة العلمية",
               scure: true,
-              initialValue: degree,
+              // initialValue: degree,
             ),
           ),
           SizedBox(
             width: sizeFromWidth(context, 2),
-            child: EidtTextFieldUser(
+            child: TextFieldUser(
               onChanged: (val) {
                 prov.phone = val;
               },
-              validator: (String) {},
+              validator: (value) {
+                if (value.isEmpty) {
+                  return 'برجاءادخال اسماء المشرفين المساعدين ';
+                }
+              },
               hintText: "+96655...",
               labelText: "رقم الهاتف",
               scure: true,
-              initialValue: phone,
+              // initialValue: phone,
             ),
           ),
         ],
@@ -142,28 +161,36 @@ class _InformationItemState extends State<InformationItem> {
         children: [
           SizedBox(
             width: sizeFromWidth(context, 2),
-            child: EidtTextFieldUser(
+            child: TextFieldUser(
               onChanged: (val) {
                 prov.id = val;
               },
-              validator: (String) {},
+              validator: (value) {
+                if (value.isEmpty) {
+                  return 'برجاءادخال اسماء المشرفين المساعدين ';
+                }
+              },
               hintText: "المعرف الخاص بك",
               labelText: "orcid iD",
               scure: true,
-              initialValue: id,
+              // initialValue: id,
             ),
           ),
           SizedBox(
             width: sizeFromWidth(context, 2),
-            child: EidtTextFieldUser(
+            child: TextFieldUser(
               onChanged: (val) {
                 prov.link = val;
               },
-              validator: (String) {},
+              validator: (value) {
+                if (value.isEmpty) {
+                  return 'برجاءادخال اسماء المشرفين المساعدين ';
+                }
+              },
               hintText: "ادخل رابط GooGel School",
               labelText: " ابحاثى",
               scure: true,
-              initialValue: link,
+              // initialValue: link,
             ),
           ),
         ],

@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
+
 import 'dart:io';
 import 'package:aban/constant/loading_methods.dart';
 import 'package:aban/screens/Home/navigation.dart';
@@ -9,7 +11,6 @@ import 'package:flutter/material.dart';
 class ProfileProvider with ChangeNotifier {
   final GlobalKey<FormState> formKeyTheses = GlobalKey<FormState>();
   final GlobalKey<FormState> formKeyProject = GlobalKey<FormState>();
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   late String name;
   late String faculty;
   late String phone;
@@ -151,19 +152,20 @@ class ProfileProvider with ChangeNotifier {
 
     await ref.putFile(file);
     var imageUrl = await ref.getDownloadURL();
-    await FirebaseFirestore.instance
-        .collection('graduated')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .set({
-      'faculty': faculty,
-      'phone': phone,
-      'name': name,
-      'imageUrl': imageUrl,
-      'id': id,
-      'degree': degree,
-      'link': link,
-      'accept': accept,
-      'userId': FirebaseAuth.instance.currentUser!.uid,
+      await FirebaseFirestore.instance
+          .collection('graduated')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .set({
+        'faculty': faculty,
+        'phone': phone,
+        'name': name,
+        'imageUrl': imageUrl,
+        'id': id,
+        'degree': degree,
+        'link': link,
+        'accept': accept,
+        'userId': FirebaseAuth.instance.currentUser!.uid,
+
     });
     notifyListeners();
   }
