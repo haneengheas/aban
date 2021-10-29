@@ -1,5 +1,7 @@
 import 'dart:io';
 import 'package:aban/constant/loading_methods.dart';
+import 'package:aban/screens/Home/navigation.dart';
+import 'package:aban/screens/Home/studentdrawer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -52,6 +54,7 @@ class ProfileProvider with ChangeNotifier {
 
     await ref.putFile(file);
     var imageUrl = await ref.getDownloadURL();
+    showLoading(context);
     await FirebaseFirestore.instance
         .collection('member')
         .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -66,6 +69,14 @@ class ProfileProvider with ChangeNotifier {
       'accept': accept,
       'userId': FirebaseAuth.instance.currentUser!.uid,
     });
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (context) => NavigationFile(
+              d: studentDrawer(context),
+              title: 'مرحبا"اسم الباحث"',
+              counter: 1,
+            )));
     notifyListeners();
   }
 // methods to add theses for member in fire base
@@ -202,6 +213,24 @@ class ProfileProvider with ChangeNotifier {
       'projectStatus': projectStatus,
     });
     Navigator.pop(context);
+    notifyListeners();
+  }
+
+  getData()async{
+    DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
+        .collection("member")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get();
+     debugPrint('userType is ${documentSnapshot.get('name')}');
+    name = documentSnapshot.get('name') ;
+    faculty =documentSnapshot.get('faculty');
+    email =documentSnapshot.get('email');
+    link =documentSnapshot.get('link');
+    phone =documentSnapshot.get('phone');
+    degree =documentSnapshot.get('degree');
+    id =documentSnapshot.get('id');
+
+
     notifyListeners();
   }
 

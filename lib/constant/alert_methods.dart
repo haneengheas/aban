@@ -66,7 +66,8 @@ void showDialogTheses(BuildContext context, {required String text}) {
               key: prov.formKeyTheses,
               child: Column(
                 children: [
-                  TextFieldUser(
+                 TextFieldUser(
+
                     hintText: 'اسم الاطروحة',
                     labelText: "اسم الاطروحة",
                     scure: false,
@@ -209,7 +210,7 @@ void showDialogTheses(BuildContext context, {required String text}) {
               text: 'أضافة',
               color: blueGradient,
               onTap: () async {
-                debugPrint(auth.usertype);
+                print(auth.usertype);
                 if (auth.usertype == 1) {
                   print(auth.usertype);
                   await prov.addThesesMember(
@@ -220,6 +221,7 @@ void showDialogTheses(BuildContext context, {required String text}) {
                       nameSupervisors: prov.nameSupervisors,
                       degreeTheses: prov.degreeTheses,
                       thesesStatus: prov.thesesStatus);
+                  Navigator.pop(context);
                 }
                 else {
                   await prov.addGraduatedTheses(context: context,
@@ -229,6 +231,8 @@ void showDialogTheses(BuildContext context, {required String text}) {
                       nameSupervisors: prov.nameSupervisors,
                       degreeTheses: prov.degreeTheses,
                       thesesStatus: prov.thesesStatus);
+                  Navigator.pop(context);
+
                 }
               }),
         ],
@@ -374,13 +378,15 @@ void showDialogProject(BuildContext context, {required String text}) {
                       descriptionProject:  prov.descriptionProject,
                       leaderName:  prov.leaderName,
                       projectStatus:  prov.projectStatus);
+                  Navigator.pop(context);
                 }
-                else if (auth.usertype) {
+                else if (auth.usertype==2) {
                   await prov.addGraduatedProject(context: context,
                       projectName:  prov.projectName,
                       descriptionProject:  prov.descriptionProject,
                       leaderName: prov.leaderName,
                       projectStatus: prov.projectStatus);
+                  Navigator.pop(context);
                 }
               }),
         ],

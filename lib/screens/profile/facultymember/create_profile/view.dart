@@ -169,14 +169,14 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                       phone: prov.phone,
                       link: prov.link,
                     );
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => NavigationFile(
-                                  d: studentDrawer(context),
-                                  title: 'مرحبا"اسم الباحث"',
-                                  counter: 1,
-                                )));
+                    // Navigator.pushReplacement(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //         builder: (context) => NavigationFile(
+                    //               d: studentDrawer(context),
+                    //               title: 'مرحبا"اسم الباحث"',
+                    //               counter: 1,
+                    //             )));
                   },
                   text: "حفظ",
                   gradient: blueGradient,

@@ -6,8 +6,12 @@ import 'package:aban/screens/profile/eidt_profile/project_item.dart';
 import 'package:aban/screens/profile/eidt_profile/theses_montor_accpet_item.dart';
 import 'package:aban/screens/profile/eidt_profile/theses_montor_item.dart';
 import 'package:aban/widgets/buttons/buttonsuser.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import 'information_items.dart';
 
 class EditProfile extends StatefulWidget {
   const EditProfile({Key? key}) : super(key: key);
@@ -18,7 +22,23 @@ class EditProfile extends StatefulWidget {
 
 class _EditProfileState extends State<EditProfile> {
   var val;
+  // getData()async{
+  //   DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
+  //       .collection("member")
+  //       .doc(FirebaseAuth.instance.currentUser!.uid)
+  //       .get();
+  //
+  //   debugPrint('userType is ${documentSnapshot.get('name')}');
+  //
+  //   var usertype = documentSnapshot.get('name') ;
+  //
+  // }
 
+  @override
+void initState(){
+    // getData();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,7 +66,7 @@ class _EditProfileState extends State<EditProfile> {
             child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // const InformationItem(),
+             // const InformationItem(),
             const ThesesMontorAccpetItem(),
             const Divider(
               height: 10,

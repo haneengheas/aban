@@ -14,6 +14,7 @@ class AuthProvider with ChangeNotifier {
   late String errorMessage;
   var usertype;
 
+
   authProvider() {
     _auth = FirebaseAuth.instance;
     _auth.authStateChanges().listen((user) {
@@ -69,7 +70,6 @@ class AuthProvider with ChangeNotifier {
       debugPrint('userType is ${documentSnapshot.get('userType')}');
 
       usertype = documentSnapshot.get('userType') == 'student' ? 1 : 0;
-
       notifyListeners();
       return true;
     } catch (e) {
@@ -95,4 +95,6 @@ class AuthProvider with ChangeNotifier {
     _authStatus = AuthStatus.unAuthenticated;
     notifyListeners();
   }
+
 }
+

@@ -14,6 +14,7 @@ class _AcceptSupervisionState extends State<AcceptSupervision> {
   Widget build(BuildContext context) {
     var prov = Provider.of<ProfileProvider>(context);
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
           padding: const EdgeInsets.only(right: 20, top: 20),
