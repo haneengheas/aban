@@ -10,12 +10,14 @@ class TextFieldRegistation extends StatefulWidget {
   final String labelText;
   final bool scure;
   final Function(String) onChanged;
+  final FormFieldValidator validator;
 
   const TextFieldRegistation({
     required this.hintText,
     required this.labelText,
     required this.scure,
-    required this.onChanged
+    required this.onChanged,
+    required this.validator,
   });
 
   @override
@@ -44,6 +46,7 @@ class _TextFieldRegistationState extends State<TextFieldRegistation> {
             hintStyle: hintStyle,
             floatingLabelBehavior: FloatingLabelBehavior.always,
           ),
+            validator:  widget.validator,
         ),
       ),
     );
