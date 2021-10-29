@@ -1,7 +1,6 @@
 import 'package:aban/constant/style.dart';
 import 'package:aban/screens/registration/regist_screen/view.dart';
 import 'package:aban/widgets/buttons/submit_button.dart';
-import 'package:aban/widgets/textField.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

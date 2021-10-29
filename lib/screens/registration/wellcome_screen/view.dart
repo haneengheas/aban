@@ -73,22 +73,21 @@ class _WellcomeScreenState extends State<WellcomeScreen> {
                             gradient: blueGradient,
                             text: ' أنشيء ملفك الشخصي     ',
                             onTap: () {
-                              print(object.val);
-                              if (provider.val == 1) {
+                              print(provider.usertype);
+                              if (provider.usertype == 1) {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
                                             const CreateMemberProfile(
                                             )));
-                              } else if (provider.val== 2) {
-                                // Navigator.push(
-                                //     context,
-                                //     MaterialPageRoute(
-                                //         builder: (context) =>
-                                //             const CreateGraduatedProfile(
-                                //               value: 2,
-                                //             )));
+                              } else if (provider.usertype== 2) {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const CreateGraduatedProfile(
+                                            )));
                               }
                             });
                       }),

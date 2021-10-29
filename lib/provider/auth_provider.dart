@@ -12,7 +12,7 @@ class AuthProvider with ChangeNotifier {
   late User _user;
   late AuthStatus _authStatus;
   late String errorMessage;
-  var val;
+  var usertype;
 
   authProvider() {
     _auth = FirebaseAuth.instance;
@@ -45,12 +45,12 @@ class AuthProvider with ChangeNotifier {
           "email": email,
           "userid": FirebaseAuth.instance.currentUser!.uid,
           "userType": userType,
-          "var": val,
+          "var": usertype,
         });
       }
     } catch (e) {
       print(e);
-      print('=========================');
+      debugPrint('=========================');
     }
   }
 
@@ -66,9 +66,9 @@ class AuthProvider with ChangeNotifier {
           .doc(FirebaseAuth.instance.currentUser!.uid)
           .get();
 
-      print('userType is ${documentSnapshot.get('userType')}');
+      debugPrint('userType is ${documentSnapshot.get('userType')}');
 
-      val = documentSnapshot.get('userType') == 'student' ? 1 : 0;
+      usertype = documentSnapshot.get('userType') == 'student' ? 1 : 0;
 
       notifyListeners();
       return true;

@@ -73,7 +73,7 @@ class CollegeView extends StatelessWidget {
                                       height: 50,
                                     )),
                                 Text(
-                                  '${prov.departments.keys.toList()[index]}',
+                                  prov.departments.keys.toList()[index],
                                   maxLines: 3,
                                   overflow: TextOverflow.fade,
                                   textAlign: TextAlign.center,

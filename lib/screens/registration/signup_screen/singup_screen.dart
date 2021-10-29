@@ -72,10 +72,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   Consumer<AuthProvider>(builder: (context, object, child) {
                     return Radio(
                         value: 1,
-                        groupValue: object.val,
+                        groupValue: object.usertype,
                         onChanged: (value) {
                           setState(() {
-                            object.val = value;
+                            object.usertype = value;
                             print("============////////=========");
                             print(prov.departments);
                           });
@@ -92,11 +92,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     builder: (context, object, child) {
                       return Radio(
                           value: 2,
-                          groupValue: object.val,
+                          groupValue: object.usertype,
                           onChanged: (value) {
                             print(value);
                             setState(() {
-                              object.val = value;
+                              object.usertype = value;
                             });
                           });
                     },
@@ -115,14 +115,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   text: 'متابعة',
                   onTap: () {
                     String userType =
-                        Provider.of<AuthProvider>(context,listen: false).val == 1
+                        Provider.of<AuthProvider>(context,listen: false).usertype == 1
                             ? 'member'
                             : 'student';
                     provider.singup(email, password, name, userType);
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => WellcomeScreen()));
+                            builder: (context) => const WellcomeScreen()));
                   }),
             ),
             const Center(
