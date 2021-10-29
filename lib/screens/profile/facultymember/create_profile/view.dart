@@ -180,6 +180,7 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                            phone: prov.phone,
                            link: prov.link,
                          );
+
                          Navigator.pushReplacement(
                              context,
                              MaterialPageRoute(
