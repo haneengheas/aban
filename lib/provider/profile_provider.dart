@@ -9,8 +9,8 @@ import 'package:flutter/material.dart';
 class ProfileProvider with ChangeNotifier {
   final GlobalKey<FormState> formKeyTheses = GlobalKey<FormState>();
   final GlobalKey<FormState> formKeyProject = GlobalKey<FormState>();
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   late String name;
+  var name2;
   late String faculty;
   late String phone;
   late File file;
@@ -151,19 +151,20 @@ class ProfileProvider with ChangeNotifier {
 
     await ref.putFile(file);
     var imageUrl = await ref.getDownloadURL();
-    await FirebaseFirestore.instance
-        .collection('graduated')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .set({
-      'faculty': faculty,
-      'phone': phone,
-      'name': name,
-      'imageUrl': imageUrl,
-      'id': id,
-      'degree': degree,
-      'link': link,
-      'accept': accept,
-      'userId': FirebaseAuth.instance.currentUser!.uid,
+      await FirebaseFirestore.instance
+          .collection('graduated')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .set({
+        'faculty': faculty,
+        'phone': phone,
+        'name': name,
+        'imageUrl': imageUrl,
+        'id': id,
+        'degree': degree,
+        'link': link,
+        'accept': accept,
+        'userId': FirebaseAuth.instance.currentUser!.uid,
+
     });
     notifyListeners();
   }
@@ -222,7 +223,7 @@ class ProfileProvider with ChangeNotifier {
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .get();
      debugPrint('userType is ${documentSnapshot.get('name')}');
-    name = documentSnapshot.get('name') ;
+    name2 = documentSnapshot.get('name') ;
     faculty =documentSnapshot.get('faculty');
     email =documentSnapshot.get('email');
     link =documentSnapshot.get('link');

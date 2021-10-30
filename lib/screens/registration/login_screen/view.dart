@@ -94,13 +94,14 @@ class _LoginScreenState extends State<LoginScreen> {
                         var login = await provider.login(email, password);
                         if (login != null) {
                           // provider.getUserStatus();
+                          print(provider.userName);
                           print('===================');
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => NavigationFile(
                                         d: studentDrawer(context),
-                                        title: 'مرحبا"اسم الباحث"',
+                                        title: ' مرحبا${provider.userName}ً ',
                                         counter: provider.usertype,
                                       )));
                         }

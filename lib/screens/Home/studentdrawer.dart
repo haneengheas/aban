@@ -5,7 +5,7 @@ import 'package:aban/screens/chat/view.dart';
 import 'package:aban/screens/help/view.dart';
 import 'package:aban/screens/profile/eidt_profile/view.dart';
 import 'package:aban/screens/profile/facultymember/profile/view.dart';
-import 'package:aban/screens/registration/login_screen/view.dart';
+import 'package:aban/screens/registration/regist_screen/view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import "package:quds_ui_kit/quds_ui_kit.dart";
@@ -122,8 +122,8 @@ import "package:quds_ui_kit/quds_ui_kit.dart";
                 'تسجيل خروج',
               )),
               onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) =>const LoginScreen()));
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) =>const RegistScreen()));
               }),
         ],
         child: const Icon(
