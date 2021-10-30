@@ -281,7 +281,7 @@ class _CreateGraduatedProfileState extends State<CreateGraduatedProfile> {
                           degree: prov.degree,
                           link: prov.link,
                           accept: prov.accept,
-                          file: prov.file);
+                          file: prov.file!);
                       Navigator.push(
                           context,
                           MaterialPageRoute(

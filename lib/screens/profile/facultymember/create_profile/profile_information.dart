@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
 import 'package:provider/provider.dart';
+
 class ProfileInformation extends StatefulWidget {
   const ProfileInformation({Key? key}) : super(key: key);
 
@@ -30,13 +31,20 @@ class _ProfileInformationState extends State<ProfileInformation> {
                 onTap: () async {
                   await showBottomSheet(context);
                 },
-                child: const Image(
-                  image: AssetImage(
-                    'assets/user.png',
-                  ),
-                  color: blue,
-                  height: 80,
-                ),
+                child: prov.file!.path == ''
+                    ? Image(
+                        image: AssetImage(
+                          'assets/user.png',
+                        ),
+                        color: blue,
+                        height: 80,
+                      )
+                    : Image(
+                        image: FileImage(
+                          prov.file!,
+                        ),
+                        height: 80,
+                      ),
               ),
               SizedBox(
                 width: sizeFromWidth(context, 1.5),
@@ -179,11 +187,11 @@ class _ProfileInformationState extends State<ProfileInformation> {
             ),
           ],
         ),
-
       ],
     );
   }
 }
+
 showBottomSheet(context) {
   return showModalBottomSheet(
       context: context,
@@ -232,7 +240,7 @@ showBottomSheet(context) {
               InkWell(
                 onTap: () async {
                   var picked =
-                  await ImagePicker().pickImage(source: ImageSource.camera);
+                      await ImagePicker().pickImage(source: ImageSource.camera);
                   if (picked != null) {
                     prov.file = File(picked.path);
                     var rang = Random().nextInt(100000);

@@ -13,6 +13,7 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'dart:io';
 
 class CreateMemberProfile extends StatefulWidget {
   const CreateMemberProfile({
@@ -24,30 +25,20 @@ class CreateMemberProfile extends StatefulWidget {
 }
 
 class _CreateMemberProfileState extends State<CreateMemberProfile> {
-  var fields = [];
   var cards = <Card>[];
   var text;
-  var textController = TextEditingController();
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-
-  Card createCard() {
-    fields.add(textController);
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10),
-        child: TextFormField(
-          decoration: InputDecoration(
-              hintText: "المجال ${cards.length + 1}",
-              floatingLabelBehavior: FloatingLabelBehavior.always),
-        ),
-      ),
-    );
+  @override
+  void initState() {
+    Future.delayed(Duration.zero, () {
+      var prov = Provider.of<ProfileProvider>(context, listen: false);
+      prov.fields.clear();
+      prov.file = File('');
+      setState(() {});
+    });
+    super.initState();
   }
-
-  // late String name;
-  // late String fuclty;
-  // late String phone;
 
   @override
   Widget build(BuildContext context) {
@@ -76,128 +67,146 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
         textDirection: TextDirection.rtl,
         child: SingleChildScrollView(
             child: Form(
-              key: formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // widget for user information example( name , phone)
-                  const ProfileInformation(),
-                  // widget for accept supervision
-                  const AcceptSupervision(),
-                  const Divider(
-                    height: 10,
-                    thickness: 1,
-                    color: lightGray,
-                  ),
-                  Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                    child: Text(
-                      'المجالات',
-                      style: labelStyle3,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 50,
-                    width: 200,
-                    child: ListView.builder(
-                      itemCount: cards.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return cards[index];
-                      },
-                    ),
-                  ),
-                  TextButton.icon(
-                      onPressed: () => setState(() => cards.add(createCard())),
-                      icon: const Icon(
-                        Icons.add_circle_outline,
-                        color: black,
-                        size: 20,
-                      ),
-                      label: Text(
-                        'اضافة مجال',
-                        style: hintStyle4,
-                      )),
-                  const Divider(
-                    height: 10,
-                    thickness: 1,
-                    color: lightGray,
-                  ),
-                  Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                    child: Text(
-                      "اطروحات تحت اشرافك :",
-                      style: labelStyle3,
-                    ),
-                  ),
-                  ButtonUser(
-                      text: "اضافة اطروحة",
-                      color: blueGradient,
-                      onTap: () {
-                        showDialogTheses(context, text: 'اضافة اطروحة');
-                      }),
-                  const Divider(
-                    height: 20,
-                    thickness: 1,
-                    color: lightGray,
-                  ),
-                  Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                    child: Text(
-                      "المشاريع:",
-                      style: labelStyle3,
-                    ),
-                  ),
-                  ButtonUser(
-                      text: "اضافة مشروع",
-                      color: blueGradient,
-                      onTap: () {
-                        showDialogProject(context, text: 'إضافة مشروع');
-                      }),
-                  Center(
-                    child: SubmitButton(
-                      onTap: () async {
-                       if(formKey.currentState!.validate()){
-                         formKey.currentState!.save();
-                         if (prov.file == null) {
-                           return AwesomeDialog(
-                               context: context,
-                               title: "هام",
-                               body:  const Text("please choose Image"),
-                               dialogType: DialogType.ERROR)
-                             ..show();
-                         }
-                         await prov.createMemberProfile(
-                           context: context,
-                           faculty: prov.faculty,
-                           degree: prov.degree,
-                           file: prov.file,
-                           id: prov.id,
-                           accept: prov.accept,
-                           name: prov.name,
-                           phone: prov.phone,
-                           link: prov.link,
-                         );
-
-                         Navigator.pushReplacement(
-                             context,
-                             MaterialPageRoute(
-                                 builder: (context) => NavigationFile(
-                                   d: studentDrawer(context),
-                                   title: 'مرحبا"اسم الباحث"',
-                                   counter: 1,
-                                 )));
-                       }
-                      },
-                      text: "حفظ",
-                      gradient: blueGradient,
-                    ),
-                  )
-                ],
+          key: formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // widget for user information example( name , phone)
+              const ProfileInformation(),
+              // widget for accept supervision
+              const AcceptSupervision(),
+              const Divider(
+                height: 10,
+                thickness: 1,
+                color: lightGray,
               ),
-            )),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                child: Text(
+                  'المجالات',
+                  style: labelStyle3,
+                ),
+              ),
+              Column(
+                children: prov.fields
+                    .map((e) => Card(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: TextFormField(
+                              controller: e,
+                              decoration: InputDecoration(
+                                  hintText: "المجال ${cards.length + 1}",
+                                  floatingLabelBehavior:
+                                      FloatingLabelBehavior.always),
+                            ),
+                          ),
+                        ))
+                    .toList(),
+              ),
+              TextButton.icon(
+                  onPressed: () =>
+                      setState(() => prov.fields.add(TextEditingController())),
+                  icon: const Icon(
+                    Icons.add_circle_outline,
+                    color: black,
+                    size: 20,
+                  ),
+                  label: Text(
+                    'اضافة مجال',
+                    style: hintStyle4,
+                  )),
+              const Divider(
+                height: 10,
+                thickness: 1,
+                color: lightGray,
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                child: Text(
+                  "اطروحات تحت اشرافك :",
+                  style: labelStyle3,
+                ),
+              ),
+              ButtonUser(
+                  text: "اضافة اطروحة",
+                  color: blueGradient,
+                  onTap: () {
+                    showDialogTheses(context, text: 'اضافة اطروحة');
+                  }),
+              const Divider(
+                height: 20,
+                thickness: 1,
+                color: lightGray,
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                child: Text(
+                  "المشاريع:",
+                  style: labelStyle3,
+                ),
+              ),
+              ButtonUser(
+                  text: "اضافة مشروع",
+                  color: blueGradient,
+                  onTap: () {
+                    showDialogProject(context, text: 'إضافة مشروع');
+                  }),
+              Center(
+                child: SubmitButton(
+                  onTap: () async {
+                    if (formKey.currentState!.validate()) {
+                      formKey.currentState!.save();
+                      if (prov.file!.path == '') {
+                        return AwesomeDialog(
+                            context: context,
+                            title: "هام",
+                            body: const Text("please choose Image"),
+                            dialogType: DialogType.ERROR)
+                          ..show();
+                      } else {
+                        print(prov.file!.path);
+                        List<String> fieldsStr = <String>[];
+
+                        prov.fields.forEach((element) {
+                          fieldsStr.add(element.text);
+                        });
+
+                        print('Str list is => $fieldsStr');
+
+                        await prov.createMemberProfile(
+                          context: context,
+                          faculty: prov.faculty,
+                          degree: prov.degree,
+                          file: prov.file!,
+                          id: prov.id,
+                          fields: fieldsStr,
+                          accept: prov.accept,
+                          name: prov.name,
+                          phone: prov.phone,
+                          link: prov.link,
+                        );
+
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => NavigationFile(
+                                  d: studentDrawer(context),
+                                  title: 'مرحبا"اسم الباحث"',
+                                  counter: 1,
+                                )));
+                      }
+                    }
+                  },
+                  text: "حفظ",
+                  gradient: blueGradient,
+                ),
+              )
+            ],
+          ),
+        )),
       ),
     );
   }

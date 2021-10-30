@@ -13,7 +13,7 @@ class ProfileProvider with ChangeNotifier {
   var name2;
   late String faculty;
   late String phone;
-  late File file;
+   File? file = File('');
   late Reference ref;
   late String imageurl;
   late String email;
@@ -21,7 +21,7 @@ class ProfileProvider with ChangeNotifier {
   late String link;
   var accept;
   late String degree;
-  var fields = <TextEditingController>[];
+  List<TextEditingController> fields = <TextEditingController>[];
   late String nameTheses;
   late String linkTheses;
   late String assistantSupervisors;
@@ -38,6 +38,7 @@ class ProfileProvider with ChangeNotifier {
     required String name,
     required String faculty,
     required String phone,
+    required List<String> fields,
     required String id,
     required String degree,
     required String link,
@@ -64,6 +65,7 @@ class ProfileProvider with ChangeNotifier {
       'name': name,
       'imageUrl': imageUrl,
       'id': id,
+      'fields':fields,
       'degree': degree,
       'link': link,
       'accept': accept,

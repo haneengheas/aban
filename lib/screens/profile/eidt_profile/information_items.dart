@@ -15,27 +15,29 @@ class InformationItem extends StatefulWidget {
 }
 
 class _InformationItemState extends State<InformationItem> {
-  var name;
-  var emailuser;
-  var degree;
-  var phone;
-  var faculty;
-  var id;
-  var link;
+  TextEditingController name = TextEditingController();
+  TextEditingController emailuser = TextEditingController();
+  TextEditingController degree = TextEditingController();
+  TextEditingController phone = TextEditingController();
+  TextEditingController faculty = TextEditingController();
+  TextEditingController id = TextEditingController();
+  TextEditingController link = TextEditingController();
 
-  getData() async {
+  void getData() async {
     DocumentSnapshot documentSnapshot2 = await FirebaseFirestore.instance
         .collection("member")
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .get();
-    debugPrint('userType is ${documentSnapshot2.get('userid')}');
-    name = documentSnapshot2.get('name');
-    faculty = documentSnapshot2.get('faculty');
-    emailuser = documentSnapshot2.get('email');
-    link = documentSnapshot2.get('link');
-    phone = documentSnapshot2.get('phone');
-    degree = documentSnapshot2.get('degree');
-    id = documentSnapshot2.get('id');
+    debugPrint('userType is ${documentSnapshot2.get('userId')}');
+    name.text = documentSnapshot2.get('name');
+    faculty.text = documentSnapshot2.get('faculty');
+    emailuser.text = FirebaseAuth.instance.currentUser!.email!;
+    link.text = documentSnapshot2.get('link');
+    phone.text = documentSnapshot2.get('phone');
+    degree.text = documentSnapshot2.get('degree');
+    id.text = documentSnapshot2.get('id');
+
+    setState(() {});
   }
 
   @override
@@ -47,7 +49,6 @@ class _InformationItemState extends State<InformationItem> {
   @override
   Widget build(BuildContext context) {
     var prov = Provider.of<ProfileProvider>(context);
-    var auth = Provider.of<AuthProvider>(context);
 
     return Column(children: [
       Padding(
@@ -64,12 +65,11 @@ class _InformationItemState extends State<InformationItem> {
             SizedBox(
               width: sizeFromWidth(context, 1.5),
               child: TextFieldUser(
-                onChanged: (val) {
-                  prov.name = val;
-                },
+                onChanged: (val) {},
+                controller: name,
                 labelText: "اسم الباحث",
                 hintText: "أسمك",
-                scure: true,
+                scure: false,
                 validator: (value) {
                   if (value.isEmpty) {
                     return 'برجاءادخال اسماء المشرفين المساعدين ';
@@ -86,17 +86,16 @@ class _InformationItemState extends State<InformationItem> {
           SizedBox(
             width: sizeFromWidth(context, 2),
             child: TextFieldUser(
-              onChanged: (val) {
-                prov.faculty = val;
-              },
+              onChanged: (val) {},
               validator: (value) {
                 if (value.isEmpty) {
                   return 'برجاءادخال اسماء المشرفين المساعدين ';
                 }
               },
+              controller: faculty,
               hintText: "الكلية/التخصص",
               labelText: "الكلية/التخصص",
-              scure: true,
+              scure: false,
               // initialValue: faculty,
             ),
           ),
@@ -111,9 +110,10 @@ class _InformationItemState extends State<InformationItem> {
                   return 'برجاءادخال اسماء المشرفين المساعدين ';
                 }
               },
+              controller: emailuser,
               hintText: "Reasearsh@ksuedu.sa",
               labelText: "البريد الجامعى",
-              scure: true,
+              scure: false,
               // initialValue: emailuser,
             ),
           ),
@@ -132,9 +132,10 @@ class _InformationItemState extends State<InformationItem> {
                   return 'برجاءادخال اسماء المشرفين المساعدين ';
                 }
               },
+              controller: degree,
               hintText: "اختر درجتك",
               labelText: "الدرجة العلمية",
-              scure: true,
+              scure: false,
               // initialValue: degree,
             ),
           ),
@@ -149,9 +150,10 @@ class _InformationItemState extends State<InformationItem> {
                   return 'برجاءادخال اسماء المشرفين المساعدين ';
                 }
               },
+              controller: phone,
               hintText: "+96655...",
               labelText: "رقم الهاتف",
-              scure: true,
+              scure: false,
               // initialValue: phone,
             ),
           ),
@@ -170,9 +172,10 @@ class _InformationItemState extends State<InformationItem> {
                   return 'برجاءادخال اسماء المشرفين المساعدين ';
                 }
               },
+              controller: id,
               hintText: "المعرف الخاص بك",
               labelText: "orcid iD",
-              scure: true,
+              scure: false,
               // initialValue: id,
             ),
           ),
@@ -187,9 +190,10 @@ class _InformationItemState extends State<InformationItem> {
                   return 'برجاءادخال اسماء المشرفين المساعدين ';
                 }
               },
+              controller: link,
               hintText: "ادخل رابط GooGel School",
               labelText: " ابحاثى",
-              scure: true,
+              scure: false,
               // initialValue: link,
             ),
           ),

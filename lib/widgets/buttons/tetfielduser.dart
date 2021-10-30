@@ -8,11 +8,12 @@ class TextFieldUser extends StatefulWidget {
   final bool scure;
   final Function(String) onChanged;
   final FormFieldValidator   validator;
+  final TextEditingController?   controller;
 
   // ignore: use_key_in_widget_constructors
   const TextFieldUser(
       {required this.hintText,
-      required this.labelText,
+      required this.labelText, this.controller,
       required this.scure,
       required this.onChanged, required this.validator});
 
@@ -32,6 +33,7 @@ class _TextFieldUserState extends State<TextFieldUser> {
         child: TextFormField(
           onChanged: widget.onChanged,
         validator:  widget.validator,
+          controller: widget.controller,
           obscureText: widget.scure,
           decoration: InputDecoration(
             // prefixIcon: Icon(Icons.star,size: 5,color: Colors.red,),
