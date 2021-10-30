@@ -93,157 +93,159 @@ class ProfileScreen extends StatelessWidget {
                           }
                           if (snapshot.hasData) {
 
-                            return ListView.builder(itemBuilder: (context, index){
-                              print(snapshot.data!.docs[0]['name']);
-                              return Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment.start,
-                                      children: [
-                                        Image(
-                                          image: NetworkImage(snapshot.data!.docs[index]['imageurl']
+                            return SizedBox( height: 200,
+                              child: ListView.builder(itemBuilder: (context, index){
+                                print(snapshot.data!.docs[0]['name']);
+                                return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: [
+                                          Image(
+                                            image: NetworkImage(snapshot.data!.docs[index]['imageurl']
+                                            ),
+                                            color: blue,
+                                            height: 60,
                                           ),
-                                          color: blue,
-                                          height: 60,
-                                        ),
-                                        const SizedBox(
-                                          width: 20,
-                                        ),
-                                        Column(
-                                          crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              "${snapshot.data!.docs[0]['name']}",
-                                              style: labelStyle2,
-                                            ),
-                                            Row(
-                                              children: [
-                                                Text(
-                                                  "${snapshot.data!.docs[0]['faculty'] + '   ' +snapshot.data!.docs[0]['degree']}",
-                                                  style: hintStyle,
-                                                ),
-                                                SizedBox(
-                                                  width:
-                                                  sizeFromWidth(context, 8),
-                                                ),
-                                                Text(
-                                                  "{snapshot.data!.docs[0]['link']}",
-                                                  style: hintStyle3,
-                                                ),
-                                              ],
-                                            ),
-                                            Row(
-                                              mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                              children: [
-                                                Text(
-                                                  "{snapshot.data!.docs[0]['accept']}",
-                                                  style: hintStyle4,
-                                                ),
-                                                SizedBox(
-                                                  width:
-                                                  sizeFromWidth(context, 8),
-                                                ),
-                                                Text(
-                                                  "{snapshot.data!.docs[0]['phone']}",
-                                                  style: hintStyle,
-                                                ),
-                                              ],
-                                            ),
-                                            Text(
-                                              "{snapshot.data!.docs[0]['id']}",
-                                              style: hintStyle,
-                                            ),
-                                          ],
-                                        ),
-                                      ]),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Row(
-                                    children: [
-                                      const Icon(
-                                        Icons.check,
-                                        color: Colors.green,
-                                      ),
-                                      Text(
-                                        "أقبل الاشراف على الاطروحات ",
-                                        style: hintStyle,
-                                      ),
-                                    ],
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 15),
-                                    child: Text("الذهاب الى ابحاثى",
-                                        style: hintStyle),
-                                  ),
-                                  SizedBox(
-                                    height:
-                                    MediaQuery.of(context).size.height / 1.85,
-                                    child: Column(
-                                      children: [
-                                        const Divider(
-                                          color: gray,
-                                          thickness: .5,
-                                        ),
-                                        SizedBox(
-                                          height: 50,
-                                          child: (TabBar(
-                                            labelColor: blue,
-                                            unselectedLabelColor: gray,
-                                            labelStyle: hintStyle,
-                                            isScrollable: true,
-                                            tabs: const <Widget>[
-                                              Tab(
-                                                text: 'المجالات',
+                                          const SizedBox(
+                                            width: 20,
+                                          ),
+                                          Column(
+                                            crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                "${snapshot.data!.docs[0]['name']}",
+                                                style: labelStyle2,
                                               ),
-                                              Tab(
-                                                text: 'الاطروحات\nالمكتملة',
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    "${snapshot.data!.docs[0]['faculty'] + '   ' +snapshot.data!.docs[0]['degree']}",
+                                                    style: hintStyle,
+                                                  ),
+                                                  SizedBox(
+                                                    width:
+                                                    sizeFromWidth(context, 8),
+                                                  ),
+                                                  Text(
+                                                    "{snapshot.data!.docs[0]['link']}",
+                                                    style: hintStyle3,
+                                                  ),
+                                                ],
                                               ),
-                                              Tab(
-                                                text: 'الاطروحات \nالجارية',
+                                              Row(
+                                                mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    "{snapshot.data!.docs[0]['accept']}",
+                                                    style: hintStyle4,
+                                                  ),
+                                                  SizedBox(
+                                                    width:
+                                                    sizeFromWidth(context, 8),
+                                                  ),
+                                                  Text(
+                                                    "{snapshot.data!.docs[0]['phone']}",
+                                                    style: hintStyle,
+                                                  ),
+                                                ],
                                               ),
-                                              Tab(
-                                                text: 'المشاريع\n المكتملة',
+                                              Text(
+                                                "{snapshot.data!.docs[0]['id']}",
+                                                style: hintStyle,
                                               ),
-                                              Tab(
-                                                text: 'المشاريع \nالجارية',
-                                              )
                                             ],
-                                          )),
-                                        ),
-                                        const Divider(
-                                          color: gray,
-                                          thickness: .5,
-                                        ),
-                                        const Expanded(
-                                          child: SizedBox(
-                                            child: TabBarView(
-                                              children: [
-                                                FieldList(),
-                                                ThesesList(
-                                                  text:
-                                                  'اطروحة مكتملة تحت اشرافي',
-                                                ),
-                                                ThesesList(
-                                                  text: 'اطروحة جارية تحت اشرافي',
-                                                ),
-                                                ProjectList(),
-                                                ProjectList(),
-                                              ],
-                                            ),
                                           ),
+                                        ]),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      children: [
+                                        const Icon(
+                                          Icons.check,
+                                          color: Colors.green,
+                                        ),
+                                        Text(
+                                          "أقبل الاشراف على الاطروحات ",
+                                          style: hintStyle,
                                         ),
                                       ],
                                     ),
-                                  )
-                                ],
-                              );
-                            });
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 15),
+                                      child: Text("الذهاب الى ابحاثى",
+                                          style: hintStyle),
+                                    ),
+                                    SizedBox(
+                                      height:
+                                      MediaQuery.of(context).size.height / 1.85,
+                                      child: Column(
+                                        children: [
+                                          const Divider(
+                                            color: gray,
+                                            thickness: .5,
+                                          ),
+                                          SizedBox(
+                                            height: 50,
+                                            child: (TabBar(
+                                              labelColor: blue,
+                                              unselectedLabelColor: gray,
+                                              labelStyle: hintStyle,
+                                              isScrollable: true,
+                                              tabs: const <Widget>[
+                                                Tab(
+                                                  text: 'المجالات',
+                                                ),
+                                                Tab(
+                                                  text: 'الاطروحات\nالمكتملة',
+                                                ),
+                                                Tab(
+                                                  text: 'الاطروحات \nالجارية',
+                                                ),
+                                                Tab(
+                                                  text: 'المشاريع\n المكتملة',
+                                                ),
+                                                Tab(
+                                                  text: 'المشاريع \nالجارية',
+                                                )
+                                              ],
+                                            )),
+                                          ),
+                                          const Divider(
+                                            color: gray,
+                                            thickness: .5,
+                                          ),
+                                          const Expanded(
+                                            child: SizedBox(
+                                              child: TabBarView(
+                                                children: [
+                                                  FieldList(),
+                                                  ThesesList(
+                                                    text:
+                                                    'اطروحة مكتملة تحت اشرافي',
+                                                  ),
+                                                  ThesesList(
+                                                    text: 'اطروحة جارية تحت اشرافي',
+                                                  ),
+                                                  ProjectList(),
+                                                  ProjectList(),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                );
+                              }),
+                            );
                           }
                         }
                         return CircularProgressIndicator();
