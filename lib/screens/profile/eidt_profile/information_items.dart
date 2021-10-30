@@ -49,7 +49,6 @@ class _InformationItemState extends State<InformationItem> {
   @override
   Widget build(BuildContext context) {
     var prov = Provider.of<ProfileProvider>(context);
-
     return Column(children: [
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),

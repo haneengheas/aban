@@ -16,20 +16,6 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  @override
-  void initState() {
-    getUserData();
-    super.initState();
-  }
-
-  getUserData() async {
-    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-        .collection('member')
-        .where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
-        .get();
-
-    print('dataa => ${querySnapshot.docs[0]['imageUrl']}');
-  }
 
   @override
   Widget build(BuildContext context) {
