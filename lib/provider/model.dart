@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 
 class MyModel with ChangeNotifier{
-  var val=10;
+  var val;
 
   //to get the length of the list inside this map use this line
   // departments['كلية علوم الحاسب والمعلومات'].length
@@ -26,7 +26,9 @@ class MyModel with ChangeNotifier{
       "اللياقة البدنية",
       "التدريب الرياضي",
     ],
-    'كلية الهندسة': [
+    'كلية الهندسة':
+
+    [
       "الكيميائية",
       "الكهربائية",
       "الصناعية",
