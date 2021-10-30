@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:aban/constant/style.dart';
 import 'package:aban/provider/model.dart';
 import 'package:aban/screens/resersh_list/view.dart';

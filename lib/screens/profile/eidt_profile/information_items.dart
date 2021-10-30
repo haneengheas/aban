@@ -1,5 +1,4 @@
 import 'package:aban/constant/style.dart';
-import 'package:aban/provider/auth_provider.dart';
 import 'package:aban/provider/profile_provider.dart';
 import 'package:aban/widgets/buttons/tetfielduser.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

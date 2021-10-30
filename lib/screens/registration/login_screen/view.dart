@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_print
 
+import 'package:aban/constant/loading_methods.dart';
 import 'package:aban/constant/style.dart';
 import 'package:aban/provider/auth_provider.dart';
 import 'package:aban/screens/Home/guestdawer.dart';
@@ -90,8 +91,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   onTap: () async {
                     if (_formKey.currentState!.validate()) {
                       _formKey.currentState!.save();
-
-                        var login = await provider.login(email, password);
+                      showLoading(context);
+                        var login = await provider.login(email, password,context);
                         if (login != null) {
                           // provider.getUserStatus();
                           print(provider.userName);

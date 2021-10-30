@@ -32,7 +32,7 @@ class _ProfileInformationState extends State<ProfileInformation> {
                   await showBottomSheet(context);
                 },
                 child: prov.file!.path == ''
-                    ? Image(
+                    ?  const Image(
                         image: AssetImage(
                           'assets/user.png',
                         ),

@@ -10,6 +10,8 @@ import 'package:aban/screens/profile/facultymember/create_profile/profile_inform
 import 'package:aban/widgets/buttons/buttonsuser.dart';
 import 'package:aban/widgets/buttons/submit_button.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -27,8 +29,19 @@ class CreateMemberProfile extends StatefulWidget {
 class _CreateMemberProfileState extends State<CreateMemberProfile> {
   var cards = <Card>[];
   var text;
+  var name;
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  void getData() async {
+    DocumentSnapshot documentSnapshot2 = await FirebaseFirestore.instance
+        .collection("member")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get();
+    debugPrint('userType is ${documentSnapshot2.get('userId')}');
+    name.text = documentSnapshot2.get('name');
+    setState(() {});
+  }
+
   @override
   void initState() {
     Future.delayed(Duration.zero, () {
@@ -37,6 +50,7 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
       prov.file = File('');
       setState(() {});
     });
+    getData();
     super.initState();
   }
 
@@ -170,9 +184,9 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                         print(prov.file!.path);
                         List<String> fieldsStr = <String>[];
 
-                        prov.fields.forEach((element) {
+                        for (var element in prov.fields) {
                           fieldsStr.add(element.text);
-                        });
+                        }
 
                         print('Str list is => $fieldsStr');
 

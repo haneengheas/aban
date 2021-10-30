@@ -94,7 +94,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
-                          return CircularProgressIndicator();
+                          return const CircularProgressIndicator();
                         }
                         if (snapshot.connectionState == ConnectionState.done) {
                           if (snapshot.hasError) {
@@ -253,7 +253,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             );
                           }
                         }
-                        return CircularProgressIndicator();
+                        return const CircularProgressIndicator();
                       }),
                 ),
               ],

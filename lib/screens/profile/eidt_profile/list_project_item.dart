@@ -1,54 +1,50 @@
 import 'package:aban/constant/style.dart';
+import 'package:aban/provider/profile_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 class ListProjectItem extends StatefulWidget {
-  const ListProjectItem({Key? key}) : super(key: key);
+  List ? fields;
+   ListProjectItem({Key? key, required this.fields}) : super(key: key);
 
   @override
   State<ListProjectItem> createState() => _ListProjectItemState();
 }
 
 class _ListProjectItemState extends State<ListProjectItem> {
-  var fields = <TextEditingController>[];
   var cards = <Card>[];
-  Card createCard() {
-    var textController = TextEditingController();
-    fields.add(textController);
-    return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 20),
-      child: TextFormField(
-        decoration: InputDecoration(
-            hintText: "المجال ${cards.length + 1}",
-            hintStyle: hintStyle3,
-            floatingLabelBehavior: FloatingLabelBehavior.always),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
+    var prov = Provider.of<ProfileProvider>(context);
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Container(
-        //     width: sizeFromWidth(context, 1.5),
-        //     child: TextFieldUser(
-        //         hintText: "المجال الاول",
-        //         labelText: "المجالات:",
-        //         scure: true)),
-        SizedBox(
-          height: 50,
-          width: 300,
-          child: ListView.builder(
-            itemCount: cards.length,
-            itemBuilder: (BuildContext context, int index) {
-              return cards[index];
-            },
-          ),
+        Column(
+          children: prov.fields
+              .map((e) => Card(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: TextFormField(
+                controller: e,
+                decoration: InputDecoration(
+                    hintText: " ${widget.fields![0]}",
+                    floatingLabelBehavior:
+                    FloatingLabelBehavior.always),
+              ),
+            ),
+          ))
+              .toList(),
         ),
         TextButton.icon(
-            onPressed: () => setState(() => cards.add(createCard())),
-            icon:const Icon(Icons.add_circle_outline,color: black,size: 20,),
-            label: Text('اضافة مجال',style: hintStyle4,)),
+            onPressed: () =>
+                setState(() => prov.fields.add(TextEditingController())),
+            icon: const Icon(
+              Icons.add_circle_outline,
+              color: black,
+              size: 20,
+            ),
+            label: Text(
+              'اضافة مجال',
+              style: hintStyle4,
+            )),
       ],
     );
   }

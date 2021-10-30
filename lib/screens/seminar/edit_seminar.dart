@@ -1,11 +1,11 @@
 // ignore_for_file: prefer_typing_uninitialized_variables
 
 import 'package:aban/constant/alert_methods.dart';
-import 'package:aban/widgets/buttons/buttonsuser.dart';
-import 'package:flutter/material.dart';
 import 'package:aban/constant/style.dart';
+import 'package:aban/widgets/buttons/buttonsuser.dart';
 import 'package:aban/widgets/textField.dart';
 import 'package:aban/widgets/textfieldtime.dart';
+import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -26,7 +26,7 @@ class _EditSeminarState extends State<EditSeminar> {
         backgroundColor: white,
         title: Text('تعديل ندوة',
             style: GoogleFonts.cairo(
-              textStyle:const TextStyle(
+              textStyle: const TextStyle(
                   color: blue, fontWeight: FontWeight.bold, fontSize: 28),
             )),
         centerTitle: true,
@@ -35,7 +35,7 @@ class _EditSeminarState extends State<EditSeminar> {
           onPressed: () {
             Navigator.pop(context);
           },
-          icon:const Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           color: blue,
         ),
       ),
@@ -43,12 +43,12 @@ class _EditSeminarState extends State<EditSeminar> {
       body: SingleChildScrollView(
         child: Container(
           width: sizeFromWidth(context, 1),
-          padding:const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
           // height: MediaQuery
           //     .of(context)
           //     .size
           //     .height,
-          margin:const EdgeInsets.symmetric(
+          margin: const EdgeInsets.symmetric(
             horizontal: 20,
           ),
           decoration: BoxDecoration(
@@ -57,7 +57,6 @@ class _EditSeminarState extends State<EditSeminar> {
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
-
             children: [
               const TextFieldItem(
                 labelText: "العنوان",
@@ -66,17 +65,17 @@ class _EditSeminarState extends State<EditSeminar> {
               ),
               Padding(
                 padding:
-                const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 child: Text(
                   'التاريخ',
                   style: hintStyle4,
                 ),
               ),
               Container(
-                margin:const  EdgeInsets.symmetric(
+                margin: const EdgeInsets.symmetric(
                   horizontal: 10,
                 ),
-                padding:const EdgeInsets.symmetric(
+                padding: const EdgeInsets.symmetric(
                   horizontal: 10,
                 ),
                 child: TableCalendar(
@@ -88,7 +87,7 @@ class _EditSeminarState extends State<EditSeminar> {
               ),
               Padding(
                 padding:
-                const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 child: Text(
                   'الوقت',
                   style: hintStyle4,
@@ -111,7 +110,7 @@ class _EditSeminarState extends State<EditSeminar> {
                         'إلى',
                         style: hintStyle,
                       ),
-                      const  TimeTextField(
+                      const TimeTextField(
                         text: '00:00   ص م',
                       ),
                     ],
@@ -124,8 +123,7 @@ class _EditSeminarState extends State<EditSeminar> {
                 hintText: "موقع الندوة",
               ),
               Padding(
-                padding:
-                const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
                 child: Text(
                   'النوع',
                   style: hintStyle4,
@@ -167,7 +165,7 @@ class _EditSeminarState extends State<EditSeminar> {
                   ],
                 ),
               ),
-             const TextFieldItem(
+              const TextFieldItem(
                 labelText: "الوصف",
                 scure: true,
                 hintText: "وصف الندوة",
@@ -181,14 +179,22 @@ class _EditSeminarState extends State<EditSeminar> {
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: Row(
                   children: [
+                    ButtonUser(
+                        text: 'حذف الندوة',
+                        color: redGradient,
+                        onTap: () {
+                          showDialogWarning(context,
 
-                    ButtonUser(text: 'حذف الندوة', color: redGradient, onTap: (){
-                      showDialogWarning(context, text: 'هل انت متأكد من حذف هذة الندوة');
-                    }),
-                    ButtonUser(text: 'حفظ التغييرات', color: blueGradient, onTap: (){
-                     Navigator.pop(context);
-                      // Navigator.push(context, MaterialPageRoute(builder: (context)=>SeminarScreen()));
-                    }),
+                              ontap: (){},
+                              text: 'هل انت متأكد من حذف هذة الندوة');
+                        }),
+                    ButtonUser(
+                        text: 'حفظ التغييرات',
+                        color: blueGradient,
+                        onTap: () {
+                          Navigator.pop(context);
+                          // Navigator.push(context, MaterialPageRoute(builder: (context)=>SeminarScreen()));
+                        }),
                   ],
                 ),
               )

@@ -6,7 +6,7 @@ import 'package:aban/widgets/buttons/tetfielduser.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-void showDialogWarning(BuildContext context, {required String text}) {
+void showDialogWarning(BuildContext context, {required String text, required Function ontap,}) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -27,15 +27,13 @@ void showDialogWarning(BuildContext context, {required String text}) {
           ButtonUser(
               text: 'لا',
               color: blueGradient,
-              onTap: () {
-                Navigator.pop(context);
-              }),
+              onTap :()=> Navigator.pop(context),
+          ),
           ButtonUser(
               text: 'نعم',
               color: redGradient,
-              onTap: () {
-                Navigator.pop(context);
-              }),
+              onTap :()=> ontap()
+          ),
         ],
       );
     },
@@ -323,7 +321,7 @@ void showDialogProject(BuildContext context, {required String text}) {
                               underline: Container(
                                 width: 30,
                                 padding:
-                                const EdgeInsets.symmetric(horizontal: 10),
+                                    const EdgeInsets.symmetric(horizontal: 10),
                                 height: 1,
                                 decoration: const BoxDecoration(
                                     color: gray,
@@ -346,7 +344,7 @@ void showDialogProject(BuildContext context, {required String text}) {
                                     width: sizeFromWidth(context, 2.3),
                                     // for example
                                     child:
-                                    Text(value, textAlign: TextAlign.left),
+                                        Text(value, textAlign: TextAlign.left),
                                   ),
                                 );
                               }).toList(),

@@ -103,6 +103,8 @@ import "package:quds_ui_kit/quds_ui_kit.dart";
                   alignment: Alignment.centerRight,
 
                   child: Text(
+
+
                 'مساعدة',
               )),
               onPressed: () {
