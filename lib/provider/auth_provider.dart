@@ -13,7 +13,7 @@ class AuthProvider with ChangeNotifier {
   late User _user;
   late AuthStatus _authStatus;
   late String errorMessage;
-  var usertype;
+ var usertype;
   var userName;
 
 

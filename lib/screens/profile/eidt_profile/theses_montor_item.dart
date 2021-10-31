@@ -32,11 +32,11 @@ class _ThesesGraduatedMontorItemState extends State<ThesesGraduatedMontorItem> {
 
   void getData() async {
     QuerySnapshot<Map<String, dynamic>> documentSnapshot2 =
-    await FirebaseFirestore.instance
-        .collection("member")
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .collection('theses')
-        .get();
+        await FirebaseFirestore.instance
+            .collection("member")
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .collection('theses')
+            .get();
     debugPrint('userType is ${documentSnapshot2.docs[0]['nameTheses']}');
     // name.text = documentSnapshot2.get('name');
     // faculty.text = documentSnapshot2.get('faculty');
@@ -89,113 +89,143 @@ class _ThesesGraduatedMontorItemState extends State<ThesesGraduatedMontorItem> {
                       return ListView.builder(
                           itemCount: snapshot.data!.docs.length,
                           itemBuilder: (context, index) {
-                            return Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Container(
-                                  padding:
-                                  const EdgeInsets.symmetric(horizontal: 5),
-                                  margin: const EdgeInsets.symmetric(
-                                      horizontal: 10, vertical: 5),
-                                  width: sizeFromWidth(context, 1.5),
-                                  height: 100,
-                                  decoration: BoxDecoration(
-                                    color: clearblue,
-                                    borderRadius: BorderRadius.circular(25),
+                            return Dismissible(
+                                background: Container(
+                                  color: Colors.red,
+                                ),
+                                secondaryBackground: Container(
+                                  child: const Center(
+                                    child: Text(
+                                      'Delete',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
                                   ),
-                                  child: Directionality(
-                                    textDirection: TextDirection.rtl,
-                                    child: Row(
-                                      mainAxisAlignment:
+                                  color: Colors.red,
+                                ),
+                                onDismissed: (DismissDirection direction) async {
+                                  await FirebaseFirestore.instance
+                                      .collection('member')
+                                      .doc(FirebaseAuth
+                                          .instance.currentUser!.uid)
+                                      .collection('theses')
+                                      .doc(snapshot.data!.docs[index].id)
+                                      .delete();
+                                },
+                                key: UniqueKey(),
+                                direction: DismissDirection.startToEnd,
+                                child: Row(
+                                  mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment.center,
-                                      children: [
-                                        Column(
-                                          crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      // padding: const EdgeInsets.symmetric(
+                                      //     horizontal: 5),
+                                      margin: const EdgeInsets.symmetric(
+                                          horizontal: 10, vertical: 5),
+                                      width: sizeFromWidth(context, 1.5),
+                                      height: 100,
+                                      decoration: BoxDecoration(
+                                        color: clearblue,
+                                        borderRadius: BorderRadius.circular(25),
+                                      ),
+                                      child: Directionality(
+                                        textDirection: TextDirection.rtl,
+                                        child: Row(
                                           mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
+                                              MainAxisAlignment.spaceEvenly,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
                                           children: [
-                                            Text(
-                                              snapshot.data!.docs[index]
-                                              ['nameTheses'],
-                                              style: hintStyle5,
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceEvenly,
+                                              children: [
+                                                Text(
+                                                 'اسم الاطروحة : ${ snapshot.data!.docs[index]
+                                                  ['nameTheses']}',
+                                                  style: hintStyle5,
+                                                ),
+                                                Text(
+                                                 'المشرف: ${
+                                                    snapshot.data!.docs[index]
+                                                        ['nameSupervisors']
+                                                  }',
+                                                  style: hintStyle5,
+                                                ),
+                                                Text(
+                                               ' المشرفون المساعدون: ${
+                                                    snapshot.data!.docs[index]
+                                                        ['assistantSupervisors']
+                                                  }',
+                                                  style: hintStyle5,
+                                                ),
+                                              ],
+                                            ),
+                                            const VerticalDivider(
+                                              color: gray,
+                                              endIndent: 10,
+                                              indent: 10,
+                                              // width: 1,
+                                              thickness: 2,
                                             ),
                                             Text(
                                               snapshot.data!.docs[index]
-                                              ['nameSupervisors'],
-                                              style: hintStyle5,
-                                            ),
-                                            Text(
-                                              snapshot.data!.docs[index]
-                                              ['assistantSupervisors'],
+                                                  ['degreeTheses'],
                                               style: hintStyle5,
                                             ),
                                           ],
                                         ),
-                                        const VerticalDivider(
-                                          color: gray,
-                                          endIndent: 10,
-                                          indent: 10,
-                                          // width: 1,
-                                          thickness: 2,
-                                        ),
-                                        Text(
-                                          snapshot.data!.docs[0]
-                                          ['degreeTheses'],
-                                          style: hintStyle5,
-                                        ),
-                                      ],
+                                      ),
                                     ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 30,
-                                  child: IconButton(
-                                    onPressed: () {
-                                      editTheses(context,
-                                          text: 'تعديل اطروحة',
-                                          key: formKey,
-                                          indexed:
-                                          snapshot.data!.docs[index].id,
-                                          degreeTheses: degreeTheses,
-                                          assistantSupervisors:
-                                          assistantSupervisor,
-                                          linkTheses: linkTheses,
-                                          nameSupervisors: nameSupervisors,
-                                          nameTheses: nameTheses,
-                                          thesesStatus: thesesStatus);
-                                    },
-                                    icon: const Icon(Icons.edit),
-                                    color: blue,
-                                    iconSize: 20,
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 30,
-                                  child: IconButton(
-                                    onPressed: () async {
-                                      await showDialogWarning(
-                                        context,
-                                          text: 'هل انت متاكد من الحذف ',
-                                          ontap:()async{
-                                            await  FirebaseFirestore.instance
-                                                .collection('member')
-                                                .doc(FirebaseAuth.instance.currentUser!.uid)
-                                                .collection('theses')
-                                                .doc(snapshot.data!.docs[index].id)
-                                                .delete();
-                                            Navigator.pop(context);
-                                          } );
-                                    },
-                                    icon: const Icon(Icons.delete),
-                                    color: Colors.red,
-                                    iconSize: 20,
-                                  ),
-                                )
-                              ],
-                            );
+                                    SizedBox(
+                                      width: 30,
+                                      child: IconButton(
+                                        onPressed: () {
+                                          editTheses(context,
+                                              text: 'تعديل اطروحة',
+                                              key: formKey,
+                                              indexed:
+                                                  snapshot.data!.docs[index].id,
+                                              degreeTheses: degreeTheses,
+                                              assistantSupervisors:
+                                                  assistantSupervisor,
+                                              linkTheses: linkTheses,
+                                              nameSupervisors: nameSupervisors,
+                                              nameTheses: nameTheses,
+                                              thesesStatus: thesesStatus);
+                                        },
+                                        icon: const Icon(Icons.edit),
+                                        color: blue,
+                                        iconSize: 20,
+                                      ),
+                                    ),
+                                    // SizedBox(
+                                    //   width: 30,
+                                    //   child: IconButton(
+                                    //     onPressed: ()  {
+                                    //       await showDialogWarning(context,
+                                    //           text: 'هل انت متاكد من الحذف ',
+                                    //           ontap: () async {
+                                    //         await FirebaseFirestore.instance
+                                    //             .collection('member')
+                                    //             .doc(FirebaseAuth
+                                    //                 .instance.currentUser!.uid)
+                                    //             .collection('theses')
+                                    //             .doc(snapshot
+                                    //                 .data!.docs[index].id)
+                                    //             .delete();
+                                    //         Navigator.pop(context);
+                                    //       });
+                                    //     },
+                                    //     icon: const Icon(Icons.delete),
+                                    //     color: Colors.red,
+                                    //     iconSize: 20,
+                                    //   ),
+                                    // )
+                                  ],
+                                ));
                           });
                     }
                     return const CircularProgressIndicator();
@@ -214,7 +244,8 @@ class _ThesesGraduatedMontorItemState extends State<ThesesGraduatedMontorItem> {
   }
 }
 
-void editTheses(BuildContext context, {
+void editTheses(
+  BuildContext context, {
   required String text,
   required indexed,
   required TextEditingController nameTheses,
@@ -241,10 +272,7 @@ void editTheses(BuildContext context, {
             borderRadius: BorderRadius.all(Radius.circular(15))),
         content: SingleChildScrollView(
           child: SizedBox(
-            height: MediaQuery
-                .of(context)
-                .size
-                .height / 1.6,
+            height: MediaQuery.of(context).size.height / 1.6,
             child: Form(
               key: prov.formKeyTheses,
               child: Column(
@@ -336,7 +364,7 @@ void editTheses(BuildContext context, {
                               underline: Container(
                                 width: 30,
                                 padding:
-                                const EdgeInsets.symmetric(horizontal: 10),
+                                    const EdgeInsets.symmetric(horizontal: 10),
                                 height: .5,
                                 decoration: const BoxDecoration(
                                     color: gray,
@@ -358,7 +386,7 @@ void editTheses(BuildContext context, {
                                   child: SizedBox(
                                     width: sizeFromWidth(context, 2.3),
                                     child:
-                                    Text(value, textAlign: TextAlign.left),
+                                        Text(value, textAlign: TextAlign.left),
                                   ),
                                 );
                               }).toList(),
@@ -402,10 +430,9 @@ void editTheses(BuildContext context, {
                       'nameSupervisors': nameSupervisors.text,
                       'degreeTheses': degreeTheses.text,
                       'thesesStatus': thesesStatus,
-                    }).then((value) =>
-                        () {
-                      Navigator.pop(context);
-                    });
+                    }).then((value) => () {
+                              Navigator.pop(context);
+                            });
                   }
                 } else {
                   if (key.currentState!.validate()) {

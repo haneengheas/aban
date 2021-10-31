@@ -5,10 +5,8 @@ import 'dart:math';
 import 'package:aban/constant/alert_methods.dart';
 import 'package:aban/constant/style.dart';
 import 'package:aban/provider/profile_provider.dart';
-import 'package:aban/screens/profile/eidt_profile/information_items.dart';
 import 'package:aban/screens/profile/eidt_profile/list_project_item.dart';
 import 'package:aban/screens/profile/eidt_profile/project_item.dart';
-import 'package:aban/screens/profile/eidt_profile/theses_montor_accpet_item.dart';
 import 'package:aban/screens/profile/eidt_profile/theses_montor_item.dart';
 import 'package:aban/widgets/buttons/buttonsuser.dart';
 import 'package:aban/widgets/buttons/tetfielduser.dart';
@@ -39,7 +37,7 @@ class _EditProfileState extends State<EditProfile> {
   TextEditingController link = TextEditingController();
   String? image;
   List? field;
-  String ? accept;
+  // String? accept;
 
   void getData() async {
     DocumentSnapshot documentSnapshot2 = await FirebaseFirestore.instance
@@ -56,7 +54,7 @@ class _EditProfileState extends State<EditProfile> {
     id.text = documentSnapshot2.get('id');
     image = documentSnapshot2.get('imageUrl');
     field = documentSnapshot2.get('fields');
-    accept = documentSnapshot2.get('accept');
+    // accept = documentSnapshot2.get('accept');
 
     setState(() {});
   }
@@ -169,8 +167,7 @@ class _EditProfileState extends State<EditProfile> {
                             return 'برجاءادخال البريد الجامعي بشكل صحيح ';
                           }
                         },
-                        controller:
-                        emailuser,
+                        controller: emailuser,
                         hintText: "Reasearsh@ksuedu.sa",
                         labelText: "البريد الجامعى",
                         scure: false,
@@ -260,7 +257,59 @@ class _EditProfileState extends State<EditProfile> {
                   ],
                 ),
               ]),
-              ThesesMontorAccpetItem(accept: accept),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(right: 20, top: 20),
+                    child: Text(
+                      "هل تقبل الاشراف على الاطروحات؟",
+                      style: labelStyle3,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: SizedBox(
+                      height: 30,
+                      child: Row(
+                        children: [
+                          Radio(
+                              value: 1,
+                              groupValue: prov.accept,
+                              onChanged: (value) {
+                                setState(() {
+                                  prov.accept = value;
+                                });
+                              }),
+                          Text('نعم', style: hintStyle3),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: SizedBox(
+                      height: 25,
+                      child: Row(
+                        children: [
+                          Radio(
+                              value: 2,
+                              groupValue: prov.accept,
+                              onChanged: (value) {
+                                setState(() {
+                                  prov.accept = value;
+                                });
+                              }),
+                          Text(
+                            'لا',
+                            style: hintStyle3,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
               const Divider(
                 height: 10,
                 thickness: 1,
@@ -280,7 +329,7 @@ class _EditProfileState extends State<EditProfile> {
                 thickness: 1,
                 color: lightGray,
               ),
-               ProjectItem(),
+              ProjectItem(),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 30),
                 child: Row(
@@ -300,8 +349,8 @@ class _EditProfileState extends State<EditProfile> {
 
                               print('Str list is => $fieldsStr');
 
-                              // await prov.ref.putFile(prov.file!);
-                              // prov.imageurl = await prov.ref.getDownloadURL();
+                              await prov.ref.putFile(prov.file!);
+                              prov.imageurl = await prov.ref.getDownloadURL();
                               await FirebaseFirestore.instance
                                   .collection('member')
                                   .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -313,7 +362,7 @@ class _EditProfileState extends State<EditProfile> {
                                 'id': id.text,
                                 'link': link.text,
                                 'phone': phone.text,
-                                // 'imageUrl': prov.imageurl,
+                                'imageUrl': prov.imageurl,
                                 'fields': fieldsStr
                               });
                             }
