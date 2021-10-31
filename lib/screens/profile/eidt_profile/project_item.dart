@@ -77,6 +77,7 @@ class ProjectItem extends StatelessWidget {
                                   Container(
                                     margin: const EdgeInsets.symmetric(
                                       horizontal: 10,
+                                      vertical: 5
                                     ),
                                     width: sizeFromWidth(context, 1.5),
                                     height: 100,

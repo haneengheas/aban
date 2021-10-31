@@ -275,7 +275,7 @@ class _EditProfileState extends State<EditProfile> {
                       child: Row(
                         children: [
                           Radio(
-                              value: 1,
+                              value: 0,
                               groupValue: prov.accept,
                               onChanged: (value) {
                                 setState(() {
@@ -294,7 +294,7 @@ class _EditProfileState extends State<EditProfile> {
                       child: Row(
                         children: [
                           Radio(
-                              value: 2,
+                              value:1,
                               groupValue: prov.accept,
                               onChanged: (value) {
                                 setState(() {

@@ -418,7 +418,6 @@ void editTheses(
                   print(auth.usertype);
                   if (formkey.currentState!.validate()) {
                     formkey.currentState!.save();
-                    showLoading(context);
                     await FirebaseFirestore.instance
                         .collection('member')
                         .doc(FirebaseAuth.instance.currentUser!.uid)
