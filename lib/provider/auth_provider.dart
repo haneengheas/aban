@@ -35,17 +35,22 @@ class AuthProvider with ChangeNotifier {
 
   singup(String email, String password, String name, String userType) async {
     try {
+      UserCredential userCredential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(email: email, password: password);
 
-      await FirebaseFirestore.instance
-          .collection("user")
-          .doc(FirebaseAuth.instance.currentUser!.uid)
-          .set({
-        "username": name,
-        "email": email,
-        "userid": FirebaseAuth.instance.currentUser!.uid,
-        "userType": userType,
-        "var": usertype,
-      });
+      if (userCredential != null) {
+        // ignore: unnecessary_null_comparison
+        await FirebaseFirestore.instance
+            .collection("user")
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .set({
+          "username": name,
+          "email": email,
+          "userid": FirebaseAuth.instance.currentUser!.uid,
+          "userType": userType,
+          "var": usertype,
+        });
+      }
     } catch (e) {
       print(e);
       debugPrint('=========================');
