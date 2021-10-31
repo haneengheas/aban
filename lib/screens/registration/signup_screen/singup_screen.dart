@@ -112,7 +112,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           Consumer<AuthProvider>(
                               builder: (context, object, child) {
                                 return Radio(
-                                    value: 1,
+                                    value: 0,
                                     groupValue: object.usertype,
                                     onChanged: (value) {
                                       setState(() {
@@ -132,7 +132,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           Consumer<AuthProvider>(
                             builder: (context, object, child) {
                               return Radio(
-                                  value: 2,
+                                  value: 1,
                                   groupValue: object.usertype,
                                   onChanged: (value) {
                                     print(value);
