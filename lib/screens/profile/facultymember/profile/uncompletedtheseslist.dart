@@ -6,16 +6,16 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-class ThesesList extends StatefulWidget {
+class UnComletedThesesList extends StatefulWidget {
   final String text;
 
-  const ThesesList({required this.text});
+  const UnComletedThesesList({required this.text});
 
   @override
-  State<ThesesList> createState() => _ThesesListState();
+  State<UnComletedThesesList> createState() => _UnComletedThesesListState();
 }
 
-class _ThesesListState extends State<ThesesList> {
+class _UnComletedThesesListState extends State<UnComletedThesesList> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -33,7 +33,7 @@ class _ThesesListState extends State<ThesesList> {
                 .collection('member')
                 .doc(FirebaseAuth.instance.currentUser!.uid)
                 .collection("theses")
-                .where('thesesStatus', isEqualTo: 'مكتملة')
+                .where('thesesStatus', isEqualTo: "غير مكتملة")
                 .get(),
             builder: (context, snapshot) {
               return Expanded(
@@ -82,7 +82,7 @@ class _ThesesListState extends State<ThesesList> {
                                 ),
                                 Column(
                                     crossAxisAlignment:
-                                        CrossAxisAlignment.center,
+                                    CrossAxisAlignment.center,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
@@ -94,7 +94,7 @@ class _ThesesListState extends State<ThesesList> {
                                           setState(() {
                                             print('1');
                                             completed[index][3] =
-                                                !completed[index][3];
+                                            !completed[index][3];
                                           });
                                         },
                                         child: Container(
@@ -104,17 +104,17 @@ class _ThesesListState extends State<ThesesList> {
                                                 vertical: 10),
                                             child: completed[index][3]
                                                 ? ImageIcon(
-                                                    AssetImage(
-                                                      'assets/${completed[index][1]}',
-                                                    ),
-                                                    color: blue,
-                                                  )
+                                              AssetImage(
+                                                'assets/${completed[index][1]}',
+                                              ),
+                                              color: blue,
+                                            )
                                                 : ImageIcon(
-                                                    AssetImage(
-                                                      'assets/${completed[index][2]}',
-                                                    ),
-                                                    color: blue,
-                                                  )),
+                                              AssetImage(
+                                                'assets/${completed[index][2]}',
+                                              ),
+                                              color: blue,
+                                            )),
                                       ),
                                     ]),
                               ],

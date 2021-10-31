@@ -3,6 +3,8 @@ import 'package:aban/screens/profile/eidt_profile/view.dart';
 import 'package:aban/screens/profile/facultymember/profile/field_list.dart';
 import 'package:aban/screens/profile/facultymember/profile/project_list.dart';
 import 'package:aban/screens/profile/facultymember/profile/theses_list.dart';
+import 'package:aban/screens/profile/facultymember/profile/uncompletedprojects.dart';
+import 'package:aban/screens/profile/facultymember/profile/uncompletedtheseslist.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -125,13 +127,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         children: [
                                           Text(
                                             "${snapshot.data!.docs[0]['name']}",
-                                            style: labelStyle2,
+                                            style: hintStyle4,
                                           ),
                                           Row(
                                             children: [
                                               Text(
                                                 "${snapshot.data!.docs[0]['faculty'] + '   ' + snapshot.data!.docs[0]['degree']}",
-                                                style: hintStyle,
+                                                style: hintStyle4,
                                               ),
                                               SizedBox(
                                                 width:
@@ -139,7 +141,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               ),
                                               Text(
                                                 "${snapshot.data!.docs[0]['link']}",
-                                                style: hintStyle3,
+                                                style: hintStyle4,
                                               ),
                                             ],
                                           ),
@@ -157,13 +159,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               ),
                                               Text(
                                                 "${snapshot.data!.docs[0]['phone']}",
-                                                style: hintStyle,
+                                                style: hintStyle4,
                                               ),
                                             ],
                                           ),
                                           Text(
                                             "${snapshot.data!.docs[0]['id']}",
-                                            style: hintStyle,
+                                            style: hintStyle4,
                                           ),
                                         ],
                                       ),
@@ -237,11 +239,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                 text:
                                                     'اطروحة مكتملة تحت اشرافي',
                                               ),
-                                              ThesesList(
+                                              UnComletedThesesList(
                                                 text: 'اطروحة جارية تحت اشرافي',
                                               ),
                                               ProjectList(),
-                                              ProjectList(),
+                                              UnCompletedProjectList(),
                                             ],
                                           ),
                                         ),
@@ -253,7 +255,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             );
                           }
                         }
-                        return CircularProgressIndicator();
+                        return const CircularProgressIndicator();
                       }),
                 ),
               ],
