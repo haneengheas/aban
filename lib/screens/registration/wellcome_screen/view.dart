@@ -75,14 +75,14 @@ class _WellcomeScreenState extends State<WellcomeScreen> {
                             text: ' أنشيء ملفك الشخصي     ',
                             onTap: () {
                               print(provider.usertype);
-                              if (provider.usertype == 1) {
+                              if (provider.usertype == 0) {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
                                             const CreateMemberProfile(
                                             )));
-                              } else if (provider.usertype== 2) {
+                              } else if (provider.usertype== 1) {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(

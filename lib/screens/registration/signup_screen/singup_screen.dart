@@ -161,7 +161,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               Provider
                                   .of<AuthProvider>(context, listen: false)
                                   .usertype ==
-                                  1
+                                  0
                                   ? 'member'
                                   : 'student';
                               print(userType);

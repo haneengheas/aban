@@ -32,7 +32,7 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
   var name;
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  void getData() async {
+   getData() async {
     DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
         .collection("user")
         .doc(FirebaseAuth.instance.currentUser!.uid)

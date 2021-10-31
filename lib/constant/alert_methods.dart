@@ -383,7 +383,7 @@ void showDialogProject(BuildContext context, {required String text}) {
               text: 'أضافة',
               color: blueGradient,
               onTap: () async {
-                if (auth.usertype == 1) {
+                if (auth.usertype == 0) {
                   await prov.addProjectsMember(context: context,
                       projectName: prov.projectName,
                       descriptionProject:  prov.descriptionProject,
@@ -392,7 +392,7 @@ void showDialogProject(BuildContext context, {required String text}) {
                       projectStatus:  prov.projectStatus);
                   Navigator.pop(context);
                 }
-                else if (auth.usertype==2) {
+                else if (auth.usertype==1) {
                   await prov.addGraduatedProject(context: context,
                       projectName:  prov.projectName,
                       descriptionProject:  prov.descriptionProject,
