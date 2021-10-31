@@ -97,7 +97,7 @@ class AuthProvider with ChangeNotifier {
       }
     }
   }
-
+//test
   getUserStatus() async {
     await FirebaseFirestore.instance
         .collection('users')

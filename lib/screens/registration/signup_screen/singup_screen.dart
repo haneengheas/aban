@@ -117,8 +117,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     onChanged: (value) {
                                       setState(() {
                                         object.usertype = value;
-                                        print("============////////=========");
-                                        print(prov.departments);
+
                                       });
                                     });
                               }),

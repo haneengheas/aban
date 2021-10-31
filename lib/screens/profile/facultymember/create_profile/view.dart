@@ -32,7 +32,8 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
   var name;
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-   getData() async {
+
+  getData() async {
     DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
         .collection("user")
         .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -208,10 +209,10 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => NavigationFile(
-                                  d: studentDrawer(context),
-                                  title: 'مرحبا{"اسم الباحث"}',
-                                  counter: 1,
-                                )));
+                                      d: studentDrawer(context),
+                                      title: 'مرحبا{"اسم الباحث"}',
+                                      counter: 1,
+                                    )));
                       }
                     }
                   },
