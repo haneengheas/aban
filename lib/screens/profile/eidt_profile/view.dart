@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:aban/constant/alert_methods.dart';
+import 'package:aban/constant/loading_methods.dart';
 import 'package:aban/constant/style.dart';
 import 'package:aban/provider/profile_provider.dart';
 import 'package:aban/screens/profile/eidt_profile/list_project_item.dart';
@@ -330,50 +331,50 @@ class _EditProfileState extends State<EditProfile> {
                 color: lightGray,
               ),
               ProjectItem(),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 30),
-                child: Row(
-                  children: [
-                    ButtonUser(
-                        text: 'حفظ التغيرات',
-                        color: blueGradient,
-                        onTap: () async {
-                          showDialogWarning(context, ontap: () async {
-                            if (formkey.currentState!.validate()) {
-                              formkey.currentState!.save();
-                              List<String> fieldsStr = <String>[];
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ButtonUser(
+                      text: 'حفظ التغيرات',
+                      color: blueGradient,
+                      onTap: () async {
+                        showDialogWarning(context, ontap: () async {
+                          if (formkey.currentState!.validate()) {
+                            formkey.currentState!.save();
+                            List<String> fieldsStr = <String>[];
 
-                              for (var element in prov.fields) {
-                                fieldsStr.add(element.text);
-                              }
-
-                              print('Str list is => $fieldsStr');
-
-                              await prov.ref.putFile(prov.file!);
-                              prov.imageurl = await prov.ref.getDownloadURL();
-                              await FirebaseFirestore.instance
-                                  .collection('member')
-                                  .doc(FirebaseAuth.instance.currentUser!.uid)
-                                  .update({
-                                'name': name.text,
-                                'accept': prov.accept,
-                                'degree': degree.text,
-                                'faculty': faculty.text,
-                                'id': id.text,
-                                'link': link.text,
-                                'phone': phone.text,
-                                'imageUrl': prov.imageurl,
-                                'fields': fieldsStr
-                              });
+                            for (var element in prov.fields) {
+                              fieldsStr.add(element.text);
                             }
-                            Navigator.pop(context);
 
-                            print(name);
-                          }, text: 'هل انت متاكد من حفظ التغييرات ؟');
-                        }),
-                    ButtonUser(text: 'الغاء', color: redGradient, onTap: () {}),
-                  ],
-                ),
+                            print('Str list is => $fieldsStr');
+
+                            // await prov.ref.putFile(prov.file!);
+                            // prov.imageurl = await prov.ref.getDownloadURL();
+                            await FirebaseFirestore.instance
+                                .collection('member')
+                                .doc(FirebaseAuth.instance.currentUser!.uid)
+                                .update({
+                              'name': name.text,
+                              'accept': prov.accept,
+                              'degree': degree.text,
+                              'faculty': faculty.text,
+                              'id': id.text,
+                              'link': link.text,
+                              'phone': phone.text,
+                              // 'imageUrl': prov.imageurl,
+                              'fields': fieldsStr
+                            }).then((value) {
+                              Navigator.pop(context);
+                            });
+                          }
+
+
+                          print(name);
+                        }, text: 'هل انت متاكد من حفظ التغييرات ؟');
+                      }),
+                  ButtonUser(text: 'الغاء', color: redGradient, onTap: () {}),
+                ],
               ),
               Center(
                   child: ButtonUser(

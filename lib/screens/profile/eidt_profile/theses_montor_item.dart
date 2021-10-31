@@ -26,7 +26,7 @@ class _ThesesGraduatedMontorItemState extends State<ThesesGraduatedMontorItem> {
   TextEditingController nameSupervisors = TextEditingController();
   TextEditingController degreeTheses = TextEditingController();
   String? thesesStatus;
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   dynamic indexed;
 
@@ -91,15 +91,16 @@ class _ThesesGraduatedMontorItemState extends State<ThesesGraduatedMontorItem> {
                           itemBuilder: (context, index) {
                             return Dismissible(
                                 background: Container(
-                                  color: Colors.red,
-                                ),
-                                secondaryBackground: Container(
+                                  color: red,
                                   child: const Center(
                                     child: Text(
                                       'Delete',
                                       style: TextStyle(color: Colors.white),
                                     ),
                                   ),
+                                ),
+                                secondaryBackground: Container(
+
                                   color: Colors.red,
                                 ),
                                 onDismissed: (DismissDirection direction) async {
@@ -115,13 +116,13 @@ class _ThesesGraduatedMontorItemState extends State<ThesesGraduatedMontorItem> {
                                 direction: DismissDirection.startToEnd,
                                 child: Row(
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
+                                      MainAxisAlignment.spaceAround,
                                   children: [
                                     Container(
                                       // padding: const EdgeInsets.symmetric(
                                       //     horizontal: 5),
                                       margin: const EdgeInsets.symmetric(
-                                          horizontal: 10, vertical: 5),
+                                          horizontal: 5, vertical: 5),
                                       width: sizeFromWidth(context, 1.5),
                                       height: 100,
                                       decoration: BoxDecoration(
@@ -185,7 +186,7 @@ class _ThesesGraduatedMontorItemState extends State<ThesesGraduatedMontorItem> {
                                         onPressed: () {
                                           editTheses(context,
                                               text: 'تعديل اطروحة',
-                                              key: formKey,
+                                              formkey: formKey,
                                               indexed:
                                                   snapshot.data!.docs[index].id,
                                               degreeTheses: degreeTheses,
@@ -254,7 +255,7 @@ void editTheses(
   required TextEditingController assistantSupervisors,
   required TextEditingController degreeTheses,
   required String? thesesStatus,
-  required GlobalKey<FormState> key,
+  required GlobalKey<FormState> formkey,
 }) {
   showDialog(
     context: context,
@@ -274,7 +275,7 @@ void editTheses(
           child: SizedBox(
             height: MediaQuery.of(context).size.height / 1.6,
             child: Form(
-              key: prov.formKeyTheses,
+              key: formkey,
               child: Column(
                 children: [
                   TextFieldUser(
@@ -415,8 +416,8 @@ void editTheses(
                 print(auth.usertype);
                 if (auth.usertype == 0) {
                   print(auth.usertype);
-                  if (key.currentState!.validate()) {
-                    key.currentState!.save();
+                  if (formkey.currentState!.validate()) {
+                    formkey.currentState!.save();
                     showLoading(context);
                     await FirebaseFirestore.instance
                         .collection('member')
@@ -435,8 +436,8 @@ void editTheses(
                             });
                   }
                 } else {
-                  if (key.currentState!.validate()) {
-                    key.currentState!.save();
+                  if (formkey.currentState!.validate()) {
+                    formkey.currentState!.save();
                     showLoading(context);
                     await FirebaseFirestore.instance
                         .collection('graduated')
