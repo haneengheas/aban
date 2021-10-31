@@ -164,6 +164,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   1
                                   ? 'member'
                                   : 'student';
+                              print(userType);
                               provider.singup(email, password, name, userType);
                               Navigator.push(
                                   context,

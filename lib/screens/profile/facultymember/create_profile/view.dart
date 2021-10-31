@@ -33,12 +33,12 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   void getData() async {
-    DocumentSnapshot documentSnapshot2 = await FirebaseFirestore.instance
-        .collection("member")
+    DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
+        .collection("user")
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .get();
-    debugPrint('userType is ${documentSnapshot2.get('userId')}');
-    name.text = documentSnapshot2.get('name');
+    debugPrint('userName is ${documentSnapshot.get('username')}');
+    name = documentSnapshot.get('name');
     setState(() {});
   }
 
@@ -202,13 +202,14 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                           phone: prov.phone,
                           link: prov.link,
                         );
+                        print(name);
 
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => NavigationFile(
                                   d: studentDrawer(context),
-                                  title: 'مرحبا"اسم الباحث"',
+                                  title: 'مرحبا{"اسم الباحث"}',
                                   counter: 1,
                                 )));
                       }

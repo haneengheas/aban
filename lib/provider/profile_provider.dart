@@ -31,7 +31,23 @@ class ProfileProvider with ChangeNotifier {
   late String projectName;
   late String descriptionProject;
   late String leaderName;
+  late String memberProjectName;
+
   String? projectStatus;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // methods to add and create member profile in fire base
   createMemberProfile({
     required BuildContext context,
@@ -114,6 +130,7 @@ class ProfileProvider with ChangeNotifier {
     required String descriptionProject,
     required String leaderName,
     required String? projectStatus,
+    required String memberProjectName,
   }) async {
     showLoading(context);
     await FirebaseFirestore.instance
@@ -125,6 +142,7 @@ class ProfileProvider with ChangeNotifier {
       'descriptionProject': descriptionProject,
       'leaderName': leaderName,
       'projectStatus': projectStatus,
+      'memberProjectName': memberProjectName,
     });
     Navigator.pop(context);
     notifyListeners();
@@ -203,6 +221,7 @@ class ProfileProvider with ChangeNotifier {
     required String descriptionProject,
     required String leaderName,
     required String? projectStatus,
+    required String memberProjectName,
   }) async {
     showLoading(context);
     await FirebaseFirestore.instance
@@ -214,6 +233,7 @@ class ProfileProvider with ChangeNotifier {
       'descriptionProject': descriptionProject,
       'leaderName': leaderName,
       'projectStatus': projectStatus,
+      'memberProjectName':memberProjectName,
     });
     Navigator.pop(context);
     notifyListeners();

@@ -6,7 +6,7 @@ import 'package:aban/widgets/buttons/tetfielduser.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-void showDialogWarning(BuildContext context, {required String text, required Function ontap,}) {
+ showDialogWarning(BuildContext context, {required String text, required Function ontap,}) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -40,7 +40,7 @@ void showDialogWarning(BuildContext context, {required String text, required Fun
   );
 }
 
-void showDialogTheses(BuildContext context, {required String text}) {
+void showDialogTheses(BuildContext context, {required String text,}) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -209,7 +209,7 @@ void showDialogTheses(BuildContext context, {required String text}) {
               color: blueGradient,
               onTap: () async {
                 print(auth.usertype);
-                if (auth.usertype == 1) {
+                if (auth.usertype == 0) {
                   print(auth.usertype);
                   await prov.addThesesMember(
                       context: context,
@@ -239,6 +239,7 @@ void showDialogTheses(BuildContext context, {required String text}) {
   );
 }
 
+
 void showDialogProject(BuildContext context, {required String text}) {
   showDialog(
     context: context,
@@ -259,7 +260,7 @@ void showDialogProject(BuildContext context, {required String text}) {
             height: MediaQuery
                 .of(context)
                 .size
-                .height / 2.5,
+                .height / 2,
             child: Form(
               key: prov.formKeyProject,
               child: Column(
@@ -299,6 +300,18 @@ void showDialogProject(BuildContext context, {required String text}) {
                       },
                       hintText: 'اسم القائد',
                       labelText: "القائد",
+                      scure: false),
+                  TextFieldUser(
+                      onChanged: (val) {
+                        prov.memberProjectName = val;
+                      },
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'برجاءادخال اسماء الاعضاء ';
+                        }
+                      },
+                      hintText: 'اسم الاعضاء',
+                      labelText: "الاعضاء",
                       scure: false),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 7.5),
@@ -375,6 +388,7 @@ void showDialogProject(BuildContext context, {required String text}) {
                       projectName: prov.projectName,
                       descriptionProject:  prov.descriptionProject,
                       leaderName:  prov.leaderName,
+                      memberProjectName: prov.memberProjectName,
                       projectStatus:  prov.projectStatus);
                   Navigator.pop(context);
                 }
@@ -383,6 +397,7 @@ void showDialogProject(BuildContext context, {required String text}) {
                       projectName:  prov.projectName,
                       descriptionProject:  prov.descriptionProject,
                       leaderName: prov.leaderName,
+                      memberProjectName: prov.memberProjectName,
                       projectStatus: prov.projectStatus);
                   Navigator.pop(context);
                 }

@@ -1,9 +1,11 @@
 // ignore_for_file: prefer_typing_uninitialized_variables
 import 'dart:io';
 import 'dart:math';
+
 import 'package:aban/constant/alert_methods.dart';
 import 'package:aban/constant/style.dart';
 import 'package:aban/provider/profile_provider.dart';
+import 'package:aban/screens/profile/eidt_profile/information_items.dart';
 import 'package:aban/screens/profile/eidt_profile/list_project_item.dart';
 import 'package:aban/screens/profile/eidt_profile/project_item.dart';
 import 'package:aban/screens/profile/eidt_profile/theses_montor_accpet_item.dart';
@@ -35,9 +37,9 @@ class _EditProfileState extends State<EditProfile> {
   TextEditingController faculty = TextEditingController();
   TextEditingController id = TextEditingController();
   TextEditingController link = TextEditingController();
-  String ? image;
-  List ? field;
-  var accept ;
+  String? image;
+  List? field;
+  String ? accept;
 
   void getData() async {
     DocumentSnapshot documentSnapshot2 = await FirebaseFirestore.instance
@@ -53,9 +55,8 @@ class _EditProfileState extends State<EditProfile> {
     degree.text = documentSnapshot2.get('degree');
     id.text = documentSnapshot2.get('id');
     image = documentSnapshot2.get('imageUrl');
-    field= documentSnapshot2.get('fields');
+    field = documentSnapshot2.get('fields');
     accept = documentSnapshot2.get('accept');
-    
 
     setState(() {});
   }
@@ -63,7 +64,10 @@ class _EditProfileState extends State<EditProfile> {
   @override
   void initState() {
     Future.delayed(Duration.zero, () {
-      var prov = Provider.of<ProfileProvider>(context,listen: false,);
+      var prov = Provider.of<ProfileProvider>(
+        context,
+        listen: false,
+      );
       prov.fields.clear();
       prov.file = File('');
       setState(() {});
@@ -98,10 +102,10 @@ class _EditProfileState extends State<EditProfile> {
         textDirection: TextDirection.rtl,
         child: SingleChildScrollView(
             child: Form(
-              key: formkey,
-              child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+          key: formkey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
               Column(children: [
                 Padding(
                   padding:
@@ -112,8 +116,8 @@ class _EditProfileState extends State<EditProfile> {
                         onTap: () async {
                           await showBottomSheet(context);
                         },
-                        child:  Image(
-                          image:NetworkImage(image!),
+                        child: Image(
+                          image: NetworkImage(image!),
                           height: 80,
                         ),
                       ),
@@ -165,7 +169,8 @@ class _EditProfileState extends State<EditProfile> {
                             return 'برجاءادخال البريد الجامعي بشكل صحيح ';
                           }
                         },
-                        controller: emailuser,
+                        controller:
+                        emailuser,
                         hintText: "Reasearsh@ksuedu.sa",
                         labelText: "البريد الجامعى",
                         scure: false,
@@ -255,25 +260,27 @@ class _EditProfileState extends State<EditProfile> {
                   ],
                 ),
               ]),
-               ThesesMontorAccpetItem(accept:accept),
+              ThesesMontorAccpetItem(accept: accept),
               const Divider(
                 height: 10,
                 thickness: 1,
                 color: lightGray,
               ),
-               ListProjectItem(fields: field,),
+              ListProjectItem(
+                fields: field,
+              ),
               const Divider(
                 height: 10,
                 thickness: 1,
                 color: lightGray,
               ),
-              const ThesesGraduatedMontorItem(),
+              ThesesGraduatedMontorItem(),
               const Divider(
                 height: 20,
                 thickness: 1,
                 color: lightGray,
               ),
-              const ProjectItem(),
+               ProjectItem(),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 30),
                 child: Row(
@@ -283,39 +290,36 @@ class _EditProfileState extends State<EditProfile> {
                         color: blueGradient,
                         onTap: () async {
                           showDialogWarning(context, ontap: () async {
-                           if(formkey.currentState!.validate()){
-                             formkey.currentState!.save();
-                             List<String> fieldsStr = <String>[];
+                            if (formkey.currentState!.validate()) {
+                              formkey.currentState!.save();
+                              List<String> fieldsStr = <String>[];
 
-                             for (var element in prov.fields) {
-                               fieldsStr.add(element.text);
-                             }
+                              for (var element in prov.fields) {
+                                fieldsStr.add(element.text);
+                              }
 
-                             print('Str list is => $fieldsStr');
+                              print('Str list is => $fieldsStr');
 
-                             // await prov.ref.putFile(prov.file!);
-                             // prov.imageurl = await prov.ref.getDownloadURL();
-                             await FirebaseFirestore.instance
-                                 .collection('member')
-                                 .doc(FirebaseAuth.instance.currentUser!.uid)
-                                 .update({
-                               'name': name.text,
-                               'accept': prov.accept,
-                               'degree' :degree.text,
-                               'faculty':faculty.text,
-                               'id':id.text,
-                               'link':link.text,
-                               'phone': phone.text,
-                               // 'imageUrl': prov.imageurl,
-                               'fields':fieldsStr
+                              // await prov.ref.putFile(prov.file!);
+                              // prov.imageurl = await prov.ref.getDownloadURL();
+                              await FirebaseFirestore.instance
+                                  .collection('member')
+                                  .doc(FirebaseAuth.instance.currentUser!.uid)
+                                  .update({
+                                'name': name.text,
+                                'accept': prov.accept,
+                                'degree': degree.text,
+                                'faculty': faculty.text,
+                                'id': id.text,
+                                'link': link.text,
+                                'phone': phone.text,
+                                // 'imageUrl': prov.imageurl,
+                                'fields': fieldsStr
+                              });
+                            }
+                            Navigator.pop(context);
 
-                             });
-                           }
-                           Navigator.pop(context);
-
-
-                           print(name);
-
+                            print(name);
                           }, text: 'هل انت متاكد من حفظ التغييرات ؟');
                         }),
                     ButtonUser(text: 'الغاء', color: redGradient, onTap: () {}),
@@ -330,13 +334,14 @@ class _EditProfileState extends State<EditProfile> {
                         showDialogWarning(context,
                             text: 'هل انت متاكد من حذف الحساب ؟', ontap: () {});
                       }))
-          ],
-        ),
-            )),
+            ],
+          ),
+        )),
       ),
     );
   }
 }
+
 showBottomSheet(ctx) {
   return showModalBottomSheet(
       context: ctx,
@@ -385,7 +390,7 @@ showBottomSheet(ctx) {
               InkWell(
                 onTap: () async {
                   var picked =
-                  await ImagePicker().pickImage(source: ImageSource.camera);
+                      await ImagePicker().pickImage(source: ImageSource.camera);
                   if (picked != null) {
                     prov.file = File(picked.path);
                     var rang = Random().nextInt(100000);

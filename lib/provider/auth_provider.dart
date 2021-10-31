@@ -70,7 +70,7 @@ class AuthProvider with ChangeNotifier {
 
       usertype = documentSnapshot.get('userType') == 'student' ? 1 : 0;
       userName = documentSnapshot.get('username') ;
-      print(userName);
+      print(usertype);
 
       notifyListeners();
       return true;
