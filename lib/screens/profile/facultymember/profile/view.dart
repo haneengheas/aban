@@ -96,7 +96,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
-                          return CircularProgressIndicator();
+                          return  const Text('');
                         }
                         if (snapshot.connectionState == ConnectionState.done) {
                           if (snapshot.hasError) {
@@ -175,9 +175,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ),
                                 Row(
                                   children: [
-                                    const Icon(
+                                    snapshot.data!.docs[0]['accept'] == 0? const Icon(
                                       Icons.check,
                                       color: Colors.green,
+                                    ):const Icon(
+                                      Icons.check,
+                                      color: Colors.red,
                                     ),
                                     Text(
                                       "أقبل الاشراف على الاطروحات ",
@@ -193,7 +196,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ),
                                 SizedBox(
                                   height:
-                                      MediaQuery.of(context).size.height / 1.85,
+                                      MediaQuery.of(context).size.height /1.65,
                                   child: Column(
                                     children: [
                                       const Divider(
@@ -235,15 +238,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           child: TabBarView(
                                             children: [
                                               FieldList(),
-                                              ThesesList(
+                                              CompeletedTheses(
                                                 text:
                                                     'اطروحة مكتملة تحت اشرافي',
                                               ),
                                               UnComletedThesesList(
                                                 text: 'اطروحة جارية تحت اشرافي',
                                               ),
-                                              ProjectList(),
-                                              UnCompletedProjectList(),
+                                              CompletedProject(
+                                                text: 'مشاريع مكتملة تحت اشرافي',
+
+                                              ),
+                                              UnCompletedProject(
+                                                text: 'مشاريع جارية تحت اشرافي',
+
+                                              ),
                                             ],
                                           ),
                                         ),

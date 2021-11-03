@@ -109,8 +109,6 @@ class ProfileProvider with ChangeNotifier {
   }) async {
     showLoading(context);
     await FirebaseFirestore.instance
-        .collection('member')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection('theses')
         .add({
       'nameTheses': nameTheses,
@@ -119,6 +117,8 @@ class ProfileProvider with ChangeNotifier {
       'nameSupervisors': nameSupervisors,
       'degreeTheses': degreeTheses,
       'thesesStatus': thesesStatus,
+      'userId': FirebaseAuth.instance.currentUser!.uid,
+
     });
     Navigator.pop(context);
     notifyListeners();
@@ -134,8 +134,6 @@ class ProfileProvider with ChangeNotifier {
   }) async {
     showLoading(context);
     await FirebaseFirestore.instance
-        .collection('member')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection('project')
         .add({
       'projectName': projectName,
@@ -200,8 +198,6 @@ class ProfileProvider with ChangeNotifier {
   }) async {
     showLoading(context);
     await FirebaseFirestore.instance
-        .collection('graduated')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection('theses')
         .add({
       'nameTheses': nameTheses,
@@ -225,8 +221,6 @@ class ProfileProvider with ChangeNotifier {
   }) async {
     showLoading(context);
     await FirebaseFirestore.instance
-        .collection('graduated')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection('project')
         .add({
       'projectName': projectName,

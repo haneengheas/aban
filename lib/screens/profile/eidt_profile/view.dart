@@ -1,9 +1,7 @@
 // ignore_for_file: prefer_typing_uninitialized_variables
 import 'dart:io';
 import 'dart:math';
-
 import 'package:aban/constant/alert_methods.dart';
-import 'package:aban/constant/loading_methods.dart';
 import 'package:aban/constant/style.dart';
 import 'package:aban/provider/profile_provider.dart';
 import 'package:aban/screens/profile/eidt_profile/list_project_item.dart';
@@ -38,7 +36,7 @@ class _EditProfileState extends State<EditProfile> {
   TextEditingController link = TextEditingController();
   String? image;
   List? field;
-  // String? accept;
+   int? accepted;
 
   void getData() async {
     DocumentSnapshot documentSnapshot2 = await FirebaseFirestore.instance
@@ -55,7 +53,8 @@ class _EditProfileState extends State<EditProfile> {
     id.text = documentSnapshot2.get('id');
     image = documentSnapshot2.get('imageUrl');
     field = documentSnapshot2.get('fields');
-    // accept = documentSnapshot2.get('accept');
+    accepted = documentSnapshot2.get('accept');
+    print(accepted);
 
     setState(() {});
   }
@@ -105,6 +104,7 @@ class _EditProfileState extends State<EditProfile> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // widgets for  profile information
               Column(children: [
                 Padding(
                   padding:
@@ -258,6 +258,7 @@ class _EditProfileState extends State<EditProfile> {
                   ],
                 ),
               ]),
+              // accept theses montor
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -274,8 +275,8 @@ class _EditProfileState extends State<EditProfile> {
                       height: 30,
                       child: Row(
                         children: [
-                          Radio(
-                              value: 0,
+                          Radio<int>(
+                              value:0,
                               groupValue: prov.accept,
                               onChanged: (value) {
                                 setState(() {

@@ -2,7 +2,6 @@
 
 import 'package:aban/constant/style.dart';
 import 'package:aban/provider/auth_provider.dart';
-import 'package:aban/provider/model.dart';
 import 'package:aban/screens/registration/wellcome_screen/view.dart';
 import 'package:aban/widgets/buttons/submit_button.dart';
 
@@ -27,7 +26,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     var provider = Provider.of<AuthProvider>(context);
-    var prov = Provider.of<MyModel>(context);
 
     return Scaffold(
       backgroundColor: white,

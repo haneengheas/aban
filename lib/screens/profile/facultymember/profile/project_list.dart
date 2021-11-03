@@ -6,118 +6,129 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-class ProjectList extends StatefulWidget {
-  const ProjectList({Key? key}) : super(key: key);
+class CompletedProject extends StatefulWidget {
+  final String text;
+
+  const CompletedProject({required this.text});
 
   @override
-  State<ProjectList> createState() => _ProjectListState();
+  State<CompletedProject> createState() => _CompletedProjectState();
 }
 
-class _ProjectListState extends State<ProjectList> {
-  bool checked= true;
+class _CompletedProjectState extends State<CompletedProject> {
+  bool checked = true;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        FutureBuilder<QuerySnapshot>(
-          future: FirebaseFirestore.instance
-        .collection('member')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .collection("project")
-        .where('projectStatus', isEqualTo: 'مكتملة')
-        .get(),
-          builder: (context, snapshot) {
-            return Expanded(
-              child: SizedBox(
-                child: ListView.builder(
-                    itemCount: snapshot.data!.docs.length,
-                    itemBuilder: (context, index) {
-                      return Container(
-                        margin:const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                        width: sizeFromWidth(context, 1),
-                        height: 100,
-                        decoration: BoxDecoration(
-                          color: clearblue,
-                          borderRadius: BorderRadius.circular(25),
-                        ),
-                        child: Directionality(
-                          textDirection: TextDirection.rtl,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.center,
+        StreamBuilder(
+            stream: FirebaseFirestore.instance
+                .collection('project')
+                .where('userId',
+                    isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+                .where('projectStatus', isEqualTo: 'مكتملة')
+                .snapshots(),
+            builder:
+                (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              if (snapshot.hasData) {
+                return Expanded(
+                  child: SizedBox(
+                    child: ListView.builder(
+                        itemCount: snapshot.data!.docs.length,
+                        itemBuilder: (context, index) {
+                          return Container(
+                            margin: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 10),
+                            width: sizeFromWidth(context, 1),
+                            height: 100,
+                            decoration: BoxDecoration(
+                              color: clearblue,
+                              borderRadius: BorderRadius.circular(25),
+                            ),
+                            child: Directionality(
+                              textDirection: TextDirection.rtl,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
                                 children: [
-                                  Text(
-                                    '${snapshot.data!.docs[0]['projectName']}',
-                                    style: labelStyle3,
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        '${snapshot.data!.docs[index]['projectName']}',
+                                        style: labelStyle3,
+                                      ),
+                                      Text(
+                                        'القائد :' +
+                                            snapshot.data!.docs[index]
+                                                ["leaderName"],
+                                        style: hintStyle3,
+                                      ),
+                                      Text(
+                                        'الاعضاء :' +
+                                            snapshot.data!.docs[index]
+                                                ["memberProjectName"],
+                                        style: hintStyle3,
+                                      ),
+                                    ],
                                   ),
-                                  Text(
-                                    'القائد :'  + snapshot.data!.docs[0]["leaderName"],
-                                    style: hintStyle3,
+                                  const SizedBox(
+                                    width: 50,
                                   ),
-                                  Text(
-                                    'الاعضاء :'  + snapshot.data!.docs[0]["memberProjectName"],
-                                    style: hintStyle3,
+                                  const VerticalDivider(
+                                    color: gray,
+                                    endIndent: 10,
+                                    indent: 10,
+                                    width: 10,
+                                    thickness: 2,
+                                  ),
+                                  InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        print('1');
+                                        completed[index][2] =
+                                            !completed[index][2];
+                                      });
+                                    },
+                                    child: Container(
+                                        height: 40,
+                                        width: 25,
+                                        margin: const EdgeInsets.symmetric(
+                                            vertical: 10),
+                                        child: completed[index][2]
+                                            ? ImageIcon(
+                                                AssetImage(
+                                                  'assets/${completed[index][1]}',
+                                                ),
+                                                color: blue,
+                                              )
+                                            : ImageIcon(
+                                                AssetImage(
+                                                  'assets/${completed[index][3]}',
+                                                ),
+                                                color: blue,
+                                              )),
                                   ),
                                 ],
                               ),
-                              const SizedBox(
-                                width: 50,
-                              ),
-                              const VerticalDivider(
-                                color: gray,
-                                endIndent: 10,
-                                indent: 10,
-                                width: 10,
-                                thickness: 2,
-                              ),
-                              InkWell(
-                                onTap: (){
-                                  setState(() {
-                                    print('1');
-                                    completed[index][2]=!completed[index][2];
-                                  });
-                                },
-                                child: Container(
-                                  height: 40,
-                                  width: 25,
-                                  margin: const EdgeInsets.symmetric(vertical: 10),
-                                  child: completed[index][2]?ImageIcon(
-                                    AssetImage(
-                                      'assets/${completed[index][1]}',
-                                    ),
-                                    color: blue,
-                                  ):
-                                  ImageIcon(
-                                    AssetImage(
-                                      'assets/${completed[index][3]}',
-                                    ),
-                                    color: blue,
-                                  )
-
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    }),
-              ),
-            );
-          }
-        ),
+                            ),
+                          );
+                        }),
+                  ),
+                );
+              }
+              return const Text('');
+            })
       ],
     );
   }
 }
 
 List<List> completed = [
-  ['دكتوراه', 'bookmark (1).png',true,'bookmark (2).png'],
-  ['ماجستير', 'bookmark (1).png',false,'bookmark (2).png'],
-  ['دكتوراه', 'bookmark (1).png',true,'bookmark (2).png'],
-  ['ماجستير', 'bookmark (1).png',true,'bookmark (2).png'],
+  ['دكتوراه', 'bookmark (1).png', true, 'bookmark (2).png'],
+  ['ماجستير', 'bookmark (1).png', false, 'bookmark (2).png'],
+  ['دكتوراه', 'bookmark (1).png', true, 'bookmark (2).png'],
+  ['ماجستير', 'bookmark (1).png', true, 'bookmark (2).png'],
 ];

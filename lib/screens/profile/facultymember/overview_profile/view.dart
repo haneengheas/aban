@@ -218,14 +218,20 @@ class MemberProfile extends StatelessWidget {
                                 child: TabBarView(
                                   children: [
                                      FieldList(),
-                                    ThesesList(
+                                    CompeletedTheses(
                                       text: 'اطروحة مكتملة تحت اشرافي',
                                     ),
-                                    ThesesList(
+                                    CompeletedTheses(
                                       text: 'اطروحة جارية تحت اشرافي',
                                     ),
-                                    ProjectList(),
-                                    ProjectList(),
+                                    CompletedProject(
+                                      text: 'اطروحة جارية تحت اشرافي',
+
+                                    ),
+                                    CompletedProject(
+                                      text: 'اطروحة جارية تحت اشرافي',
+
+                                    ),
                                   ],
                                 ),
                               ),

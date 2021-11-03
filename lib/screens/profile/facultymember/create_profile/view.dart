@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_typing_uninitialized_variables, avoid_print
 
+import 'dart:io';
+
 import 'package:aban/constant/alert_methods.dart';
 import 'package:aban/constant/style.dart';
 import 'package:aban/provider/profile_provider.dart';
@@ -15,7 +17,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'dart:io';
 
 class CreateMemberProfile extends StatefulWidget {
   const CreateMemberProfile({
@@ -39,7 +40,7 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .get();
     debugPrint('userName is ${documentSnapshot.get('username')}');
-    name = documentSnapshot.get('name');
+    // name = documentSnapshot.get('username');
     setState(() {});
   }
 
@@ -210,7 +211,7 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                             MaterialPageRoute(
                                 builder: (context) => NavigationFile(
                                       d: studentDrawer(context),
-                                      title: 'مرحبا{"اسم الباحث"}',
+                                      title: '${prov.name} مرحباً',
                                       counter: 1,
                                     )));
                       }

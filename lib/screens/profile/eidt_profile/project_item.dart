@@ -5,7 +5,6 @@ import 'package:aban/provider/profile_provider.dart';
 import 'package:aban/widgets/buttons/buttonsuser.dart';
 import 'package:aban/widgets/buttons/tetfielduser.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -39,8 +38,6 @@ class ProjectItem extends StatelessWidget {
               width: sizeFromWidth(context, 1.1),
               child: FutureBuilder(
                   future: FirebaseFirestore.instance
-                      .collection('member')
-                      .doc(FirebaseAuth.instance.currentUser!.uid)
                       .collection('project')
                       .get(),
                   builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -62,9 +59,7 @@ class ProjectItem extends StatelessWidget {
                               ),
                               onDismissed: (DismissDirection direction) async {
                                 await FirebaseFirestore.instance
-                                    .collection('member')
-                                    .doc(FirebaseAuth.instance.currentUser!.uid)
-                                    .collection('theses')
+                                    .collection('project')
                                     .doc(snapshot.data!.docs[index].id)
                                     .delete();
                               },
@@ -337,8 +332,6 @@ void eidtProject(BuildContext context,
                   if (formKey.currentState!.validate()) {
                     formKey.currentState!.save();
                     await FirebaseFirestore.instance
-                        .collection('member')
-                        .doc(FirebaseAuth.instance.currentUser!.uid)
                         .collection('project')
                         .doc(indexed)
                         .update({
@@ -354,8 +347,6 @@ void eidtProject(BuildContext context,
                   if (formKey.currentState!.validate()) {
                     formKey.currentState!.save();
                     await FirebaseFirestore.instance
-                        .collection('graduated')
-                        .doc(FirebaseAuth.instance.currentUser!.uid)
                         .collection('project')
                         .doc(indexed)
                         .update({

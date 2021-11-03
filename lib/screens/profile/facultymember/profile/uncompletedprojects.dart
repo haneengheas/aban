@@ -6,29 +6,29 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-class UnCompletedProjectList extends StatefulWidget {
-  const UnCompletedProjectList({Key? key}) : super(key: key);
+class UnCompletedProject extends StatefulWidget {
+  final String text;
 
+  const UnCompletedProject({required this.text});
   @override
-  State<UnCompletedProjectList> createState() => _UnCompletedProjectListState();
+  State<UnCompletedProject> createState() => _UnCompletedProjectState();
 }
 
-class _UnCompletedProjectListState extends State<UnCompletedProjectList> {
-  bool checked= true;
+class _UnCompletedProjectState extends State<UnCompletedProject> {
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        FutureBuilder<QuerySnapshot>(
-            future: FirebaseFirestore.instance
-                .collection('member')
-                .doc(FirebaseAuth.instance.currentUser!.uid)
-                .collection("project")
-                .where('projectStatus', isEqualTo: "غير مكتملة")
-                .get(),
-            builder: (context, snapshot) {
+        StreamBuilder(
+            stream: FirebaseFirestore.instance
+                .collection('project')
+                .where('userId',
+                isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+                .where('projectStatus', isEqualTo: 'غير مكتملة')
+                .snapshots(),
+            builder: (context,AsyncSnapshot<QuerySnapshot>  snapshot) {
               return Expanded(
                 child: SizedBox(
                   child: ListView.builder(
@@ -52,15 +52,15 @@ class _UnCompletedProjectListState extends State<UnCompletedProjectList> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      '${snapshot.data!.docs[0]['projectName']}',
+                                      '${snapshot.data!.docs[index]['projectName']}',
                                       style: labelStyle3,
                                     ),
                                     Text(
-                                      'القائد :'  + snapshot.data!.docs[0]["leaderName"],
+                                      'القائد :'  + snapshot.data!.docs[index]["leaderName"],
                                       style: hintStyle3,
                                     ),
                                     Text(
-                                      'الاعضاء :'  + snapshot.data!.docs[0]["memberProjectName"],
+                                      'الاعضاء :'  + snapshot.data!.docs[index]["memberProjectName"],
                                       style: hintStyle3,
                                     ),
                                   ],
@@ -109,7 +109,8 @@ class _UnCompletedProjectListState extends State<UnCompletedProjectList> {
                 ),
               );
             }
-        ),
+        )
+
       ],
     );
   }

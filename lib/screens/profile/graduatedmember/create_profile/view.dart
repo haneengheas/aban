@@ -4,7 +4,6 @@ import 'dart:io';
 
 import 'package:aban/constant/alert_methods.dart';
 import 'package:aban/constant/style.dart';
-import 'package:aban/provider/auth_provider.dart';
 import 'package:aban/provider/profile_provider.dart';
 import 'package:aban/screens/Home/navigation.dart';
 import 'package:aban/screens/Home/studentdrawer.dart';
@@ -43,8 +42,6 @@ class _CreateGraduatedProfileState extends State<CreateGraduatedProfile> {
 
   @override
   Widget build(BuildContext context) {
-    var provider = Provider.of<AuthProvider>(context);
-
     var prov = Provider.of<ProfileProvider>(context);
     return Scaffold(
       backgroundColor: white,
