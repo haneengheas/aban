@@ -114,7 +114,7 @@ class _CreateGraduatedProfileState extends State<CreateGraduatedProfile> {
                 text: "اضافة اطروحة",
                 color: blueGradient,
                 onTap: () {
-                  showDialogTheses(context, text: 'إضافة اطروحة');
+                  showDialogTheses(context, text: 'إضافة اطروحة',formKey: formKey);
                 }),
             const Divider(
               height: 30,

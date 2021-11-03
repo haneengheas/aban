@@ -5,6 +5,7 @@ import 'package:aban/provider/profile_provider.dart';
 import 'package:aban/widgets/buttons/buttonsuser.dart';
 import 'package:aban/widgets/buttons/tetfielduser.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -36,10 +37,11 @@ class ProjectItem extends StatelessWidget {
             SizedBox(
               height: 120,
               width: sizeFromWidth(context, 1.1),
-              child: FutureBuilder(
-                  future: FirebaseFirestore.instance
+              child: StreamBuilder(
+                  stream: FirebaseFirestore.instance
                       .collection('project')
-                      .get(),
+                      .where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+                      .snapshots(),
                   builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                     return ListView.builder(
                         itemCount: snapshot.data!.docs.length,
@@ -71,9 +73,7 @@ class ProjectItem extends StatelessWidget {
                                 children: [
                                   Container(
                                     margin: const EdgeInsets.symmetric(
-                                      horizontal: 10,
-                                      vertical: 5
-                                    ),
+                                        horizontal: 10, vertical: 5),
                                     width: sizeFromWidth(context, 1.5),
                                     height: 100,
                                     decoration: BoxDecoration(
@@ -135,29 +135,29 @@ class ProjectItem extends StatelessWidget {
                                       iconSize: 20,
                                     ),
                                   ),
-                                  // SizedBox(
-                                  //   width: 30,
-                                  //   child: IconButton(
-                                  //     onPressed: () async {
-                                  //       await showDialogWarning(context,
-                                  //           text: 'هل انت متاكد من الحذف ',
-                                  //           ontap: () async {
-                                  //         await FirebaseFirestore.instance
-                                  //             .collection('member')
-                                  //             .doc(FirebaseAuth
-                                  //                 .instance.currentUser!.uid)
-                                  //             .collection('project')
-                                  //             .doc(
-                                  //                 snapshot.data!.docs[index].id)
-                                  //             .delete();
-                                  //         Navigator.pop(context);
-                                  //       });
-                                  //     },
-                                  //     icon: const Icon(Icons.delete),
-                                  //     color: Colors.red,
-                                  //     iconSize: 20,
-                                  //   ),
-                                  // ),
+// SizedBox(
+//   width: 30,
+//   child: IconButton(
+//     onPressed: () async {
+//       await showDialogWarning(context,
+//           text: 'هل انت متاكد من الحذف ',
+//           ontap: () async {
+//         await FirebaseFirestore.instance
+//             .collection('member')
+//             .doc(FirebaseAuth
+//                 .instance.currentUser!.uid)
+//             .collection('project')
+//             .doc(
+//                 snapshot.data!.docs[index].id)
+//             .delete();
+//         Navigator.pop(context);
+//       });
+//     },
+//     icon: const Icon(Icons.delete),
+//     color: Colors.red,
+//     iconSize: 20,
+//   ),
+// ),
                                 ],
                               ));
                         });

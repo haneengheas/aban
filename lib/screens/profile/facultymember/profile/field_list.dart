@@ -1,5 +1,6 @@
 import 'package:aban/constant/style.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -11,31 +12,34 @@ class FieldList extends StatefulWidget {
 }
 
 class _FieldListState extends State<FieldList> {
+  getData() async {
+    DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
+        .collection("member")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get();
+
+    debugPrint('userType is ${documentSnapshot.get('fields')}');
+
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    getData();
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    // var fields= FirebaseFirestore.instance.collection("member").get();
-    // List fieldslist = fields.then((value) => null) as List;
-
-    // List pointList = [];
-    // getdata() async {
-    //   await FirebaseFirestore.instance
-    //       .collection("member")
-    //       .doc(FirebaseAuth.instance.currentUser!.uid)
-    //       .get()
-    //       .then((value) {
-    //     setState(() {
-    //       // first add the data to the Offset object
-    //       List.from(value.data['fields']).forEach((element) {
-    //         Offset data = Offset(element);
-    //         pointList.add(data);
-    //       });
-    //     });});}
-
-    return FutureBuilder<QuerySnapshot>(
-        future: FirebaseFirestore.instance.collection("member").get(),
-        builder: (context, snapshot) {
+    return StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance
+            .collection("member")
+            .where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+            .snapshots(),
+        builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
           return ListView.builder(
-            itemCount: 5,
+            itemCount: snapshot.data!.docs.length,
             itemBuilder: (context, index) {
               return Row(
                 children: [
@@ -47,7 +51,7 @@ class _FieldListState extends State<FieldList> {
                     width: 10,
                   ),
                   Text(
-                    snapshot.data!.docs[0]['fields'],
+                    snapshot.data!.docs[index]['fields'],
                     style: hintStyle,
                   )
                 ],

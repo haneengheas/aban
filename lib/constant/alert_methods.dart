@@ -40,7 +40,7 @@ import 'package:provider/provider.dart';
   );
 }
 
-void showDialogTheses(BuildContext context, {required String text,}) {
+void showDialogTheses(BuildContext context, {required String text, required  GlobalKey<FormState> formKey}) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -61,7 +61,7 @@ void showDialogTheses(BuildContext context, {required String text,}) {
                 .size
                 .height / 1.6,
             child: Form(
-              key: prov.formKeyTheses,
+              key:formKey ,
               child: Column(
                 children: [
                  TextFieldUser(
@@ -211,17 +211,22 @@ void showDialogTheses(BuildContext context, {required String text,}) {
                 print(auth.usertype);
                 if (auth.usertype == 0) {
                   print(auth.usertype);
-                  await prov.addThesesMember(
-                      context: context,
-                      nameTheses: prov.nameTheses,
-                      linkTheses: prov.linkTheses,
-                      assistantSupervisors: prov.assistantSupervisors,
-                      nameSupervisors: prov.nameSupervisors,
-                      degreeTheses: prov.degreeTheses,
-                      thesesStatus: prov.thesesStatus);
-                  Navigator.pop(context);
-                }
-                else {
+                  if(formKey.currentState!.validate()){
+                    formKey.currentState!.save();
+                    await prov.addThesesMember(
+                        context: context,
+                        nameTheses: prov.nameTheses,
+                        linkTheses: prov.linkTheses,
+                        assistantSupervisors: prov.assistantSupervisors,
+                        nameSupervisors: prov.nameSupervisors,
+                        degreeTheses: prov.degreeTheses,
+                        thesesStatus: prov.thesesStatus);
+                    Navigator.pop(context);
+                  }
+
+                } else {
+                  if (formKey.currentState!.validate()) {
+                    formKey.currentState!.save();
                   await prov.addGraduatedTheses(context: context,
                       nameTheses: prov.nameTheses,
                       linkTheses: prov.linkTheses,
@@ -231,7 +236,7 @@ void showDialogTheses(BuildContext context, {required String text,}) {
                       thesesStatus: prov.thesesStatus);
                   Navigator.pop(context);
 
-                }
+                }}
               }),
         ],
       );

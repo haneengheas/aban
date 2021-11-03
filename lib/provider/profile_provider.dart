@@ -141,6 +141,8 @@ class ProfileProvider with ChangeNotifier {
       'leaderName': leaderName,
       'projectStatus': projectStatus,
       'memberProjectName': memberProjectName,
+      'userId': FirebaseAuth.instance.currentUser!.uid,
+
     });
     Navigator.pop(context);
     notifyListeners();
@@ -206,6 +208,8 @@ class ProfileProvider with ChangeNotifier {
       'nameSupervisors': nameSupervisors,
       'degreeTheses': degreeTheses,
       'thesesStatus': thesesStatus,
+      'userId': FirebaseAuth.instance.currentUser!.uid,
+
     });
     Navigator.pop(context);
     notifyListeners();
@@ -228,6 +232,8 @@ class ProfileProvider with ChangeNotifier {
       'leaderName': leaderName,
       'projectStatus': projectStatus,
       'memberProjectName':memberProjectName,
+      'userId': FirebaseAuth.instance.currentUser!.uid,
+
     });
     Navigator.pop(context);
     notifyListeners();

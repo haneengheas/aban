@@ -149,7 +149,8 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                   text: "اضافة اطروحة",
                   color: blueGradient,
                   onTap: () {
-                    showDialogTheses(context, text: 'اضافة اطروحة');
+                    showDialogTheses(context,
+                        text: 'اضافة اطروحة', formKey: formKey);
                   }),
               const Divider(
                 height: 20,
