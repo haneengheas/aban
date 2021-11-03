@@ -114,7 +114,7 @@ class _CreateGraduatedProfileState extends State<CreateGraduatedProfile> {
                 text: "اضافة اطروحة",
                 color: blueGradient,
                 onTap: () {
-                  showDialogTheses(context, text: 'إضافة اطروحة',formKey: formKey);
+                  showDialogTheses(context, text: 'إضافة اطروحة',);
                 }),
             const Divider(
               height: 30,
@@ -132,7 +132,7 @@ class _CreateGraduatedProfileState extends State<CreateGraduatedProfile> {
                 text: "اضافة مشروع",
                 color: blueGradient,
                 onTap: () {
-                  showDialogProject(context, text: 'إضافة مشروع');
+                  showDialogProject(context, text: 'إضافة مشروع',);
                 }),
             Center(
               child: SubmitButton(
@@ -152,7 +152,7 @@ class _CreateGraduatedProfileState extends State<CreateGraduatedProfile> {
                       MaterialPageRoute(
                           builder: (context) => NavigationFile(
                                 d: studentDrawer(context),
-                                title: 'مرحبا"اسم الباحث"',
+                                title: prov.name +'اسم الباحث',
                                 counter: 1,
                               )));
                 },

@@ -6,7 +6,11 @@ import 'package:aban/widgets/buttons/tetfielduser.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
- showDialogWarning(BuildContext context, {required String text, required Function ontap,}) {
+showDialogWarning(
+  BuildContext context, {
+  required String text,
+  required Function ontap,
+}) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -25,22 +29,19 @@ import 'package:provider/provider.dart';
             )),
         actions: <Widget>[
           ButtonUser(
-              text: 'لا',
-              color: blueGradient,
-              onTap :()=> Navigator.pop(context),
+            text: 'لا',
+            color: blueGradient,
+            onTap: () => Navigator.pop(context),
           ),
-          ButtonUser(
-              text: 'نعم',
-              color: redGradient,
-              onTap :()=> ontap()
-          ),
+          ButtonUser(text: 'نعم', color: redGradient, onTap: () => ontap()),
         ],
       );
     },
   );
 }
 
-void showDialogTheses(BuildContext context, {required String text, required  GlobalKey<FormState> formKey}) {
+void showDialogTheses(BuildContext context,
+    {required String text, }) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -56,16 +57,12 @@ void showDialogTheses(BuildContext context, {required String text, required  Glo
             borderRadius: BorderRadius.all(Radius.circular(15))),
         content: SingleChildScrollView(
           child: SizedBox(
-            height: MediaQuery
-                .of(context)
-                .size
-                .height / 1.6,
+            height: MediaQuery.of(context).size.height / 1.2,
             child: Form(
-              key:formKey ,
+              key: prov.formkey,
               child: Column(
                 children: [
-                 TextFieldUser(
-
+                  TextFieldUser(
                     hintText: 'اسم الاطروحة',
                     labelText: "اسم الاطروحة",
                     scure: false,
@@ -159,7 +156,7 @@ void showDialogTheses(BuildContext context, {required String text, required  Glo
                               underline: Container(
                                 width: 30,
                                 padding:
-                                const EdgeInsets.symmetric(horizontal: 10),
+                                    const EdgeInsets.symmetric(horizontal: 10),
                                 height: .5,
                                 decoration: const BoxDecoration(
                                     color: gray,
@@ -182,7 +179,7 @@ void showDialogTheses(BuildContext context, {required String text, required  Glo
                                     width: sizeFromWidth(context, 2.3),
                                     // for example
                                     child:
-                                    Text(value, textAlign: TextAlign.left),
+                                        Text(value, textAlign: TextAlign.left),
                                   ),
                                 );
                               }).toList(),
@@ -211,8 +208,8 @@ void showDialogTheses(BuildContext context, {required String text, required  Glo
                 print(auth.usertype);
                 if (auth.usertype == 0) {
                   print(auth.usertype);
-                  if(formKey.currentState!.validate()){
-                    formKey.currentState!.save();
+                  if (prov.formkey.currentState!.validate()) {
+                    prov.formkey.currentState!.save();
                     await prov.addThesesMember(
                         context: context,
                         nameTheses: prov.nameTheses,
@@ -223,20 +220,20 @@ void showDialogTheses(BuildContext context, {required String text, required  Glo
                         thesesStatus: prov.thesesStatus);
                     Navigator.pop(context);
                   }
-
                 } else {
-                  if (formKey.currentState!.validate()) {
-                    formKey.currentState!.save();
-                  await prov.addGraduatedTheses(context: context,
-                      nameTheses: prov.nameTheses,
-                      linkTheses: prov.linkTheses,
-                      assistantSupervisors: prov.assistantSupervisors,
-                      nameSupervisors: prov.nameSupervisors,
-                      degreeTheses: prov.degreeTheses,
-                      thesesStatus: prov.thesesStatus);
-                  Navigator.pop(context);
-
-                }}
+                  if (prov.formkey.currentState!.validate()) {
+                    prov.formkey.currentState!.save();
+                    await prov.addGraduatedTheses(
+                        context: context,
+                        nameTheses: prov.nameTheses,
+                        linkTheses: prov.linkTheses,
+                        assistantSupervisors: prov.assistantSupervisors,
+                        nameSupervisors: prov.nameSupervisors,
+                        degreeTheses: prov.degreeTheses,
+                        thesesStatus: prov.thesesStatus);
+                    Navigator.pop(context);
+                  }
+                }
               }),
         ],
       );
@@ -244,8 +241,8 @@ void showDialogTheses(BuildContext context, {required String text, required  Glo
   );
 }
 
-
-void showDialogProject(BuildContext context, {required String text}) {
+void showDialogProject(BuildContext context,
+    {required String text, }) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -262,12 +259,9 @@ void showDialogProject(BuildContext context, {required String text}) {
             borderRadius: BorderRadius.all(Radius.circular(15))),
         content: SingleChildScrollView(
           child: SizedBox(
-            height: MediaQuery
-                .of(context)
-                .size
-                .height / 2,
+            height: MediaQuery.of(context).size.height / 1.3,
             child: Form(
-              key: prov.formKeyProject,
+              key: prov.formkey,
               child: Column(
                 children: [
                   TextFieldUser(
@@ -389,22 +383,29 @@ void showDialogProject(BuildContext context, {required String text}) {
               color: blueGradient,
               onTap: () async {
                 if (auth.usertype == 0) {
-                  await prov.addProjectsMember(context: context,
-                      projectName: prov.projectName,
-                      descriptionProject:  prov.descriptionProject,
-                      leaderName:  prov.leaderName,
-                      memberProjectName: prov.memberProjectName,
-                      projectStatus:  prov.projectStatus);
-                  Navigator.pop(context);
-                }
-                else if (auth.usertype==1) {
-                  await prov.addGraduatedProject(context: context,
-                      projectName:  prov.projectName,
-                      descriptionProject:  prov.descriptionProject,
-                      leaderName: prov.leaderName,
-                      memberProjectName: prov.memberProjectName,
-                      projectStatus: prov.projectStatus);
-                  Navigator.pop(context);
+                  if (prov.formkey.currentState!.validate()) {
+                    prov.formkey.currentState!.save();
+                    await prov.addProjectsMember(
+                        context: context,
+                        projectName: prov.projectName,
+                        descriptionProject: prov.descriptionProject,
+                        leaderName: prov.leaderName,
+                        memberProjectName: prov.memberProjectName,
+                        projectStatus: prov.projectStatus);
+                    Navigator.pop(context);
+                  }
+                } else if (auth.usertype == 1) {
+                  if (prov.formkey.currentState!.validate()) {
+                    prov.formkey.currentState!.save();
+                    await prov.addGraduatedProject(
+                        context: context,
+                        projectName: prov.projectName,
+                        descriptionProject: prov.descriptionProject,
+                        leaderName: prov.leaderName,
+                        memberProjectName: prov.memberProjectName,
+                        projectStatus: prov.projectStatus);
+                    Navigator.pop(context);
+                  }
                 }
               }),
         ],

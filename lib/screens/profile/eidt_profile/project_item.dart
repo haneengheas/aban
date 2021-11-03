@@ -40,7 +40,8 @@ class ProjectItem extends StatelessWidget {
               child: StreamBuilder(
                   stream: FirebaseFirestore.instance
                       .collection('project')
-                      .where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+                      .where('userId',
+                          isEqualTo: FirebaseAuth.instance.currentUser!.uid)
                       .snapshots(),
                   builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                     return ListView.builder(
@@ -169,7 +170,7 @@ class ProjectItem extends StatelessWidget {
             text: "اضافة مشروع",
             color: blueGradient,
             onTap: () {
-              showDialogProject(context, text: 'إضافة مشروع');
+              showDialogProject(context, text: 'إضافة مشروع', );
             }),
       ],
     );
@@ -201,7 +202,7 @@ void eidtProject(BuildContext context,
             borderRadius: BorderRadius.all(Radius.circular(15))),
         content: SingleChildScrollView(
           child: SizedBox(
-            height: MediaQuery.of(context).size.height / 2,
+            height: MediaQuery.of(context).size.height / 1.3,
             child: Form(
               key: formKey,
               child: Column(
