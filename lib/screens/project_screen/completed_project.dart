@@ -35,7 +35,15 @@ class _CompletedProjectState extends State<CompletedProject> {
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
-                            const ProJectDetailsScreen()));
+                             ProJectDetailsScreen(
+                              description: snapshot.data!.docs[index]['descriptionProject'],
+                               leader:snapshot.data!.docs[index]['leaderName'] ,
+                               members: snapshot.data!.docs[index]['memberProjectName'],
+                               nameProject: snapshot.data!.docs[index]['projectName'],
+                               status: snapshot.data!.docs[index]['projectStatus'],
+
+
+                             )));
                   },
                   child: Container(
                     margin: const EdgeInsets.symmetric(

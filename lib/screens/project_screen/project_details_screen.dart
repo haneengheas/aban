@@ -3,7 +3,20 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ProJectDetailsScreen extends StatefulWidget {
-  const ProJectDetailsScreen({Key? key}) : super(key: key);
+  String nameProject;
+  String leader;
+  String members;
+  String description;
+  String status;
+
+  ProJectDetailsScreen({
+    Key? key,
+    required this.description,
+    required this.leader,
+    required this.members,
+    required this.nameProject,
+    required this.status,
+  }) : super(key: key);
 
   @override
   _ProJectDetailsScreenState createState() => _ProJectDetailsScreenState();
@@ -17,7 +30,7 @@ class _ProJectDetailsScreenState extends State<ProJectDetailsScreen> {
         backgroundColor: white,
         title: Text('مشاريع',
             style: GoogleFonts.cairo(
-              textStyle:const TextStyle(
+              textStyle: const TextStyle(
                   color: blue, fontWeight: FontWeight.bold, fontSize: 28),
             )),
         centerTitle: true,
@@ -37,7 +50,7 @@ class _ProJectDetailsScreenState extends State<ProJectDetailsScreen> {
           Container(
             height: 200,
             width: sizeFromWidth(context, 1),
-            margin:const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+            margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
             decoration: BoxDecoration(
               color: clearblue,
               borderRadius: BorderRadius.circular(25),
@@ -51,21 +64,22 @@ class _ProJectDetailsScreenState extends State<ProJectDetailsScreen> {
                   Row(
                     children: [
                       Padding(
-                        padding:const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 15),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             Text(
-                              'اسم المشروع | مكتمل',
-                              style: labelStyle2,
+                              'اسم المشروع: '+widget.nameProject+ 'الحالة:'+widget.status ,
+                              style: labelStyle3,
                             ),
                             Text(
-                              'القائد',
+                            'القائد',
                               style: hintStyle3,
                             ),
                             Text(
-                              'اسم القائد',
+                            widget.leader,
                               style: hintStyle3,
                             ),
                             Text(
@@ -73,7 +87,7 @@ class _ProJectDetailsScreenState extends State<ProJectDetailsScreen> {
                               style: hintStyle3,
                             ),
                             Text(
-                              'اسماء الاعضاء',
+                             widget.members,
                               style: hintStyle3,
                             ),
                           ],
@@ -82,26 +96,18 @@ class _ProJectDetailsScreenState extends State<ProJectDetailsScreen> {
                       SizedBox(
                         width: sizeFromWidth(context, 8),
                       ),
-                      const VerticalDivider(
-                        color: gray,
-                        endIndent: 15,
-                        indent: 10,
-                        width: 5,
-                        thickness:5,
-                      ),
 
-                      const SizedBox(
-                        width: 20,
-                      ),
+
                       Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 20,horizontal: 10),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 20, horizontal: 10),
                         child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Container(
                                 height: 40,
                                 width: 25,
-                                margin:const EdgeInsets.symmetric(
+                                margin: const EdgeInsets.symmetric(
                                     vertical: 10, horizontal: 10),
                                 child: const ImageIcon(
                                   AssetImage(
@@ -115,17 +121,23 @@ class _ProJectDetailsScreenState extends State<ProJectDetailsScreen> {
                     ],
                   ),
                   Padding(
-                    padding:const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('وصف المشروع',style: labelStyle2,),
-                        Text('مشروع يسعي لزيادة الوعي الكافي باهميه ترشيد المياة',style: hintStyle3,),
+                        Text(
+                          'وصف المشروع',
+                          style: labelStyle3,
+                        ),
+                        Text(
+                         widget.description,
+                          style: hintStyle3,
+                        ),
                       ],
                     ),
                   ),
-
                 ],
               ),
             ),
