@@ -9,6 +9,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -179,7 +180,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       Icons.check,
                                       color: Colors.green,
                                     ):const Icon(
-                                      Icons.check,
+                                      Icons.close,
                                       color: Colors.red,
                                     ),
                                     Text(
@@ -191,8 +192,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 Padding(
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 15),
-                                  child: Text("الذهاب الى ابحاثى",
-                                      style: hintStyle),
+                                  child: InkWell(
+                                   onTap: ()async{
+                                     await launch('https://translate.google.com.eg/?hl=ar'
+                                         ''
+                                         '');
+                                   },
+                                    child: Text("الذهاب الى ابحاثى",
+                                        style: hintStyle),
+                                  ),
                                 ),
                                 SizedBox(
                                   height:

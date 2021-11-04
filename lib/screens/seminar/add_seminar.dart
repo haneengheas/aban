@@ -262,29 +262,30 @@ class _AddSeminarState extends State<AddSeminar> {
                         text: "إضافة",
                         onTap: () async {
                           print('=/=//=/=/////=====/=//=/=/=/');
-                          addSeminar({
-                            required BuildContext context,
-                            required String seminaraddress,
-                            required String location,
-                            required int type,
-                            required String description,
-                            required String link,
-                          }) async {
-                            showLoading(context);
-                            await FirebaseFirestore.instance
-                                .collection('seminar')
-                                .add({
-                              'seminaraddress': widget.seminaraddress,
-                              'location': widget.location,
-                              // 'type': widget.type,
-                              'description': widget.description,
-                              'link': widget.link,
-                              'userId': FirebaseAuth.instance.currentUser!.uid,
-                            }).then((value) {
-                              Navigator.pop(context);
-                            }
-                            );
-                          }
+                          await FirebaseFirestore.instance
+                              .collection('seminar')
+                              .add({
+                            'seminaraddress': widget.seminaraddress,
+                            'location': widget.location,
+                            // 'type': widget.type,
+                            'description': widget.description,
+                            'link': widget.link,
+                            'userId': FirebaseAuth.instance.currentUser!.uid,
+                          }).then((value){
+                            Navigator.pop(context);
+                          });
+                          // addSeminar({
+                          //   required BuildContext context,
+                          //   required String seminaraddress,
+                          //   required String location,
+                          //   required int type,
+                          //   required String description,
+                          //   required String link,
+                          // }) async {
+                          //   showLoading(context);
+                          //
+                          //   );
+                          // }
                           // Navigator.push(
                           //     context,
                           //     MaterialPageRoute(
