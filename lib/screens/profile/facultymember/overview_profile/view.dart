@@ -8,7 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class MemberProfile extends StatelessWidget {
-  const MemberProfile({Key? key}) : super(key: key);
+  String name, image, faculty, email, phone, degree, id;
+
+  MemberProfile({required this.name,required this.image,required this.faculty,required this.email,required this.degree,required this.id,required this.phone});
 
   @override
   Widget build(BuildContext context) {
@@ -103,10 +105,9 @@ class MemberProfile extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Image(
-                              image:const AssetImage(
-                                'assets/user.png',
+                              image: NetworkImage(
+                                image,
                               ),
-                              color: blue,
                               height: sizeFromHeight(context, 10),
                             ),
                             const SizedBox(
@@ -116,20 +117,20 @@ class MemberProfile extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "اسم الباحث",
+                                 name,
                                   style: labelStyle2,
                                 ),
                                 Row(
                                   children: [
                                     Text(
-                                      "الكلية/التخصص",
+                                      faculty,
                                       style: hintStyle,
                                     ),
                                     SizedBox(
                                       width: sizeFromWidth(context, 8),
                                     ),
                                     Text(
-                                      "Reasearsh@ksuedu.sa",
+                                      email,
                                       style: hintStyle3,
                                     ),
                                   ],
@@ -137,20 +138,20 @@ class MemberProfile extends StatelessWidget {
                                 Row(
                                   children: [
                                     Text(
-                                      "الدرجة العلمية",
+                                      degree,
                                       style: hintStyle,
                                     ),
                                     SizedBox(
                                       width: sizeFromWidth(context, 8),
                                     ),
                                     Text(
-                                      "9665000+",
+                                      phone,
                                       style: hintStyle,
                                     ),
                                   ],
                                 ),
                                 Text(
-                                  "rocid ID",
+                                  id,
                                   style: hintStyle,
                                 ),
                               ],
