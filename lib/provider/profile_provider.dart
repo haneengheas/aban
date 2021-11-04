@@ -60,6 +60,7 @@ class ProfileProvider with ChangeNotifier {
     required String link,
     required var accept,
     required File file,
+    required String email,
   }) async {
     // if (file == null)
     //   return AwesomeDialog(
@@ -68,10 +69,9 @@ class ProfileProvider with ChangeNotifier {
     //       body: Text("please choose Image"),
     //       dialogType: DialogType.ERROR)
     //     ..show();
-
+    showLoading(context);
     await ref.putFile(file);
     var imageUrl = await ref.getDownloadURL();
-    showLoading(context);
     await FirebaseFirestore.instance
         .collection('member')
         .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -79,6 +79,7 @@ class ProfileProvider with ChangeNotifier {
       'faculty': faculty,
       'phone': phone,
       'name': name,
+      'email': email,
       'imageUrl': imageUrl,
       'id': id,
       'fields':fields,

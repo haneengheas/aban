@@ -204,17 +204,18 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                           name: prov.name,
                           phone: prov.phone,
                           link: prov.link,
+                          email: prov.email,
                         );
                         print(name);
 
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => NavigationFile(
-                                      d: studentDrawer(context),
-                                      title: '${prov.name} مرحباً',
-                                      counter: 1,
-                                    )));
+                        // Navigator.pushReplacement(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //         builder: (context) => NavigationFile(
+                        //               d: studentDrawer(context),
+                        //               title: '${prov.name} مرحباً',
+                        //               counter: 1,
+                        //             )));
                       }
                     }
                   },

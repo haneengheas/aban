@@ -38,10 +38,9 @@ class _ThesesGraduatedMontorItemState extends State<ThesesGraduatedMontorItem> {
             .collection('theses')
             .where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
             .get();
-    debugPrint('userType is ${documentSnapshot2.docs[1]['nameTheses']}');
-    // name.text = documentSnapshot2.get('name');
-    // faculty.text = documentSnapshot2.get('faculty');
-    // emailuser.text = FirebaseAuth.instance.currentUser!.email!;
+    debugPrint('userType is ${documentSnapshot2.docs[0]['nameTheses']}');
+    nameTheses.text = documentSnapshot2.docs[0].get('nameTheses');
+    // linkTheses.text = documentSnapshot2.get('faculty');
     // link.text = documentSnapshot2.get('link');
     // phone.text = documentSnapshot2.get('phone');
     // degree.text = documentSnapshot2.get('degree');

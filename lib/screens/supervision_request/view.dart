@@ -42,11 +42,7 @@ class SupervisionScreen extends StatelessWidget {
                   ),
                 ),
                 SubmitButton(gradient: blueGradient, text: 'ارسال', onTap: (){
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              const MemberProfile()));
+
                 })
               ],
             ),

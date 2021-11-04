@@ -10,6 +10,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 
+import 'dropdown.dart';
+
 class ProfileInformation extends StatefulWidget {
   const ProfileInformation({Key? key}) : super(key: key);
 
@@ -69,24 +71,26 @@ class _ProfileInformationState extends State<ProfileInformation> {
         ),
         Row(
           children: [
-            SizedBox(
-              width: sizeFromWidth(context, 2),
-              child: Directionality(
-                  textDirection: TextDirection.rtl,
-                  child: TextFieldUser(
-                    onChanged: (value) {
-                      prov.faculty = value;
-                    },
-                    validator: (value) {
-                      if (value.isEmpty) {
-                        return 'برجاءادخال الكليه ';
-                      }
-                    },
-                    labelText: 'ادخل كليتك',
-                    hintText: 'كليتك ',
-                    scure: false,
-                  )),
-            ),
+            const CollegeDropDown(item: 0,),
+            const CollegeDropDown(item: 1,),
+            // SizedBox(
+            //   width: sizeFromWidth(context, 2),
+            //   child: Directionality(
+            //       textDirection: TextDirection.rtl,
+            //       child: TextFieldUser(
+            //         onChanged: (value) {
+            //           prov.faculty = value;
+            //         },
+            //         validator: (value) {
+            //           if (value.isEmpty) {
+            //             return 'برجاءادخال الكليه ';
+            //           }
+            //         },
+            //         labelText: 'ادخل كليتك',
+            //         hintText: 'كليتك ',
+            //         scure: false,
+            //       )),
+            // ),
             SizedBox(
               width: sizeFromWidth(context, 2),
               child: Directionality(

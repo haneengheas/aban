@@ -44,98 +44,100 @@ class ProjectItem extends StatelessWidget {
                           isEqualTo: FirebaseAuth.instance.currentUser!.uid)
                       .snapshots(),
                   builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                    return ListView.builder(
-                        itemCount: snapshot.data!.docs.length,
-                        itemBuilder: (context, index) {
-                          return Dismissible(
-                              background: Container(
-                                color: red,
-                                child: const Center(
-                                  child: Text(
-                                    'Delete',
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                ),
-                              ),
-                              secondaryBackground: Container(
-                                color: Colors.red,
-                              ),
-                              onDismissed: (DismissDirection direction) async {
-                                await FirebaseFirestore.instance
-                                    .collection('project')
-                                    .doc(snapshot.data!.docs[index].id)
-                                    .delete();
-                              },
-                              key: UniqueKey(),
-                              direction: DismissDirection.startToEnd,
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  Container(
-                                    margin: const EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 5),
-                                    width: sizeFromWidth(context, 1.5),
-                                    height: 100,
-                                    decoration: BoxDecoration(
-                                      color: clearblue,
-                                      borderRadius: BorderRadius.circular(25),
-                                    ),
-                                    child: Directionality(
-                                      textDirection: TextDirection.rtl,
-                                      child: Row(
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 15, horizontal: 10),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceEvenly,
-                                              children: [
-                                                Text(
-                                                  ' اسم المشروع : ${snapshot.data!.docs[index]['projectName']}',
-                                                  style: hintStyle4,
-                                                ),
-                                                Text(
-                                                  'القائد ${snapshot.data!.docs[index]['leaderName']}',
-                                                  style: hintStyle5,
-                                                ),
-                                                Text(
-                                                  'الاعضاء ${snapshot.data!.docs[index]['memberProjectName']}',
-                                                  style: hintStyle5,
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
+                    if(snapshot.hasData)
+                      {
+                        return ListView.builder(
+                            itemCount: snapshot.data!.docs.length,
+                            itemBuilder: (context, index) {
+                              return Dismissible(
+                                  background: Container(
+                                    color: red,
+                                    child: const Center(
+                                      child: Text(
+                                        'Delete',
+                                        style: TextStyle(color: Colors.white),
                                       ),
                                     ),
                                   ),
-                                  SizedBox(
-                                    width: 30,
-                                    child: IconButton(
-                                      onPressed: () {
-                                        eidtProject(
-                                          context,
-                                          text: 'تعديل مشروع',
-                                          descriptionProject:
-                                              descriptionProject,
-                                          leaderName: leaderName,
-                                          memberProjectName: memberProjectName,
-                                          projectName: projectName,
-                                          projectStatus: projectStatus,
-                                          indexed:
-                                              snapshot.data!.docs[index].id,
-                                          formKey: formKey,
-                                        );
-                                      },
-                                      icon: const Icon(Icons.edit),
-                                      color: blue,
-                                      iconSize: 20,
-                                    ),
+                                  secondaryBackground: Container(
+                                    color: Colors.red,
                                   ),
+                                  onDismissed: (DismissDirection direction) async {
+                                    await FirebaseFirestore.instance
+                                        .collection('project')
+                                        .doc(snapshot.data!.docs[index].id)
+                                        .delete();
+                                  },
+                                  key: UniqueKey(),
+                                  direction: DismissDirection.startToEnd,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                    children: [
+                                      Container(
+                                        margin: const EdgeInsets.symmetric(
+                                            horizontal: 10, vertical: 5),
+                                        width: sizeFromWidth(context, 1.5),
+                                        height: 100,
+                                        decoration: BoxDecoration(
+                                          color: clearblue,
+                                          borderRadius: BorderRadius.circular(25),
+                                        ),
+                                        child: Directionality(
+                                          textDirection: TextDirection.rtl,
+                                          child: Row(
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.symmetric(
+                                                    vertical: 15, horizontal: 10),
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                                  mainAxisAlignment:
+                                                  MainAxisAlignment.spaceEvenly,
+                                                  children: [
+                                                    Text(
+                                                      ' اسم المشروع : ${snapshot.data!.docs[index]['projectName']}',
+                                                      style: hintStyle4,
+                                                    ),
+                                                    Text(
+                                                      'القائد ${snapshot.data!.docs[index]['leaderName']}',
+                                                      style: hintStyle5,
+                                                    ),
+                                                    Text(
+                                                      'الاعضاء ${snapshot.data!.docs[index]['memberProjectName']}',
+                                                      style: hintStyle5,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 30,
+                                        child: IconButton(
+                                          onPressed: () {
+                                            eidtProject(
+                                              context,
+                                              text: 'تعديل مشروع',
+                                              descriptionProject:
+                                              descriptionProject,
+                                              leaderName: leaderName,
+                                              memberProjectName: memberProjectName,
+                                              projectName: projectName,
+                                              projectStatus: projectStatus,
+                                              indexed:
+                                              snapshot.data!.docs[index].id,
+                                              formKey: formKey,
+                                            );
+                                          },
+                                          icon: const Icon(Icons.edit),
+                                          color: blue,
+                                          iconSize: 20,
+                                        ),
+                                      ),
 // SizedBox(
 //   width: 30,
 //   child: IconButton(
@@ -159,9 +161,12 @@ class ProjectItem extends StatelessWidget {
 //     iconSize: 20,
 //   ),
 // ),
-                                ],
-                              ));
-                        });
+                                    ],
+                                  ));
+                            });
+                      }
+                    else
+                      return const SizedBox();
                   }),
             ),
           ],

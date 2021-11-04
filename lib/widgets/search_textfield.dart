@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 
 class SearchTextField extends StatefulWidget {
    final String text;
+   final TextEditingController? controller;
    const SearchTextField({
      required this.text,
+     this.controller,
 });
 
   @override
@@ -24,6 +26,7 @@ class _SearchTextFieldState extends State<SearchTextField> {
         padding:const EdgeInsets.symmetric(horizontal:10),
         margin:const EdgeInsets.symmetric(horizontal: 20,vertical: 15),
         child: TextFormField(
+          controller: widget.controller,
           decoration: InputDecoration(
             hintText: widget.text,
             hintStyle: hintStyle2,
