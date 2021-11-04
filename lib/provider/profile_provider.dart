@@ -59,6 +59,7 @@ class ProfileProvider with ChangeNotifier {
     required String link,
     required var accept,
     required File file,
+    required String email,
   }) async {
     // if (file == null)
     //   return AwesomeDialog(
@@ -77,6 +78,7 @@ class ProfileProvider with ChangeNotifier {
       'faculty': faculty,
       'phone': phone,
       'name': name,
+      'email': email,
       'imageUrl': imageUrl,
       'id': id,
       'fields':fields,

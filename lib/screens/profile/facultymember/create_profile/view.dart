@@ -204,6 +204,7 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                           name: prov.name,
                           phone: prov.phone,
                           link: prov.link,
+                          email: prov.email,
                         );
                         print(name);
 
