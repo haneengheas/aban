@@ -5,9 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class CollegeDropDown extends StatefulWidget {
-  final int item;
 
-  const CollegeDropDown({required this.item});
+  CollegeDropDown({this.listData,this.strValue,this.onTap});
+
+  final List<DropdownMenuItem<String>>? listData;
+  final String? strValue;
+  final Function? onTap;
+
 
 
   @override
@@ -18,43 +22,22 @@ class _CollegeDropDownState extends State<CollegeDropDown> {
 
   @override
   Widget build(BuildContext context) {
-    var prov = Provider.of<ProfileProvider>(context);
-    var providers = Provider.of<MyModel>(context);
-    List<List<String>> _department =
-    providers.departments.values.toList();
-    return DropdownButton<String>(
-        hint: Text(
-          'اختر قسمك',
-          style: hintStyle,
-        ),
-        value: prov.projectStatus,
-        underline: Container(
-          width: 30,
-          padding:
-          const EdgeInsets.symmetric(horizontal: 10),
-          height: 1,
-          decoration: const BoxDecoration(
-              color: gray,
-              boxShadow: [
-                BoxShadow(
-                  color: blue,
-                )
-              ]),
-
-        ),
-        onChanged: (newValue) {
-          prov.projectStatus = newValue!;
-        },
-        items: widget.item==0?
-      providers.departments.keys.toList().map((e) =>
-          DropdownMenuItem<String>(
-            child: Text(e), value: e,)).toList():
-        providers.departments.keys.toList().map((String item) =>
-            DropdownMenuItem<String>(child: Text(item), value: item))
-            .toList(),
-
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 16),
+      child: DropdownButton<String>(
+          hint: Text(
+            'اختر قسمك',
+            style: hintStyle,
+          ),
+          value: widget.strValue == null?null:widget.strValue,
+          onChanged: (newValue) {
+            // prov.projectStatus = newValue!;
+            widget.onTap!(newValue);
+          },
+        isExpanded: true,
+          items: widget.listData,
+      ),
     );
-
 
   }
 }

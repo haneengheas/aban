@@ -32,7 +32,6 @@ class _SearchItemState extends State<SearchItem> {
                   itemBuilder: (context, index) {
                     return GestureDetector(
                       onTap: () {
-                        // Navigator.push(context, MaterialPageRoute(builder: (context)=>GraduatedProfile()));
                         Navigator.push(
                             context,
                             MaterialPageRoute(
