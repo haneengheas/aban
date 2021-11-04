@@ -1,15 +1,27 @@
 // ignore_for_file: prefer_typing_uninitialized_variables
 
+import 'package:aban/constant/loading_methods.dart';
 import 'package:aban/constant/style.dart';
+import 'package:aban/provider/auth_provider.dart';
+import 'package:aban/provider/profile_provider.dart';
 import 'package:aban/widgets/buttons/submit_button.dart';
+import 'package:aban/widgets/buttons/tetfielduser.dart';
 import 'package:aban/widgets/textField.dart';
 import 'package:aban/widgets/textfieldtime.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class AddSeminar extends StatefulWidget {
-  const AddSeminar({Key? key}) : super(key: key);
+  String? seminaraddress;
+  String? location;
+
+  String? description;
+   String? link;
+  int? type;
 
   @override
   _AddSeminarState createState() => _AddSeminarState();
@@ -20,6 +32,8 @@ class _AddSeminarState extends State<AddSeminar> {
 
   @override
   Widget build(BuildContext context) {
+    var prov = Provider.of<ProfileProvider>(context);
+    var auth = Provider.of<AuthProvider>(context);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: white,
@@ -34,7 +48,7 @@ class _AddSeminarState extends State<AddSeminar> {
           onPressed: () {
             Navigator.pop(context);
           },
-          icon:const Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           color: blue,
         ),
       ),
@@ -43,175 +57,242 @@ class _AddSeminarState extends State<AddSeminar> {
         child: SingleChildScrollView(
           child: Container(
             width: sizeFromWidth(context, 1),
-            padding:const EdgeInsets.symmetric(horizontal: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 10),
             // height: MediaQuery
             //     .of(context)
             //     .size
             //     .height,
-            margin:const EdgeInsets.symmetric(
+            margin: const EdgeInsets.symmetric(
               horizontal: 20,
             ),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(25),
               color: clearblue,
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                const TextFieldItem(
-                  labelText: "العنوان",
-                  scure: true,
-                  hintText: "عنوان الندوة",
-                ),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  child: Text(
-                    'التاريخ',
-                    style: hintStyle4,
+            child: Form(
+              key: prov.formkey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  TextFieldUser(
+                    labelText: "العنوان",
+                    scure: true,
+                    hintText: "عنوان الندوة",
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'ادخل عنوان الندوة';
+                      }
+                    },
+                    onChanged: (val) {
+                      widget.seminaraddress = val;
+                    },
                   ),
-                ),
-                Container(
-                  margin: const EdgeInsets.symmetric(
-                    horizontal: 10,
+                  Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    child: Text(
+                      'التاريخ',
+                      style: hintStyle4,
+                    ),
                   ),
-                  padding:const EdgeInsets.symmetric(
-                    horizontal: 10,
+                  Container(
+                    margin: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                    ),
+                    child: TableCalendar(
+                      rowHeight: 25,
+                      firstDay: DateTime.utc(2010, 10, 16),
+                      lastDay: DateTime.utc(2030, 3, 14),
+                      focusedDay: DateTime.now(),
+                    ),
                   ),
-                  child: TableCalendar(
-                    rowHeight: 25,
-                    firstDay: DateTime.utc(2010, 10, 16),
-                    lastDay: DateTime.utc(2030, 3, 14),
-                    focusedDay: DateTime.now(),
+                  Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    child: Text(
+                      'الوقت',
+                      style: hintStyle4,
+                    ),
                   ),
-                ),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  child: Text(
-                    'الوقت',
-                    style: hintStyle4,
+                  Directionality(
+                    textDirection: TextDirection.rtl,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 5),
+                      child: Row(
+                        children: [
+                          Text(
+                            'من',
+                            style: hintStyle,
+                          ),
+                          const TimeTextField(
+                            text: '00:00   ص م',
+                          ),
+                          Text(
+                            'إلى',
+                            style: hintStyle,
+                          ),
+                          const TimeTextField(
+                            text: '00:00   ص م',
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                ),
-                Directionality(
-                  textDirection: TextDirection.rtl,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 5),
+                  TextFieldUser(
+                    labelText: "الموقع",
+                    scure: true,
+                    hintText: "موقع الندوة",
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'ادخل موقع الندوة';
+                      }
+                    },
+                    onChanged: (val ) {
+                      widget.location = val;
+
+                    },
+
+
+                  ),
+                  Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                    child: Text(
+                      'النوع',
+                      style: hintStyle4,
+                    ),
+                  ),
+                  Directionality(
+                    textDirection: TextDirection.rtl,
                     child: Row(
                       children: [
-                        Text(
-                          'من',
-                          style: hintStyle,
+                        Row(
+                          children: [
+                            Radio(
+                                value: 1,
+                                groupValue: widget.type,
+                                onChanged: (value) {
+                                  setState(() {
+                                    widget.type = value as int?;
+                                  });
+                                }),
+                            Text('عامة', style: hintStyle3),
+                          ],
                         ),
-                        const TimeTextField(
-                          text: '00:00   ص م',
-                        ),
-                        Text(
-                          'إلى',
-                          style: hintStyle,
-                        ),
-                        const TimeTextField(
-                          text: '00:00   ص م',
+                        Row(
+                          children: [
+                            Radio(
+                                value: 2,
+                                groupValue: widget.type,
+                                onChanged: (value) {
+                                  setState(() {
+                                    widget.type = value as int?;
+                                  });
+                                }),
+                            Text(
+                              'خاصة',
+                              style: hintStyle3,
+                            ),
+                          ],
                         ),
                       ],
                     ),
                   ),
-                ),
-                const  TextFieldItem(
-                  labelText: "الموقع",
-                  scure: true,
-                  hintText: "موقع الندوة",
-                ),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                  child: Text(
-                    'النوع',
-                    style: hintStyle4,
+                  TextFieldUser(
+                    labelText: "الندوة",
+                    scure: true,
+                    hintText: "وصف الندوة",
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'ادخل وصفا للندوة';
+                      }
+                    },
+                    onChanged: (val ) {
+                      widget.description = val;
+
+                    },
+
+
                   ),
-                ),
-                Directionality(
-                  textDirection: TextDirection.rtl,
-                  child: Row(
-                    children: [
-                      Row(
-                        children: [
-                          Radio(
-                              value: 1,
-                              groupValue: val,
-                              onChanged: (value) {
-                                setState(() {
-                                  val = value;
-                                });
-                              }),
-                          Text('عامة', style: hintStyle3),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Radio(
-                              value: 2,
-                              groupValue: val,
-                              onChanged: (value) {
-                                setState(() {
-                                  val = value;
-                                });
-                              }),
-                          Text(
-                            'خاصة',
-                            style: hintStyle3,
-                          ),
-                        ],
-                      ),
-                    ],
+                  TextFieldUser(
+                    labelText: "الرابط",
+                    scure: true,
+                    hintText: "ادخل رابط الندوة",
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'ادخل رابط الندوة';
+                      }
+                    },
+                    onChanged: (val ) {
+                      widget.link = val;
+
+                    },
+
+
                   ),
-                ),
-                const TextFieldItem(
-                  labelText: "الوصف",
-                  scure: true,
-                  hintText: "وصف الندوة",
-                ),
-                const TextFieldItem(
-                  labelText: "رابط الوصول الى الندوة",
-                  scure: true,
-                  hintText: "الرابط",
-                ),
-                Directionality(
-                  textDirection: TextDirection.rtl,
-                  child: RichText(
-                    text: TextSpan(
-                        text: 'ملاحظة: ',
-                        style: GoogleFonts.cairo(
-                            textStyle: const TextStyle(
-                                color: Colors.red,
-                                fontWeight: FontWeight.w700,
-                                fontSize: 12)),
-                        children: <TextSpan>[
-                          TextSpan(
-                            text:
-                                'عند اضافة ندوة قادمة سيتم حذفها تلقائيابعد انتهاء موعدها؛ و يمكنك اضافتهالاحقا كندوة مكتملة لاجل توثيقها',
-                            style: GoogleFonts.cairo(
-                                textStyle:const TextStyle(
-                                    color: Colors.red,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 11)),
-                          ),
-                        ]),
+                  Directionality(
+                    textDirection: TextDirection.rtl,
+                    child: RichText(
+                      text: TextSpan(
+                          text: 'ملاحظة: ',
+                          style: GoogleFonts.cairo(
+                              textStyle: const TextStyle(
+                                  color: Colors.red,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 12)),
+                          children: <TextSpan>[
+                            TextSpan(
+                              text:
+                                  'عند اضافة ندوة قادمة سيتم حذفها تلقائيابعد انتهاء موعدها؛ و يمكنك اضافتهالاحقا كندوة مكتملة لاجل توثيقها',
+                              style: GoogleFonts.cairo(
+                                  textStyle: const TextStyle(
+                                      color: Colors.red,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 11)),
+                            ),
+                          ]),
+                    ),
                   ),
-                ),
-                Center(
-                  child: SubmitButton(
-                      gradient: blueGradient,
-                      text: "إضافة",
-                      onTap: () {
-                        Navigator.pop(context);
-                        // Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //         builder: (context) => SeminarScreen()));
-                      }),
-                )
-              ],
+                  Center(
+                    child: SubmitButton(
+                        gradient: blueGradient,
+                        text: "إضافة",
+                        onTap: () async {
+                          print('=/=//=/=/////=====/=//=/=/=/');
+                          addSeminar({
+                            required BuildContext context,
+                            required String seminaraddress,
+                            required String location,
+                            required int type,
+                            required String description,
+                            required String link,
+                          }) async {
+                            showLoading(context);
+                            await FirebaseFirestore.instance
+                                .collection('seminar')
+                                .add({
+                              'seminaraddress': widget.seminaraddress,
+                              'location': widget.location,
+                              // 'type': widget.type,
+                              'description': widget.description,
+                              'link': widget.link,
+                              'userId': FirebaseAuth.instance.currentUser!.uid,
+                            }).then((value) {
+                              Navigator.pop(context);
+                            }
+                            );
+                          }
+                          // Navigator.push(
+                          //     context,
+                          //     MaterialPageRoute(
+                          //         builder: (context) => SeminarScreen()));
+                        }),
+                  )
+                ],
+              ),
             ),
           ),
         ),

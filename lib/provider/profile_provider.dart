@@ -19,6 +19,7 @@ class ProfileProvider with ChangeNotifier {
   late String link;
   var accept;
   late String degree;
+
   List<TextEditingController> fields = <TextEditingController>[];
   late String nameTheses;
   late String linkTheses;
@@ -257,5 +258,32 @@ class ProfileProvider with ChangeNotifier {
     notifyListeners();
   }
 
+
+  addSeminar({
+    required BuildContext context,
+    required String nameTheses,
+    required String linkTheses,
+    required String assistantSupervisors,
+    required String nameSupervisors,
+    required String degreeTheses,
+    required String? thesesStatus,
+  }) async {
+    showLoading(context);
+    await FirebaseFirestore.instance
+        .collection('theses')
+        .add({
+      'nameTheses': nameTheses,
+      'linkTheses': linkTheses,
+      'assistantSupervisors': assistantSupervisors,
+      'nameSupervisors': nameSupervisors,
+      'degreeTheses': degreeTheses,
+      'thesesStatus': thesesStatus,
+      'userId': FirebaseAuth.instance.currentUser!.uid,
+
+    });
+    Navigator.pop(context);
+    notifyListeners();
+  }
 }
+
 

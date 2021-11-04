@@ -16,6 +16,7 @@ void main()async {
           create: (context) => MyModel(),
           // child:const MyApp(),
         ),
+
         ChangeNotifierProvider(
           create: (context) => ProfileProvider(),
           // child:const MyApp(),
