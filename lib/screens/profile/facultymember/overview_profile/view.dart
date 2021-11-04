@@ -5,14 +5,46 @@ import 'package:aban/screens/profile/facultymember/profile/project_list.dart';
 import 'package:aban/screens/profile/facultymember/profile/theses_list.dart';
 import 'package:aban/screens/resersh_list/project_all_user.dart';
 import 'package:aban/screens/supervision_request/view.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class MemberProfile extends StatelessWidget {
+class MemberProfile extends StatefulWidget {
   String name, image, faculty, email, phone, degree, id;
 
   MemberProfile({required this.name,required this.image,required this.faculty,required this.email,required this.degree,required this.id,required this.phone});
 
+  @override
+  _MemberProfileState createState() => _MemberProfileState();
+}
+
+class _MemberProfileState extends State<MemberProfile> {
+  
+  
+  String userId = '';
+  
+  @override
+  void initState() {
+    super.initState();
+    getUserData();
+  }
+  
+  getUserData()async{
+    QuerySnapshot snapshot =await FirebaseFirestore.instance.collection('member').where('name',isEqualTo: widget.name).get();
+
+    for(var doc in snapshot.docs)
+      {
+        userId = doc['userId'];
+      }
+
+    print('user type is '+ userId);
+
+    setState(() {
+
+    });
+  }
+  
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -107,7 +139,7 @@ class MemberProfile extends StatelessWidget {
                           children: [
                             Image(
                               image: NetworkImage(
-                                image,
+                                widget.image,
                               ),
                               height: sizeFromHeight(context, 10),
                             ),
@@ -118,20 +150,20 @@ class MemberProfile extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                 name,
+                                 widget.name,
                                   style: labelStyle2,
                                 ),
                                 Row(
                                   children: [
                                     Text(
-                                      faculty,
+                                      widget.faculty,
                                       style: hintStyle,
                                     ),
                                     SizedBox(
                                       width: sizeFromWidth(context, 8),
                                     ),
                                     Text(
-                                      email,
+                                      widget.email,
                                       style: hintStyle3,
                                     ),
                                   ],
@@ -139,20 +171,20 @@ class MemberProfile extends StatelessWidget {
                                 Row(
                                   children: [
                                     Text(
-                                      degree,
+                                      widget.degree,
                                       style: hintStyle,
                                     ),
                                     SizedBox(
                                       width: sizeFromWidth(context, 8),
                                     ),
                                     Text(
-                                      phone,
+                                      widget.phone,
                                       style: hintStyle,
                                     ),
                                   ],
                                 ),
                                 Text(
-                                  id,
+                                  widget.id,
                                   style: hintStyle,
                                 ),
                               ],
@@ -215,16 +247,18 @@ class MemberProfile extends StatelessWidget {
                               color: gray,
                               thickness: .5,
                             ),
-                            const Expanded(
+                             Expanded(
                               child: SizedBox(
                                 child: TabBarView(
                                   children: [
                                      FieldList(),
                                     CompletedProjectResersh(
                                       text: 'اطروحة مكتملة تحت اشرافي',
+                                      userId: userId,
                                     ),
                                     CompletedProjectResersh(
                                       text: 'اطروحة جارية تحت اشرافي',
+                                      userId: userId,
                                     ),
                                     CompletedProject(
                                       text: 'اطروحة جارية تحت اشرافي',
