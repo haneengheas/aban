@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:aban/constant/style.dart';
+import 'package:aban/provider/model.dart';
 import 'package:aban/provider/profile_provider.dart';
 import 'package:aban/widgets/buttons/tetfielduser.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -20,9 +21,14 @@ class ProfileInformation extends StatefulWidget {
 }
 
 class _ProfileInformationState extends State<ProfileInformation> {
+  String college = '';
+  String department = '';
+
+  List<String> selectedDepartment = <String>[];
   @override
   Widget build(BuildContext context) {
     var prov = Provider.of<ProfileProvider>(context);
+    var providers = Provider.of<MyModel>(context);
     return Column(
       children: [
         Padding(
@@ -34,7 +40,7 @@ class _ProfileInformationState extends State<ProfileInformation> {
                   await showBottomSheet(context);
                 },
                 child: prov.file!.path == ''
-                    ?  const Image(
+                    ? const Image(
                         image: AssetImage(
                           'assets/user.png',
                         ),
@@ -71,43 +77,39 @@ class _ProfileInformationState extends State<ProfileInformation> {
         ),
         Row(
           children: [
-            const CollegeDropDown(item: 0,),
-            const CollegeDropDown(item: 1,),
-            // SizedBox(
-            //   width: sizeFromWidth(context, 2),
-            //   child: Directionality(
-            //       textDirection: TextDirection.rtl,
-            //       child: TextFieldUser(
-            //         onChanged: (value) {
-            //           prov.faculty = value;
-            //         },
-            //         validator: (value) {
-            //           if (value.isEmpty) {
-            //             return 'برجاءادخال الكليه ';
-            //           }
-            //         },
-            //         labelText: 'ادخل كليتك',
-            //         hintText: 'كليتك ',
-            //         scure: false,
-            //       )),
-            // ),
-            SizedBox(
-              width: sizeFromWidth(context, 2),
-              child: Directionality(
-                  textDirection: TextDirection.rtl,
-                  child: TextFieldUser(
-                    hintText: "Reasearsh@ksuedu.sa",
-                    scure: false,
-                    labelText: "البريد الجامعى",
-                    onChanged: (value) {
-                      prov.email = value;
-                    },
-                    validator: (value) {
-                      if (value.isEmpty) {
-                        return 'برجاءادخال البريد الالكتروني ';
-                      }
-                    },
-                  )),
+            Expanded(
+              child: CollegeDropDown(
+                strValue: this.college == '' ? null : this.college,
+                onTap: (v) {
+                  college = v;
+                  department = '';
+                  selectedDepartment = providers.departments[college]!;
+                  setState(() {});
+                },
+                listData: providers.departments.keys
+                    .toList()
+                    .map((e) => DropdownMenuItem(
+                          child: Text(e),
+                          value: e,
+                        ))
+                    .toList(),
+              ),
+            ),
+            Expanded(
+              child: CollegeDropDown(
+                strValue: this.department == '' ? null : this.department,
+                onTap: (v) {
+                  department = v;
+                  setState(() {});
+                },
+                listData: selectedDepartment
+                    .toList()
+                    .map((e) => DropdownMenuItem(
+                          child: Text(e),
+                          value: e,
+                        ))
+                    .toList(),
+              ),
             ),
           ],
         ),

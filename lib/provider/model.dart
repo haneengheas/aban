@@ -9,7 +9,7 @@ class MyModel with ChangeNotifier{
 
   //to get the length of the list inside this map use this line
   // departments['كلية علوم الحاسب والمعلومات'].length
-  var departments = {
+  Map<String,List<String>> departments = {
     'كلية علوم الحاسب والمعلومات': [
       "هندسة البرمجيات",
       "نظم المعلومات",
