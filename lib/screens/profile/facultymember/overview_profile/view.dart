@@ -3,6 +3,7 @@ import 'package:aban/screens/chat/view.dart';
 import 'package:aban/screens/profile/facultymember/profile/field_list.dart';
 import 'package:aban/screens/profile/facultymember/profile/project_list.dart';
 import 'package:aban/screens/profile/facultymember/profile/theses_list.dart';
+import 'package:aban/screens/resersh_list/project_all_user.dart';
 import 'package:aban/screens/supervision_request/view.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -219,10 +220,10 @@ class MemberProfile extends StatelessWidget {
                                 child: TabBarView(
                                   children: [
                                      FieldList(),
-                                    CompeletedTheses(
+                                    CompletedProjectResersh(
                                       text: 'اطروحة مكتملة تحت اشرافي',
                                     ),
-                                    CompeletedTheses(
+                                    CompletedProjectResersh(
                                       text: 'اطروحة جارية تحت اشرافي',
                                     ),
                                     CompletedProject(
