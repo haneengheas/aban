@@ -27,6 +27,8 @@ class _ThesesGraduatedMontorItemState extends State<ThesesGraduatedMontorItem> {
   TextEditingController degreeTheses = TextEditingController();
   String? thesesStatus;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  GlobalKey<FormState> formKey2 = GlobalKey<FormState>();
+
 
   dynamic indexed;
 
@@ -36,8 +38,8 @@ class _ThesesGraduatedMontorItemState extends State<ThesesGraduatedMontorItem> {
             .collection('theses')
             .where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
             .get();
-    debugPrint('userType is ${documentSnapshot2.docs[1]['nameTheses']}');
-    // name.text = documentSnapshot2.get('name');
+    debugPrint('userType is ${documentSnapshot2.docs[0]['nameTheses']}');
+    nameTheses.text = documentSnapshot2.docs[0].get('nameTheses');
     // faculty.text = documentSnapshot2.get('faculty');
     // emailuser.text = FirebaseAuth.instance.currentUser!.email!;
     // link.text = documentSnapshot2.get('link');
@@ -227,7 +229,7 @@ class _ThesesGraduatedMontorItemState extends State<ThesesGraduatedMontorItem> {
             text: "اضافة اطروحة",
             color: blueGradient,
             onTap: () {
-              showDialogTheses(context, text: 'إضافة اطروحة',formKey: formKey);
+              showDialogTheses(context, text: 'إضافة اطروحة',);
             }),
       ],
     );
@@ -262,7 +264,7 @@ void editTheses(
             borderRadius: BorderRadius.all(Radius.circular(15))),
         content: SingleChildScrollView(
           child: SizedBox(
-            height: MediaQuery.of(context).size.height / 1.3,
+            height: MediaQuery.of(context).size.height / 1.2,
             child: Form(
               key: formkey,
               child: Column(

@@ -1,12 +1,14 @@
 // ignore_for_file: prefer_typing_uninitialized_variables, avoid_print
 import 'dart:io';
 import 'dart:math';
+
 import 'package:aban/constant/alert_methods.dart';
 import 'package:aban/constant/style.dart';
 import 'package:aban/provider/profile_provider.dart';
 import 'package:aban/screens/profile/eidt_profile/list_project_item.dart';
 import 'package:aban/screens/profile/eidt_profile/project_item.dart';
 import 'package:aban/screens/profile/eidt_profile/theses_montor_item.dart';
+import 'package:aban/screens/registration/regist_screen/view.dart';
 import 'package:aban/widgets/buttons/buttonsuser.dart';
 import 'package:aban/widgets/buttons/tetfielduser.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -36,7 +38,7 @@ class _EditProfileState extends State<EditProfile> {
   TextEditingController link = TextEditingController();
   String? image;
   List? field;
-   int? accepted;
+  int? accepted;
 
   void getData() async {
     DocumentSnapshot documentSnapshot2 = await FirebaseFirestore.instance
@@ -276,7 +278,7 @@ class _EditProfileState extends State<EditProfile> {
                       child: Row(
                         children: [
                           Radio<int>(
-                              value:0,
+                              value: 0,
                               groupValue: prov.accept,
                               onChanged: (value) {
                                 setState(() {
@@ -295,7 +297,7 @@ class _EditProfileState extends State<EditProfile> {
                       child: Row(
                         children: [
                           Radio(
-                              value:1,
+                              value: 1,
                               groupValue: prov.accept,
                               onChanged: (value) {
                                 setState(() {
@@ -370,7 +372,6 @@ class _EditProfileState extends State<EditProfile> {
                             });
                           }
 
-
                           print(name);
                         }, text: 'هل انت متاكد من حفظ التغييرات ؟');
                       }),
@@ -383,7 +384,21 @@ class _EditProfileState extends State<EditProfile> {
                       color: grayGradient,
                       onTap: () {
                         showDialogWarning(context,
-                            text: 'هل انت متاكد من حذف الحساب ؟', ontap: () {});
+                            text: 'هل انت متاكد من حذف الحساب ؟',
+                            ontap: () async {
+                          await FirebaseFirestore.instance
+                              .collection('member')
+                              .doc(FirebaseAuth.instance.currentUser!.uid)
+                              .delete();
+                          await FirebaseFirestore.instance
+                              .collection('user')
+                              .doc(FirebaseAuth.instance.currentUser!.uid)
+                              .delete();
+                            await FirebaseAuth.instance.currentUser!.delete();
+
+
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=> const RegistScreen()));
+                        });
                       }))
             ],
           ),

@@ -7,8 +7,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 class ProfileProvider with ChangeNotifier {
-  final GlobalKey<FormState> formKeyTheses = GlobalKey<FormState>();
-  final GlobalKey<FormState> formKeyProject = GlobalKey<FormState>();
   late String name;
   var name2;
   late String faculty;
@@ -32,6 +30,7 @@ class ProfileProvider with ChangeNotifier {
   late String descriptionProject;
   late String leaderName;
   late String memberProjectName;
+  final GlobalKey<FormState> formkey = GlobalKey<FormState>();
 
   String? projectStatus;
 

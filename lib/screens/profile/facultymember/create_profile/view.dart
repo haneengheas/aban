@@ -150,7 +150,7 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                   color: blueGradient,
                   onTap: () {
                     showDialogTheses(context,
-                        text: 'اضافة اطروحة', formKey: formKey);
+                        text: 'اضافة اطروحة', );
                   }),
               const Divider(
                 height: 20,
@@ -169,7 +169,7 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                   text: "اضافة مشروع",
                   color: blueGradient,
                   onTap: () {
-                    showDialogProject(context, text: 'إضافة مشروع');
+                    showDialogProject(context, text: 'إضافة مشروع',);
                   }),
               Center(
                 child: SubmitButton(
