@@ -40,8 +40,7 @@ class _ThesesGraduatedMontorItemState extends State<ThesesGraduatedMontorItem> {
             .get();
     debugPrint('userType is ${documentSnapshot2.docs[0]['nameTheses']}');
     nameTheses.text = documentSnapshot2.docs[0].get('nameTheses');
-    // faculty.text = documentSnapshot2.get('faculty');
-    // emailuser.text = FirebaseAuth.instance.currentUser!.email!;
+    // linkTheses.text = documentSnapshot2.get('faculty');
     // link.text = documentSnapshot2.get('link');
     // phone.text = documentSnapshot2.get('phone');
     // degree.text = documentSnapshot2.get('degree');

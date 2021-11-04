@@ -67,10 +67,9 @@ class ProfileProvider with ChangeNotifier {
     //       body: Text("please choose Image"),
     //       dialogType: DialogType.ERROR)
     //     ..show();
-
+    showLoading(context);
     await ref.putFile(file);
     var imageUrl = await ref.getDownloadURL();
-    showLoading(context);
     await FirebaseFirestore.instance
         .collection('member')
         .doc(FirebaseAuth.instance.currentUser!.uid)

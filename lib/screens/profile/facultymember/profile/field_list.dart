@@ -38,26 +38,30 @@ class _FieldListState extends State<FieldList> {
             .where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
             .snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          return ListView.builder(
-            itemCount: snapshot.data!.docs.length,
-            itemBuilder: (context, index) {
-              return Row(
-                children: [
-                  const Icon(
-                    Icons.circle,
-                    size: 10,
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Text(
-                    snapshot.data!.docs[index]['fields'],
-                    style: hintStyle,
-                  )
-                ],
+          if(snapshot.hasData)
+            {
+              return ListView.builder(
+                itemCount: snapshot.data!.docs.length,
+                itemBuilder: (context, index) {
+                  return Row(
+                    children: [
+                      const Icon(
+                        Icons.circle,
+                        size: 10,
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        snapshot.data!.docs[index]['fields'][index],
+                        style: hintStyle,
+                      )
+                    ],
+                  );
+                },
               );
-            },
-          );
+            }
+          return const SizedBox();
         });
   }
 }

@@ -117,7 +117,7 @@ class _EditProfileState extends State<EditProfile> {
                         onTap: () async {
                           await showBottomSheet(context);
                         },
-                        child: Image(
+                        child:image== null?const SizedBox(): Image(
                           image: NetworkImage(image!),
                           height: 80,
                         ),
@@ -352,8 +352,6 @@ class _EditProfileState extends State<EditProfile> {
 
                             print('Str list is => $fieldsStr');
 
-                            // await prov.ref.putFile(prov.file!);
-                            // prov.imageurl = await prov.ref.getDownloadURL();
                             await FirebaseFirestore.instance
                                 .collection('member')
                                 .doc(FirebaseAuth.instance.currentUser!.uid)
