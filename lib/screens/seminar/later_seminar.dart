@@ -21,7 +21,9 @@ class _UnCompletedProjectState extends State<LaterSeminar> {
         TextButton(
           onPressed: () {
             Navigator.push(
-                context, MaterialPageRoute(builder: (context) =>const AddSeminar()));
+                context,
+                MaterialPageRoute(builder: (context) => AddSeminar())
+            );
           },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
