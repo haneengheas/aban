@@ -89,6 +89,7 @@ class ProfileProvider with ChangeNotifier {
       'accept': accept,
       'userId': FirebaseAuth.instance.currentUser!.uid,
     });
+    showLoading(context);
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(

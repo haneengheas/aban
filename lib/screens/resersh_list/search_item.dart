@@ -45,49 +45,59 @@ class _SearchItemState extends State<SearchItem> {
                                       faculty: snapshot.data!.docs[index]['faculty'],
                                     )));
                       },
-                      child: Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                            color: clearblue),
-                        height: sizeFromHeight(context, 6),
-                        width: sizeFromWidth(context, 1.1),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 10, horizontal: 20),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Image(
-                                image: NetworkImage(
-                                  snapshot.data!.docs[index]['imageUrl'],
+                      child: Padding(
+                        padding: const EdgeInsets.all(9.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30),
+                              color: clearblue),
+                          height: sizeFromHeight(context, 7),
+                          width: sizeFromWidth(context, 1.1),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 10, horizontal: 20),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Image(
+                                  image: NetworkImage(
+                                    snapshot.data!.docs[index]['imageUrl'],
+                                  ),
+                                  height: sizeFromHeight(context, 13),
+                                  // color: blue,
                                 ),
-                                height: sizeFromHeight(context, 13),
-                                // color: blue,
-                              ),
-                              SizedBox(
-                                width: sizeFromWidth(context, 30),
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    snapshot.data!.docs[index]['name'],
-                                    style: hintStyle4,
+                                SizedBox(
+                                  width: sizeFromWidth(context, 30),
+                                ),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                // mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        snapshot.data!.docs[index]['name'],
+                                        style: hintStyle4,
+                                      ),
+                                      const Divider(
+                                        thickness: 1,
+                                        endIndent: 20,
+                                        indent: 10,
+                                        color: gray,
+                                        height: 1.5,
+                                      ),
+                                      Text(
+                                        '        ${snapshot.data!.docs[index]['email']} ',
+                                        style: hintStyle2,
+                                      ),   Text(
+                                        '        ${snapshot.data!.docs[index]['degree']}',
+                                        style: hintStyle2,
+                                      ),
+                                    ],
                                   ),
-                                  const Divider(
-                                    thickness: 1,
-                                    color: gray,
-                                    height: 1.5,
-                                  ),
-                                  Text(
-                                    '        ${snapshot.data!.docs[index]['name']} \n ${snapshot.data!.docs[index]['degree']}',
-                                    style: hintStyle2,
-                                  ),
-                                ],
-                              )
-                            ],
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       ),
