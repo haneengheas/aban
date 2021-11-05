@@ -2,18 +2,16 @@ import 'package:aban/constant/style.dart';
 import 'package:aban/screens/chat/view.dart';
 import 'package:aban/screens/profile/facultymember/profile/field_list.dart';
 import 'package:aban/screens/profile/facultymember/profile/project_list.dart';
-import 'package:aban/screens/profile/facultymember/profile/theses_list.dart';
 import 'package:aban/screens/resersh_list/project_all_user.dart';
 import 'package:aban/screens/supervision_request/view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class MemberProfile extends StatefulWidget {
   String name, image, faculty, email, phone, degree, id;
 
-  MemberProfile({required this.name,required this.image,required this.faculty,required this.email,required this.degree,required this.id,required this.phone});
+  MemberProfile({Key? key, required this.name,required this.image,required this.faculty,required this.email,required this.degree,required this.id,required this.phone}) : super(key: key);
 
   @override
   _MemberProfileState createState() => _MemberProfileState();
@@ -251,7 +249,7 @@ class _MemberProfileState extends State<MemberProfile> {
                               child: SizedBox(
                                 child: TabBarView(
                                   children: [
-                                     FieldList(),
+                                     const FieldList(),
                                     CompletedProjectResersh(
                                       text: 'اطروحة مكتملة تحت اشرافي',
                                       userId: userId,
@@ -260,11 +258,11 @@ class _MemberProfileState extends State<MemberProfile> {
                                       text: 'اطروحة جارية تحت اشرافي',
                                       userId: userId,
                                     ),
-                                    CompletedProject(
+                                    const CompletedProject(
                                       text: 'اطروحة جارية تحت اشرافي',
 
                                     ),
-                                    CompletedProject(
+                                    const CompletedProject(
                                       text: 'اطروحة جارية تحت اشرافي',
 
                                     ),

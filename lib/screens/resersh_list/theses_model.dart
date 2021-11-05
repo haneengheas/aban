@@ -14,5 +14,5 @@ class ThesesModel {
       this.linkTheses,
       this.nameSupervisors,
       this.nameTheses,
-      this.thesesStatus});
+      this.thesesStatus, });
 }

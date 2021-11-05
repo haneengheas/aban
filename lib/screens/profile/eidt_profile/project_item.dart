@@ -165,8 +165,9 @@ class ProjectItem extends StatelessWidget {
                                   ));
                             });
                       }
-                    else
+                    else {
                       return const SizedBox();
+                    }
                   }),
             ),
           ],

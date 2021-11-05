@@ -1,22 +1,28 @@
 // ignore_for_file: prefer_typing_uninitialized_variables, avoid_print
 
 import 'dart:io';
+import 'dart:math';
 
 import 'package:aban/constant/alert_methods.dart';
 import 'package:aban/constant/style.dart';
+import 'package:aban/provider/model.dart';
 import 'package:aban/provider/profile_provider.dart';
-import 'package:aban/screens/Home/navigation.dart';
-import 'package:aban/screens/Home/studentdrawer.dart';
 import 'package:aban/screens/profile/facultymember/create_profile/accept_supervision.dart';
 import 'package:aban/screens/profile/facultymember/create_profile/profile_information.dart';
 import 'package:aban/widgets/buttons/buttonsuser.dart';
 import 'package:aban/widgets/buttons/submit_button.dart';
+import 'package:aban/widgets/buttons/tetfielduser.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart' as path;
 import 'package:provider/provider.dart';
+
+import 'dropdown.dart';
 
 class CreateMemberProfile extends StatefulWidget {
   const CreateMemberProfile({
@@ -31,7 +37,10 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
   var cards = <Card>[];
   var text;
   var name;
+  String college = '';
+  String department = '';
 
+  List<String> selectedDepartment = <String>[];
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   getData() async {
@@ -59,6 +68,7 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
   @override
   Widget build(BuildContext context) {
     var prov = Provider.of<ProfileProvider>(context);
+    var providers = Provider.of<MyModel>(context);
     return Scaffold(
       backgroundColor: white,
       appBar: AppBar(
@@ -88,7 +98,192 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // widget for user information example( name , phone)
-              const ProfileInformation(),
+              // const ProfileInformation(),
+              Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                    child: Row(
+                      children: [
+                        InkWell(
+                          onTap: () async {
+                            await showBottomSheet(context);
+                          },
+                          child: prov.file!.path == ''
+                              ? const Image(
+                            image: AssetImage(
+                              'assets/user.png',
+                            ),
+                            color: blue,
+                            height: 80,
+                          )
+                              : Image(
+                            image: FileImage(
+                              prov.file!,
+                            ),
+                            height: 80,
+                          ),
+                        ),
+                        SizedBox(
+                          width: sizeFromWidth(context, 1.5),
+                          child: Directionality(
+                              textDirection: TextDirection.rtl,
+                              child: TextFieldUser(
+                                onChanged: (value) {
+                                  prov.name = value;
+                                },
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'برجاء ادخال الاسم ';
+                                  }
+                                },
+                                labelText: 'اسم الباحث',
+                                hintText: 'اسمك ',
+                                scure: false,
+                              )),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: CollegeDropDown(
+                          strValue: this.college == '' ? null : this.college,
+                          onTap: (v) {
+                            college = v;
+                            department = '';
+                            selectedDepartment = providers.departments[college]!;
+                            setState(() {});
+                          },
+                          listData: providers.departments.keys
+                              .toList()
+                              .map((e) => DropdownMenuItem(
+                            child: Text(e),
+                            value: e,
+                          ))
+                              .toList(),
+                        ),
+                      ),
+                      Expanded(
+                        child: CollegeDropDown(
+                          strValue: this.department == '' ? null : this.department,
+                          onTap: (v) {
+                            department = v;
+                            setState(() {});
+                          },
+                          listData: selectedDepartment
+                              .toList()
+                              .map((e) => DropdownMenuItem(
+                            child: Text(e),
+                            value: e,
+                          ))
+                              .toList(),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: sizeFromWidth(context, 2),
+                        child: Directionality(
+                            textDirection: TextDirection.rtl,
+                            child: TextFieldUser(
+                              onChanged: (value) {
+                                prov.degree = value;
+                              },
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return 'برجاءادخال الدرجة العلمية ';
+                                }
+                              },
+                              hintText: "اختر درجتك",
+                              labelText: "الدرجة العلمية",
+                              scure: false,
+                            )),
+                      ),
+                      SizedBox(
+                        width: sizeFromWidth(context, 2),
+                        child: Directionality(
+                            textDirection: TextDirection.rtl,
+                            child: TextFieldUser(
+                              labelText: 'رقم الهاتف',
+                              hintText: 'الهاتف ',
+                              onChanged: (value) {
+                                prov.phone = value;
+                              },
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return 'برجاءادخال رقم الهاتف ';
+                                }
+                              },
+                              scure: false,
+                            )),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: sizeFromWidth(context, 2),
+                        child: Directionality(
+                            textDirection: TextDirection.rtl,
+                            child: TextFieldUser(
+                              hintText: "المعرف الخاص بك",
+                              labelText: "orcid iD",
+                              onChanged: (value) {
+                                prov.id = value;
+                              },
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return 'برجاءادخال المعرف الخاص بك ';
+                                }
+                              },
+                              scure: false,
+                            )),
+                      ),
+                      SizedBox(
+                        width: sizeFromWidth(context, 2),
+                        child: Directionality(
+                            textDirection: TextDirection.rtl,
+                            child: TextFieldUser(
+                              onChanged: (value) {
+                                prov.link = value;
+                              },
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return 'برجاءادخال رابط GooGel School ';
+                                }
+                              },
+                              hintText: "ادخل رابط GooGel School",
+                              labelText: " ابحاثى",
+                              scure: false,
+                            )),
+                      ),
+
+                    ],
+                  ),
+                  SizedBox(
+                    width: sizeFromWidth(context, 2),
+                    child: Directionality(
+                        textDirection: TextDirection.rtl,
+                        child: TextFieldUser(
+                          hintText: "المعرف الخاص بك",
+                          labelText: "orcid iD",
+                          onChanged: (value) {
+                            prov.email = value;
+                          },
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'برجاءادخال المعرف الخاص بك ';
+                            }
+                          },
+                          scure: false,
+                        )),
+                  ),
+                ],
+              ),
               // widget for accept supervision
               const AcceptSupervision(),
               const Divider(
@@ -195,7 +390,7 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
 
                         await prov.createMemberProfile(
                           context: context,
-                          faculty: prov.faculty,
+                          faculty: college,
                           degree: prov.degree,
                           file: prov.file!,
                           id: prov.id,
@@ -229,4 +424,84 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
       ),
     );
   }
+}
+showBottomSheet(context) {
+  return showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        var prov = Provider.of<ProfileProvider>(context);
+        return Container(
+          padding: const EdgeInsets.all(20),
+          height: 180,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                "Please Choose Image",
+                style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+              ),
+              InkWell(
+                onTap: () async {
+                  var picked = await ImagePicker()
+                      .pickImage(source: ImageSource.gallery);
+                  if (picked != null) {
+                    prov.file = File(picked.path);
+                    var rang = Random().nextInt(100000);
+                    var imageName = "$rang" + path.basename(picked.path);
+                    prov.ref =
+                        FirebaseStorage.instance.ref("images").child(imageName);
+                    Navigator.of(context).pop();
+                  }
+                },
+                child: Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(10),
+                    child: Row(
+                      children: const [
+                        Icon(
+                          Icons.photo_outlined,
+                          size: 30,
+                        ),
+                        SizedBox(width: 20),
+                        Text(
+                          "From Gallery",
+                          style: TextStyle(fontSize: 20),
+                        )
+                      ],
+                    )),
+              ),
+              InkWell(
+                onTap: () async {
+                  var picked =
+                  await ImagePicker().pickImage(source: ImageSource.camera);
+                  if (picked != null) {
+                    prov.file = File(picked.path);
+                    var rang = Random().nextInt(100000);
+                    var imageName = "$rang" + path.basename(picked.path);
+                    prov.ref =
+                        FirebaseStorage.instance.ref("images").child(imageName);
+                    Navigator.of(context).pop();
+                  }
+                },
+                child: Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(10),
+                    child: Row(
+                      children: const [
+                        Icon(
+                          Icons.camera,
+                          size: 30,
+                        ),
+                        SizedBox(width: 20),
+                        Text(
+                          "From Camera",
+                          style: TextStyle(fontSize: 20),
+                        )
+                      ],
+                    )),
+              ),
+            ],
+          ),
+        );
+      });
 }

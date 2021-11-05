@@ -1,12 +1,10 @@
 // ignore_for_file: prefer_typing_uninitialized_variables
 
-import 'package:aban/constant/loading_methods.dart';
 import 'package:aban/constant/style.dart';
 import 'package:aban/provider/auth_provider.dart';
 import 'package:aban/provider/profile_provider.dart';
 import 'package:aban/widgets/buttons/submit_button.dart';
 import 'package:aban/widgets/buttons/tetfielduser.dart';
-import 'package:aban/widgets/textField.dart';
 import 'package:aban/widgets/textfieldtime.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -22,6 +20,8 @@ class AddSeminar extends StatefulWidget {
   String? description;
    String? link;
   int? type;
+
+  AddSeminar({Key? key}) : super(key: key);
 
   @override
   _AddSeminarState createState() => _AddSeminarState();

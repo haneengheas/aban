@@ -8,6 +8,7 @@ class ProJectDetailsScreen extends StatefulWidget {
   String members;
   String description;
   String status;
+  bool isFav;
 
   ProJectDetailsScreen({
     Key? key,
@@ -16,6 +17,7 @@ class ProJectDetailsScreen extends StatefulWidget {
     required this.members,
     required this.nameProject,
     required this.status,
+    required this.isFav,
   }) : super(key: key);
 
   @override
@@ -109,11 +111,20 @@ class _ProJectDetailsScreenState extends State<ProJectDetailsScreen> {
                                 width: 25,
                                 margin: const EdgeInsets.symmetric(
                                     vertical: 10, horizontal: 10),
-                                child: const ImageIcon(
+                                child: widget.isFav== true? const ImageIcon(
+                                  AssetImage(
+                                    'assets/bookmark (2).png',
+
+                                  ),
+                                  color: blue,
+                                  size: 50,
+                                )
+                                    : const ImageIcon(
                                   AssetImage(
                                     'assets/bookmark (1).png',
                                   ),
                                   color: blue,
+                                  size: 50,
                                 ),
                               )
                             ]),

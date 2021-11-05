@@ -37,7 +37,8 @@ class ProfileProvider with ChangeNotifier {
 
 
 
-
+  String college = '';
+  String department = '';
 
 
 
@@ -93,7 +94,7 @@ class ProfileProvider with ChangeNotifier {
         MaterialPageRoute(
             builder: (context) => NavigationFile(
               d: studentDrawer(context),
-              title: 'مرحبا"اسم الباحث"',
+              title: '${name} مرحباً',
               counter: 1,
             )));
     notifyListeners();
@@ -118,6 +119,7 @@ class ProfileProvider with ChangeNotifier {
       'nameSupervisors': nameSupervisors,
       'degreeTheses': degreeTheses,
       'thesesStatus': thesesStatus,
+      'isFav':false,
       'userId': FirebaseAuth.instance.currentUser!.uid,
 
     });
@@ -142,6 +144,7 @@ class ProfileProvider with ChangeNotifier {
       'leaderName': leaderName,
       'projectStatus': projectStatus,
       'memberProjectName': memberProjectName,
+      'isFav':false,
       'userId': FirebaseAuth.instance.currentUser!.uid,
 
     });
@@ -209,6 +212,8 @@ class ProfileProvider with ChangeNotifier {
       'nameSupervisors': nameSupervisors,
       'degreeTheses': degreeTheses,
       'thesesStatus': thesesStatus,
+      'isFav':false,
+
       'userId': FirebaseAuth.instance.currentUser!.uid,
 
     });
@@ -232,6 +237,8 @@ class ProfileProvider with ChangeNotifier {
       'descriptionProject': descriptionProject,
       'leaderName': leaderName,
       'projectStatus': projectStatus,
+      'isFav':false,
+
       'memberProjectName':memberProjectName,
       'userId': FirebaseAuth.instance.currentUser!.uid,
 

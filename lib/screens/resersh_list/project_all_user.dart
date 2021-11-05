@@ -10,7 +10,7 @@ import 'package:flutter/widgets.dart';
 class CompletedProjectResersh extends StatefulWidget {
   final String text;
 
-  CompletedProjectResersh({required this.text, this.userId});
+  const CompletedProjectResersh({required this.text, this.userId});
 
   final String? userId;
 

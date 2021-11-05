@@ -7,7 +7,7 @@ class EidtTextFieldUser extends StatefulWidget {
   final String labelText;
   final bool scure;
   final Function(String) onChanged;
-  final  Function (String) validator;
+  final FormFieldValidator   validator;
   final String initialValue;
 
   // ignore: use_key_in_widget_constructors
@@ -35,7 +35,7 @@ class _EidtTextFieldUserState extends State<EidtTextFieldUser> {
         child: TextFormField(
           initialValue: widget.initialValue,
           onChanged: widget.onChanged,
-          // validator:  widget.validator,
+          validator:  widget.validator,
           obscureText: widget.scure,
           decoration: InputDecoration(
             // prefixIcon: Icon(Icons.star,size: 5,color: Colors.red,),

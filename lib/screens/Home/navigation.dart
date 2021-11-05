@@ -27,7 +27,7 @@ class _NavigationFileState extends State<NavigationFile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: widget.pages[index],
+      body:  widget.pages[index],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: index,
         backgroundColor: blue,

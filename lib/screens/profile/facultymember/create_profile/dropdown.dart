@@ -1,12 +1,9 @@
 import 'package:aban/constant/style.dart';
-import 'package:aban/provider/model.dart';
-import 'package:aban/provider/profile_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class CollegeDropDown extends StatefulWidget {
 
-  CollegeDropDown({this.listData,this.strValue,this.onTap});
+  const CollegeDropDown({Key? key, this.listData,this.strValue,this.onTap}) : super(key: key);
 
   final List<DropdownMenuItem<String>>? listData;
   final String? strValue;

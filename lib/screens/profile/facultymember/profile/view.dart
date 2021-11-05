@@ -116,7 +116,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       Image(
                                         image: NetworkImage(
                                             snapshot.data!.docs[0]['imageUrl']),
-                                        color: blue,
                                         height: 60,
                                       ),
                                       const SizedBox(

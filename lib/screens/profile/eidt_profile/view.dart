@@ -39,6 +39,8 @@ class _EditProfileState extends State<EditProfile> {
   String? image;
   List? field;
   int? accepted;
+  File? file = File('');
+ late Reference ref;
 
   void getData() async {
     DocumentSnapshot documentSnapshot2 = await FirebaseFirestore.instance
@@ -327,7 +329,7 @@ class _EditProfileState extends State<EditProfile> {
                 thickness: 1,
                 color: lightGray,
               ),
-              ThesesGraduatedMontorItem(),
+              const ThesesGraduatedMontorItem(),
               const Divider(
                 height: 20,
                 thickness: 1,
@@ -351,7 +353,8 @@ class _EditProfileState extends State<EditProfile> {
                             }
 
                             print('Str list is => $fieldsStr');
-
+                            // await prov.ref.putFile(prov.file!);
+                            // var imageUrl = await prov.ref.getDownloadURL();
                             await FirebaseFirestore.instance
                                 .collection('member')
                                 .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -363,7 +366,7 @@ class _EditProfileState extends State<EditProfile> {
                               'id': id.text,
                               'link': link.text,
                               'phone': phone.text,
-                              // 'imageUrl': prov.imageurl,
+                               // 'imageUrl': prov.imageurl,
                               'fields': fieldsStr
                             }).then((value) {
                               Navigator.pop(context);

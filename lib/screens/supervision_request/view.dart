@@ -1,5 +1,4 @@
 import 'package:aban/constant/style.dart';
-import 'package:aban/screens/profile/facultymember/overview_profile/view.dart';
 import 'package:aban/widgets/buttons/submit_button.dart';
 import 'package:aban/widgets/customAppBar.dart';
 import 'package:aban/widgets/textField.dart';

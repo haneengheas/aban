@@ -88,7 +88,7 @@ import "package:quds_ui_kit/quds_ui_kit.dart";
                 // print('------------');
                 // print(prov.email);
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) =>  EditProfile()));
+                    MaterialPageRoute(builder: (context) =>  const EditProfile()));
               }),
           QudsPopupMenuDivider(color: gray, thickness: .5),
 

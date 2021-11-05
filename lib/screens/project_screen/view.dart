@@ -30,6 +30,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
   void initState() {
     getCompletedProjects();
     getUnCompletedProjects();
+
     searchController.addListener(() {
       filter = searchController.text;
       setState(() {
@@ -55,7 +56,8 @@ class _ProjectScreenState extends State<ProjectScreen> {
           projectStatus: doc['projectStatus'],
           memberProjectName: doc['memberProjectName'],
           projectName: doc['projectName'],
-          id: doc.id));
+          id: doc.id),
+      );
     }
 
     setState(() {});
@@ -71,7 +73,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
       unCompletedProjects.add(ProjectModel(
           descriptionProject: doc['descriptionProject'],
           leaderName: doc['leaderName'],
-          isFav: doc['isFav'],
+           isFav: doc['isFav'],
           userId: doc['userId'],
           projectStatus: doc['projectStatus'],
           memberProjectName: doc['memberProjectName'],

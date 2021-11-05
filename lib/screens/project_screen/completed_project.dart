@@ -2,6 +2,7 @@ import 'package:aban/constant/style.dart';
 import 'package:aban/screens/project_screen/proj_model.dart';
 import 'package:aban/screens/project_screen/project_details_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -27,8 +28,11 @@ class _CompletedProjectState extends State<CompletedProject> {
         )
             : widget.projects[index].projectName!
             .toLowerCase()
+            .contains(widget.filter!.toLowerCase()) ||widget.projects[index].projectName!
+            .toLowerCase()
             .contains(widget.filter!.toLowerCase())
-            ? _buildProjBox(
+            ?
+        _buildProjBox(
           widget.projects[index],
         )
             : Container();
@@ -49,7 +53,7 @@ class _CompletedProjectState extends State<CompletedProject> {
                 members: project.memberProjectName!,
                 nameProject:
                 project.memberProjectName!,
-                status: project.projectStatus!,
+                status: project.projectStatus!, isFav: project.isFav!,
               )));
     },
     child: Container(
@@ -109,17 +113,33 @@ class _CompletedProjectState extends State<CompletedProject> {
                       onTap: () async {
 
                         FirebaseFirestore.instance
+                            .collection('projectBookmark')
+                            .doc(project.id)
+                            .set({
+                          'projectName': project.projectName,
+                          'leaderName': project.leaderName,
+                          'descriptionProject': project.descriptionProject,
+                          'memberProjectName': project.memberProjectName,
+                          'projectStatus': project.projectStatus,
+                          'userId': FirebaseAuth.instance.currentUser!.uid,
+                          'isFav': project.isFav! ? false : true
+                        });
+
+                        project.isFav = !project.isFav!;
+                        await FirebaseFirestore.instance
                             .collection('project')
                             .doc(project.id)
-                            .update({
-                          'isFav':
-                          project.isFav! ? false : true
-                        });
-                        project.isFav =
-                        !project.isFav!;
-
+                            .update(
+                            {'isFav': project.isFav! });
+                        if (project.isFav == false) {
+                          FirebaseFirestore.instance
+                              .collection('projectBookmark')
+                              .doc(project.id)
+                              .delete();
+                        }
                         setState(() {});
                         print(project.id);
+
                       },
                       child: Container(
                         height: 40,
