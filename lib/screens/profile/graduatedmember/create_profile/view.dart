@@ -143,7 +143,7 @@ class _CreateGraduatedProfileState extends State<CreateGraduatedProfile> {
                       faculty: prov.faculty,
                       phone: prov.phone,
                       id: prov.id,
-                      degree: prov.degree,
+                      degree: prov.degree!,
                       link: prov.link,
                       accept: prov.accept,
                       file: prov.file!);

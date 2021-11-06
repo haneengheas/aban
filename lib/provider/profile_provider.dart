@@ -18,7 +18,7 @@ class ProfileProvider with ChangeNotifier {
   late String id;
   late String link;
   var accept;
-  late String degree;
+   String ? degree;
 
   List<TextEditingController> fields = <TextEditingController>[];
   late String nameTheses;

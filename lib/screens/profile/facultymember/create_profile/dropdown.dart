@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 
 class CollegeDropDown extends StatefulWidget {
 
-  const CollegeDropDown({Key? key, this.listData,this.strValue,this.onTap}) : super(key: key);
+  const CollegeDropDown({Key? key, this.listData,this.strValue,this.onTap, required this.text}) : super(key: key);
 
   final List<DropdownMenuItem<String>>? listData;
   final String? strValue;
   final Function? onTap;
+  final String text;
 
 
 
@@ -23,7 +24,7 @@ class _CollegeDropDownState extends State<CollegeDropDown> {
       margin: EdgeInsets.symmetric(horizontal: 16),
       child: DropdownButton<String>(
           hint: Text(
-            'اختر قسمك',
+           widget.text,
             style: hintStyle,
           ),
           value: widget.strValue == null?null:widget.strValue,

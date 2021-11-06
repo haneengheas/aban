@@ -112,7 +112,7 @@ class _CompletedThesesState extends State<CompletedTheses> {
                               {'isFav': theses.isFav! });
 
                           if (theses.isFav == false) {
-                            FirebaseFirestore.instance
+                            await FirebaseFirestore.instance
                                 .collection('thesesBookmark')
                                 .doc(theses.id)
                                 .delete();

@@ -11,7 +11,7 @@ class ThesesBookMark extends StatefulWidget {
 class _ThesesBookMarkState extends State<ThesesBookMark> {
   @override
   Widget build(BuildContext context) {
-    return    SizedBox(
+    return SizedBox(
         height: sizeFromHeight(context, 2.2),
         child: StreamBuilder(
           stream: FirebaseFirestore.instance
@@ -89,28 +89,45 @@ class _ThesesBookMarkState extends State<ThesesBookMark> {
                                       .docs[index]['degreeTheses'],
                                   style: labelStyle3,
                                 ),
-                                Container(
-                                  height: 30,
-                                  width: 20,
-                                  margin: const EdgeInsets
-                                      .symmetric(
-                                      vertical: 10),
-                                  child: snapshot.data!
-                                      .docs[index]['isFav'] == true
-                                      ? const ImageIcon(
-                                    AssetImage(
-                                      'assets/bookmark (2).png',
+                                InkWell(
+                                  onTap: () async {
+                                    if (snapshot.data!
+                                        .docs[index]['isFav'] == true) {
+                                      FirebaseFirestore.instance
+                                          .collection('thesesBookmark')
+                                          .doc(snapshot.data!.docs[index].id)
+                                          .delete();
+                                      await FirebaseFirestore.instance
+                                          .collection('theses')
+                                          .doc(snapshot.data!.docs[index].id)
+                                          .update(
+                                          {'isFav': false });
+                                    }
+                                    setState(() {});
+                                  },
+                                  child: Container(
+                                    height: 30,
+                                    width: 20,
+                                    margin: const EdgeInsets
+                                        .symmetric(
+                                        vertical: 10),
+                                    child: snapshot.data!
+                                        .docs[index]['isFav'] == true
+                                        ? const ImageIcon(
+                                      AssetImage(
+                                        'assets/bookmark (2).png',
 
+                                      ),
+                                      color: blue,
+                                      size: 50,
+                                    )
+                                        : const ImageIcon(
+                                      AssetImage(
+                                        'assets/bookmark (1).png',
+                                      ),
+                                      color: blue,
+                                      size: 50,
                                     ),
-                                    color: blue,
-                                    size: 50,
-                                  )
-                                      : const ImageIcon(
-                                    AssetImage(
-                                      'assets/bookmark (1).png',
-                                    ),
-                                    color: blue,
-                                    size: 50,
                                   ),
                                 )
                               ]),

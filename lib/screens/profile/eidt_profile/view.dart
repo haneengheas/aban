@@ -134,7 +134,11 @@ class _EditProfileState extends State<EditProfile> {
                           scure: false,
                           validator: (value) {
                             if (value.isEmpty) {
-                              return 'برجاءادخال الاسم بشكل صحيح ';
+                              return 'يجب ادخال اسم الباحث';
+                            }
+                            else if (value<2){
+                              return 'يجب ان يحتوي الاسم علي ثلاث حروف علي الاقل';
+
                             }
                           }, // initialValue: name,
                         ),

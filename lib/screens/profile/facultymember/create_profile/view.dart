@@ -8,7 +8,6 @@ import 'package:aban/constant/style.dart';
 import 'package:aban/provider/model.dart';
 import 'package:aban/provider/profile_provider.dart';
 import 'package:aban/screens/profile/facultymember/create_profile/accept_supervision.dart';
-import 'package:aban/screens/profile/facultymember/create_profile/profile_information.dart';
 import 'package:aban/widgets/buttons/buttonsuser.dart';
 import 'package:aban/widgets/buttons/submit_button.dart';
 import 'package:aban/widgets/buttons/tetfielduser.dart';
@@ -41,6 +40,8 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
   String department = '';
 
   List<String> selectedDepartment = <String>[];
+  List<String> selectedDegree = <String>['دكتوراة'];
+
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   getData() async {
@@ -102,7 +103,8 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
               Column(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 10),
                     child: Row(
                       children: [
                         InkWell(
@@ -111,18 +113,18 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                           },
                           child: prov.file!.path == ''
                               ? const Image(
-                            image: AssetImage(
-                              'assets/user.png',
-                            ),
-                            color: blue,
-                            height: 80,
-                          )
+                                  image: AssetImage(
+                                    'assets/user.png',
+                                  ),
+                                  color: blue,
+                                  height: 80,
+                                )
                               : Image(
-                            image: FileImage(
-                              prov.file!,
-                            ),
-                            height: 80,
-                          ),
+                                  image: FileImage(
+                                    prov.file!,
+                                  ),
+                                  height: 80,
+                                ),
                         ),
                         SizedBox(
                           width: sizeFromWidth(context, 1.5),
@@ -146,28 +148,36 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                     ),
                   ),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Expanded(
+                      SizedBox(
+                        width: sizeFromWidth(context, 2.3),
+                        height: 70,
                         child: CollegeDropDown(
                           strValue: this.college == '' ? null : this.college,
                           onTap: (v) {
                             college = v;
                             department = '';
-                            selectedDepartment = providers.departments[college]!;
+                            selectedDepartment =
+                                providers.departments[college]!;
                             setState(() {});
                           },
                           listData: providers.departments.keys
                               .toList()
                               .map((e) => DropdownMenuItem(
-                            child: Text(e),
-                            value: e,
-                          ))
+                                    child: Text(e),
+                                    value: e,
+                                  ))
                               .toList(),
+                          text: 'اختر كليتك',
                         ),
                       ),
-                      Expanded(
+                      SizedBox(
+                        width: sizeFromWidth(context, 2.3),
+                        height: 70,
                         child: CollegeDropDown(
-                          strValue: this.department == '' ? null : this.department,
+                          strValue:
+                              this.department == '' ? null : this.department,
                           onTap: (v) {
                             department = v;
                             setState(() {});
@@ -175,33 +185,75 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                           listData: selectedDepartment
                               .toList()
                               .map((e) => DropdownMenuItem(
-                            child: Text(e),
-                            value: e,
-                          ))
+                                    child: Text(e),
+                                    value: e,
+                                  ))
                               .toList(),
+                          text: 'اختر قسمك',
                         ),
                       ),
                     ],
                   ),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      SizedBox(
-                        width: sizeFromWidth(context, 2),
-                        child: Directionality(
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          SizedBox(height: 10,),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 3),
+                            child: Text(
+                              'حالة المشروع',
+                              style: labelStyle3,
+                            ),
+                          ),
+                          Directionality(
                             textDirection: TextDirection.rtl,
-                            child: TextFieldUser(
-                              onChanged: (value) {
-                                prov.degree = value;
-                              },
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'برجاءادخال الدرجة العلمية ';
-                                }
-                              },
-                              hintText: "اختر درجتك",
-                              labelText: "الدرجة العلمية",
-                              scure: false,
-                            )),
+                            child: Container(
+                              width: 170,
+                              height: 30,
+                              padding: EdgeInsets.symmetric(horizontal: 10),
+                              child: DropdownButton<String>(
+                                hint: Text(
+                                  'ادخل الدرجة العلمية',
+                                  style: hintStyle,
+                                ),
+                                value: prov.degree,
+                                underline: Container(
+                                  width: 20,
+
+                                  height: .5,
+                                  decoration: const BoxDecoration(
+                                      color: gray,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: blue,
+                                        )
+                                      ]),
+                                ),
+                                onChanged: (newValue) {
+                                  prov.degree = newValue!;
+                                },
+                                items: <String>[
+                                  'دكتوراه',
+                                  'ماجستير'
+                                ].map<DropdownMenuItem<String>>((String value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: SizedBox(
+                                      width: sizeFromWidth(context, 6),
+                                      // for example
+                                      child:
+                                          Text(value, textAlign: TextAlign.right),
+                                    ),
+                                  );
+                                }).toList(),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                       SizedBox(
                         width: sizeFromWidth(context, 2),
@@ -261,7 +313,6 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                               scure: false,
                             )),
                       ),
-
                     ],
                   ),
                   SizedBox(
@@ -344,8 +395,10 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                   text: "اضافة اطروحة",
                   color: blueGradient,
                   onTap: () {
-                    showDialogTheses(context,
-                        text: 'اضافة اطروحة', );
+                    showDialogTheses(
+                      context,
+                      text: 'اضافة اطروحة',
+                    );
                   }),
               const Divider(
                 height: 20,
@@ -364,7 +417,10 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                   text: "اضافة مشروع",
                   color: blueGradient,
                   onTap: () {
-                    showDialogProject(context, text: 'إضافة مشروع',);
+                    showDialogProject(
+                      context,
+                      text: 'إضافة مشروع',
+                    );
                   }),
               Center(
                 child: SubmitButton(
@@ -391,7 +447,7 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                         await prov.createMemberProfile(
                           context: context,
                           faculty: college,
-                          degree: prov.degree,
+                          degree: prov.degree!,
                           file: prov.file!,
                           id: prov.id,
                           fields: fieldsStr,
@@ -425,6 +481,7 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
     );
   }
 }
+
 showBottomSheet(context) {
   return showModalBottomSheet(
       context: context,
@@ -473,7 +530,7 @@ showBottomSheet(context) {
               InkWell(
                 onTap: () async {
                   var picked =
-                  await ImagePicker().pickImage(source: ImageSource.camera);
+                      await ImagePicker().pickImage(source: ImageSource.camera);
                   if (picked != null) {
                     prov.file = File(picked.path);
                     var rang = Random().nextInt(100000);

@@ -92,7 +92,7 @@ class _ProfileInformationState extends State<ProfileInformation> {
                           child: Text(e),
                           value: e,
                         ))
-                    .toList(),
+                    .toList(), text: '',
               ),
             ),
             Expanded(
@@ -108,7 +108,7 @@ class _ProfileInformationState extends State<ProfileInformation> {
                           child: Text(e),
                           value: e,
                         ))
-                    .toList(),
+                    .toList(), text: '',
               ),
             ),
           ],

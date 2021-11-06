@@ -4,7 +4,6 @@ import 'package:aban/constant/style.dart';
 import 'package:aban/provider/auth_provider.dart';
 import 'package:aban/provider/profile_provider.dart';
 import 'package:aban/widgets/buttons/buttonsuser.dart';
-import 'package:aban/widgets/buttons/tetfielduser.dart';
 import 'package:aban/widgets/eidt_text_field.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -30,8 +29,7 @@ class _ThesesGraduatedMontorItemState extends State<ThesesGraduatedMontorItem> {
   TextEditingController degreeTheses = TextEditingController();
   String? thesesStatus;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  GlobalKey<FormState> formKey2 = GlobalKey<FormState>();
-
+  GlobalKey<FormState> Key = GlobalKey<FormState>();
 
   dynamic indexed;
 
@@ -92,134 +90,115 @@ class _ThesesGraduatedMontorItemState extends State<ThesesGraduatedMontorItem> {
                       return ListView.builder(
                           itemCount: snapshot.data!.docs.length,
                           itemBuilder: (context, index) {
-                            return Dismissible(
-                                background: Container(
-                                  color: red,
-                                  child: const Center(
-                                    child: Text(
-                                      'Delete',
-                                      style: TextStyle(color: Colors.white),
-                                    ),
+                            return Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Container(
+                                  margin: const EdgeInsets.symmetric(
+                                      horizontal: 5, vertical: 5),
+                                  width: sizeFromWidth(context, 1.5),
+                                  height: 100,
+                                  decoration: BoxDecoration(
+                                    color: clearblue,
+                                    borderRadius: BorderRadius.circular(25),
                                   ),
-                                ),
-                                secondaryBackground: Container(
-                                  color: Colors.red,
-                                ),
-                                onDismissed:
-                                    (DismissDirection direction) async {
-                                  await FirebaseFirestore.instance
-                                      .collection('theses')
-                                      .doc(snapshot.data!.docs[index].id)
-                                      .delete();
-                                },
-                                key: UniqueKey(),
-                                direction: DismissDirection.startToEnd,
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    Container(
-// padding: const EdgeInsets.symmetric(
-//     horizontal: 5),
-                                      margin: const EdgeInsets.symmetric(
-                                          horizontal: 5, vertical: 5),
-                                      width: sizeFromWidth(context, 1.5),
-                                      height: 100,
-                                      decoration: BoxDecoration(
-                                        color: clearblue,
-                                        borderRadius: BorderRadius.circular(25),
-                                      ),
-                                      child: Directionality(
-                                        textDirection: TextDirection.rtl,
-                                        child: Row(
+                                  child: Directionality(
+                                    textDirection: TextDirection.rtl,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceEvenly,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
                                           children: [
-                                            Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceEvenly,
-                                              children: [
-                                                Text(
-                                                  'اسم الاطروحة : ${snapshot.data!.docs[index]['nameTheses']}',
-                                                  style: hintStyle5,
-                                                ),
-                                                Text(
-                                                  'المشرف: ${snapshot.data!.docs[index]['nameSupervisors']}',
-                                                  style: hintStyle5,
-                                                ),
-                                                Text(
-                                                  ' المشرفون المساعدون: ${snapshot.data!.docs[index]['assistantSupervisors']}',
-                                                  style: hintStyle5,
-                                                ),
-                                              ],
-                                            ),
-                                            const VerticalDivider(
-                                              color: gray,
-                                              endIndent: 10,
-                                              indent: 10,
-// width: 1,
-                                              thickness: 2,
+                                            Text(
+                                              'اسم الاطروحة : ${snapshot.data!.docs[index]['nameTheses']}',
+                                              style: hintStyle5,
                                             ),
                                             Text(
-                                              snapshot.data!.docs[index]
-                                                  ['degreeTheses'],
+                                              'المشرف: ${snapshot.data!.docs[index]['nameSupervisors']}',
+                                              style: hintStyle5,
+                                            ),
+                                            Text(
+                                              ' المشرفون المساعدون: ${snapshot.data!.docs[index]['assistantSupervisors']}',
                                               style: hintStyle5,
                                             ),
                                           ],
                                         ),
-                                      ),
+                                        const VerticalDivider(
+                                          color: gray,
+                                          endIndent: 10,
+                                          indent: 10,
+// width: 1,
+                                          thickness: 2,
+                                        ),
+                                        Text(
+                                          snapshot.data!.docs[index]
+                                              ['degreeTheses'],
+                                          style: hintStyle5,
+                                        ),
+                                      ],
                                     ),
-                                    SizedBox(
-                                      width: 30,
-                                      child: IconButton(
-                                        onPressed: () {
-                                          editTheses(context,
-                                              text: 'تعديل اطروحة',
-                                              formkey: formKey,
-                                              indexed:
-                                                  snapshot.data!.docs[index].id,
-                                              degreeTheses: snapshot.data!.docs[index]['degreeTheses'],
-                                              assistantSupervisors:
-                                              snapshot.data!.docs[index]['assistantSupervisors'],
-                                              linkTheses:  snapshot.data!.docs[index]['linkTheses'],
-                                              nameSupervisors: snapshot.data!.docs[index]['nameSupervisors'],
-                                              nameTheses: snapshot.data!.docs[index]['nameTheses'],
-                                              thesesStatus: snapshot.data!.docs[index]['thesesStatus']);
-                                        },
-                                        icon: const Icon(Icons.edit),
-                                        color: blue,
-                                        iconSize: 20,
-                                      ),
-                                    ),
-                                    // SizedBox(
-                                    //   width: 30,
-                                    //   child: IconButton(
-                                    //     onPressed: ()  {
-                                    //       await showDialogWarning(context,
-                                    //           text: 'هل انت متاكد من الحذف ',
-                                    //           ontap: () async {
-                                    //         await FirebaseFirestore.instance
-                                    //             .collection('member')
-                                    //             .doc(FirebaseAuth
-                                    //                 .instance.currentUser!.uid)
-                                    //             .collection('theses')
-                                    //             .doc(snapshot
-                                    //                 .data!.docs[index].id)
-                                    //             .delete();
-                                    //         Navigator.pop(context);
-                                    //       });
-                                    //     },
-                                    //     icon: const Icon(Icons.delete),
-                                    //     color: Colors.red,
-                                    //     iconSize: 20,
-                                    //   ),
-                                    // )
-                                  ],
-                                ));
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 30,
+                                  child: IconButton(
+                                    onPressed: () {
+                                      editTheses(context,
+                                          text: 'تعديل اطروحة',
+                                          key: Key,
+                                          indexed:
+                                              snapshot.data!.docs[index].id,
+                                          degreeTheses: snapshot.data!
+                                              .docs[index]['degreeTheses'],
+                                          assistantSupervisors:
+                                              snapshot.data!.docs[index]
+                                                  ['assistantSupervisors'],
+                                          linkTheses: snapshot.data!.docs[index]
+                                              ['linkTheses'],
+                                          nameSupervisors: snapshot.data!
+                                              .docs[index]['nameSupervisors'],
+                                          nameTheses: snapshot.data!.docs[index]
+                                              ['nameTheses'],
+                                          thesesStatus: snapshot.data!
+                                              .docs[index]['thesesStatus']);
+                                    },
+                                    icon: const Icon(Icons.edit),
+                                    color: blue,
+                                    iconSize: 20,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 30,
+                                  child: IconButton(
+                                    onPressed: () async {
+                                      await showDialogWarning(context,
+                                          text: 'هل انت متاكد من الحذف ',
+                                          ontap: () async {
+                                        await FirebaseFirestore.instance
+                                            .collection('theses')
+                                            .doc(snapshot.data!.docs[index].id)
+                                            .delete();
+                                        // setState(() {
+                                        //
+                                        // });
+
+                                        Navigator.pop(context);
+                                      });
+                                    },
+                                    icon: const Icon(Icons.delete),
+                                    color: Colors.red,
+                                    iconSize: 20,
+                                  ),
+                                )
+                              ],
+                            );
                           });
                     }
                     return const CircularProgressIndicator();
@@ -231,7 +210,10 @@ class _ThesesGraduatedMontorItemState extends State<ThesesGraduatedMontorItem> {
             text: "اضافة اطروحة",
             color: blueGradient,
             onTap: () {
-              showDialogTheses(context, text: 'إضافة اطروحة',);
+              showDialogTheses(
+                context,
+                text: 'إضافة اطروحة',
+              );
             }),
       ],
     );
@@ -247,13 +229,13 @@ void editTheses(
   // required TextEditingController nameSupervisors,
   // required TextEditingController assistantSupervisors,
   // required TextEditingController degreeTheses,
-      required String nameTheses,
-      required String linkTheses,
-      required String nameSupervisors,
-      required String assistantSupervisors,
-      required String degreeTheses,
+  required String nameTheses,
+  required String linkTheses,
+  required String nameSupervisors,
+  required String assistantSupervisors,
+  required String degreeTheses,
   required String? thesesStatus,
-  required GlobalKey<FormState> formkey,
+  required GlobalKey<FormState> key,
 }) {
   showDialog(
     context: context,
@@ -273,11 +255,10 @@ void editTheses(
           child: SizedBox(
             height: MediaQuery.of(context).size.height / 1.2,
             child: Form(
-              key: formkey,
+              key: key,
               child: Column(
                 children: [
                   EidtTextFieldUser(
-
                     // controller: nameTheses,
                     hintText: 'اسم الاطروحة',
                     labelText: "اسم الاطروحة",
@@ -289,61 +270,69 @@ void editTheses(
                       if (value.isEmpty) {
                         return 'برجاءادخال اسم الاطروحة ';
                       }
-                    }, initialValue:nameTheses ,
+                    },
+                    initialValue: nameTheses,
                   ),
                   EidtTextFieldUser(
-                      // controller: linkTheses,
-                      onChanged: (val) {
-                        prov.linkTheses = val;
-                      },
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return 'برجاءادخال رابط الاطروحة ';
-                        }
-                      },
-                      hintText: 'رابط الاطروحة',
-                      labelText: 'رابط الاطروحة',
-                      scure: false, initialValue: linkTheses,),
+                    // controller: linkTheses,
+                    onChanged: (val) {
+                      prov.linkTheses = val;
+                    },
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'برجاءادخال رابط الاطروحة ';
+                      }
+                    },
+                    hintText: 'رابط الاطروحة',
+                    labelText: 'رابط الاطروحة',
+                    scure: false,
+                    initialValue: linkTheses,
+                  ),
                   EidtTextFieldUser(
-                      // controller: nameSupervisors,
-                      onChanged: (val) {
-                        prov.nameSupervisors = val;
-                      },
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return 'برجاءادخال اسماء المشرفين  ';
-                        }
-                      },
-                      hintText: 'اسم المشرف',
-                      labelText: "المشرف",
-                      scure: false, initialValue:nameSupervisors,),
+                    // controller: nameSupervisors,
+                    onChanged: (val) {
+                      prov.nameSupervisors = val;
+                    },
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'برجاءادخال اسماء المشرفين  ';
+                      }
+                    },
+                    hintText: 'اسم المشرف',
+                    labelText: "المشرف",
+                    scure: false,
+                    initialValue: nameSupervisors,
+                  ),
                   EidtTextFieldUser(
-                      // controller: assistantSupervisors,
-                      onChanged: (val) {
-                        prov.assistantSupervisors = val;
-                      },
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return 'برجاءادخال اسماء المشرفين المساعدين ';
-                        }
-                      },
-                      hintText: 'اسماء المشرفين المساعدين',
-                      labelText: "المشرفون المساعدون",
-                      scure: false, initialValue: assistantSupervisors
-                    ,),
+                    // controller: assistantSupervisors,
+                    onChanged: (val) {
+                      prov.assistantSupervisors = val;
+                    },
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'برجاءادخال اسماء المشرفين المساعدين ';
+                      }
+                    },
+                    hintText: 'اسماء المشرفين المساعدين',
+                    labelText: "المشرفون المساعدون",
+                    scure: false,
+                    initialValue: assistantSupervisors,
+                  ),
                   EidtTextFieldUser(
-                      // controller: degreeTheses,
-                      onChanged: (val) {
-                        prov.degreeTheses = val;
-                      },
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return 'برجاءادخال الدرجة العلمية ';
-                        }
-                      },
-                      hintText: 'اختر الدرجة العمليه',
-                      labelText: "الدرجة العلميه",
-                      scure: false, initialValue:degreeTheses,),
+                    // controller: degreeTheses,
+                    onChanged: (val) {
+                      prov.degreeTheses = val;
+                    },
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'برجاءادخال الدرجة العلمية ';
+                      }
+                    },
+                    hintText: 'اختر الدرجة العمليه',
+                    labelText: "الدرجة العلميه",
+                    scure: false,
+                    initialValue: degreeTheses,
+                  ),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 7.5),
                     child: Column(
@@ -416,8 +405,8 @@ void editTheses(
                 print(auth.usertype);
                 if (auth.usertype == 0) {
                   print(auth.usertype);
-                  if (formkey.currentState!.validate()) {
-                    formkey.currentState!.save();
+                  if (key.currentState!.validate()) {
+                    key.currentState!.save();
                     await FirebaseFirestore.instance
                         .collection('theses')
                         .doc(indexed)
@@ -432,8 +421,8 @@ void editTheses(
                     Navigator.pop(context);
                   }
                 } else {
-                  if (formkey.currentState!.validate()) {
-                    formkey.currentState!.save();
+                  if (key.currentState!.validate()) {
+                    key.currentState!.save();
                     showLoading(context);
                     await FirebaseFirestore.instance
                         .collection('theses')

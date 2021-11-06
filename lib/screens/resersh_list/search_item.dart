@@ -36,6 +36,7 @@ class _SearchItemState extends State<SearchItem> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => MemberProfile(
+                                      userid:snapshot.data!.docs[index].id,
                                       name: snapshot.data!.docs[index]['name'],
                                       degree: snapshot.data!.docs[index]['degree'],
                                       email: snapshot.data!.docs[index]['name'],
