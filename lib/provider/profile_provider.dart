@@ -53,6 +53,7 @@ class ProfileProvider with ChangeNotifier {
   createMemberProfile({
     required BuildContext context,
     required String name,
+    required String department,
     required String faculty,
     required String phone,
     required List<String> fields,
@@ -88,6 +89,7 @@ class ProfileProvider with ChangeNotifier {
       'link': link,
       'accept': accept,
       'userId': FirebaseAuth.instance.currentUser!.uid,
+      'department': department,
     });
     showLoading(context);
     Navigator.pushReplacement(
@@ -95,7 +97,7 @@ class ProfileProvider with ChangeNotifier {
         MaterialPageRoute(
             builder: (context) => NavigationFile(
               d: studentDrawer(context),
-              title: '${name} مرحباً',
+              title: '$name مرحبا  ً',
               counter: 1,
             )));
     notifyListeners();

@@ -1,11 +1,12 @@
 import 'package:aban/constant/style.dart';
 import 'package:aban/screens/resersh_list/search_item.dart';
 import 'package:aban/widgets/search_textfield.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class ResershList extends StatelessWidget {
+class ResershList extends StatefulWidget {
   final String title;
   final List<String> departments;
 
@@ -15,6 +16,12 @@ class ResershList extends StatelessWidget {
     required this.departments,
   }) : super(key: key);
 
+  @override
+  State<ResershList> createState() => _ResershListState();
+}
+
+class _ResershListState extends State<ResershList> {
+
 
   @override
   Widget build(BuildContext context) {
@@ -23,12 +30,12 @@ class ResershList extends StatelessWidget {
 
 
     return DefaultTabController(
-      length: departments.length,
+      length: widget.departments.length,
       child: Scaffold(
           backgroundColor: white,
           appBar: AppBar(
             backgroundColor: white,
-            title: Text(title,
+            title: Text(widget.title,
                 style: GoogleFonts.cairo(
                   textStyle:const TextStyle(
                       color: blue, fontWeight: FontWeight.bold, fontSize: 28),
@@ -75,7 +82,7 @@ class ResershList extends StatelessWidget {
                                         fontWeight: FontWeight.bold),
                                   ),
                                   isScrollable: true,
-                                  tabs: departments.map((e) => Tab(
+                                  tabs: widget.departments.map((e) => Tab(
                                     text: e,
                                   ),).toList(),
                                 )),
@@ -83,10 +90,11 @@ class ResershList extends StatelessWidget {
                               Expanded(
                                 child: SizedBox(
                                   child: TabBarView(
-                                    children: departments.map((e) => const SearchItem(),).toList(),
+                                    children: widget.departments.map((e) =>  SearchItem(title:e,),).toList(),
                                   ),
                                 ),
                               ),
+
                             ],
                           ),
                         )

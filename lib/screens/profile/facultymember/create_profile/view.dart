@@ -282,14 +282,14 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                         child: Directionality(
                             textDirection: TextDirection.rtl,
                             child: TextFieldUser(
-                              hintText: "المعرف الخاص بك",
-                              labelText: "orcid iD",
+                              hintText: "Reasearsh@ksuedu.sa",
+                              labelText: "بريدك الجامعي",
                               onChanged: (value) {
                                 prov.id = value;
                               },
                               validator: (value) {
                                 if (value.isEmpty) {
-                                  return 'برجاءادخال المعرف الخاص بك ';
+                                  return 'برجاءادخال بريدك الجامعي ';
                                 }
                               },
                               scure: false,
@@ -445,8 +445,10 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                         print('Str list is => $fieldsStr');
 
                         await prov.createMemberProfile(
+
                           context: context,
                           faculty: college,
+                          department: department,
                           degree: prov.degree!,
                           file: prov.file!,
                           id: prov.id,
