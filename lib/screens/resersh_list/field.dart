@@ -57,7 +57,6 @@ class _FieldListresershState extends State<FieldListresersh> {
                     ),
                     Text(
                       snapshot.data!.docs[index]['fields'].toString(),
-
                       style: hintStyle,
                     ),
                   ],

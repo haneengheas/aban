@@ -130,12 +130,10 @@ class _CompeletedThesesresershState extends State<CompeletedThesesresersh> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
                                         children: [
-                                          Expanded(
-                                            child: Text(
-                                              snapshot.data!.docs[index]
-                                                  ['degreeTheses'],
-                                              style: labelStyle3,
-                                            ),
+                                          Text(
+                                            snapshot.data!.docs[index]
+                                                ['degreeTheses'],
+                                            style: labelStyle3,
                                           ),
                                           InkWell(
                                             onTap: () {
