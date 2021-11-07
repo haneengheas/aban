@@ -18,7 +18,7 @@ class AddSeminar extends StatefulWidget {
   String? location;
 
   String? description;
-   String? link;
+  String? link;
   int? type;
 
   AddSeminar({Key? key}) : super(key: key);
@@ -29,6 +29,12 @@ class AddSeminar extends StatefulWidget {
 
 class _AddSeminarState extends State<AddSeminar> {
   var val;
+  DateTime? _selectedDay;
+  DateTime? _focusedDay;
+  CalendarFormat _calendarFormat = CalendarFormat.month;
+  // var user = FirebaseFirestore.instance.collection('user').doc(
+  //     FirebaseAuth.instance.currentUser!.uid).get();
+
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +82,7 @@ class _AddSeminarState extends State<AddSeminar> {
                 children: [
                   TextFieldUser(
                     labelText: "العنوان",
-                    scure: true,
+                    scure: false,
                     hintText: "عنوان الندوة",
                     validator: (value) {
                       if (value.isEmpty) {
@@ -89,7 +95,7 @@ class _AddSeminarState extends State<AddSeminar> {
                   ),
                   Padding(
                     padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     child: Text(
                       'التاريخ',
                       style: hintStyle4,
@@ -103,20 +109,47 @@ class _AddSeminarState extends State<AddSeminar> {
                       horizontal: 10,
                     ),
                     child: TableCalendar(
-                      rowHeight: 25,
+                      rowHeight: 30,
                       firstDay: DateTime.utc(2010, 10, 16),
                       lastDay: DateTime.utc(2030, 3, 14),
                       focusedDay: DateTime.now(),
+                      selectedDayPredicate: (day) {
+                        return isSameDay(_selectedDay, day);
+                      },
+                      onDaySelected: (selectedDay, focusedDay) {
+                        setState(() {
+                          _selectedDay = selectedDay;
+                          _focusedDay =
+                              focusedDay; // update `_focusedDay` here as well
+                        });
+                      },
+                      calendarFormat: _calendarFormat,
+                      onFormatChanged: (format) {
+                        setState(() {
+                          _calendarFormat = format;
+                        });
+                      },
+                      onPageChanged: (focusedDay) {
+                        _focusedDay = focusedDay;
+                      },
                     ),
                   ),
                   Padding(
                     padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     child: Text(
                       'الوقت',
                       style: hintStyle4,
                     ),
                   ),
+                  // TableCalendar(
+                  //     focusedDay: DateTime.now(),
+                  //     firstDay: DateTime.now(),
+                  //     lastDay: DateTime.now(),calendarFormat:CalendarFormat.week ,
+                  //
+                  //
+                  // ),
+
                   Directionality(
                     textDirection: TextDirection.rtl,
                     child: Padding(
@@ -143,23 +176,20 @@ class _AddSeminarState extends State<AddSeminar> {
                   ),
                   TextFieldUser(
                     labelText: "الموقع",
-                    scure: true,
+                    scure: false,
                     hintText: "موقع الندوة",
                     validator: (value) {
                       if (value.isEmpty) {
                         return 'ادخل موقع الندوة';
                       }
                     },
-                    onChanged: (val ) {
+                    onChanged: (val) {
                       widget.location = val;
-
                     },
-
-
                   ),
                   Padding(
                     padding:
-                        const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                    const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
                     child: Text(
                       'النوع',
                       style: hintStyle4,
@@ -203,35 +233,29 @@ class _AddSeminarState extends State<AddSeminar> {
                   ),
                   TextFieldUser(
                     labelText: "الندوة",
-                    scure: true,
+                    scure: false,
                     hintText: "وصف الندوة",
                     validator: (value) {
                       if (value.isEmpty) {
                         return 'ادخل وصفا للندوة';
                       }
                     },
-                    onChanged: (val ) {
+                    onChanged: (val) {
                       widget.description = val;
-
                     },
-
-
                   ),
                   TextFieldUser(
                     labelText: "الرابط",
-                    scure: true,
+                    scure: false,
                     hintText: "ادخل رابط الندوة",
                     validator: (value) {
                       if (value.isEmpty) {
                         return 'ادخل رابط الندوة';
                       }
                     },
-                    onChanged: (val ) {
+                    onChanged: (val) {
                       widget.link = val;
-
                     },
-
-
                   ),
                   Directionality(
                     textDirection: TextDirection.rtl,
@@ -246,7 +270,7 @@ class _AddSeminarState extends State<AddSeminar> {
                           children: <TextSpan>[
                             TextSpan(
                               text:
-                                  'عند اضافة ندوة قادمة سيتم حذفها تلقائيابعد انتهاء موعدها؛ و يمكنك اضافتهالاحقا كندوة مكتملة لاجل توثيقها',
+                              'عند اضافة ندوة قادمة سيتم حذفها تلقائيابعد انتهاء موعدها؛ و يمكنك اضافتهالاحقا كندوة مكتملة لاجل توثيقها',
                               style: GoogleFonts.cairo(
                                   textStyle: const TextStyle(
                                       color: Colors.red,
@@ -261,6 +285,10 @@ class _AddSeminarState extends State<AddSeminar> {
                         gradient: blueGradient,
                         text: "إضافة",
                         onTap: () async {
+                          print(_calendarFormat);
+                          print(_focusedDay);
+                          print(_selectedDay);
+
                           print('=/=//=/=/////=====/=//=/=/=/');
                           await FirebaseFirestore.instance
                               .collection('seminar')
@@ -270,8 +298,11 @@ class _AddSeminarState extends State<AddSeminar> {
                             // 'type': widget.type,
                             'description': widget.description,
                             'link': widget.link,
+                            'selectedDay': _selectedDay,
+                            'username':auth.userName,
+                            'type' : widget.type,
                             'userId': FirebaseAuth.instance.currentUser!.uid,
-                          }).then((value){
+                          }).then((value) {
                             Navigator.pop(context);
                           });
                           // addSeminar({
