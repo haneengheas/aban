@@ -7,7 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class SearchItem extends StatefulWidget {
-  const SearchItem({Key? key}) : super(key: key);
+  final String title;
+
+  const SearchItem({ required this.title,});
 
   @override
   _SearchItemState createState() => _SearchItemState();
@@ -15,12 +17,22 @@ class SearchItem extends StatefulWidget {
 
 class _SearchItemState extends State<SearchItem> {
   @override
-  Widget build(BuildContext context) {
-    var prov = Provider.of<ProfileProvider>(context);
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print(widget.title.toString());
+    print('=====================================');
+    // print(widget.title.toList());
+    print('=====================================');
+    print(widget.title);
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       body: StreamBuilder(
-          stream: FirebaseFirestore.instance.collection('member').snapshots(),
+          stream: FirebaseFirestore.instance.collection('member').where(
+              'department', isEqualTo: widget.title.toString()).snapshots(),
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
@@ -35,15 +47,20 @@ class _SearchItemState extends State<SearchItem> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => MemberProfile(
-                                      userid:snapshot.data!.docs[index].id,
+                                builder: (context) =>
+                                    MemberProfile(
+                                      userid: snapshot.data!.docs[index].id,
                                       name: snapshot.data!.docs[index]['name'],
-                                      degree: snapshot.data!.docs[index]['degree'],
+                                      degree: snapshot.data!
+                                          .docs[index]['degree'],
                                       email: snapshot.data!.docs[index]['name'],
-                                      image: snapshot.data!.docs[index]['imageUrl'],
-                                      phone: snapshot.data!.docs[index]['phone'],
+                                      image: snapshot.data!
+                                          .docs[index]['imageUrl'],
+                                      phone: snapshot.data!
+                                          .docs[index]['phone'],
                                       id: snapshot.data!.docs[index]['id'],
-                                      faculty: snapshot.data!.docs[index]['faculty'],
+                                      faculty: snapshot.data!
+                                          .docs[index]['faculty'],
                                     )));
                       },
                       child: Padding(
@@ -61,38 +78,52 @@ class _SearchItemState extends State<SearchItem> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Image(
-                                  image: NetworkImage(
+                                Container(
+                                  height: 190,width: 50,
+
+                                  decoration:  BoxDecoration(
+                                      shape: BoxShape.circle, image:DecorationImage(image: NetworkImage(
                                     snapshot.data!.docs[index]['imageUrl'],
-                                  ),
-                                  height: sizeFromHeight(context, 13),
-                                  // color: blue,
+                                  ), )),
+
+                                  // child: Image(
+                                  //   image:
+                                  //   height: sizeFromHeight(context, 13),
+                                  //   // color: blue,
+                                  // ),
                                 ),
-                                SizedBox(
-                                  width: sizeFromWidth(context, 30),
-                                ),
+                                // SizedBox(
+                                //   width: sizeFromWidth(context, 30),
+                                // ),
                                 Expanded(
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                // mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment
+                                        .start,
+                                    // mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
-                                      Text(
-                                        snapshot.data!.docs[index]['name'],
-                                        style: hintStyle4,
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            right: 30),
+                                        child: Text(
+                                          snapshot.data!.docs[index]['name'],
+                                          style: labelStyle2,
+                                        ),
                                       ),
                                       const Divider(
                                         thickness: 1,
                                         endIndent: 20,
-                                        indent: 10,
-                                        color: gray,
+                                        indent: 19,
+                                        color: lightGray,
                                         height: 1.5,
                                       ),
                                       Text(
-                                        '        ${snapshot.data!.docs[index]['email']} ',
-                                        style: hintStyle2,
-                                      ),   Text(
-                                        '        ${snapshot.data!.docs[index]['degree']}',
-                                        style: hintStyle2,
+                                        '        ${snapshot.data!
+                                            .docs[index]['email']} ',
+                                        style: hintStyle,
+                                      ), Text(
+                                        '        ${snapshot.data!
+                                            .docs[index]['degree']}',
+                                        style: hintStyle,
                                       ),
                                     ],
                                   ),

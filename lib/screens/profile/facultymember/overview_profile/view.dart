@@ -2,7 +2,11 @@ import 'package:aban/constant/style.dart';
 import 'package:aban/screens/chat/view.dart';
 import 'package:aban/screens/profile/facultymember/profile/field_list.dart';
 import 'package:aban/screens/profile/facultymember/profile/project_list.dart';
+import 'package:aban/screens/resersh_list/field.dart';
 import 'package:aban/screens/resersh_list/project_all_user.dart';
+import 'package:aban/screens/resersh_list/project_uncomplered.dart';
+import 'package:aban/screens/resersh_list/theses_completed.dart';
+import 'package:aban/screens/resersh_list/theses_uncomplered.dart';
 import 'package:aban/screens/supervision_request/view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -250,22 +254,22 @@ class _MemberProfileState extends State<MemberProfile> {
                               child: SizedBox(
                                 child: TabBarView(
                                   children: [
-                                     const FieldList(),
-                                    CompletedProjectResersh(
+                                      FieldListresersh(userId: userId,),
+                                    CompeletedThesesresersh(
                                       text: 'اطروحة مكتملة تحت اشرافي',
                                       userId: userId,
                                     ),
-                                    CompletedProjectResersh(
+                                    UnComletedThesesListresersh(
                                       text: 'اطروحة جارية تحت اشرافي',
                                       userId: userId,
                                     ),
-                                    const CompletedProject(
+                                     CompletedProjectResersh(
                                       text: 'اطروحة جارية تحت اشرافي',
-
+                                       userId: userId,
                                     ),
-                                    const CompletedProject(
+                                     UnCompletedProjectresersh(
                                       text: 'اطروحة جارية تحت اشرافي',
-
+                                       userId: userId,
                                     ),
                                   ],
                                 ),
