@@ -193,29 +193,29 @@ class _GraduatedProfileState extends State<GraduatedProfile> {
                               color: gray,
                               thickness: .5,
                             ),
-                            const Expanded(
-                              child: SizedBox(
-                                child: TabBarView(
-                                  children: [
-                                     FieldList(),
-                                    CompeletedTheses(
-                                      text: 'اطروحة مكتملة تحت اشرافي',
-                                    ),
-                                    CompeletedTheses(
-                                      text: 'اطروحة جارية تحت اشرافي',
-                                    ),
-                                    CompletedProject(
-                                      text: 'اطروحة جارية تحت اشرافي',
-
-                                    ),
-                                    CompletedProject(
-                                      text: 'اطروحة جارية تحت اشرافي',
-
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
+                            // const Expanded(
+                            //   child: SizedBox(
+                            //     child: TabBarView(
+                            //       children: [
+                            //          FieldList(),
+                            //         CompeletedTheses(
+                            //           text: 'اطروحة مكتملة تحت اشرافي',
+                            //         ),
+                            //         CompeletedTheses(
+                            //           text: 'اطروحة جارية تحت اشرافي',
+                            //         ),
+                            //         CompletedProject(
+                            //           text: 'اطروحة جارية تحت اشرافي',
+                            //
+                            //         ),
+                            //         CompletedProject(
+                            //           text: 'اطروحة جارية تحت اشرافي',
+                            //
+                            //         ),
+                            //       ],
+                            //     ),
+                            //   ),
+                            // ),
                           ],
                         ),
                       )

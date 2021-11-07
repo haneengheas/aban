@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class CompletedProject extends StatefulWidget {
   final String text;
@@ -59,36 +60,47 @@ class _CompletedProjectState extends State<CompletedProject> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      '${snapshot.data!.docs[index]['projectName']}',
-                                      style: labelStyle3,
-                                    ),
-                                    Text(
-                                      'القائد :' +
-                                          snapshot.data!.docs[index]
-                                              ["leaderName"],
-                                      style: hintStyle3,
-                                    ),
-                                    Text(
-                                      'الاعضاء :' +
-                                          snapshot.data!.docs[index]
-                                              ["memberProjectName"],
-                                      style: hintStyle3,
-                                    ),
-                                  ],
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        'اسم المشروع:'+
+                                        '${snapshot.data!.docs[index]['projectName']}',
+                                        style: GoogleFonts.cairo(
+                                          textStyle: const TextStyle(
+                                              overflow: TextOverflow.clip,
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w600,
+                                              height: 1,
+                                              color: black),
+                                        ),
+                                      ),
+                                      Text(
+                                        'القائد :' +
+                                            snapshot.data!.docs[index]
+                                                ["leaderName"],
+                                        style: hintStyle3,
+                                      ),
+                                      Text(
+                                        'الاعضاء :' +
+                                            snapshot.data!.docs[index]
+                                                ["memberProjectName"],
+                                        style: hintStyle3,
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                                const SizedBox(
-                                  width: 50,
-                                ),
+                                // const SizedBox(
+                                //   width: 50,
+                                // ),
                                 const VerticalDivider(
                                   color: gray,
                                   endIndent: 10,
                                   indent: 10,
-                                  width: 10,
+                                  width: 20,
                                   thickness: 2,
                                 ),
                                 InkWell(
@@ -103,7 +115,7 @@ class _CompletedProjectState extends State<CompletedProject> {
                                       height: 40,
                                       width: 25,
                                       margin: const EdgeInsets.symmetric(
-                                          vertical: 10),
+                                          vertical: 10,horizontal: 10),
                                       child: completed[index][2]
                                           ? ImageIcon(
                                               AssetImage(

@@ -49,6 +49,8 @@ class _UnComletedThesesListState extends State<UnComletedThesesList> {
                       return Container(
                         margin: const EdgeInsets.symmetric(
                             horizontal: 10, vertical: 10),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 10),
                         width: sizeFromWidth(context, 1),
                         height: 100,
                         decoration: BoxDecoration(
@@ -60,32 +62,35 @@ class _UnComletedThesesListState extends State<UnComletedThesesList> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    '${snapshot.data!.docs[index]['nameTheses']}',
-                                    style: labelStyle3,
-                                  ),
-                                  Text(
-                                    'المشرف:' +
-                                        snapshot.data!.docs[index]
-                                            ["nameSupervisors"],
-                                    style: hintStyle3,
-                                  ),
-                                  Text(
-                                    'المشرفون المساعدون:' +
-                                        snapshot.data!.docs[index]
-                                            ["assistantSupervisors"],
-                                    style: hintStyle3,
-                                  ),
-                                ],
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "اسم الاطروحة: " +
+                                      '${snapshot.data!.docs[index]['nameTheses']}',
+                                      style: labelStyle3,
+                                    ),
+                                    Text(
+                                      'المشرف:' +
+                                          snapshot.data!.docs[index]
+                                              ["nameSupervisors"],
+                                      style: hintStyle3,
+                                    ),
+                                    Text(
+                                      'المشرفون المساعدون:' +
+                                          snapshot.data!.docs[index]
+                                              ["assistantSupervisors"],
+                                      style: hintStyle3,
+                                    ),
+                                  ],
+                                ),
                               ),
                               const VerticalDivider(
                                 color: gray,
-                                endIndent: 10,
-                                indent: 10,
+                                endIndent: 5,
+                                indent:5,
                                 width: 10,
                                 thickness: 2,
                               ),
@@ -94,6 +99,7 @@ class _UnComletedThesesListState extends State<UnComletedThesesList> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
+
                                       snapshot.data!.docs[index]
                                           ['degreeTheses'],
                                       style: labelStyle3,
@@ -110,7 +116,7 @@ class _UnComletedThesesListState extends State<UnComletedThesesList> {
                                           height: 40,
                                           width: 25,
                                           margin: const EdgeInsets.symmetric(
-                                              vertical: 10),
+                                              vertical: 5),
                                           child: completed[index][3]
                                               ? ImageIcon(
                                                   AssetImage(

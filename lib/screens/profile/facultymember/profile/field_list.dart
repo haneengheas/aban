@@ -45,27 +45,29 @@ class _FieldListState extends State<FieldList> {
                 return snapshot.data!.docs[index]['fields'].isEmpty
                     ? const SizedBox()
                     : Row(
-                        children: [
-                          const Icon(
-                            Icons.circle,
-                            size: 10,
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Text(
-                            snapshot.data!.docs[index]['fields'][index],
-                            style: hintStyle,
-                          )
-                        ],
-                      );
+                  children: [
+                    const Icon(
+                      Icons.circle,
+                      size: 10,
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      snapshot.data!.docs[index]['fields'][index],
+                      style: hintStyle,
+                    )
+                  ],
+                );
               },
             );
           }
           return const SizedBox();
         });
   }
-}
+
+  }
+
 
 List fields = [
   'المجال الاول',

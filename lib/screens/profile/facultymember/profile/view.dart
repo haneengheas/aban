@@ -5,6 +5,7 @@ import 'package:aban/screens/profile/facultymember/profile/project_list.dart';
 import 'package:aban/screens/profile/facultymember/profile/theses_list.dart';
 import 'package:aban/screens/profile/facultymember/profile/uncompletedprojects.dart';
 import 'package:aban/screens/profile/facultymember/profile/uncompletedtheseslist.dart';
+import 'package:aban/screens/theses_screen/theses_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +20,68 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  List<ModelTheses> unCompletedTheses = <ModelTheses>[];
+  List<ModelTheses> completedTheses = <ModelTheses>[];
+  TextEditingController searchController = TextEditingController();
+  String filter = '';
+
+  @override
+  void initState() {
+    getCompletedTheses();
+    getUnCompletedTheses();
+    searchController.addListener(() {
+      filter = searchController.text;
+      setState(() {});
+    });
+
+    super.initState();
+  }
+
+  getCompletedTheses() async {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('theses')
+        .where(
+          'userId',
+          isEqualTo: FirebaseAuth.instance.currentUser!.uid,
+        )
+        .where('thesesStatus', isEqualTo: 'مكتملة')
+        .get();
+
+    for (var doc in querySnapshot.docs) {
+      completedTheses.add(ModelTheses(
+          nameTheses: doc['nameTheses'],
+          assistantSupervisors: doc['assistantSupervisors'],
+          degreeTheses: doc['degreeTheses'],
+          nameSupervisors: doc['nameSupervisors'],
+          linkTheses: doc['linkTheses'],
+          thesesStatus: doc['thesesStatus'],
+          isFav: doc['isFav'],
+          id: doc.id));
+    }
+
+    setState(() {});
+  }
+
+  getUnCompletedTheses() async {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('theses')
+        .where('thesesStatus', isEqualTo: 'غير مكتملة')
+        .get();
+
+    for (var doc in querySnapshot.docs) {
+      unCompletedTheses.add(ModelTheses(
+          nameTheses: doc['nameTheses'],
+          assistantSupervisors: doc['assistantSupervisors'],
+          degreeTheses: doc['degreeTheses'],
+          nameSupervisors: doc['nameSupervisors'],
+          linkTheses: doc['linkTheses'],
+          thesesStatus: doc['thesesStatus'],
+          isFav: doc['isFav'],
+          id: doc.id));
+    }
+
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -87,191 +150,199 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 5, vertical: 15),
-                  child: FutureBuilder<QuerySnapshot>(
-                      future: FirebaseFirestore.instance
+                  child: StreamBuilder(
+                      stream: FirebaseFirestore.instance
                           .collection('member')
                           .where('userId',
                               isEqualTo: FirebaseAuth.instance.currentUser!.uid)
-                          .get(),
+                          .snapshots(),
                       builder:
                           (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return  const Text('');
+                        if (snapshot.hasError) {
+                          return Text("${snapshot.error}");
                         }
-                        if (snapshot.connectionState == ConnectionState.done) {
-                          if (snapshot.hasError) {
-                            return Text("${snapshot.error}");
-                          }
-                          if (snapshot.hasData) {
-                            List user = [];
+                        if (snapshot.hasData) {
+                          List user = [];
 
-                            return Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Image(
-                                        image: NetworkImage(
-                                            snapshot.data!.docs[0]['imageUrl']),
-                                        height: 60,
-                                      ),
-                                      const SizedBox(
-                                        width: 20,
-                                      ),
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            "${snapshot.data!.docs[0]['name']}",
-                                            style: hintStyle4,
-                                          ),
-                                          Row(
-                                            children: [
-                                              Text(
-                                                "${snapshot.data!.docs[0]['faculty'] + '   ' + snapshot.data!.docs[0]['degree']}",
-                                                style: hintStyle4,
-                                              ),
-                                              SizedBox(
-                                                width:
-                                                    sizeFromWidth(context, 8),
-                                              ),
-                                              Text(
-                                                "${snapshot.data!.docs[0]['link']}",
-                                                style: hintStyle4,
-                                              ),
-                                            ],
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Text(
-                                                "${snapshot.data!.docs[0]['accept']}",
-                                                style: hintStyle4,
-                                              ),
-                                              SizedBox(
-                                                width:
-                                                    sizeFromWidth(context, 8),
-                                              ),
-                                              Text(
-                                                "${snapshot.data!.docs[0]['phone']}",
-                                                style: hintStyle4,
-                                              ),
-                                            ],
-                                          ),
-                                          Text(
-                                            "${snapshot.data!.docs[0]['id']}",
-                                            style: hintStyle4,
-                                          ),
-                                        ],
-                                      ),
-                                    ]),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                Row(
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    snapshot.data!.docs[0]['accept'] == 0? const Icon(
-                                      Icons.check,
-                                      color: Colors.green,
-                                    ):const Icon(
-                                      Icons.close,
-                                      color: Colors.red,
+                                    Container(
+                                      decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          image: DecorationImage(
+                                            image: NetworkImage(snapshot
+                                                .data!.docs[0]['imageUrl']),
+                                          )),
+                                      height: 50,
+                                      width: 50,
+                                      margin: const EdgeInsets.symmetric(
+                                          horizontal: 10),
                                     ),
-                                    Text(
-                                      "أقبل الاشراف على الاطروحات ",
-                                      style: hintStyle,
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "${snapshot.data!.docs[0]['name']}",
+                                          style: labelStyle2,
+                                        ),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              "${snapshot.data!.docs[0]['faculty'] + '-' + snapshot.data!.docs[0]['department']}",
+                                              style: hintStyle,
+                                            ),
+
+                                            // Text(
+                                            //   "${snapshot.data!.docs[0]['link']}",
+                                            //   style: hintStyle4,
+                                            // ),
+                                          ],
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              "${snapshot.data!.docs[0]['degree']}",
+                                              style: hintStyle,
+                                            ),
+                                            SizedBox(
+                                              width: sizeFromWidth(context, 8),
+                                            ),
+                                            Text(
+                                              "${snapshot.data!.docs[0]['email']}",
+                                              style: hintStyle,
+                                            ),
+                                          ],
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              "${snapshot.data!.docs[0]['id']}",
+                                              style: hintStyle,
+                                            ),
+                                            SizedBox(
+                                              width: sizeFromWidth(context, 8),
+                                            ),
+                                            Text(
+                                              "${snapshot.data!.docs[0]['phone']}",
+                                              style: hintStyle,
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ]),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                children: [
+                                  snapshot.data!.docs[0]['accept'] == 0
+                                      ? const Icon(
+                                          Icons.check,
+                                          color: Colors.green,
+                                        )
+                                      : const Icon(
+                                          Icons.close,
+                                          color: Colors.red,
+                                        ),
+                                  Text(
+                                    "أقبل الاشراف على الاطروحات ",
+                                    style: hintStyle,
+                                  ),
+                                ],
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 15),
+                                child: InkWell(
+                                  onTap: () async {
+                                    await launch(
+                                        'https://translate.google.com.eg/?hl=ar'
+                                        ''
+                                        '');
+                                  },
+                                  child: Text("الذهاب الى ابحاثى",
+                                      style: hintStyle),
+                                ),
+                              ),
+                              SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height / 1.9,
+                                child: Column(
+                                  children: [
+                                    const Divider(
+                                      color: gray,
+                                      thickness: .5,
+                                    ),
+                                    SizedBox(
+                                      height: 50,
+                                      child: (TabBar(
+                                        labelColor: blue,
+                                        unselectedLabelColor: gray,
+                                        labelStyle: hintStyle,
+                                        isScrollable: true,
+                                        tabs: const <Widget>[
+                                          Tab(
+                                            text: 'المجالات',
+                                          ),
+                                          Tab(
+                                            text: 'الاطروحات\nالمكتملة',
+                                          ),
+                                          Tab(
+                                            text: 'الاطروحات \nالجارية',
+                                          ),
+                                          Tab(
+                                            text: 'المشاريع\n المكتملة',
+                                          ),
+                                          Tab(
+                                            text: 'المشاريع \nالجارية',
+                                          )
+                                        ],
+                                      )),
+                                    ),
+                                    const Divider(
+                                      color: gray,
+                                      thickness: .5,
+                                    ),
+                                    Expanded(
+                                      child: SizedBox(
+                                        child: TabBarView(
+                                          children: [
+                                            FieldList(),
+                                            CompeletedTheses(
+                                              text: 'اطروحة مكتملة تحت اشرافي',
+                                            ),
+                                            const UnComletedThesesList(
+                                              text: 'اطروحة جارية تحت اشرافي',
+                                            ),
+                                            const CompletedProject(
+                                              text: 'مشاريع مكتملة تحت اشرافي',
+                                            ),
+                                            const UnCompletedProject(
+                                              text: 'مشاريع جارية تحت اشرافي',
+                                            ),
+                                          ],
+                                        ),
+                                      ),
                                     ),
                                   ],
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 15),
-                                  child: InkWell(
-                                   onTap: ()async{
-                                     await launch('https://translate.google.com.eg/?hl=ar'
-                                         ''
-                                         '');
-                                   },
-                                    child: Text("الذهاب الى ابحاثى",
-                                        style: hintStyle),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height:
-                                      MediaQuery.of(context).size.height /1.65,
-                                  child: Column(
-                                    children: [
-                                      const Divider(
-                                        color: gray,
-                                        thickness: .5,
-                                      ),
-                                      SizedBox(
-                                        height: 50,
-                                        child: (TabBar(
-                                          labelColor: blue,
-                                          unselectedLabelColor: gray,
-                                          labelStyle: hintStyle,
-                                          isScrollable: true,
-                                          tabs: const <Widget>[
-                                            Tab(
-                                              text: 'المجالات',
-                                            ),
-                                            Tab(
-                                              text: 'الاطروحات\nالمكتملة',
-                                            ),
-                                            Tab(
-                                              text: 'الاطروحات \nالجارية',
-                                            ),
-                                            Tab(
-                                              text: 'المشاريع\n المكتملة',
-                                            ),
-                                            Tab(
-                                              text: 'المشاريع \nالجارية',
-                                            )
-                                          ],
-                                        )),
-                                      ),
-                                      const Divider(
-                                        color: gray,
-                                        thickness: .5,
-                                      ),
-                                      const Expanded(
-                                        child: SizedBox(
-                                          child: TabBarView(
-                                            children: [
-                                              FieldList(),
-                                              CompeletedTheses(
-                                                text:
-                                                    'اطروحة مكتملة تحت اشرافي',
-                                              ),
-                                              UnComletedThesesList(
-                                                text: 'اطروحة جارية تحت اشرافي',
-                                              ),
-                                              CompletedProject(
-                                                text: 'مشاريع مكتملة تحت اشرافي',
-
-                                              ),
-                                              UnCompletedProject(
-                                                text: 'مشاريع جارية تحت اشرافي',
-
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                )
-                              ],
-                            );
-                          }
+                              )
+                            ],
+                          );
                         }
-                        return const CircularProgressIndicator();
+
+                        return const Text('');
+                        ;
                       }),
                 ),
               ],

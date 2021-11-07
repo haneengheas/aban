@@ -26,7 +26,7 @@ class _TextFieldUserState extends State<TextFieldUser> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(
-        horizontal: 35,
+        horizontal: 30,
       ),
       child: Directionality(
         textDirection: TextDirection.rtl,

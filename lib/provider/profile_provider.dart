@@ -25,8 +25,8 @@ class ProfileProvider with ChangeNotifier {
   late String linkTheses;
   late String assistantSupervisors;
   late String nameSupervisors;
-  late String degreeTheses;
-  String? thesesStatus;
+  String? degreeTheses ;
+  String? thesesStatus ;
   late String projectName;
   late String descriptionProject;
   late String leaderName;
@@ -34,6 +34,7 @@ class ProfileProvider with ChangeNotifier {
   final GlobalKey<FormState> formkey = GlobalKey<FormState>();
 
   String? projectStatus;
+  bool ? isFav;
 
 
 
@@ -109,7 +110,7 @@ class ProfileProvider with ChangeNotifier {
     required String linkTheses,
     required String assistantSupervisors,
     required String nameSupervisors,
-    required String degreeTheses,
+    required String? degreeTheses,
     required String? thesesStatus,
   }) async {
     showLoading(context);

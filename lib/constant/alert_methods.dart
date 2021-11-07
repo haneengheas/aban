@@ -3,6 +3,7 @@ import 'package:aban/provider/auth_provider.dart';
 import 'package:aban/provider/profile_provider.dart';
 import 'package:aban/widgets/buttons/buttonsuser.dart';
 import 'package:aban/widgets/buttons/tetfielduser.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -22,6 +23,7 @@ showDialogWarning(
         content: Container(
             width: sizeFromWidth(context, 1),
             height: 40,
+            alignment: Alignment.center,
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
             child: Text(
               text,
@@ -110,33 +112,74 @@ void showDialogTheses(BuildContext context,
                       },
                       hintText: 'اسماء المشرفين المساعدين',
                       labelText: "المشرفون المساعدون",
-                      scure: false
-                  ),
+                      scure: false),
+                  // Padding(
+                  //   padding: const EdgeInsets.symmetric(vertical: 7.5),
+                  //   child: Column(
+                  //     crossAxisAlignment: CrossAxisAlignment.end,
+                  //     children: [
+                  //       Text(
+                  //         'حالة الاطروحة',
+                  //         style: labelStyle3,
+                  //       ),
+                  //       Directionality(
+                  //         textDirection: TextDirection.rtl,
+                  //         child: SizedBox(
+                  //           child: DropdownButton<String>(
+                  //             hint: Text(
+                  //               'اختر حالة الاطروحة',
+                  //               style: hintStyle,
+                  //             ),
+                  //             value: prov.degreeTheses,
+                  //             underline: Container(
+                  //               width: 30,
+                  //               padding:
+                  //               const EdgeInsets.symmetric(horizontal: 10),
+                  //               height: .5,
+                  //               decoration: const BoxDecoration(
+                  //                   color: gray,
+                  //                   boxShadow: [
+                  //                     BoxShadow(
+                  //                       color: blue,
+                  //                     )
+                  //                   ]),
+                  //             ),
+                  //             onChanged: (newValue) {
+                  //               prov.degreeTheses = newValue!;
+                  //             },
+                  //             items: <String>[
+                  //               'ff'
+                  //               'غير مكتملة',
+                  //               'مكتملة'
+                  //             ].map<DropdownMenuItem<String>>((String value) {
+                  //               return DropdownMenuItem<String>(
+                  //                 value: value,
+                  //                 child: SizedBox(
+                  //                   width: sizeFromWidth(context, 2.3),
+                  //                   // for example
+                  //                   child:
+                  //                   Text(value, textAlign: TextAlign.right),
+                  //                 ),
+                  //               );
+                  //             }).toList(),
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
                   TextFieldUser(
                       onChanged: (val) {
                         prov.degreeTheses = val;
                       },
                       validator: (value) {
                         if (value.isEmpty) {
-                          return 'برجاءادخال الدرجة العلمية ';
+                          return 'برجاءادخال الدرجة العملية ';
                         }
                       },
-                      hintText: 'اختر الدرجة العمليه',
-                      labelText: "الدرجة العلميه",
+                      hintText: 'اختر الدرجة العملية',
+                      labelText: "الدرجة العملية",
                       scure: false),
-                  // TextFieldUser(
-                  //     onChanged: (val) {
-                  //       prov.thesesStatus = val;
-                  //     },
-                  //     validator: (value) {
-                  //       if (value.isEmpty) {
-                  //         return 'برجاءادخال حالة الاطروحة ';
-                  //       }
-                  //     },
-                  //     hintText: 'اختر حالة الاطروحة',
-                  //     labelText: "حالة الاطروحة",
-                  //     scure: false),
-
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 7.5),
                     child: Column(
@@ -181,7 +224,7 @@ void showDialogTheses(BuildContext context,
                                     width: sizeFromWidth(context, 2.3),
                                     // for example
                                     child:
-                                        Text(value, textAlign: TextAlign.left),
+                                        Text(value, textAlign: TextAlign.right),
                                   ),
                                 );
                               }).toList(),
@@ -221,6 +264,13 @@ void showDialogTheses(BuildContext context,
                         degreeTheses: prov.degreeTheses,
                         thesesStatus: prov.thesesStatus);
                     Navigator.pop(context);
+                    AwesomeDialog(
+                        context: context,
+                        title: "هام",
+                        body: const Text("تمت عملية الاضافة بنجاح"),
+                        dialogType: DialogType.SUCCES)
+                        .show();
+
                   }
                 } else {
                   if (prov.formkey.currentState!.validate()) {
@@ -231,9 +281,15 @@ void showDialogTheses(BuildContext context,
                         linkTheses: prov.linkTheses,
                         assistantSupervisors: prov.assistantSupervisors,
                         nameSupervisors: prov.nameSupervisors,
-                        degreeTheses: prov.degreeTheses,
+                        degreeTheses: prov.degreeTheses!,
                         thesesStatus: prov.thesesStatus);
                     Navigator.pop(context);
+                    AwesomeDialog(
+                        context: context,
+                        title: "هام",
+                        body: const Text("تمت عملية الاضافة بنجاح"),
+                        dialogType: DialogType.SUCCES)
+                        .show();
                   }
                 }
               }),
@@ -395,6 +451,12 @@ void showDialogProject(BuildContext context,
                         memberProjectName: prov.memberProjectName,
                         projectStatus: prov.projectStatus);
                     Navigator.pop(context);
+                    AwesomeDialog(
+                        context: context,
+                        title: "هام",
+                        body: const Text("تمت عملية الاضافة بنجاح"),
+                        dialogType: DialogType.SUCCES)
+                        .show();
                   }
                 } else if (auth.usertype == 1) {
                   if (prov.formkey.currentState!.validate()) {
@@ -407,6 +469,12 @@ void showDialogProject(BuildContext context,
                         memberProjectName: prov.memberProjectName,
                         projectStatus: prov.projectStatus);
                     Navigator.pop(context);
+                    AwesomeDialog(
+                        context: context,
+                        title: "هام",
+                        body: const Text("تمت عملية الاضافة بنجاح"),
+                        dialogType: DialogType.SUCCES)
+                        .show();
                   }
                 }
               }),
@@ -607,7 +675,7 @@ void showDialogSeminar(BuildContext context,
                         linkTheses: prov.linkTheses,
                         assistantSupervisors: prov.assistantSupervisors,
                         nameSupervisors: prov.nameSupervisors,
-                        degreeTheses: prov.degreeTheses,
+                        degreeTheses: prov.degreeTheses!,
                         thesesStatus: prov.thesesStatus);
                     Navigator.pop(context);
                   }

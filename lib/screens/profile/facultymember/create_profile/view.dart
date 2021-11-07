@@ -97,6 +97,7 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
           key: formKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               // widget for user information example( name , phone)
               // const ProfileInformation(),
@@ -111,20 +112,24 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                           onTap: () async {
                             await showBottomSheet(context);
                           },
-                          child: prov.file!.path == ''
-                              ? const Image(
-                                  image: AssetImage(
-                                    'assets/user.png',
-                                  ),
-                                  color: blue,
-                                  height: 80,
-                                )
-                              : Image(
-                                  image: FileImage(
-                                    prov.file!,
-                                  ),
-                                  height: 80,
-                                ),
+                          child: CircleAvatar(
+                            backgroundColor: white,
+                            radius: 30,
+                            child: prov.file!.path == ''
+                                ? const Image(
+                              image: AssetImage(
+                                'assets/user.png',
+                              ),
+                              height: 80,
+                              color:blue,
+                            )
+                                : Image(
+                              image: FileImage(
+                                prov.file!,
+                              ),
+                              height: 80,
+                            ),
+                          )
                         ),
                         SizedBox(
                           width: sizeFromWidth(context, 1.5),
@@ -201,19 +206,19 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          SizedBox(height: 10,),
+                          // SizedBox(height: 10,),
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 3),
+                            padding: const EdgeInsets.only(top: 20,right: 15),
                             child: Text(
-                              'حالة المشروع',
+                              'الدرجة العلمية ',
                               style: labelStyle3,
                             ),
                           ),
                           Directionality(
                             textDirection: TextDirection.rtl,
                             child: Container(
-                              width: 170,
-                              height: 30,
+                              width: sizeFromWidth(context, 2.4),
+                              height: 50,
                               padding: EdgeInsets.symmetric(horizontal: 10),
                               child: DropdownButton<String>(
                                 hint: Text(
@@ -224,9 +229,9 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                                 underline: Container(
                                   width: 20,
 
-                                  height: .5,
+                                  height: 1,
                                   decoration: const BoxDecoration(
-                                      color: gray,
+                                      color: lightGray,
                                       boxShadow: [
                                         BoxShadow(
                                           color: blue,
@@ -243,7 +248,8 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                                   return DropdownMenuItem<String>(
                                     value: value,
                                     child: SizedBox(
-                                      width: sizeFromWidth(context, 6),
+                                      width: sizeFromWidth(context, 8),
+                                      height: 50,
                                       // for example
                                       child:
                                           Text(value, textAlign: TextAlign.right),
@@ -276,6 +282,8 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                     ],
                   ),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+
                     children: [
                       SizedBox(
                         width: sizeFromWidth(context, 2),
@@ -315,23 +323,26 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                       ),
                     ],
                   ),
-                  SizedBox(
-                    width: sizeFromWidth(context, 2),
-                    child: Directionality(
-                        textDirection: TextDirection.rtl,
-                        child: TextFieldUser(
-                          hintText: "المعرف الخاص بك",
-                          labelText: "orcid iD",
-                          onChanged: (value) {
-                            prov.email = value;
-                          },
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return 'برجاءادخال المعرف الخاص بك ';
-                            }
-                          },
-                          scure: false,
-                        )),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: SizedBox(
+                      width: sizeFromWidth(context, 2),
+                      child: Directionality(
+                          textDirection: TextDirection.rtl,
+                          child: TextFieldUser(
+                            hintText: "المعرف الخاص بك",
+                            labelText: "orcid iD",
+                            onChanged: (value) {
+                              prov.email = value;
+                            },
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'برجاءادخال المعرف الخاص بك ';
+                              }
+                            },
+                            scure: false,
+                          )),
+                    ),
                   ),
                 ],
               ),
