@@ -110,7 +110,8 @@ void showDialogTheses(BuildContext context,
                       },
                       hintText: 'اسماء المشرفين المساعدين',
                       labelText: "المشرفون المساعدون",
-                      scure: false),
+                      scure: false
+                  ),
                   TextFieldUser(
                       onChanged: (val) {
                         prov.degreeTheses = val;
@@ -135,6 +136,7 @@ void showDialogTheses(BuildContext context,
                   //     hintText: 'اختر حالة الاطروحة',
                   //     labelText: "حالة الاطروحة",
                   //     scure: false),
+
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 7.5),
                     child: Column(

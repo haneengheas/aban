@@ -5,7 +5,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class SeminarDetails extends StatelessWidget {
-  const SeminarDetails({Key? key}) : super(key: key);
+  String? seminarname, username, location, description;
+  var type;
+
+  SeminarDetails(
+      { required this.type, required this.description, required this.location, required this.seminarname, required this.username});
+
 
   @override
   Widget build(BuildContext context) {
@@ -18,8 +23,8 @@ class SeminarDetails extends StatelessWidget {
           Container(
             height: 240,
             width: sizeFromWidth(context, 1),
-            margin:const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-            padding:const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+            margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
             decoration: BoxDecoration(
               color: clearblue,
               borderRadius: BorderRadius.circular(25),
@@ -88,8 +93,8 @@ class SeminarDetails extends StatelessWidget {
                             Container(
                               height: 30,
                               width: 20,
-                              margin:const EdgeInsets.symmetric(vertical: 10),
-                              child:const ImageIcon(
+                              margin: const EdgeInsets.symmetric(vertical: 10),
+                              child: const ImageIcon(
                                 AssetImage(
                                   'assets/bookmark (2).png',
                                 ),
