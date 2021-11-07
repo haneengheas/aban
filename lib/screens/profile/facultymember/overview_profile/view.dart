@@ -141,11 +141,16 @@ class _MemberProfileState extends State<MemberProfile> {
                       Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Image(
-                              image: NetworkImage(
-                                widget.image,
-                              ),
-                              height: sizeFromHeight(context, 10),
+                            Container(
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                    image: NetworkImage(widget.image),
+                                  )),
+                              height: 60,
+                              width: 60,
+                              margin: const EdgeInsets.symmetric(
+                                  horizontal: 10),
                             ),
 
                             const SizedBox(
@@ -220,7 +225,7 @@ class _MemberProfileState extends State<MemberProfile> {
                         child: Text("الذهاب الى ابحاثى", style: hintStyle),
                       ),
                       SizedBox(
-                        height: MediaQuery.of(context).size.height / 2,
+                        height: MediaQuery.of(context).size.height / 1.9,
                         child: Column(
                           children: [
                             const Divider(

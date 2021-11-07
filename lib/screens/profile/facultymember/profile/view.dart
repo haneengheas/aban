@@ -313,7 +313,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       color: gray,
                                       thickness: .5,
                                     ),
-                                    Expanded(
+                                  const  Expanded(
                                       child: SizedBox(
                                         child: TabBarView(
                                           children: [
@@ -321,13 +321,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             CompeletedTheses(
                                               text: 'اطروحة مكتملة تحت اشرافي',
                                             ),
-                                            const UnComletedThesesList(
+                                             UnComletedThesesList(
                                               text: 'اطروحة جارية تحت اشرافي',
                                             ),
-                                            const CompletedProject(
+                                             CompletedProject(
                                               text: 'مشاريع مكتملة تحت اشرافي',
                                             ),
-                                            const UnCompletedProject(
+                                             UnCompletedProject(
                                               text: 'مشاريع جارية تحت اشرافي',
                                             ),
                                           ],

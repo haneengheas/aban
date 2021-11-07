@@ -26,6 +26,8 @@ class _ProjectBookMarkState extends State<ProjectBookMark> {
                     return Container(
                       margin: const EdgeInsets.symmetric(
                           horizontal: 10, vertical: 10),
+                      padding:  const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 10),
                       width: sizeFromWidth(context, 1),
                       height: 120,
                       decoration: BoxDecoration(
@@ -36,11 +38,9 @@ class _ProjectBookMarkState extends State<ProjectBookMark> {
                         textDirection: TextDirection.rtl,
                         child: Row(
                           mainAxisAlignment:
-                          MainAxisAlignment.spaceAround,
+                          MainAxisAlignment.spaceEvenly,
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 15),
+                            Expanded(
                               child: Column(
                                 crossAxisAlignment:
                                 CrossAxisAlignment.start,
@@ -62,64 +62,58 @@ class _ProjectBookMarkState extends State<ProjectBookMark> {
                                 ],
                               ),
                             ),
-                            const SizedBox(
-                              width: 50,
-                            ),
+
                             const VerticalDivider(
                               color: gray,
                               endIndent: 10,
                               indent: 10,
-                              width: 5,
+                              width: 10,
                               thickness: 2,
                             ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 30),
-                              child: Column(
-                                  crossAxisAlignment:
-                                  CrossAxisAlignment.center,
-                                  children: [
-                                    InkWell(
-                                      onTap: () async {
-                                        if (snapshot.data!
-                                            .docs[index]['isFav'] == true) {
-                                          FirebaseFirestore.instance
-                                              .collection('projectBookmark')
-                                              .doc(snapshot.data!.docs[index].id)
-                                              .delete();
-                                          await FirebaseFirestore.instance
-                                              .collection('theses')
-                                              .doc(snapshot.data!.docs[index].id)
-                                              .update(
-                                              {'isFav': false });
-                                        }
-                                        setState(() {});
-                                      },
-                                      child: Container(
-                                        height: 30,
-                                        width: 20,
-                                        margin:
-                                        const EdgeInsets.symmetric(
-                                            vertical: 10),
-                                        child:snapshot.data!.docs[index]['isFav'] == true? const ImageIcon(
-                                          AssetImage(
-                                            'assets/bookmark (2).png',
+                            Column(
+                                crossAxisAlignment:
+                                CrossAxisAlignment.center,
+                                children: [
+                                  InkWell(
+                                    onTap: () async {
+                                      if (snapshot.data!
+                                          .docs[index]['isFav'] == true) {
+                                        FirebaseFirestore.instance
+                                            .collection('projectBookmark')
+                                            .doc(snapshot.data!.docs[index].id)
+                                            .delete();
+                                        await FirebaseFirestore.instance
+                                            .collection('theses')
+                                            .doc(snapshot.data!.docs[index].id)
+                                            .update(
+                                            {'isFav': false });
+                                      }
+                                      setState(() {});
+                                    },
+                                    child: Container(
+                                      height: 30,
+                                      width: 20,
+                                      margin:
+                                      const EdgeInsets.symmetric(
+                                          vertical: 30,horizontal: 10),
+                                      child:snapshot.data!.docs[index]['isFav'] == true? const ImageIcon(
+                                        AssetImage(
+                                          'assets/bookmark (2).png',
 
-                                          ),
-                                          color: blue,
-                                          size: 50,
-                                        )
-                                            : const ImageIcon(
-                                          AssetImage(
-                                            'assets/bookmark (1).png',
-                                          ),
-                                          color: blue,
-                                          size: 50,
                                         ),
+                                        color: blue,
+                                        size: 50,
+                                      )
+                                          : const ImageIcon(
+                                        AssetImage(
+                                          'assets/bookmark (1).png',
+                                        ),
+                                        color: blue,
+                                        size: 50,
                                       ),
-                                    )
-                                  ]),
-                            ),
+                                    ),
+                                  )
+                                ]),
                           ],
                         ),
                       ),

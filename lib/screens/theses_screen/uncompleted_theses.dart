@@ -57,7 +57,7 @@ class _UnCompletedThesesState extends State<UnCompletedTheses> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Text(
-                    'اسم الاطروحة:'+ theses.nameTheses!,
+                    'اسم الاطروحة: '+ theses.nameTheses!,
                     style: labelStyle3,
                   ),
                   Text(

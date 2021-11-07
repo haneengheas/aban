@@ -1,6 +1,7 @@
 import 'package:aban/constant/style.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 class ThesesBookMark extends StatefulWidget {
   const ThesesBookMark({Key? key}) : super(key: key);
 
@@ -27,6 +28,8 @@ class _ThesesBookMarkState extends State<ThesesBookMark> {
                 return Container(
                   margin: const EdgeInsets.symmetric(
                       horizontal: 10, vertical: 10),
+                  padding:  const EdgeInsets.symmetric(
+                      horizontal: 10, vertical: 20),
                   width: sizeFromWidth(context, 1),
                   height: 120,
                   decoration: BoxDecoration(
@@ -37,11 +40,9 @@ class _ThesesBookMarkState extends State<ThesesBookMark> {
                     textDirection: TextDirection.rtl,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment
-                          .spaceAround,
+                          .spaceEvenly,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 15),
+                        Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment
                                 .start,
@@ -49,9 +50,19 @@ class _ThesesBookMarkState extends State<ThesesBookMark> {
                             MainAxisAlignment.spaceEvenly,
                             children: [
                               Text(
-                                'اسم الاطروحة:' + snapshot.data!
+                                'اسم الاطروحة: ' + snapshot.data!
                                     .docs[index]['nameTheses'],
-                                style: labelStyle2,
+                                maxLines: 2,
+                                style: GoogleFonts.cairo(
+                                  textStyle: const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600,
+                                    height: 1,
+                                    color: black,
+                                    overflow: TextOverflow.clip,
+                                  ),
+
+                                )
                               ),
                               Text(
                                 'المشرف: ' + snapshot.data!
@@ -67,71 +78,66 @@ class _ThesesBookMarkState extends State<ThesesBookMark> {
                             ],
                           ),
                         ),
-                        const SizedBox(
-                          width: 10,
-                        ),
+
                         const VerticalDivider(
                           color: gray,
-                          endIndent: 10,
-                          indent: 10,
-                          width: 5,
+                          endIndent: 5,
+                          indent: 5,
+                          width: 10,
                           thickness: 2,
                         ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 20),
-                          child: Column(
-                              crossAxisAlignment: CrossAxisAlignment
-                                  .center,
-                              children: [
-                                Text(
-                                  snapshot.data!
-                                      .docs[index]['degreeTheses'],
-                                  style: labelStyle3,
-                                ),
-                                InkWell(
-                                  onTap: () async {
-                                    if (snapshot.data!
-                                        .docs[index]['isFav'] == true) {
-                                      FirebaseFirestore.instance
-                                          .collection('thesesBookmark')
-                                          .doc(snapshot.data!.docs[index].id)
-                                          .delete();
-                                      await FirebaseFirestore.instance
-                                          .collection('theses')
-                                          .doc(snapshot.data!.docs[index].id)
-                                          .update(
-                                          {'isFav': false });
-                                    }
-                                    setState(() {});
-                                  },
-                                  child: Container(
-                                    height: 30,
-                                    width: 20,
-                                    margin: const EdgeInsets
-                                        .symmetric(
-                                        vertical: 10),
-                                    child: snapshot.data!
-                                        .docs[index]['isFav'] == true
-                                        ? const ImageIcon(
-                                      AssetImage(
-                                        'assets/bookmark (2).png',
+                        Column(
+                            // crossAxisAlignment: CrossAxisAlignment
+                            //     .center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                snapshot.data!
+                                    .docs[index]['degreeTheses'],
+                                style: labelStyle3,
+                              ),
+                              InkWell(
+                                onTap: () async {
+                                  if (snapshot.data!
+                                      .docs[index]['isFav'] == true) {
+                                    FirebaseFirestore.instance
+                                        .collection('thesesBookmark')
+                                        .doc(snapshot.data!.docs[index].id)
+                                        .delete();
+                                    await FirebaseFirestore.instance
+                                        .collection('theses')
+                                        .doc(snapshot.data!.docs[index].id)
+                                        .update(
+                                        {'isFav': false });
+                                  }
+                                  setState(() {});
+                                },
+                                child: Container(
+                                  height: 30,
+                                  width: 20,
+                                  margin: const EdgeInsets
+                                      .symmetric(
+                                      vertical: 10,horizontal: 10),
+                                  child: snapshot.data!
+                                      .docs[index]['isFav'] == true
+                                      ? const ImageIcon(
+                                    AssetImage(
+                                      'assets/bookmark (2).png',
 
-                                      ),
-                                      color: blue,
-                                      size: 50,
-                                    )
-                                        : const ImageIcon(
-                                      AssetImage(
-                                        'assets/bookmark (1).png',
-                                      ),
-                                      color: blue,
-                                      size: 50,
                                     ),
+                                    color: blue,
+                                    size: 50,
+                                  )
+                                      : const ImageIcon(
+                                    AssetImage(
+                                      'assets/bookmark (1).png',
+                                    ),
+                                    color: blue,
+                                    size: 50,
                                   ),
-                                )
-                              ]),
-                        ),
+                                ),
+                              )
+                            ]),
                       ],
                     ),
                   ),

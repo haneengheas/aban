@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_print, use_key_in_widget_constructors
 
 import 'package:aban/constant/style.dart';
+import 'package:aban/screens/project_screen/proj_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,37 @@ class UnCompletedProject extends StatefulWidget {
 }
 
 class _UnCompletedProjectState extends State<UnCompletedProject> {
+  List<ProjectModel> unCompletedProjects = <ProjectModel>[];
+
+
+  @override
+  void initState() {
+    getUnCompletedProjects();
+
+
+    super.initState();
+  }
+  getUnCompletedProjects() async {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('project')
+        .where('projectStatus', isEqualTo: 'غير مكتملة')
+        .get();
+
+    for (var doc in querySnapshot.docs) {
+      unCompletedProjects.add(ProjectModel(
+          descriptionProject: doc['descriptionProject'],
+          leaderName: doc['leaderName'],
+          isFav: doc['isFav'],
+          userId: doc['userId'],
+          projectStatus: doc['projectStatus'],
+          memberProjectName: doc['memberProjectName'],
+          projectName: doc['projectName'],
+          id: doc.id));
+    }
+
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -28,118 +60,128 @@ class _UnCompletedProjectState extends State<UnCompletedProject> {
             style: hintStyle,
           ),
         ),
-        StreamBuilder(
-            stream: FirebaseFirestore.instance
-                .collection('project')
-                .where('userId',
-                    isEqualTo: FirebaseAuth.instance.currentUser!.uid)
-                .where('projectStatus', isEqualTo: 'غير مكتملة')
-                .snapshots(),
-            builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-              if(snapshot.hasData)
-                {
-                  return Expanded(
-                    child: SizedBox(
-                      child: ListView.builder(
-                          itemCount: snapshot.data!.docs.length,
-                          itemBuilder: (context, index) {
-                            if(snapshot.hasError){
-                              return Text("${snapshot.error}");
-                            }
-                            if (snapshot.hasData) {
-                              return Container(
-                                margin: const EdgeInsets.symmetric(
-                                    horizontal: 10, vertical: 10),
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10, vertical: 10),
-                                width: sizeFromWidth(context, 1),
-                                height: 100,
-                                decoration: BoxDecoration(
-                                  color: clearblue,
-                                  borderRadius: BorderRadius.circular(25),
-                                ),
-                                child: Directionality(
-                                  textDirection: TextDirection.rtl,
-                                  child: Row(
-                                    mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                    children: [
-                                      Expanded(
-                                        child: Column(
-                                          crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              'اسم المشروع:'+
-                                              '${snapshot.data!.docs[index]['projectName']}',
-                                              style: labelStyle3,
-                                            ),
-                                            Text(
-                                              'القائد :' +
-                                                  snapshot.data!.docs[index]
-                                                  ["leaderName"],
-                                              style: hintStyle3,
-                                            ),
-                                            Text(
-                                              'الاعضاء :' +
-                                                  snapshot.data!.docs[index]
-                                                  ["memberProjectName"],
-                                              style: hintStyle3,
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        width: 50,
-                                      ),
-                                      const VerticalDivider(
-                                        color: gray,
-                                        endIndent: 10,
-                                        indent: 10,
-                                        width: 20,
-                                        thickness: 2,
-                                      ),
-                                      InkWell(
-                                        onTap: () {
-                                          setState(() {
-                                            print('1');
-                                            completed[index][2] =
-                                            !completed[index][2];
-                                          });
-                                        },
-                                        child: Container(
-                                            height: 40,
-                                            width: 25,
-                                            margin: const EdgeInsets.symmetric(
-                                                vertical: 10,horizontal: 10),
-                                            child: completed[index][2]
-                                                ? ImageIcon(
-                                              AssetImage(
-                                                'assets/${completed[index][1]}',
-                                              ),
-                                              color: blue,
-                                            )
-                                                : ImageIcon(
-                                              AssetImage(
-                                                'assets/${completed[index][3]}',
-                                              ),
-                                              color: blue,
-                                            )),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              );
-                            }
-                            return const Text('');
-                          }),
-                    ),
-                  );
-                }
-              return const SizedBox();
-            })
+        Expanded(
+          child: SizedBox(
+            child: ListView.builder(
+                itemCount: unCompletedProjects.length,
+                itemBuilder: (context, index) {
+
+                  return _buildProjectBox( unCompletedProjects[index]);
+                }),
+          ),
+        )
       ],
+    );
+  }
+  Widget _buildProjectBox (ProjectModel project){
+     return Container(
+      margin: const EdgeInsets.symmetric(
+          horizontal: 10, vertical: 10),
+      padding: const EdgeInsets.symmetric(
+          horizontal: 10, vertical: 10),
+      width: sizeFromWidth(context, 1),
+      height: 100,
+      decoration: BoxDecoration(
+        color: clearblue,
+        borderRadius: BorderRadius.circular(25),
+      ),
+      child: Directionality(
+        textDirection: TextDirection.rtl,
+        child: Row(
+          mainAxisAlignment:
+          MainAxisAlignment.spaceAround,
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment:
+                CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'اسم المشروع:'+
+                        project.projectName!,
+                    style: labelStyle3,
+                  ),
+                  Text(
+                    'القائد :' +
+                        project.leaderName!,
+
+                    style: hintStyle3,
+                  ),
+                  Text(
+                    'الاعضاء :' +
+                        project.memberProjectName!,
+
+                    style: hintStyle3,
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(
+              width: 50,
+            ),
+            const VerticalDivider(
+              color: gray,
+              endIndent: 10,
+              indent: 10,
+              width: 20,
+              thickness: 2,
+            ),
+            InkWell(
+              onTap: () async {
+                FirebaseFirestore.instance
+                    .collection('projectBookmark')
+                    .doc(project.id)
+                    .set({
+                  'projectName': project.projectName,
+                  'leaderName': project.leaderName,
+                  'descriptionProject': project.descriptionProject,
+                  'memberProjectName': project.memberProjectName,
+                  'projectStatus': project.projectStatus,
+                  'userId': FirebaseAuth.instance.currentUser!.uid,
+                  'isFav': project.isFav! ? false : true
+                });
+
+                project.isFav = !project.isFav!;
+
+                await FirebaseFirestore.instance
+                    .collection('project')
+                    .doc(project.id)
+                    .update(
+                    {'isFav': project.isFav! });
+                if (project.isFav == false) {
+                  FirebaseFirestore.instance
+                      .collection('projectBookmark')
+                      .doc(project.id)
+                      .delete();
+                }
+                setState(() {});
+              },
+              child: Container(
+
+                height: 40,
+                width: 25,
+                margin: const EdgeInsets.symmetric(vertical: 30,horizontal: 10),
+                child: !project.isFav!
+                    ? const ImageIcon(
+                  AssetImage(
+                    'assets/bookmark (1).png',
+                  ),
+                  color: blue,
+                  size: 50,
+                )
+                    : const ImageIcon(
+                  AssetImage(
+                    'assets/bookmark (2).png',
+                  ),
+                  color: blue,
+                  size: 50,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

@@ -42,7 +42,12 @@ TextStyle bluebold = GoogleFonts.cairo(
 );
 TextStyle labelStyle2 = GoogleFonts.cairo(
   textStyle: const TextStyle(
-      fontSize: 18, fontWeight: FontWeight.w600, height: 1, color: black),
+    fontSize: 18,
+    fontWeight: FontWeight.w600,
+    height: 1,
+    color: black,
+    overflow: TextOverflow.clip,
+  ),
 );
 TextStyle labelStyle3 = GoogleFonts.cairo(
   textStyle: const TextStyle(
