@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 
 class SearchItem extends StatefulWidget {
   final String title;
-
+//1
   const SearchItem({ required this.title,});
 
   @override
