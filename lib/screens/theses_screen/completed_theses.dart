@@ -39,6 +39,7 @@ class _CompletedThesesState extends State<CompletedTheses> {
 
   Widget _buildProjBox(ModelTheses theses,) => Container(
         margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
         width: sizeFromWidth(context, 1),
         height: 120,
         decoration: BoxDecoration(
@@ -50,15 +51,13 @@ class _CompletedThesesState extends State<CompletedTheses> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+              Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Text(
-                      'اسم المشروع : ' + theses.nameTheses!,
+                      'اسم الاطروحة : ' + theses.nameTheses!,
                       style: labelStyle3,
                     ),
                     Text(
@@ -72,75 +71,74 @@ class _CompletedThesesState extends State<CompletedTheses> {
                   ],
                 ),
               ),
-              SizedBox(
-                width: sizeFromWidth(context, 8),
-              ),
+
               const VerticalDivider(
                 color: gray,
                 endIndent: 10,
                 indent: 10,
-                width: 5,
+                width: 10,
                 thickness: 2,
               ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 20, horizontal: 5),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      InkWell(
-                        onTap: () async {
-                          FirebaseFirestore.instance
+              Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      theses.degreeTheses!,
+                      style: hintStyle4,
+                    ),
+                    InkWell(
+                      onTap: () async {
+                        FirebaseFirestore.instance
+                            .collection('thesesBookmark')
+                            .doc(theses.id)
+                            .set({
+                          'nameTheses': theses.nameTheses,
+                          'nameSupervisors': theses.nameSupervisors,
+                          'assistantSupervisors': theses.assistantSupervisors,
+                          'degreeTheses': theses.degreeTheses,
+                          'linkTheses': theses.linkTheses,
+                          'thesesStatus': theses.thesesStatus,
+                          'userId': FirebaseAuth.instance.currentUser!.uid,
+                          'isFav':theses.isFav! ? false : true
+                        });
+
+                        theses.isFav= !theses.isFav!;
+                        await FirebaseFirestore.instance
+                            .collection('theses')
+                            .doc(theses.id)
+                            .update(
+                            {'isFav': theses.isFav! });
+
+                        if (theses.isFav == false) {
+                          await FirebaseFirestore.instance
                               .collection('thesesBookmark')
                               .doc(theses.id)
-                              .set({
-                            'nameTheses': theses.nameTheses,
-                            'nameSupervisors': theses.nameSupervisors,
-                            'assistantSupervisors': theses.assistantSupervisors,
-                            'degreeTheses': theses.degreeTheses,
-                            'linkTheses': theses.linkTheses,
-                            'thesesStatus': theses.thesesStatus,
-                            'userId': FirebaseAuth.instance.currentUser!.uid,
-                            'isFav':theses.isFav! ? false : true
-                          });
-
-                          theses.isFav= !theses.isFav!;
-                          await FirebaseFirestore.instance
-                              .collection('theses')
-                              .doc(theses.id)
-                              .update(
-                              {'isFav': theses.isFav! });
-
-                          if (theses.isFav == false) {
-                            await FirebaseFirestore.instance
-                                .collection('thesesBookmark')
-                                .doc(theses.id)
-                                .delete();
-                          }
-                          setState(() {});
-                        },
-                        child: Container(
-                          height: 40,
-                          width: 25,
-                          margin: const EdgeInsets.symmetric(vertical: 10),
-                          child: !theses.isFav!? const ImageIcon(
-                                  AssetImage(
-                                    'assets/bookmark (1).png',
-                                  ),
-                                  color: blue,
-                                  size: 50,
-                                )
-                              : const ImageIcon(
-                                  AssetImage(
-                                    'assets/bookmark (2).png',
-                                  ),
-                                  color: blue,
-                                  size: 50,
+                              .delete();
+                        }
+                        setState(() {});
+                      },
+                      child: Container(
+                        height: 40,
+                        width: 25,
+                        margin: const EdgeInsets.symmetric(vertical: 10,horizontal: 10),
+                        child: !theses.isFav!? const ImageIcon(
+                                AssetImage(
+                                  'assets/bookmark (1).png',
                                 ),
-                        ),
+                                color: blue,
+                                size: 50,
+                              )
+                            : const ImageIcon(
+                                AssetImage(
+                                  'assets/bookmark (2).png',
+                                ),
+                                color: blue,
+                                size: 50,
+                              ),
                       ),
-                    ]),
-              ),
+                    ),
+                  ]),
             ],
           ),
         ),

@@ -65,15 +65,14 @@ class _ProJectDetailsScreenState extends State<ProJectDetailsScreen> {
                 children: [
                   Row(
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 15),
+                      Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
+                            Text('اسم المشروع: ',style: labelStyle3,),
                             Text(
-                              'اسم المشروع: '+widget.nameProject+ 'الحالة:'+widget.status ,
+                              widget.nameProject,
                               style: labelStyle3,
                             ),
                             Text(
@@ -95,10 +94,6 @@ class _ProJectDetailsScreenState extends State<ProJectDetailsScreen> {
                           ],
                         ),
                       ),
-                      SizedBox(
-                        width: sizeFromWidth(context, 8),
-                      ),
-
 
                       Padding(
                         padding: const EdgeInsets.symmetric(
@@ -106,6 +101,8 @@ class _ProJectDetailsScreenState extends State<ProJectDetailsScreen> {
                         child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
+                              Text('حالة المشروع',style: labelStyle3,),
+                              Text(widget.status),
                               Container(
                                 height: 40,
                                 width: 25,
@@ -131,23 +128,19 @@ class _ProJectDetailsScreenState extends State<ProJectDetailsScreen> {
                       ),
                     ],
                   ),
-                  Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'وصف المشروع',
-                          style: labelStyle3,
-                        ),
-                        Text(
-                         widget.description,
-                          style: hintStyle3,
-                        ),
-                      ],
-                    ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'وصف المشروع',
+                        style: labelStyle3,
+                      ),
+                      Text(
+                       widget.description,
+                        style: hintStyle3,
+                      ),
+                    ],
                   ),
                 ],
               ),

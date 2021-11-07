@@ -4,6 +4,7 @@ import 'package:aban/provider/auth_provider.dart';
 import 'package:aban/provider/profile_provider.dart';
 import 'package:aban/widgets/buttons/buttonsuser.dart';
 import 'package:aban/widgets/eidt_text_field.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -54,8 +55,10 @@ class ProjectItem extends StatelessWidget {
 
                               children: [
                                 Container(
-                                  margin: const EdgeInsets.symmetric(
+                                  padding :const EdgeInsets.symmetric(
                                       horizontal: 10, vertical: 5),
+                                  margin: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 5),
                                   width: sizeFromWidth(context, 1.5),
                                   height: 100,
                                   decoration: BoxDecoration(
@@ -66,11 +69,7 @@ class ProjectItem extends StatelessWidget {
                                     textDirection: TextDirection.rtl,
                                     child: Row(
                                       children: [
-                                        Padding(
-                                          padding:
-                                          const EdgeInsets.symmetric(
-                                              vertical: 15,
-                                              horizontal: 10),
+                                        Expanded(
                                           child: Column(
                                             crossAxisAlignment:
                                             CrossAxisAlignment.start,
@@ -101,7 +100,7 @@ class ProjectItem extends StatelessWidget {
                                   width: 30,
                                   child: IconButton(
                                     onPressed: () {
-                                      eidtProject(
+                                      editProject(
                                         context,
                                         text: 'تعديل مشروع',
                                         descriptionProject:
@@ -134,14 +133,17 @@ class ProjectItem extends StatelessWidget {
                                           text: 'هل انت متاكد من الحذف ',
                                           ontap: () async {
                                             await FirebaseFirestore.instance
-                                                .collection('member')
-                                                .doc(FirebaseAuth
-                                                .instance.currentUser!.uid)
                                                 .collection('project')
                                                 .doc(snapshot
                                                 .data!.docs[index].id)
                                                 .delete();
                                             Navigator.pop(context);
+                                            AwesomeDialog(
+                                                context: context,
+                                                title: "هام",
+                                                body: const Text("تمت عملية الحذف بنجاح"),
+                                                dialogType: DialogType.SUCCES)
+                                                .show();
                                           });
                                     },
                                     icon: const Icon(Icons.delete),
@@ -173,7 +175,7 @@ class ProjectItem extends StatelessWidget {
   }
 }
 
-void eidtProject(BuildContext context,
+void editProject(BuildContext context,
     {required String text,
     required indexed,
     // required TextEditingController projectName,
@@ -352,6 +354,12 @@ void eidtProject(BuildContext context,
                       'memberProjectName': prov.memberProjectName,
                     });
                     Navigator.pop(context);
+                    AwesomeDialog(
+                        context: context,
+                        title: "هام",
+                        body: const Text("تمت عملية التعديل بنجاح"),
+                        dialogType: DialogType.SUCCES)
+                        .show();
                   }
                 } else if (auth.usertype == 1) {
                   if (Keys.currentState!.validate()) {
@@ -367,6 +375,12 @@ void eidtProject(BuildContext context,
                       'memberProjectName': prov.memberProjectName,
                     });
                     Navigator.pop(context);
+                    AwesomeDialog(
+                        context: context,
+                        title: "هام",
+                        body: const Text("تمت عملية التعديل بنجاح"),
+                        dialogType: DialogType.SUCCES)
+                        .show();
                   }
                 }
               }),

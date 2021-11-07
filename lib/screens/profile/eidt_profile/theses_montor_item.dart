@@ -5,12 +5,14 @@ import 'package:aban/provider/auth_provider.dart';
 import 'package:aban/provider/profile_provider.dart';
 import 'package:aban/widgets/buttons/buttonsuser.dart';
 import 'package:aban/widgets/eidt_text_field.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class ThesesGraduatedMontorItem extends StatefulWidget {
@@ -97,6 +99,8 @@ class _ThesesGraduatedMontorItemState extends State<ThesesGraduatedMontorItem> {
                                   margin: const EdgeInsets.symmetric(
                                       horizontal: 5, vertical: 5),
                                   width: sizeFromWidth(context, 1.5),
+                                  padding:  const EdgeInsets.symmetric(
+                            horizontal: 5, vertical: 5),
                                   height: 100,
                                   decoration: BoxDecoration(
                                     color: clearblue,
@@ -110,25 +114,27 @@ class _ThesesGraduatedMontorItemState extends State<ThesesGraduatedMontorItem> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,
                                       children: [
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceEvenly,
-                                          children: [
-                                            Text(
-                                              'اسم الاطروحة : ${snapshot.data!.docs[index]['nameTheses']}',
-                                              style: hintStyle5,
-                                            ),
-                                            Text(
-                                              'المشرف: ${snapshot.data!.docs[index]['nameSupervisors']}',
-                                              style: hintStyle5,
-                                            ),
-                                            Text(
-                                              ' المشرفون المساعدون: ${snapshot.data!.docs[index]['assistantSupervisors']}',
-                                              style: hintStyle5,
-                                            ),
-                                          ],
+                                        Expanded(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              Text(
+                                                'اسم الاطروحة : ${snapshot.data!.docs[index]['nameTheses']}',
+                                                style: hintStyle5
+                                              ),
+                                              Text(
+                                                'المشرف: ${snapshot.data!.docs[index]['nameSupervisors']}',
+                                                style: hintStyle5,
+                                              ),
+                                              Text(
+                                                ' المشرفون المساعدون: ${snapshot.data!.docs[index]['assistantSupervisors']}',
+                                                style: hintStyle5,
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                         const VerticalDivider(
                                           color: gray,
@@ -137,10 +143,13 @@ class _ThesesGraduatedMontorItemState extends State<ThesesGraduatedMontorItem> {
 // width: 1,
                                           thickness: 2,
                                         ),
-                                        Text(
-                                          snapshot.data!.docs[index]
-                                              ['degreeTheses'],
-                                          style: hintStyle5,
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                                          child: Text(
+                                            snapshot.data!.docs[index]
+                                                ['degreeTheses'],
+                                            style: hintStyle5,
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -185,11 +194,19 @@ class _ThesesGraduatedMontorItemState extends State<ThesesGraduatedMontorItem> {
                                             .collection('theses')
                                             .doc(snapshot.data!.docs[index].id)
                                             .delete();
+
                                         // setState(() {
                                         //
                                         // });
 
                                         Navigator.pop(context);
+                                        AwesomeDialog(
+                                                context: context,
+                                                title: "هام",
+                                                body: const Text(
+                                                    "تمت عملية الحذف بنجاح"),
+                                                dialogType: DialogType.SUCCES)
+                                            .show();
                                       });
                                     },
                                     icon: const Icon(Icons.delete),
@@ -419,6 +436,12 @@ void editTheses(
                       'thesesStatus': prov.thesesStatus,
                     });
                     Navigator.pop(context);
+                    AwesomeDialog(
+                            context: context,
+                            title: "هام",
+                            body: const Text("تمت عملية التعديل  بنجاح"),
+                            dialogType: DialogType.SUCCES)
+                        .show();
                   }
                 } else {
                   if (key.currentState!.validate()) {

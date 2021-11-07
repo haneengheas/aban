@@ -50,6 +50,8 @@ class _UnCompletedProjectState extends State<UnCompletedProject> {
                               return Container(
                                 margin: const EdgeInsets.symmetric(
                                     horizontal: 10, vertical: 10),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 10),
                                 width: sizeFromWidth(context, 1),
                                 height: 100,
                                 decoration: BoxDecoration(
@@ -62,28 +64,31 @@ class _UnCompletedProjectState extends State<UnCompletedProject> {
                                     mainAxisAlignment:
                                     MainAxisAlignment.spaceAround,
                                     children: [
-                                      Column(
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            '${snapshot.data!.docs[index]['projectName']}',
-                                            style: labelStyle3,
-                                          ),
-                                          Text(
-                                            'القائد :' +
-                                                snapshot.data!.docs[index]
-                                                ["leaderName"],
-                                            style: hintStyle3,
-                                          ),
-                                          Text(
-                                            'الاعضاء :' +
-                                                snapshot.data!.docs[index]
-                                                ["memberProjectName"],
-                                            style: hintStyle3,
-                                          ),
-                                        ],
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              'اسم المشروع:'+
+                                              '${snapshot.data!.docs[index]['projectName']}',
+                                              style: labelStyle3,
+                                            ),
+                                            Text(
+                                              'القائد :' +
+                                                  snapshot.data!.docs[index]
+                                                  ["leaderName"],
+                                              style: hintStyle3,
+                                            ),
+                                            Text(
+                                              'الاعضاء :' +
+                                                  snapshot.data!.docs[index]
+                                                  ["memberProjectName"],
+                                              style: hintStyle3,
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                       const SizedBox(
                                         width: 50,
@@ -92,7 +97,7 @@ class _UnCompletedProjectState extends State<UnCompletedProject> {
                                         color: gray,
                                         endIndent: 10,
                                         indent: 10,
-                                        width: 10,
+                                        width: 20,
                                         thickness: 2,
                                       ),
                                       InkWell(
@@ -107,7 +112,7 @@ class _UnCompletedProjectState extends State<UnCompletedProject> {
                                             height: 40,
                                             width: 25,
                                             margin: const EdgeInsets.symmetric(
-                                                vertical: 10),
+                                                vertical: 10,horizontal: 10),
                                             child: completed[index][2]
                                                 ? ImageIcon(
                                               AssetImage(

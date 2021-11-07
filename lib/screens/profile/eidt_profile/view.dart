@@ -4,13 +4,16 @@ import 'dart:math';
 
 import 'package:aban/constant/alert_methods.dart';
 import 'package:aban/constant/style.dart';
+import 'package:aban/provider/model.dart';
 import 'package:aban/provider/profile_provider.dart';
 import 'package:aban/screens/profile/eidt_profile/list_project_item.dart';
 import 'package:aban/screens/profile/eidt_profile/project_item.dart';
 import 'package:aban/screens/profile/eidt_profile/theses_montor_item.dart';
+import 'package:aban/screens/profile/facultymember/create_profile/dropdown.dart';
 import 'package:aban/screens/registration/regist_screen/view.dart';
 import 'package:aban/widgets/buttons/buttonsuser.dart';
 import 'package:aban/widgets/buttons/tetfielduser.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -31,16 +34,22 @@ class _EditProfileState extends State<EditProfile> {
   final GlobalKey<FormState> formkey = GlobalKey<FormState>();
   TextEditingController name = TextEditingController();
   TextEditingController emailuser = TextEditingController();
-  TextEditingController degree = TextEditingController();
+
+  // TextEditingController degree = TextEditingController();
+  String? degree;
+
   TextEditingController phone = TextEditingController();
-  TextEditingController faculty = TextEditingController();
   TextEditingController id = TextEditingController();
   TextEditingController link = TextEditingController();
   String? image;
   List? field;
   int? accepted;
   File? file = File('');
- late Reference ref;
+  Reference? ref;
+  String? college;
+  String? department;
+
+  List<String> selectedDepartment = <String>[];
 
   void getData() async {
     DocumentSnapshot documentSnapshot2 = await FirebaseFirestore.instance
@@ -49,15 +58,16 @@ class _EditProfileState extends State<EditProfile> {
         .get();
     debugPrint('userType is ${documentSnapshot2.get('userId')}');
     name.text = documentSnapshot2.get('name');
-    faculty.text = documentSnapshot2.get('faculty');
+    college = documentSnapshot2.get('faculty');
     emailuser.text = FirebaseAuth.instance.currentUser!.email!;
     link.text = documentSnapshot2.get('link');
     phone.text = documentSnapshot2.get('phone');
-    degree.text = documentSnapshot2.get('degree');
+    degree = documentSnapshot2.get('degree');
     id.text = documentSnapshot2.get('id');
     image = documentSnapshot2.get('imageUrl');
     field = documentSnapshot2.get('fields');
     accepted = documentSnapshot2.get('accept');
+    department = documentSnapshot2.get('department');
     print(accepted);
 
     setState(() {});
@@ -81,6 +91,8 @@ class _EditProfileState extends State<EditProfile> {
   @override
   Widget build(BuildContext context) {
     var prov = Provider.of<ProfileProvider>(context);
+    var providers = Provider.of<MyModel>(context);
+
     return Scaffold(
       backgroundColor: white,
       appBar: AppBar(
@@ -115,15 +127,18 @@ class _EditProfileState extends State<EditProfile> {
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   child: Row(
                     children: [
+                      // widget for image
                       InkWell(
-                        onTap: () async {
-                          await showBottomSheet(context);
-                        },
-                        child:image== null?const SizedBox(): Image(
-                          image: NetworkImage(image!),
-                          height: 80,
-                        ),
-                      ),
+                          onTap: () async {
+                            await showBottomSheet(context);
+                          },
+                          child: image == null
+                              ? const SizedBox()
+                              : CircleAvatar(
+                                  radius: 35,
+                                  backgroundImage: NetworkImage(image!),
+                                )),
+                      // widget for name user
                       SizedBox(
                         width: sizeFromWidth(context, 1.5),
                         child: TextFieldUser(
@@ -135,10 +150,8 @@ class _EditProfileState extends State<EditProfile> {
                           validator: (value) {
                             if (value.isEmpty) {
                               return 'يجب ادخال اسم الباحث';
-                            }
-                            else if (value<2){
+                            } else if (value < 2) {
                               return 'يجب ان يحتوي الاسم علي ثلاث حروف علي الاقل';
-
                             }
                           }, // initialValue: name,
                         ),
@@ -146,65 +159,115 @@ class _EditProfileState extends State<EditProfile> {
                     ],
                   ),
                 ),
+                // college and department widget
                 Row(
-                  // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     SizedBox(
-                      width: sizeFromWidth(context, 2),
-                      child: TextFieldUser(
-                        onChanged: (val) {},
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return 'برجاءادخال الكلية ';
-                          }
+                      width: sizeFromWidth(context, 2.3),
+                      height: 70,
+                      child: CollegeDropDown(
+                        strValue: this.college == '' ? null : this.college,
+                        onTap: (v) {
+                          college = v;
+                          department = '';
+                          selectedDepartment = providers.departments[college]!;
+                          setState(() {});
                         },
-                        controller: faculty,
-                        hintText: "الكلية/التخصص",
-                        labelText: "الكلية/التخصص",
-                        scure: false,
-                        // initialValue: faculty,
+                        listData: providers.departments.keys
+                            .toList()
+                            .map((e) => DropdownMenuItem(
+                                  child: Text(e),
+                                  value: e,
+                                ))
+                            .toList(),
+                        text: college!,
                       ),
                     ),
                     SizedBox(
-                      width: sizeFromWidth(context, 2),
-                      child: TextFieldUser(
-                        onChanged: (val) {
-                          prov.email = val;
+                      width: sizeFromWidth(context, 2.3),
+                      height: 70,
+                      child: CollegeDropDown(
+                        strValue:
+                            this.department == '' ? null : this.department,
+                        onTap: (v) {
+                          department = v;
+                          setState(() {});
                         },
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return 'برجاءادخال البريد الجامعي بشكل صحيح ';
-                          }
-                        },
-                        controller: emailuser,
-                        hintText: "Reasearsh@ksuedu.sa",
-                        labelText: "البريد الجامعى",
-                        scure: false,
-                        // initialValue: emailuser,
+                        listData: selectedDepartment
+                            .toList()
+                            .map((e) => DropdownMenuItem(
+                                  child: Text(e),
+                                  value: e,
+                                ))
+                            .toList(),
+                        text: department!,
                       ),
                     ),
                   ],
                 ),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    SizedBox(
-                      width: sizeFromWidth(context, 2),
-                      child: TextFieldUser(
-                        onChanged: (val) {
-                          prov.email = val;
-                        },
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return 'برجاءادخال الدرجة العملية بشكل صحيح ';
-                          }
-                        },
-                        controller: degree,
-                        hintText: "اختر درجتك",
-                        labelText: "الدرجة العلمية",
-                        scure: false,
-                        // initialValue: degree,
-                      ),
+                    // widget of degree
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 20, right: 15),
+                          child: Text(
+                            'الدرجة العلمية ',
+                            style: labelStyle3,
+                          ),
+                        ),
+                        Directionality(
+                          textDirection: TextDirection.rtl,
+                          child: Container(
+                            width: sizeFromWidth(context, 2.4),
+                            height: 50,
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: DropdownButton<String>(
+                              hint: Text(
+                                degree!,
+                                style: hintStyle,
+                              ),
+                              value: prov.degree,
+                              underline: Container(
+                                width: 20,
+                                height: 1,
+                                decoration: const BoxDecoration(
+                                    color: lightGray,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: blue,
+                                      )
+                                    ]),
+                              ),
+                              onChanged: (newValue) {
+                                prov.degree = newValue!;
+                              },
+                              items: <String>[
+                                'دكتوراه',
+                                'ماجستير'
+                              ].map<DropdownMenuItem<String>>((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: SizedBox(
+                                    width: sizeFromWidth(context, 8),
+                                    height: 50,
+                                    // for example
+                                    child:
+                                        Text(value, textAlign: TextAlign.right),
+                                  ),
+                                );
+                              }).toList(),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
+                    // widget of number
                     SizedBox(
                       width: sizeFromWidth(context, 2),
                       child: TextFieldUser(
@@ -225,24 +288,24 @@ class _EditProfileState extends State<EditProfile> {
                     ),
                   ],
                 ),
+                // widget of email and link
                 Row(
                   children: [
                     SizedBox(
                       width: sizeFromWidth(context, 2),
                       child: TextFieldUser(
                         onChanged: (val) {
-                          prov.id = val;
+                          prov.email = val;
                         },
                         validator: (value) {
                           if (value.isEmpty) {
-                            return 'برجاءادخال المعرف الخاص بك ';
+                            return 'برجاءادخال البريد الجامعي بشكل صحيح ';
                           }
                         },
-                        controller: id,
-                        hintText: "المعرف الخاص بك",
-                        labelText: "orcid iD",
+                        controller: emailuser,
+                        hintText: "Reasearsh@ksuedu.sa",
+                        labelText: "البريد الجامعى",
                         scure: false,
-                        // initialValue: id,
                       ),
                     ),
                     SizedBox(
@@ -261,6 +324,29 @@ class _EditProfileState extends State<EditProfile> {
                         labelText: " ابحاثى",
                         scure: false,
                         // initialValue: link,
+                      ),
+                    ),
+                  ],
+                ),
+                // widget of oricd id
+                Row(
+                  children: [
+                    SizedBox(
+                      width: sizeFromWidth(context, 2),
+                      child: TextFieldUser(
+                        onChanged: (val) {
+                          prov.id = val;
+                        },
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return 'برجاءادخال المعرف الخاص بك ';
+                          }
+                        },
+                        controller: id,
+                        hintText: "المعرف الخاص بك",
+                        labelText: "orcid iD",
+                        scure: false,
+                        // initialValue: id,
                       ),
                     ),
                   ],
@@ -365,22 +451,35 @@ class _EditProfileState extends State<EditProfile> {
                                 .update({
                               'name': name.text,
                               'accept': prov.accept,
-                              'degree': degree.text,
-                              'faculty': faculty.text,
+                              'degree': degree,
+                              'faculty': college,
+                              'department': department,
                               'id': id.text,
                               'link': link.text,
                               'phone': phone.text,
-                               // 'imageUrl': prov.imageurl,
+                              // 'imageUrl': imageUrl,
                               'fields': fieldsStr
                             }).then((value) {
                               Navigator.pop(context);
+                              AwesomeDialog(
+                                      context: context,
+                                      title: "هام",
+                                      body:
+                                          const Text("تمت عملية التعديل بنجاح"),
+                                      dialogType: DialogType.SUCCES)
+                                  .show();
                             });
                           }
 
                           print(name);
                         }, text: 'هل انت متاكد من حفظ التغييرات ؟');
                       }),
-                  ButtonUser(text: 'الغاء', color: redGradient, onTap: () {}),
+                  ButtonUser(
+                      text: 'الغاء',
+                      color: redGradient,
+                      onTap: () {
+                        Navigator.pop(context);
+                      }),
                 ],
               ),
               Center(
@@ -399,10 +498,12 @@ class _EditProfileState extends State<EditProfile> {
                               .collection('user')
                               .doc(FirebaseAuth.instance.currentUser!.uid)
                               .delete();
-                            await FirebaseAuth.instance.currentUser!.delete();
+                          await FirebaseAuth.instance.currentUser!.delete();
 
-
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=> const RegistScreen()));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const RegistScreen()));
                         });
                       }))
             ],

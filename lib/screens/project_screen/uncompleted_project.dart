@@ -53,6 +53,7 @@ class _UnCompletedProjectState extends State<UnCompletedProject> {
         },
         child: Container(
           margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
           width: sizeFromWidth(context, 1),
           height: 120,
           decoration: BoxDecoration(
@@ -64,9 +65,7 @@ class _UnCompletedProjectState extends State<UnCompletedProject> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+                Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -86,75 +85,70 @@ class _UnCompletedProjectState extends State<UnCompletedProject> {
                     ],
                   ),
                 ),
-                SizedBox(
-                  width: sizeFromWidth(context, 8),
-                ),
+
                 const VerticalDivider(
                   color: gray,
                   endIndent: 10,
                   indent: 10,
-                  width: 5,
+                  width: 10,
                   thickness: 2,
                 ),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 20, horizontal: 5),
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        InkWell(
-                          onTap: () async {
+                Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      InkWell(
+                        onTap: () async {
+                          FirebaseFirestore.instance
+                              .collection('projectBookmark')
+                              .doc(project.id)
+                              .set({
+                            'projectName': project.projectName,
+                            'leaderName': project.leaderName,
+                            'descriptionProject': project.descriptionProject,
+                            'memberProjectName': project.memberProjectName,
+                            'projectStatus': project.projectStatus,
+                            'userId': FirebaseAuth.instance.currentUser!.uid,
+                            'isFav': project.isFav! ? false : true
+                          });
+
+                          project.isFav = !project.isFav!;
+
+                          await FirebaseFirestore.instance
+                              .collection('project')
+                              .doc(project.id)
+                              .update(
+                                  {'isFav': project.isFav! });
+                          if (project.isFav == false) {
                             FirebaseFirestore.instance
                                 .collection('projectBookmark')
                                 .doc(project.id)
-                                .set({
-                              'projectName': project.projectName,
-                              'leaderName': project.leaderName,
-                              'descriptionProject': project.descriptionProject,
-                              'memberProjectName': project.memberProjectName,
-                              'projectStatus': project.projectStatus,
-                              'userId': FirebaseAuth.instance.currentUser!.uid,
-                              'isFav': project.isFav! ? false : true
-                            });
+                                .delete();
+                          }
+                          setState(() {});
+                        },
+                        child: Container(
 
-                            project.isFav = !project.isFav!;
-
-                            await FirebaseFirestore.instance
-                                .collection('project')
-                                .doc(project.id)
-                                .update(
-                                    {'isFav': project.isFav! });
-                            if (project.isFav == false) {
-                              FirebaseFirestore.instance
-                                  .collection('projectBookmark')
-                                  .doc(project.id)
-                                  .delete();
-                            }
-                            setState(() {});
-                          },
-                          child: Container(
-                            height: 40,
-                            width: 25,
-                            margin: const EdgeInsets.symmetric(vertical: 10),
-                            child: !project.isFav!
-                                ? const ImageIcon(
-                                    AssetImage(
-                                      'assets/bookmark (1).png',
-                                    ),
-                                    color: blue,
-                                    size: 50,
-                                  )
-                                : const ImageIcon(
-                                    AssetImage(
-                                      'assets/bookmark (2).png',
-                                    ),
-                                    color: blue,
-                                    size: 50,
+                          height: 40,
+                          width: 25,
+                          margin: const EdgeInsets.symmetric(vertical: 30,horizontal: 10),
+                          child: !project.isFav!
+                              ? const ImageIcon(
+                                  AssetImage(
+                                    'assets/bookmark (1).png',
                                   ),
-                          ),
+                                  color: blue,
+                                  size: 50,
+                                )
+                              : const ImageIcon(
+                                  AssetImage(
+                                    'assets/bookmark (2).png',
+                                  ),
+                                  color: blue,
+                                  size: 50,
+                                ),
                         ),
-                      ]),
-                ),
+                      ),
+                    ]),
               ],
             ),
           ),
