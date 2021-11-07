@@ -61,6 +61,8 @@ class _SearchItemState extends State<SearchItem> {
                                       id: snapshot.data!.docs[index]['id'],
                                       faculty: snapshot.data!
                                           .docs[index]['faculty'],
+                                      accept: snapshot.data!
+                                          .docs[index]['accept'],
                                     )));
                       },
                       child: Padding(

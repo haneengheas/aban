@@ -42,6 +42,8 @@ class _FieldListresershState extends State<FieldListresersh> {
             return ListView.builder(
               itemCount: snapshot.data!.docs.length,
               itemBuilder: (context, index) {
+                print(snapshot.data!.docs[index]['fields'][index]);
+
                 return snapshot.data!.docs[index]['fields'].isEmpty
                     ? const SizedBox()
                     : Row(
@@ -54,9 +56,10 @@ class _FieldListresershState extends State<FieldListresersh> {
                       width: 10,
                     ),
                     Text(
-                      snapshot.data!.docs[index]['fields'][index],
+                      snapshot.data!.docs[index]['fields'].toString(),
+
                       style: hintStyle,
-                    )
+                    ),
                   ],
                 );
               },

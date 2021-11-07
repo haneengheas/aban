@@ -14,8 +14,9 @@ import 'package:google_fonts/google_fonts.dart';
 
 class MemberProfile extends StatefulWidget {
   String name, image, faculty, email, phone, degree, id,userid;
+  int accept;
 
-  MemberProfile({Key? key,required this.userid, required this.name,required this.image,required this.faculty,required this.email,required this.degree,required this.id,required this.phone}) : super(key: key);
+  MemberProfile({Key? key,required this.userid,required this.accept, required this.name,required this.image,required this.faculty,required this.email,required this.degree,required this.id,required this.phone}) : super(key: key);
 
   @override
   _MemberProfileState createState() => _MemberProfileState();
@@ -106,24 +107,24 @@ class _MemberProfileState extends State<MemberProfile> {
                             const SizedBox(
                               width: 10,
                             ),
-                            TextButton.icon(
+                            widget.accept == 0 ? TextButton.icon(
                               onPressed: () {
-                                Navigator.push(
+                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
                                         const SupervisionScreen()));
                               },
                               icon:const Icon(
-                                Icons.cast_for_education,
-                                color: blue,
-                                size: 20,
-                              ),
+                              Icons.cast_for_education,
+                              color: blue,
+                              size: 20,
+                            ),
                               label: Text(
                                 "طلب اشراف",
                                 style: hintStyle,
                               ),
-                            )
+                            ):const Text(''),
                           ],
                         ),
                       ),
@@ -146,6 +147,7 @@ class _MemberProfileState extends State<MemberProfile> {
                               ),
                               height: sizeFromHeight(context, 10),
                             ),
+
                             const SizedBox(
                               width: 20,
                             ),
@@ -198,9 +200,14 @@ class _MemberProfileState extends State<MemberProfile> {
                       ),
                       Row(
                         children: [
-                          const Icon(
+                           widget.accept == 0
+                              ? const Icon(
                             Icons.check,
                             color: Colors.green,
+                          )
+                              : const Icon(
+                            Icons.close,
+                            color: Colors.red,
                           ),
                           Text(
                             "أقبل الاشراف على الاطروحات ",
