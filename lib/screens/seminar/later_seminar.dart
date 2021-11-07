@@ -122,6 +122,7 @@ class _UnCompletedProjectState extends State<LaterSeminar> {
                                 thickness: 2,
                               ),
                               Padding(
+
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 20),
                                 child: Column(

@@ -45,7 +45,7 @@ class SeminarDetails extends StatelessWidget {
                           Row(
                             children: [
                               Text(
-                                'اسم الندوة',
+                                '$seminarname',
                                 style: labelStyle3,
                               ),
                               SizedBox(
@@ -67,11 +67,11 @@ class SeminarDetails extends StatelessWidget {
                             style: hintStyle3,
                           ),
                           Text(
-                            'اسم الباحث',
+                            '$username',
                             style: hintStyle3,
                           ),
                           Text(
-                            'منبي 6 الدور الاول قاعة 23',
+                            '$location',
                             style: hintStyle3,
                           ),
                         ],
@@ -87,7 +87,9 @@ class SeminarDetails extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(
-                              'عامة',
+                              type == 1
+                                  ? 'عامة'
+                                  : 'خاصة',
                               style: labelStyle3,
                             ),
                             Container(
@@ -112,7 +114,7 @@ class SeminarDetails extends StatelessWidget {
                     style: labelStyle3,
                   ),
                   Text(
-                    'ندوة تتحدث عن اهمبه ترشيد المياة و خطورة نقص المياة علي البشرية ',
+                    '$description',
                     style: hintStyle3,
                   ),
                   TextButton(

@@ -31,6 +31,7 @@ class _AddSeminarState extends State<AddSeminar> {
   var val;
   DateTime? _selectedDay;
   DateTime? _focusedDay;
+
   CalendarFormat _calendarFormat = CalendarFormat.month;
   // var user = FirebaseFirestore.instance.collection('user').doc(
   //     FirebaseAuth.instance.currentUser!.uid).get();
@@ -113,14 +114,14 @@ class _AddSeminarState extends State<AddSeminar> {
                       firstDay: DateTime.utc(2010, 10, 16),
                       lastDay: DateTime.utc(2030, 3, 14),
                       focusedDay: DateTime.now(),
+
                       selectedDayPredicate: (day) {
                         return isSameDay(_selectedDay, day);
                       },
                       onDaySelected: (selectedDay, focusedDay) {
                         setState(() {
                           _selectedDay = selectedDay;
-                          _focusedDay =
-                              focusedDay; // update `_focusedDay` here as well
+                          _focusedDay = focusedDay; // update `_focusedDay` here as well
                         });
                       },
                       calendarFormat: _calendarFormat,
