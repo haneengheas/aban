@@ -10,7 +10,7 @@ class ResershList extends StatefulWidget {
   final String title;
   final List<String> departments;
 
-
+  //
   const ResershList({Key? key,
     required this.title,
     required this.departments,
