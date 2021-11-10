@@ -1,15 +1,17 @@
 import 'package:aban/constant/style.dart';
+import 'package:aban/provider/auth_provider.dart';
 import 'package:aban/screens/profile/eidt_profile/view.dart';
-import 'package:aban/screens/profile/facultymember/profile/field_list.dart';
-import 'package:aban/screens/profile/facultymember/profile/project_list.dart';
-import 'package:aban/screens/profile/facultymember/profile/theses_list.dart';
-import 'package:aban/screens/profile/facultymember/profile/uncompletedprojects.dart';
-import 'package:aban/screens/profile/facultymember/profile/uncompletedtheseslist.dart';
+import 'package:aban/screens/profile/profile/field_list.dart';
+import 'package:aban/screens/profile/profile/project_list.dart';
+import 'package:aban/screens/profile/profile/theses_list.dart';
+import 'package:aban/screens/profile/profile/uncompletedprojects.dart';
+import 'package:aban/screens/profile/profile/uncompletedtheseslist.dart';
 import 'package:aban/screens/theses_screen/theses_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -85,6 +87,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var prov = Provider.of<AuthProvider>(context);
     return DefaultTabController(
       length: 5,
       child: Scaffold(
@@ -122,7 +125,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const EditProfile()));
+                                  builder: (context) => EditProfile(
+                                        userType: prov.usertype,
+                                      )));
                         },
                         child: Container(
                           margin: const EdgeInsets.symmetric(horizontal: 15),
@@ -151,11 +156,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 5, vertical: 15),
                   child: StreamBuilder(
-                      stream: FirebaseFirestore.instance
-                          .collection('member')
-                          .where('userId',
-                              isEqualTo: FirebaseAuth.instance.currentUser!.uid)
-                          .snapshots(),
+                      stream: prov.usertype == 'member'
+                          ? FirebaseFirestore.instance
+                              .collection('member')
+                              .where('userId',
+                                  isEqualTo:
+                                      FirebaseAuth.instance.currentUser!.uid)
+                              .snapshots()
+                          : FirebaseFirestore.instance
+                              .collection('graduated')
+                              .where('userId',
+                                  isEqualTo:
+                                      FirebaseAuth.instance.currentUser!.uid)
+                              .snapshots(),
                       builder:
                           (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                         if (snapshot.hasError) {
@@ -191,15 +204,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           style: labelStyle2,
                                         ),
                                         Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
                                           children: [
                                             Text(
                                               "${snapshot.data!.docs[0]['faculty'] + '-' + snapshot.data!.docs[0]['department']}",
                                               style: hintStyle,
                                             ),
-
                                             // Text(
                                             //   "${snapshot.data!.docs[0]['link']}",
-                                            //   style: hintStyle4,
+                                            //   style: hintStyle,
                                             // ),
                                           ],
                                         ),
@@ -214,10 +228,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             SizedBox(
                                               width: sizeFromWidth(context, 8),
                                             ),
-                                            Text(
-                                              "${snapshot.data!.docs[0]['email']}",
-                                              style: hintStyle,
-                                            ),
+                                            prov.usertype == 'member'
+                                                ? Text(
+                                                    "${snapshot.data!.docs[0]['email']}",
+                                                    style: hintStyle,
+                                                  )
+                                                : SizedBox(),
                                           ],
                                         ),
                                         Row(
@@ -243,32 +259,33 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               const SizedBox(
                                 height: 10,
                               ),
-                              Row(
-                                children: [
-                                  snapshot.data!.docs[0]['accept'] == 0
-                                      ? const Icon(
-                                          Icons.check,
-                                          color: Colors.green,
-                                        )
-                                      : const Icon(
-                                          Icons.close,
-                                          color: Colors.red,
+                              prov.usertype == 'member'
+                                  ? Row(
+                                      children: [
+                                        snapshot.data!.docs[0]['accept'] == 0
+                                            ? const Icon(
+                                                Icons.check,
+                                                color: Colors.green,
+                                              )
+                                            : const Icon(
+                                                Icons.close,
+                                                color: Colors.red,
+                                              ),
+                                        Text(
+                                          "أقبل الاشراف على الاطروحات ",
+                                          style: hintStyle,
                                         ),
-                                  Text(
-                                    "أقبل الاشراف على الاطروحات ",
-                                    style: hintStyle,
-                                  ),
-                                ],
-                              ),
+                                      ],
+                                    )
+                                  : SizedBox(),
                               Padding(
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 15),
                                 child: InkWell(
                                   onTap: () async {
+                                    print(snapshot.data!.docs[0]['link']);
                                     await launch(
-                                        'https://translate.google.com.eg/?hl=ar'
-                                        ''
-                                        '');
+                                        snapshot.data!.docs[0]['link']);
                                   },
                                   child: Text("الذهاب الى ابحاثى",
                                       style: hintStyle),
@@ -313,7 +330,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       color: gray,
                                       thickness: .5,
                                     ),
-                                  const  Expanded(
+                                    const Expanded(
                                       child: SizedBox(
                                         child: TabBarView(
                                           children: [
@@ -321,13 +338,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             CompeletedTheses(
                                               text: 'اطروحة مكتملة تحت اشرافي',
                                             ),
-                                             UnComletedThesesList(
+                                            UnComletedThesesList(
                                               text: 'اطروحة جارية تحت اشرافي',
                                             ),
-                                             CompletedProject(
+                                            CompletedProject(
                                               text: 'مشاريع مكتملة تحت اشرافي',
                                             ),
-                                             UnCompletedProject(
+                                            UnCompletedProject(
                                               text: 'مشاريع جارية تحت اشرافي',
                                             ),
                                           ],

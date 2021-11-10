@@ -1,8 +1,5 @@
 import 'package:aban/constant/style.dart';
 import 'package:aban/screens/chat/view.dart';
-import 'package:aban/screens/profile/facultymember/profile/field_list.dart';
-import 'package:aban/screens/profile/facultymember/profile/project_list.dart';
-import 'package:aban/screens/profile/facultymember/profile/theses_list.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';

@@ -1,6 +1,7 @@
 import 'package:aban/constant/style.dart';
 import 'package:aban/screens/registration/regist_screen/view.dart';
 import 'package:aban/widgets/buttons/submit_button.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -74,17 +75,41 @@ class _EditPasswordScreenState extends State<EditPasswordScreen> {
   }
 
   void resetPassword(BuildContext context) async {
-    if (editController.text.isEmpty || !editController.text.contains("@")) {
-      Fluttertoast.showToast(msg: "Enter valid email", backgroundColor: blue);
+    if (editController.text.isEmpty  ) {
+      AwesomeDialog(
+          context: context,
+          title: "هام",
+          body: const Text("الرجاء ادخال البريد الجامعي"),
+          dialogType: DialogType.ERROR)
+          .show();
+      // Fluttertoast.showToast(msg: "Enter valid email", backgroundColor: blue);
+      return;
+    }
+    else if (!editController.text.contains("@")){
+      AwesomeDialog(
+          context: context,
+          title: "هام",
+          body: const Text("@ إيميل الاستعادة خطأ ،يجب ان يحتوي علي"),
+          dialogType: DialogType.ERROR)
+          .show();
+      // Fluttertoast.showToast(msg: "Enter valid email", backgroundColor: blue);
       return;
     }
 
+
     await FirebaseAuth.instance
         .sendPasswordResetEmail(email: editController.text);
-    Fluttertoast.showToast(
-      msg:
-      "Reset password link has sent your mail please use it to change the password.",
-      backgroundColor: blue,);
-    Navigator.pop(context);
+    AwesomeDialog(
+        context: context,
+        title: "هام",
+        body: const Text(
+            "الرجاء التحقق من بريديك الالكتروني لتغيير كلمة المرور"),
+        dialogType: DialogType.SUCCES)
+        .show();
+    // Fluttertoast.showToast(
+    //   msg:
+    //   "Reset password link has sent your mail please use it to change the password.",
+    //   backgroundColor: blue,);
+    // Navigator.pop(context);
   }
 }

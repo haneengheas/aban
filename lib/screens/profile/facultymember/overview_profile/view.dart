@@ -1,7 +1,5 @@
 import 'package:aban/constant/style.dart';
 import 'package:aban/screens/chat/view.dart';
-import 'package:aban/screens/profile/facultymember/profile/field_list.dart';
-import 'package:aban/screens/profile/facultymember/profile/project_list.dart';
 import 'package:aban/screens/resersh_list/field.dart';
 import 'package:aban/screens/resersh_list/project_all_user.dart';
 import 'package:aban/screens/resersh_list/project_uncomplered.dart';

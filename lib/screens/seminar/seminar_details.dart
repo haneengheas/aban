@@ -9,7 +9,7 @@ class SeminarDetails extends StatelessWidget {
   var type;
 
   SeminarDetails(
-      { required this.type, required this.description, required this.location, required this.seminarname, required this.username});
+      {Key? key,  required this.type, required this.description, required this.location, required this.seminarname, required this.username}) : super(key: key);
 
 
   @override

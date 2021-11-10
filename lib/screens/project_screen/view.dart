@@ -99,30 +99,32 @@ class _ProjectScreenState extends State<ProjectScreen> {
               )),
           centerTitle: true,
           elevation: 0,
-          leading: IconButton(
-            onPressed: () {
-              if (widget.counter == 1) {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => NavigationFile(
-                            d: studentDrawer(context),
-                            title: 'مرحبا"اسم الباحث"',
-                            counter: 1)));
-              } else if (widget.counter == 2) {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => NavigationFile(
-                              d: guestDrawer(context),
-                              title: 'مرحبا',
-                              counter: 2,
-                            )));
-              }
-            },
-            icon: const Icon(Icons.arrow_back),
-            color: blue,
-          ),
+          leading: const SizedBox(),
+
+          // leading: IconButton(
+          //   onPressed: () {
+          //     if (widget.counter == 1) {
+          //       Navigator.push(
+          //           context,
+          //           MaterialPageRoute(
+          //               builder: (context) => NavigationFile(
+          //                   d: studentDrawer(context),
+          //                   title: 'مرحبا"اسم الباحث"',
+          //                   counter: 1)));
+          //     } else if (widget.counter == 2) {
+          //       Navigator.push(
+          //           context,
+          //           MaterialPageRoute(
+          //               builder: (context) => NavigationFile(
+          //                     d: guestDrawer(context),
+          //                     title: 'مرحبا',
+          //                     counter: 2,
+          //                   )));
+          //     }
+          //   },
+          //   icon: const Icon(Icons.arrow_back),
+          //   color: blue,
+          // ),
         ),
         body: SingleChildScrollView(
           physics: const ClampingScrollPhysics(

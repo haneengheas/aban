@@ -1,8 +1,10 @@
 import 'package:aban/constant/style.dart';
+import 'package:aban/provider/auth_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 
 class FieldList extends StatefulWidget {
   const FieldList({Key? key}) : super(key: key);
@@ -32,9 +34,14 @@ class _FieldListState extends State<FieldList> {
 
   @override
   Widget build(BuildContext context) {
+    var prov = Provider.of<AuthProvider>(context);
+
     return StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance
+        stream:  prov.usertype == 'member'?FirebaseFirestore.instance
             .collection("member")
+            .where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+            .snapshots():FirebaseFirestore.instance
+            .collection("graduated")
             .where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
             .snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {

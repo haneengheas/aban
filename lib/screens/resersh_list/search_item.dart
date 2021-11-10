@@ -1,4 +1,5 @@
 import 'package:aban/constant/style.dart';
+import 'package:aban/provider/auth_provider.dart';
 import 'package:aban/provider/profile_provider.dart';
 import 'package:aban/screens/profile/facultymember/overview_profile/view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -29,6 +30,7 @@ class _SearchItemState extends State<SearchItem> {
 
   @override
   Widget build(BuildContext context) {
+    var prov = Provider.of<AuthProvider>(context);
     return Scaffold(
       body: StreamBuilder(
           stream: FirebaseFirestore.instance.collection('member').where(
@@ -47,7 +49,8 @@ class _SearchItemState extends State<SearchItem> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>
+                                builder: (context) {
+                                  if(prov.usertype=='member'){
                                     MemberProfile(
                                       userid: snapshot.data!.docs[index].id,
                                       name: snapshot.data!.docs[index]['name'],
@@ -63,7 +66,13 @@ class _SearchItemState extends State<SearchItem> {
                                           .docs[index]['faculty'],
                                       accept: snapshot.data!
                                           .docs[index]['accept'],
-                                    )));
+                                    );
+                                  }
+                                  else if (prov.usertype == 'student'){}
+                                  return Text('');
+                                }
+
+                                  ));
                       },
                       child: Padding(
                         padding: const EdgeInsets.all(9.0),

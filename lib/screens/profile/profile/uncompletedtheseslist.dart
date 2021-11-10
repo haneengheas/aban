@@ -29,6 +29,10 @@ class _UnComletedThesesListState extends State<UnComletedThesesList> {
   getUnCompletedTheses() async {
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('theses')
+        .where(
+          'userId',
+          isEqualTo: FirebaseAuth.instance.currentUser!.uid,
+        )
         .where('thesesStatus', isEqualTo: 'غير مكتملة')
         .get();
 
@@ -64,20 +68,18 @@ class _UnComletedThesesListState extends State<UnComletedThesesList> {
             child: ListView.builder(
                 itemCount: unCompletedTheses.length,
                 itemBuilder: (context, index) {
-
-                  return _buildThesesBox( unCompletedTheses[index]);
+                  return _buildThesesBox(unCompletedTheses[index]);
                 }),
           ),
         )
       ],
     );
   }
-  Widget _buildThesesBox(ModelTheses theses){
+
+  Widget _buildThesesBox(ModelTheses theses) {
     return Container(
-      margin: const EdgeInsets.symmetric(
-          horizontal: 10, vertical: 10),
-      padding: const EdgeInsets.symmetric(
-          horizontal: 10, vertical: 10),
+      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       width: sizeFromWidth(context, 1),
       height: 100,
       decoration: BoxDecoration(
@@ -95,18 +97,15 @@ class _UnComletedThesesListState extends State<UnComletedThesesList> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    "اسم الاطروحة: " +
-                        theses.nameTheses!,
+                    "اسم الاطروحة: " + theses.nameTheses!,
                     style: labelStyle3,
                   ),
                   Text(
-                    'المشرف:' +
-                       theses.nameSupervisors!,
+                    'المشرف:' + theses.nameSupervisors!,
                     style: hintStyle3,
                   ),
                   Text(
-                    'المشرفون المساعدون:' +
-                      theses.assistantSupervisors!,
+                    'المشرفون المساعدون:' + theses.assistantSupervisors!,
                     style: hintStyle3,
                   ),
                 ],
@@ -115,7 +114,7 @@ class _UnComletedThesesListState extends State<UnComletedThesesList> {
             const VerticalDivider(
               color: gray,
               endIndent: 5,
-              indent:5,
+              indent: 5,
               width: 10,
               thickness: 2,
             ),
@@ -124,7 +123,6 @@ class _UnComletedThesesListState extends State<UnComletedThesesList> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-
                     theses.degreeTheses!,
                     style: labelStyle3,
                   ),
@@ -141,15 +139,14 @@ class _UnComletedThesesListState extends State<UnComletedThesesList> {
                         'linkTheses': theses.linkTheses,
                         'thesesStatus': theses.thesesStatus,
                         'userId': FirebaseAuth.instance.currentUser!.uid,
-                        'isFav':theses.isFav! ? false : true
+                        'isFav': theses.isFav! ? false : true
                       });
 
-                      theses.isFav= !theses.isFav!;
+                      theses.isFav = !theses.isFav!;
                       await FirebaseFirestore.instance
                           .collection('theses')
                           .doc(theses.id)
-                          .update(
-                          {'isFav': theses.isFav! });
+                          .update({'isFav': theses.isFav!});
 
                       if (theses.isFav == false) {
                         await FirebaseFirestore.instance
@@ -162,21 +159,23 @@ class _UnComletedThesesListState extends State<UnComletedThesesList> {
                     child: Container(
                       height: 40,
                       width: 25,
-                      margin: const EdgeInsets.symmetric(vertical: 5,horizontal: 10),
-                      child: !theses.isFav!? const ImageIcon(
-                        AssetImage(
-                          'assets/bookmark (1).png',
-                        ),
-                        color: blue,
-                        size: 50,
-                      )
+                      margin: const EdgeInsets.symmetric(
+                          vertical: 5, horizontal: 10),
+                      child: !theses.isFav!
+                          ? const ImageIcon(
+                              AssetImage(
+                                'assets/bookmark (1).png',
+                              ),
+                              color: blue,
+                              size: 50,
+                            )
                           : const ImageIcon(
-                        AssetImage(
-                          'assets/bookmark (2).png',
-                        ),
-                        color: blue,
-                        size: 50,
-                      ),
+                              AssetImage(
+                                'assets/bookmark (2).png',
+                              ),
+                              color: blue,
+                              size: 50,
+                            ),
                     ),
                   ),
                 ]),
@@ -186,4 +185,3 @@ class _UnComletedThesesListState extends State<UnComletedThesesList> {
     );
   }
 }
-

@@ -60,9 +60,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                   validator: (value) {
                     if (value!.isEmpty) {
-                      return 'برجاء كتابه البريد الالكتروني بشكل صحيح';
-                    } else if (value.length < 5) {
-                      return 'برجاء كتابه البريد الالكتروني بشكل صحيح';
+                      return 'الرجاءإدخال البريد الالكتروني ';
+                    }
+                    if(!value.toString().contains('@')){
+                      return ' الرجاء ادخال البريد الالكتروني بشكل صحيح يجب ان يحتوي @';
+                    }
+                    else if(!value.toString().contains('.com')){
+                      return 'الرجاء ادخال البريد الالكتروني بشكل صحيح يجب ان مثل user@mail.com';
                     }
                   }),
               const SizedBox(
@@ -77,9 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                   validator: (value) {
                     if (value!.isEmpty) {
-                      return 'برجاء كتابه كلمة المرور بشكل صحيح';
-                    } else if (value.length < 5) {
-                      return 'برجاء كتابه كلمة المرور بشكل صحيح';
+                      return 'الرجاء كتابه كلمة المرور ';
                     }
                   }),
               const SizedBox(

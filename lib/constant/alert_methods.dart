@@ -73,7 +73,7 @@ void showDialogTheses(BuildContext context,
                     },
                     validator: (value) {
                       if (value.isEmpty) {
-                        return 'برجاءادخال اسم الاطروحة ';
+                        return 'الرجاءادخال اسم الاطروحة ';
                       }
                     },
                   ),
@@ -83,7 +83,7 @@ void showDialogTheses(BuildContext context,
                       },
                       validator: (value) {
                         if (value.isEmpty) {
-                          return 'برجاءادخال رابط الاطروحة ';
+                          return 'الرجاءادخال رابط الاطروحة ';
                         }
                       },
                       hintText: 'رابط الاطروحة',
@@ -95,7 +95,7 @@ void showDialogTheses(BuildContext context,
                       },
                       validator: (value) {
                         if (value.isEmpty) {
-                          return 'برجاءادخال اسماء المشرفين  ';
+                          return 'الرجاءادخال اسماء المشرفين  ';
                         }
                       },
                       hintText: 'اسم المشرف',
@@ -107,7 +107,7 @@ void showDialogTheses(BuildContext context,
                       },
                       validator: (value) {
                         if (value.isEmpty) {
-                          return 'برجاءادخال اسماء المشرفين المساعدين ';
+                          return 'الرجاءادخال اسماء المشرفين المساعدين ';
                         }
                       },
                       hintText: 'اسماء المشرفين المساعدين',
@@ -174,7 +174,7 @@ void showDialogTheses(BuildContext context,
                       },
                       validator: (value) {
                         if (value.isEmpty) {
-                          return 'برجاءادخال الدرجة العملية ';
+                          return 'الرجاءادخال الدرجة العملية ';
                         }
                       },
                       hintText: 'اختر الدرجة العملية',
@@ -328,7 +328,7 @@ void showDialogProject(BuildContext context,
                       },
                       validator: (value) {
                         if (value.isEmpty) {
-                          return 'برجاءادخال اسم المشروع ';
+                          return 'الرجاءادخال اسم المشروع ';
                         }
                       },
                       hintText: 'اسم المشروع',
@@ -340,7 +340,7 @@ void showDialogProject(BuildContext context,
                       },
                       validator: (value) {
                         if (value.isEmpty) {
-                          return 'برجاءادخال وصف المشروع ';
+                          return 'الرجاءادخال وصف المشروع ';
                         }
                       },
                       hintText: 'وصف المشروع',
@@ -352,7 +352,7 @@ void showDialogProject(BuildContext context,
                       },
                       validator: (value) {
                         if (value.isEmpty) {
-                          return 'برجاءادخال اسم القائد ';
+                          return 'الرجاءادخال اسم القائد ';
                         }
                       },
                       hintText: 'اسم القائد',
@@ -364,7 +364,7 @@ void showDialogProject(BuildContext context,
                       },
                       validator: (value) {
                         if (value.isEmpty) {
-                          return 'برجاءادخال اسماء الاعضاء ';
+                          return 'الرجاءادخال اسماء الاعضاء ';
                         }
                       },
                       hintText: 'اسم الاعضاء',

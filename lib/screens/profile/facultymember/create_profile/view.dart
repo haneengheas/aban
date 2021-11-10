@@ -141,7 +141,7 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                                 },
                                 validator: (value) {
                                   if (value.isEmpty) {
-                                    return 'برجاء ادخال الاسم ';
+                                    return 'الرجاء ادخال الاسم ';
                                   }
                                 },
                                 labelText: 'اسم الباحث',
@@ -243,7 +243,8 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                                 },
                                 items: <String>[
                                   'دكتوراه',
-                                  'ماجستير'
+                                  'ماجستير',
+                                  'طالب'
                                 ].map<DropdownMenuItem<String>>((String value) {
                                   return DropdownMenuItem<String>(
                                     value: value,
@@ -273,7 +274,7 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                               },
                               validator: (value) {
                                 if (value.isEmpty) {
-                                  return 'برجاءادخال رقم الهاتف ';
+                                  return 'الرجاءادخال رقم الهاتف ';
                                 }
                               },
                               scure: false,
@@ -293,11 +294,11 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                               hintText: "Reasearsh@ksuedu.sa",
                               labelText: "بريدك الجامعي",
                               onChanged: (value) {
-                                prov.id = value;
+                                prov.email = value;
                               },
                               validator: (value) {
                                 if (value.isEmpty) {
-                                  return 'برجاءادخال بريدك الجامعي ';
+                                  return 'الرجاءادخال بريدك الجامعي ';
                                 }
                               },
                               scure: false,
@@ -333,11 +334,11 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                             hintText: "المعرف الخاص بك",
                             labelText: "orcid iD",
                             onChanged: (value) {
-                              prov.email = value;
+                              prov.id = value;
                             },
                             validator: (value) {
                               if (value.isEmpty) {
-                                return 'برجاءادخال المعرف الخاص بك ';
+                                return 'الرجاءادخال المعرف الخاص بك ';
                               }
                             },
                             scure: false,
@@ -442,7 +443,7 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                         return AwesomeDialog(
                             context: context,
                             title: "هام",
-                            body: const Text("please choose Image"),
+                            body: const Text("يجب إدخال الصورة"),
                             dialogType: DialogType.ERROR)
                           ..show();
                       } else {

@@ -29,9 +29,7 @@ class _CompletedProjectState extends State<CompletedProject> {
     getCompletedProjects();
     searchController.addListener(() {
       filter = searchController.text;
-      setState(() {
-
-      });
+      setState(() {});
     });
 
     super.initState();
@@ -40,24 +38,30 @@ class _CompletedProjectState extends State<CompletedProject> {
   getCompletedProjects() async {
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('project')
+        .where(
+          'userId',
+          isEqualTo: FirebaseAuth.instance.currentUser!.uid,
+        )
         .where('projectStatus', isEqualTo: 'مكتملة')
         .get();
 
     for (var doc in querySnapshot.docs) {
-      completedProjects.add(ProjectModel(
-          descriptionProject: doc['descriptionProject'],
-          leaderName: doc['leaderName'],
-          isFav: doc['isFav'],
-          userId: doc['userId'],
-          projectStatus: doc['projectStatus'],
-          memberProjectName: doc['memberProjectName'],
-          projectName: doc['projectName'],
-          id: doc.id),
+      completedProjects.add(
+        ProjectModel(
+            descriptionProject: doc['descriptionProject'],
+            leaderName: doc['leaderName'],
+            isFav: doc['isFav'],
+            userId: doc['userId'],
+            projectStatus: doc['projectStatus'],
+            memberProjectName: doc['memberProjectName'],
+            projectName: doc['projectName'],
+            id: doc.id),
       );
     }
 
     setState(() {});
   }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -75,20 +79,18 @@ class _CompletedProjectState extends State<CompletedProject> {
             child: ListView.builder(
                 itemCount: completedProjects.length,
                 itemBuilder: (context, index) {
-
-                  return _buildProjectBox( completedProjects[index]);
+                  return _buildProjectBox(completedProjects[index]);
                 }),
           ),
         )
       ],
     );
   }
-  Widget _buildProjectBox(ProjectModel projectModel){
+
+  Widget _buildProjectBox(ProjectModel projectModel) {
     return Container(
-      margin: const EdgeInsets.symmetric(
-          horizontal: 10, vertical: 10),
-      padding: const EdgeInsets.symmetric(
-          horizontal: 10, vertical: 10),
+      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       width: sizeFromWidth(context, 1),
       height: 100,
       decoration: BoxDecoration(
@@ -102,16 +104,13 @@ class _CompletedProjectState extends State<CompletedProject> {
           children: [
             Expanded(
               child: Column(
-                crossAxisAlignment:
-                CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'اسم المشروع:'+
-                       projectModel.projectName!,
+                    'اسم المشروع:' + projectModel.projectName!,
                     maxLines: 2,
                     style: GoogleFonts.cairo(
-
                       textStyle: const TextStyle(
                           overflow: TextOverflow.clip,
                           fontSize: 15,
@@ -121,15 +120,11 @@ class _CompletedProjectState extends State<CompletedProject> {
                     ),
                   ),
                   Text(
-                    'القائد :' +
-                        projectModel.leaderName!,
-
+                    'القائد :' + projectModel.leaderName!,
                     style: hintStyle3,
                   ),
                   Text(
-                    'الاعضاء :' +
-                        projectModel.memberProjectName!,
-
+                    'الاعضاء :' + projectModel.memberProjectName!,
                     style: hintStyle3,
                   ),
                 ],
@@ -165,8 +160,7 @@ class _CompletedProjectState extends State<CompletedProject> {
                 await FirebaseFirestore.instance
                     .collection('project')
                     .doc(projectModel.id)
-                    .update(
-                    {'isFav': projectModel.isFav! });
+                    .update({'isFav': projectModel.isFav!});
                 if (projectModel.isFav == false) {
                   FirebaseFirestore.instance
                       .collection('projectBookmark')
@@ -176,25 +170,25 @@ class _CompletedProjectState extends State<CompletedProject> {
                 setState(() {});
               },
               child: Container(
-
                 height: 40,
                 width: 25,
-                margin: const EdgeInsets.symmetric(vertical: 30,horizontal: 10),
+                margin:
+                    const EdgeInsets.symmetric(vertical: 30, horizontal: 10),
                 child: !projectModel.isFav!
                     ? const ImageIcon(
-                  AssetImage(
-                    'assets/bookmark (1).png',
-                  ),
-                  color: blue,
-                  size: 50,
-                )
+                        AssetImage(
+                          'assets/bookmark (1).png',
+                        ),
+                        color: blue,
+                        size: 50,
+                      )
                     : const ImageIcon(
-                  AssetImage(
-                    'assets/bookmark (2).png',
-                  ),
-                  color: blue,
-                  size: 50,
-                ),
+                        AssetImage(
+                          'assets/bookmark (2).png',
+                        ),
+                        color: blue,
+                        size: 50,
+                      ),
               ),
             ),
           ],

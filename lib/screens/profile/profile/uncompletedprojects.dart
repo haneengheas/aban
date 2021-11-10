@@ -19,17 +19,20 @@ class UnCompletedProject extends StatefulWidget {
 class _UnCompletedProjectState extends State<UnCompletedProject> {
   List<ProjectModel> unCompletedProjects = <ProjectModel>[];
 
-
   @override
   void initState() {
     getUnCompletedProjects();
 
-
     super.initState();
   }
+
   getUnCompletedProjects() async {
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('project')
+        .where(
+          'userId',
+          isEqualTo: FirebaseAuth.instance.currentUser!.uid,
+        )
         .where('projectStatus', isEqualTo: 'غير مكتملة')
         .get();
 
@@ -65,20 +68,18 @@ class _UnCompletedProjectState extends State<UnCompletedProject> {
             child: ListView.builder(
                 itemCount: unCompletedProjects.length,
                 itemBuilder: (context, index) {
-
-                  return _buildProjectBox( unCompletedProjects[index]);
+                  return _buildProjectBox(unCompletedProjects[index]);
                 }),
           ),
         )
       ],
     );
   }
-  Widget _buildProjectBox (ProjectModel project){
-     return Container(
-      margin: const EdgeInsets.symmetric(
-          horizontal: 10, vertical: 10),
-      padding: const EdgeInsets.symmetric(
-          horizontal: 10, vertical: 10),
+
+  Widget _buildProjectBox(ProjectModel project) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       width: sizeFromWidth(context, 1),
       height: 100,
       decoration: BoxDecoration(
@@ -88,30 +89,23 @@ class _UnCompletedProjectState extends State<UnCompletedProject> {
       child: Directionality(
         textDirection: TextDirection.rtl,
         child: Row(
-          mainAxisAlignment:
-          MainAxisAlignment.spaceAround,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             Expanded(
               child: Column(
-                crossAxisAlignment:
-                CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'اسم المشروع:'+
-                        project.projectName!,
+                    'اسم المشروع:' + project.projectName!,
                     style: labelStyle3,
                   ),
                   Text(
-                    'القائد :' +
-                        project.leaderName!,
-
+                    'القائد :' + project.leaderName!,
                     style: hintStyle3,
                   ),
                   Text(
-                    'الاعضاء :' +
-                        project.memberProjectName!,
-
+                    'الاعضاء :' + project.memberProjectName!,
                     style: hintStyle3,
                   ),
                 ],
@@ -147,8 +141,7 @@ class _UnCompletedProjectState extends State<UnCompletedProject> {
                 await FirebaseFirestore.instance
                     .collection('project')
                     .doc(project.id)
-                    .update(
-                    {'isFav': project.isFav! });
+                    .update({'isFav': project.isFav!});
                 if (project.isFav == false) {
                   FirebaseFirestore.instance
                       .collection('projectBookmark')
@@ -158,25 +151,25 @@ class _UnCompletedProjectState extends State<UnCompletedProject> {
                 setState(() {});
               },
               child: Container(
-
                 height: 40,
                 width: 25,
-                margin: const EdgeInsets.symmetric(vertical: 30,horizontal: 10),
+                margin:
+                    const EdgeInsets.symmetric(vertical: 30, horizontal: 10),
                 child: !project.isFav!
                     ? const ImageIcon(
-                  AssetImage(
-                    'assets/bookmark (1).png',
-                  ),
-                  color: blue,
-                  size: 50,
-                )
+                        AssetImage(
+                          'assets/bookmark (1).png',
+                        ),
+                        color: blue,
+                        size: 50,
+                      )
                     : const ImageIcon(
-                  AssetImage(
-                    'assets/bookmark (2).png',
-                  ),
-                  color: blue,
-                  size: 50,
-                ),
+                        AssetImage(
+                          'assets/bookmark (2).png',
+                        ),
+                        color: blue,
+                        size: 50,
+                      ),
               ),
             ),
           ],

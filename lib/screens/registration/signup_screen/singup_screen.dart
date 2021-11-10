@@ -4,9 +4,7 @@ import 'package:aban/constant/style.dart';
 import 'package:aban/provider/auth_provider.dart';
 import 'package:aban/screens/registration/wellcome_screen/view.dart';
 import 'package:aban/widgets/buttons/submit_button.dart';
-
 import 'package:aban/widgets/textfield_registation.dart';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -30,164 +28,164 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return Scaffold(
       backgroundColor: white,
       body: Directionality(
-        textDirection: TextDirection.rtl,
-        child:
-        Form(
-        key: _formKey,
-        child: ListView(
-          children: [
-                    TextFieldRegistation(
-                        hintText: 'اسمك',
-                        labelText: "الاسم",
-                        scure: false,
-                        onChanged: (val) {
-                          name = val;
-                        },
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'برجاءادخال الاسم';
-                          } else if (value.length < 2) {
-                            return 'برجاء كتابه الاسم بشكل صحيح';
-                          }
-                        }),
-                    TextFieldRegistation(
-                        hintText: "Reasearsh@ksuedu.sa",
-                        labelText: 'بريدك الجامعي',
-                        scure: false,
-                        onChanged: (val) {
-                          email = val;
-                        },
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'برجاء كتابه البريد الالكتروني بشكل صحيح';
-                          } else if (value.length < 5) {
-                            return 'برجاء كتابه البريد الالكتروني بشكل صحيح';
-                          }
-                        }),
-                    TextFieldRegistation(
-                        hintText: "*****",
-                        labelText: "كلمة المرور",
-                        scure: true,
-                        onChanged: (val) {
-                          password = val;
-                        },
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'برجاء كتابه كلمة المرور بشكل صحيح';
-                          } else if (value.length < 5) {
-                            return 'برجاء كتابه كلمة المرور بشكل صحيح';
-                          }
-                        }),
-                    TextFieldRegistation(
-                        hintText: "*****",
-                        labelText: "تاكيد كلمة المرور",
-                        scure: true,
-                        onChanged: (val) {
-                          password1 = val;
-                        },
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            print(value);
-                            print('==============================');
-                            return 'برجاء كتابه كلمة المرور بشكل صحيح';
-                          } else if (value != password) {
-                            print(value);
-                            print('================sss==============');
-                            return 'كلمة المرور غير متطابق';
-                          }
-                        }),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 30, top: 10),
-                      child: Text(
-                        'انا...',
-                        style: labelStyle,
-                      ),
+          textDirection: TextDirection.rtl,
+          child: Form(
+              key: _formKey,
+              child: ListView(
+                children: [
+                  TextFieldRegistation(
+                      hintText: 'اسمك',
+                      labelText: "الاسم",
+                      scure: false,
+                      onChanged: (val) {
+                        name = val;
+                      },
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'برجاءادخال الاسم';
+                        } else if (value.length < 2) {
+                          return 'يجب ان يتكون الاسم علي الاقل من ثلاثة احرف';
+                        }
+                      }),
+                  TextFieldRegistation(
+                      hintText: "Reasearsh@ksuedu.sa",
+                      labelText: 'بريدك الجامعي',
+                      scure: false,
+                      onChanged: (val) {
+                        email = val;
+                      },
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'الرجاء كتابه البريد الالكتروني ';
+                        } else if (value.length < 5) {
+                          return 'الرجاء كتابه البريد الالكتروني بشكل صحيح';
+                        } else if (!value.toString().contains('@')) {
+                          return ' @ يجب ان يحتوي البريد الالكتروني علي  ';
+                        }
+                      }),
+                  TextFieldRegistation(
+                      hintText: "*****",
+                      labelText: "كلمة المرور",
+                      scure: false,
+                      onChanged: (val) {
+                        password = val;
+                      },
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'الرجاء ادخال كلمة المرور ';
+                        } else if (value.length < 5) {
+                          return 'يجب ان تتكون كلمة المرور علي الاقل من ستة حروف وارقام';
+                        }
+                      }),
+                  TextFieldRegistation(
+                      hintText: "*****",
+                      labelText: "تاكيد كلمة المرور",
+                      scure: false,
+                      onChanged: (val) {
+                        password1 = val;
+                      },
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          print(value);
+                          print('==============================');
+                          return 'الرجاء كتابه كلمة المرور بشكل صحيح';
+                        } else if (value != password) {
+                          print(value);
+                          print('================sss==============');
+                          return 'كلمة المرور غير متطابقة';
+                        } else if (value.length <= 5) {
+                          return 'يجب ان تتكون كلمة المرور علي الاقل من ستة حروف وارقام';
+                        }
+                      }),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 30, top: 10),
+                    child: Text(
+                      'انا...',
+                      style: labelStyle,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 5),
-                      child: Row(
-                        children: [
-                          Consumer<AuthProvider>(
-                              builder: (context, object, child) {
-                                return Radio(
-                                    value: 0,
-                                    groupValue: object.usertype,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        object.usertype = value;
-
-                                      });
-                                    });
-                              }),
-                          Text(
-                            'عضو هيئة تدريس',
-                            style: hintStyle,
-                          ),
-                          // SizedBox(
-                          //   width: sizeFromWidth(context, 8),
-                          // ),
-                          Consumer<AuthProvider>(
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 5),
+                    child: Row(
+                      children: [
+                        Consumer<AuthProvider>(
                             builder: (context, object, child) {
-                              return Radio(
-                                  value: 1,
-                                  groupValue: object.usertype,
-                                  onChanged: (value) {
-                                    print(value);
-                                    setState(() {
-                                      object.usertype = value;
-                                    });
+                          return Radio(
+                              value: 0,
+                              groupValue: object.usertype,
+                              onChanged: (value) {
+                                setState(() {
+                                  object.usertype = value;
+                                });
+                              });
+                        }),
+                        Text(
+                          'عضو هيئة تدريس',
+                          style: hintStyle,
+                        ),
+                        // SizedBox(
+                        //   width: sizeFromWidth(context, 8),
+                        // ),
+                        Consumer<AuthProvider>(
+                          builder: (context, object, child) {
+                            return Radio(
+                                value: 1,
+                                groupValue: object.usertype,
+                                onChanged: (value) {
+                                  print(value);
+                                  setState(() {
+                                    object.usertype = value;
                                   });
-                            },
-                          ),
-                          Text(
-                            'طالب دراسات عليا',
-                            style: hintStyle,
-                          ),
-                        ],
-                      ),
+                                });
+                          },
+                        ),
+                        Text(
+                          'طالب دراسات عليا',
+                          style: hintStyle,
+                        ),
+                      ],
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: SubmitButton(
-                          gradient: blueGradient,
-                          text: 'متابعة',
-                          onTap: () {
-                            if (_formKey.currentState!.validate()) {
-                              _formKey.currentState!.save();
-                              String userType =
-                              Provider
-                                  .of<AuthProvider>(context, listen: false)
-                                  .usertype ==
-                                  0
-                                  ? 'member'
-                                  : 'student';
-                              print(userType);
-                              provider.singup(email, password, name, userType);
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (
-                                          context) => const WellcomeScreen()));
-                            } else {
-                              (e) {
-                                print(e);
-                              };
-                            }
-                          }),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: SubmitButton(
+                        gradient: blueGradient,
+                        text: 'متابعة',
+                        onTap: () async{
+                          if (_formKey.currentState!.validate()) {
+                            _formKey.currentState!.save();
+                            String userType = Provider.of<AuthProvider>(context,
+                                            listen: false)
+                                        .usertype ==
+                                    0
+                                ? 'member'
+                                : 'student';
+                            print(userType);
+                            provider.singup(
+                                email, password, name, userType, context);
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                    const WellcomeScreen()));
+                          } else {
+                            (e) {
+                              print(e);
+                            };
+                          }
+                        }),
+                  ),
+                  const Center(
+                    child: Text(
+                      'خطوة 1 من 2',
+                      style: TextStyle(
+                          fontSize: 18,
+                          color: blue,
+                          fontWeight: FontWeight.bold),
                     ),
-                    const Center(
-                      child: Text(
-                        'خطوة 1 من 2',
-                        style: TextStyle(
-                            fontSize: 18,
-                            color: blue,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    )
-                  ],
-                ))
-
-      ),
+                  )
+                ],
+              ))),
     );
   }
 }
