@@ -23,7 +23,7 @@ class ProfileProvider with ChangeNotifier {
   var accept;
   String? degree;
 
-  String? seminaraddress, location, description, seminarlink,from , to;
+  late String seminaraddress, location, description, seminarlink,from , to;
   int? type;
   DateTime? selectedDay;
   DateTime? focusedDay;
@@ -278,7 +278,7 @@ class ProfileProvider with ChangeNotifier {
     required String seminarlink,
     required String from,
     required String? to,
-    required String? type,
+    required int? type,
     required String? selectedDay,
   }) async {
     showLoading(context);

@@ -300,15 +300,15 @@ class _AddSeminarState extends State<AddSeminar> {
                           print(_selectedDay);
                           if (formKey.currentState!.validate()) {
                             formKey.currentState!.save();
-                            // await prov.addSeminar(context: context,
-                            //     seminaraddress: prov.seminaraddress,
-                            //     location: prov.location,
-                            //     description: prov.description,
-                            //     seminarlink: prov.seminarlink,
-                            //     from: prov.from,
-                            //     to: prov.to,
-                            //     type: prov.type,
-                            //     selectedDay: prov.selectedDay);
+                            await prov.addSeminar(context: context,
+                                seminaraddress: prov.seminaraddress,
+                                location: prov.location,
+                                description: prov.description,
+                                seminarlink: prov.seminarlink,
+                                from: prov.from,
+                                to: prov.to,
+                                type: prov.type,
+                                selectedDay: prov.selectedDay as String);
                           }
 
 
