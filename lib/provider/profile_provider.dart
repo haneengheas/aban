@@ -146,56 +146,56 @@ class ProfileProvider with ChangeNotifier {
   }
 
 // methods to create graduated profile  in fire base
-  createGraduatedProfile({
-    required BuildContext context,
-    required String name,
-    required String faculty,
-    required String phone,
-    required String id,
-    required String department,
-    required String degree,
-    required String link,
-    required var accept,
-    required List<String> fields,
-    required File file,
-  }) async {
-    // if (file == null)
-    //   return AwesomeDialog(
-    //       context: context,
-    //       title: "هام",
-    //       body: Text("please choose Image"),
-    //       dialogType: DialogType.ERROR)
-    //     ..show();
-
-    await ref.putFile(file);
-    var imageUrl = await ref.getDownloadURL();
-    await FirebaseFirestore.instance
-        .collection('member')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .set({
-      'faculty': faculty,
-      'phone': phone,
-      'name': name,
-      'imageUrl': imageUrl,
-      'id': id,
-      'degree': degree,
-      'link': link,
-      'accept': accept,
-      'fields': fields,
-      'userId': FirebaseAuth.instance.currentUser!.uid,
-      'department': department,
-    });
-    showLoading(context);
-    Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-            builder: (context) => NavigationFile(
-              d: studentDrawer(context),
-              title: '$name مرحبا  ً',
-              counter: 1,
-            )));
-    notifyListeners();
-  }
+//   createGraduatedProfile({
+//     required BuildContext context,
+//     required String name,
+//     required String faculty,
+//     required String phone,
+//     required String id,
+//     required String department,
+//     required String degree,
+//     required String link,
+//     required var accept,
+//     required List<String> fields,
+//     required File file,
+//   }) async {
+//     // if (file == null)
+//     //   return AwesomeDialog(
+//     //       context: context,
+//     //       title: "هام",
+//     //       body: Text("please choose Image"),
+//     //       dialogType: DialogType.ERROR)
+//     //     ..show();
+//
+//     await ref.putFile(file);
+//     var imageUrl = await ref.getDownloadURL();
+//     await FirebaseFirestore.instance
+//         .collection('member')
+//         .doc(FirebaseAuth.instance.currentUser!.uid)
+//         .set({
+//       'faculty': faculty,
+//       'phone': phone,
+//       'name': name,
+//       'imageUrl': imageUrl,
+//       'id': id,
+//       'degree': degree,
+//       'link': link,
+//       'accept': accept,
+//       'fields': fields,
+//       'userId': FirebaseAuth.instance.currentUser!.uid,
+//       'department': department,
+//     });
+//     showLoading(context);
+//     Navigator.pushReplacement(
+//         context,
+//         MaterialPageRoute(
+//             builder: (context) => NavigationFile(
+//               d: studentDrawer(context),
+//               title: '$name مرحبا  ً',
+//               counter: 1,
+//             )));
+//     notifyListeners();
+//   }
 
   // methods to add theses for member in fire base
   addGraduatedTheses({

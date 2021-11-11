@@ -2,6 +2,7 @@ import 'package:aban/constant/style.dart';
 import 'package:aban/provider/auth_provider.dart';
 import 'package:aban/provider/profile_provider.dart';
 import 'package:aban/screens/profile/facultymember/overview_profile/view.dart';
+import 'package:aban/screens/profile/graduatedmember/overview_profile/view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +35,7 @@ class _SearchItemState extends State<SearchItem> {
     return Scaffold(
       body: StreamBuilder(
           stream: FirebaseFirestore.instance.collection('member').where(
-              'department', isEqualTo: widget.title.toString()).snapshots(),
+              'department', isEqualTo: widget.title).snapshots(),
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
@@ -50,13 +51,15 @@ class _SearchItemState extends State<SearchItem> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) {
-                                  if(prov.usertype=='member'){
-                                    MemberProfile(
-                                      userid: snapshot.data!.docs[index].id,
+
+                                  return  MemberProfile(
+                                      userid: snapshot.data!
+                                          .docs[index]['userId'],
+
                                       name: snapshot.data!.docs[index]['name'],
                                       degree: snapshot.data!
                                           .docs[index]['degree'],
-                                      email: snapshot.data!.docs[index]['name'],
+                                      email: snapshot.data!.docs[index]['email'],
                                       image: snapshot.data!
                                           .docs[index]['imageUrl'],
                                       phone: snapshot.data!
@@ -67,9 +70,8 @@ class _SearchItemState extends State<SearchItem> {
                                       accept: snapshot.data!
                                           .docs[index]['accept'],
                                     );
-                                  }
-                                  else if (prov.usertype == 'student'){}
-                                  return Text('');
+
+
                                 }
 
                                   ));

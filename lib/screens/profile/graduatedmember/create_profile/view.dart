@@ -419,7 +419,7 @@ class _CreateGraduatedProfileState extends State<CreateGraduatedProfile> {
 
                         print('Str list is => $fieldsStr');
 
-                        await prov.createGraduatedProfile(
+                        await prov.createMemberProfile(
                             context: context,
                             name: prov.name,
                             faculty: college,
@@ -429,8 +429,9 @@ class _CreateGraduatedProfileState extends State<CreateGraduatedProfile> {
                             degree: prov.degree!,
                             fields: fieldsStr,
                             link: prov.link,
-                            accept: prov.accept,
-                            file: prov.file!);
+                            accept: 2,
+                            file: prov.file!,
+                            email: prov.email);
                         print(name);
 
                         // Navigator.pushReplacement(

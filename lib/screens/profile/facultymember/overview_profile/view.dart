@@ -11,42 +11,50 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class MemberProfile extends StatefulWidget {
-  String name, image, faculty, email, phone, degree, id,userid;
+  String name, image, faculty, email, phone, degree, id, userid;
   int accept;
 
-  MemberProfile({Key? key,required this.userid,required this.accept, required this.name,required this.image,required this.faculty,required this.email,required this.degree,required this.id,required this.phone}) : super(key: key);
+  MemberProfile(
+      {Key? key,
+      required this.userid,
+      required this.accept,
+      required this.name,
+      required this.image,
+      required this.faculty,
+      required this.email,
+      required this.degree,
+      required this.id,
+      required this.phone})
+      : super(key: key);
 
   @override
   _MemberProfileState createState() => _MemberProfileState();
 }
 
 class _MemberProfileState extends State<MemberProfile> {
-  
-  
   String userId = '';
-  
+
   @override
   void initState() {
     super.initState();
     getUserData();
   }
-  
-  getUserData()async{
-    QuerySnapshot snapshot =await FirebaseFirestore.instance.collection('member').where('name',isEqualTo: widget.name).get();
 
-    for(var doc in snapshot.docs)
-      {
-        userId = doc['userId'];
-      }
+  getUserData() async {
+    QuerySnapshot snapshot = await FirebaseFirestore.instance
+        .collection('member')
+        .where('name', isEqualTo: widget.name)
+        .get();
 
-    print('user type is '+ userId);
+    for (var doc in snapshot.docs) {
+      userId = doc['userId'];
+    }
 
+    print('user type is ' + userId);
 
-    setState(() {
-
-    });
+    setState(() {});
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -55,7 +63,7 @@ class _MemberProfileState extends State<MemberProfile> {
           backgroundColor: white,
           appBar: AppBar(
               backgroundColor: white,
-              title: Text('أسم الباحث',
+              title: Text(widget.name,
                   style: GoogleFonts.cairo(
                     textStyle: const TextStyle(
                         color: blue, fontWeight: FontWeight.bold, fontSize: 28),
@@ -66,7 +74,7 @@ class _MemberProfileState extends State<MemberProfile> {
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                icon:const Icon(
+                icon: const Icon(
                   Icons.arrow_back,
                   color: blue,
                 ),
@@ -82,7 +90,7 @@ class _MemberProfileState extends State<MemberProfile> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        margin:const EdgeInsets.symmetric(horizontal: 15),
+                        margin: const EdgeInsets.symmetric(horizontal: 15),
                         child: Row(
                           children: [
                             TextButton.icon(
@@ -90,9 +98,10 @@ class _MemberProfileState extends State<MemberProfile> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) =>const ChatScreen()));
+                                        builder: (context) =>
+                                            const ChatScreen()));
                               },
-                              icon:const Icon(
+                              icon: const Icon(
                                 Icons.chat_rounded,
                                 color: blue,
                                 size: 20,
@@ -105,24 +114,26 @@ class _MemberProfileState extends State<MemberProfile> {
                             const SizedBox(
                               width: 10,
                             ),
-                            widget.accept == 0 ? TextButton.icon(
-                              onPressed: () {
-                                 Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                        const SupervisionScreen()));
-                              },
-                              icon:const Icon(
-                              Icons.cast_for_education,
-                              color: blue,
-                              size: 20,
-                            ),
-                              label: Text(
-                                "طلب اشراف",
-                                style: hintStyle,
-                              ),
-                            ):const Text(''),
+                            widget.accept == 0
+                                ? TextButton.icon(
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const SupervisionScreen()));
+                                    },
+                                    icon: const Icon(
+                                      Icons.cast_for_education,
+                                      color: blue,
+                                      size: 20,
+                                    ),
+                                    label: Text(
+                                      "طلب اشراف",
+                                      style: hintStyle,
+                                    ),
+                                  )
+                                : const Text(''),
                           ],
                         ),
                       ),
@@ -147,10 +158,9 @@ class _MemberProfileState extends State<MemberProfile> {
                                   )),
                               height: 60,
                               width: 60,
-                              margin: const EdgeInsets.symmetric(
-                                  horizontal: 10),
+                              margin:
+                                  const EdgeInsets.symmetric(horizontal: 10),
                             ),
-
                             const SizedBox(
                               width: 20,
                             ),
@@ -158,23 +168,19 @@ class _MemberProfileState extends State<MemberProfile> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                 widget.name,
+                                  widget.name,
                                   style: labelStyle2,
                                 ),
-                                Row(
-                                  children: [
-                                    Text(
-                                      widget.faculty,
-                                      style: hintStyle,
-                                    ),
-                                    SizedBox(
-                                      width: sizeFromWidth(context, 8),
-                                    ),
-                                    Text(
-                                      widget.email,
-                                      style: hintStyle3,
-                                    ),
-                                  ],
+                                Text(
+                                  widget.faculty,
+                                  style: hintStyle,
+                                ),
+                                SizedBox(
+                                  width: sizeFromWidth(context, 8),
+                                ),
+                                Text(
+                                  widget.email,
+                                  style: hintStyle3,
                                 ),
                                 Row(
                                   children: [
@@ -201,23 +207,25 @@ class _MemberProfileState extends State<MemberProfile> {
                       const SizedBox(
                         height: 10,
                       ),
-                      Row(
-                        children: [
-                           widget.accept == 0
-                              ? const Icon(
-                            Icons.check,
-                            color: Colors.green,
-                          )
-                              : const Icon(
-                            Icons.close,
-                            color: Colors.red,
-                          ),
-                          Text(
-                            "أقبل الاشراف على الاطروحات ",
-                            style: hintStyle,
-                          ),
-                        ],
-                      ),
+                      widget.accept != 2
+                          ? Row(
+                              children: [
+                                widget.accept == 0
+                                    ? const Icon(
+                                        Icons.check,
+                                        color: Colors.green,
+                                      )
+                                    : const Icon(
+                                        Icons.close,
+                                        color: Colors.red,
+                                      ),
+                                Text(
+                                  "أقبل الاشراف على الاطروحات ",
+                                  style: hintStyle,
+                                ),
+                              ],
+                            )
+                          : const Text(''),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 15),
                         child: Text("الذهاب الى ابحاثى", style: hintStyle),
@@ -260,11 +268,13 @@ class _MemberProfileState extends State<MemberProfile> {
                               color: gray,
                               thickness: .5,
                             ),
-                             Expanded(
+                            Expanded(
                               child: SizedBox(
                                 child: TabBarView(
                                   children: [
-                                      FieldListresersh(userId: userId,),
+                                    FieldListresersh(
+                                      userId: userId,
+                                    ),
                                     CompeletedThesesresersh(
                                       text: 'اطروحة مكتملة تحت اشرافي',
                                       userId: userId,
@@ -273,13 +283,13 @@ class _MemberProfileState extends State<MemberProfile> {
                                       text: 'اطروحة جارية تحت اشرافي',
                                       userId: userId,
                                     ),
-                                     CompletedProjectResersh(
+                                    CompletedProjectResersh(
                                       text: 'اطروحة جارية تحت اشرافي',
-                                       userId: userId,
+                                      userId: userId,
                                     ),
-                                     UnCompletedProjectresersh(
+                                    UnCompletedProjectresersh(
                                       text: 'اطروحة جارية تحت اشرافي',
-                                       userId: userId,
+                                      userId: userId,
                                     ),
                                   ],
                                 ),

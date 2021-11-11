@@ -2,13 +2,17 @@ import 'dart:io';
 
 import 'package:aban/constant/style.dart';
 import 'package:aban/screens/chat/mesage_item.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 
-
 class ChatRoom extends StatefulWidget {
-  const ChatRoom({Key? key}) : super(key: key);
+  final String image, name;
+  final String userId;
+
+  ChatRoom({required this.image, required this.name, required this.userId});
 
   @override
   State<ChatRoom> createState() => _ChatRoomState();
@@ -30,81 +34,79 @@ class _ChatRoomState extends State<ChatRoom> {
       ..text = _controller.text.characters.skipLast(1).toString()
       ..selection = TextSelection.fromPosition(
           TextPosition(offset: _controller.text.length));
-  }  @override
+  }
+
+  String id = FirebaseAuth.instance.currentUser!.uid;
+
+  String? message;
+
+  late MessageItem  messageWidget;
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: clearblue,
         appBar: AppBar(
-          backgroundColor: white,
-          title: Text('أسم الباحث',
-              style: GoogleFonts.cairo(
-                textStyle: const TextStyle(
-                    color: blue, fontWeight: FontWeight.bold, fontSize: 28),
-              )),
-          centerTitle: true,
-          elevation: 0,
-          leading: IconButton(onPressed: (){
-            Navigator.pop(context);
-          }, icon: const Icon(
-            Icons.arrow_back,
-            color: blue,
-          ),)
-        ),
-        body: Column(
-          children: [
-            Expanded(
-              child: Container(
-                height: MediaQuery.of(context).size.height / 1.2,
-                margin:const EdgeInsets.symmetric(horizontal: 10),
-                padding:const  EdgeInsets.symmetric(vertical: 10),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(25),
-                  color: lightgray,
-                ),
-                child: ListView(
-                  children: const [
-                    MessageItem(
-                        text:
-                            "ويجري حاليا نجم ليفربول محادثات بشأن\n تجديد عقده مع ناديه، حيث من\n المقرر أن ينتهي بنهاية يونيو 2023",
-                        date: "adssad",
-                        isMe: true),
-                    MessageItem(
-                        text:
-                            "ويجري حاليا نجم ليفربول محادثات \nبشأن تجديد عقده مع ناديه، حيث من\n المقرر أن ينتهي بنهاية يونيو 2023",
-                        date: "adssad",
-                        isMe: false),
-                    MessageItem(
-                        text:
-                            "ويجري حاليا نجم ليفربول محادثات بشأن\n تجديد عقده مع ناديه، حيث من\n المقرر أن ينتهي بنهاية يونيو 2023",
-                        date: "adssad",
-                        isMe: true),
-                    MessageItem(
-                        text:
-                            "ويجري حاليا نجم ليفربول محادثات \nبشأن تجديد عقده مع ناديه، حيث من\n المقرر أن ينتهي بنهاية يونيو 2023",
-                        date: "adssad",
-                        isMe: false),
-                    MessageItem(
-                        text:
-                        "ويجري حاليا نجم ليفربول محادثات بشأن\n تجديد عقده مع ناديه، حيث من\n المقرر أن ينتهي بنهاية يونيو 2023",
-                        date: "adssad",
-                        isMe: true),
-                    MessageItem(
-                        text:
-                        "ويجري حاليا نجم ليفربول محادثات بشأن\n تجديد عقده مع ناديه، حيث من\n المقرر أن ينتهي بنهاية يونيو 2023",
-                        date: "adssad",
-                        isMe: false),
-                    MessageItem(
-                        text:
-                        "ويجري حاليا نجم ليفربول محادثات بشأن\n تجديد عقده مع ناديه، حيث من\n المقرر أن ينتهي بنهاية يونيو 2023",
-                        date: "adssad",
-                        isMe: true),
-                  ],
-                ),
+            backgroundColor: white,
+            title: Text(widget.name,
+                style: GoogleFonts.cairo(
+                  textStyle: const TextStyle(
+                      color: blue, fontWeight: FontWeight.bold, fontSize: 28),
+                )),
+            centerTitle: true,
+            elevation: 0,
+            leading: IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+                print(id);
+              },
+              icon: const Icon(
+                Icons.arrow_back,
+                color: blue,
               ),
-            ),
+            )),
+        body: Column(
+          children: <Widget>[
+            StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance
+                    .collection('message')
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+
+                  final messages = snapshot.data!.docs;
+                  List<MessageItem> messageWidgets = [];
+                  for (var message in messages) {
+                    String messageText = message["Text"];
+
+                    if (widget.userId == id) {
+                       messageWidget = MessageItem(
+                        text: messageText,
+                        isMe: false,
+                        image: widget.image,
+                      );
+                    } else {
+                       messageWidget = MessageItem(
+                          text: messageText, isMe: true, image: widget.image );
+
+                    }
+
+                   messageWidgets.add(messageWidget);
+                  }
+                  return Expanded(
+                      child: ListView(
+                    // reverse: true,
+                    padding: const EdgeInsets.all(20),
+                    children: messageWidgets,
+                  ));
+                  // return const Text('');
+                }),
             Container(
               height: 70,
-              margin:const EdgeInsets.symmetric(horizontal: 15),
+              margin: const EdgeInsets.symmetric(horizontal: 15),
               decoration: BoxDecoration(
                   color: white, borderRadius: BorderRadius.circular(15)),
               child: Directionality(
@@ -117,9 +119,19 @@ class _ChatRoomState extends State<ChatRoom> {
                         Icons.send,
                         color: blue,
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        _controller.clear();
+                        FirebaseFirestore.instance.collection('message').add(
+                          {
+                            "Text": message,
+                            "image": widget.image,
+                            'userId': widget.userId
+                          },
+                        );
+                        //   print(widget.userId);
+                      },
                     ),
-                    prefixIcon:  Material(
+                    prefixIcon: Material(
                       color: Colors.transparent,
                       child: IconButton(
                         onPressed: () {
@@ -129,7 +141,7 @@ class _ChatRoomState extends State<ChatRoom> {
                         },
                         icon: const Icon(
                           Icons.emoji_emotions,
-                          color:blue,
+                          color: blue,
                         ),
                       ),
                     ),
@@ -141,9 +153,10 @@ class _ChatRoomState extends State<ChatRoom> {
                         borderRadius: BorderRadius.circular(10),
                         borderSide: const BorderSide(color: lightGray)),
                   ),
-
+                  onChanged: (value) {
+                    message = value;
+                  },
                 ),
-
               ),
             ),
             Offstage(

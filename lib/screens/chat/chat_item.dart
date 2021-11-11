@@ -12,7 +12,7 @@ class ChatItem extends StatelessWidget {
       textDirection: TextDirection.rtl,
       child: GestureDetector(
         onTap: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context)=>const ChatRoom()));
+          // Navigator.push(context, MaterialPageRoute(builder: (context)=> const ChatRoom(image:'x', userId: '',  )));
         },
         child: Container(
           decoration: BoxDecoration(
