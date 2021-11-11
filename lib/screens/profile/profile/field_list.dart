@@ -37,11 +37,8 @@ class _FieldListState extends State<FieldList> {
     var prov = Provider.of<AuthProvider>(context);
 
     return StreamBuilder<QuerySnapshot>(
-        stream:  prov.usertype == 'member'?FirebaseFirestore.instance
+        stream:  FirebaseFirestore.instance
             .collection("member")
-            .where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
-            .snapshots():FirebaseFirestore.instance
-            .collection("graduated")
             .where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
             .snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {

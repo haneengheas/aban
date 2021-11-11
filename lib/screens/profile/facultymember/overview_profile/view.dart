@@ -122,7 +122,7 @@ class _MemberProfileState extends State<MemberProfile> {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  const SupervisionScreen()));
+                                                   SupervisionScreen(userid: this.userId)));
                                     },
                                     icon: const Icon(
                                       Icons.cast_for_education,
