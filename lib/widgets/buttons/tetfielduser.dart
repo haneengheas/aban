@@ -3,19 +3,25 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class TextFieldUser extends StatefulWidget {
-  final String hintText;
+  final String? hintText;
+
   final String labelText;
+  final String? txt;
   final bool scure;
   final Function(String) onChanged;
-  final FormFieldValidator   validator;
-  final TextEditingController?   controller;
+  final FormFieldValidator validator;
+  final TextEditingController? controller;
 
   // ignore: use_key_in_widget_constructors
   const TextFieldUser(
-      {required this.hintText,
-      required this.labelText, this.controller,
+      {this.hintText,
+      required this.labelText,
+      this.controller,
       required this.scure,
-      required this.onChanged, required this.validator});
+      required this.onChanged,
+      required this.validator,
+      initialValue,
+      this.txt});
 
   @override
   _TextFieldUserState createState() => _TextFieldUserState();
@@ -31,8 +37,9 @@ class _TextFieldUserState extends State<TextFieldUser> {
       child: Directionality(
         textDirection: TextDirection.rtl,
         child: TextFormField(
+          initialValue: widget.txt,
           onChanged: widget.onChanged,
-        validator:  widget.validator,
+          validator: widget.validator,
           controller: widget.controller,
           obscureText: widget.scure,
           decoration: InputDecoration(

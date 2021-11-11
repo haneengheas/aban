@@ -103,6 +103,7 @@ class _UnCompletedThesesState extends State<UnCompletedTheses> {
                       'thesesStatus': theses.thesesStatus,
                       'userId': FirebaseAuth.instance.currentUser!.uid,
                       'isFav':theses.isFav! ? false : true
+
                     });
 
                     theses.isFav = !theses.isFav!;

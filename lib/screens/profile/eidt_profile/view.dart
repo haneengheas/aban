@@ -52,7 +52,6 @@ class _EditProfileState extends State<EditProfile> {
   List<String> selectedDepartment = <String>[];
 
   void getData() async {
-    var provider = Provider.of<AuthProvider>(context);
     DocumentSnapshot documentSnapshot2 = await FirebaseFirestore.instance
         .collection("member")
         .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -143,11 +142,12 @@ class _EditProfileState extends State<EditProfile> {
                       SizedBox(
                         width: sizeFromWidth(context, 1.5),
                         child: TextFieldUser(
-                          onChanged: (val) {},
-                          controller: name,
+
                           labelText: "اسم الباحث",
                           hintText: "أسمك",
                           scure: false,
+                          onChanged: (val) {},
+                          controller: name,
                           validator: (value) {
                             if (value.isEmpty) {
                               return 'يجب ادخال اسم الباحث';
