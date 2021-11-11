@@ -5,8 +5,14 @@ import 'package:flutter/material.dart';
 
 class TimeTextField extends StatefulWidget {
   final String text;
+  final Function(String) onChanged;
+  final FormFieldValidator   validator;
+  final TextEditingController?   controller;
   const TimeTextField({
     required this.text,
+    required this.onChanged,
+    this.controller,
+    required this.validator
   });
 
   @override
@@ -24,6 +30,10 @@ class _SearchTextFieldState extends State<TimeTextField> {
         //padding: EdgeInsets.symmetric(horizontal:10),
         margin:const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
         child: TextFormField(
+
+          onChanged: widget.onChanged,
+          validator:  widget.validator,
+          controller: widget.controller,
           decoration: InputDecoration(
             hintText: widget.text,
             hintStyle: hintStyle,

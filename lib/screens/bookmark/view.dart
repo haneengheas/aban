@@ -1,7 +1,6 @@
 import 'package:aban/constant/style.dart';
 import 'package:aban/screens/bookmark/project.dart';
 import 'package:aban/screens/bookmark/theses.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -95,6 +94,7 @@ class _BookmarkScreenState extends State<BookmarkScreen> {
                                       )
                                     ],
                                   ),
+
                                   Text(
                                     '8:00-8:30pm',
                                     style: hintStyle3,

@@ -3,7 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class TextFieldUser extends StatefulWidget {
-  final String hintText;
+  final String? hintText;
+
   final String labelText;
   final bool scure;
   final Function(String) onChanged;
@@ -11,11 +12,15 @@ class TextFieldUser extends StatefulWidget {
   final TextEditingController?   controller;
 
   // ignore: use_key_in_widget_constructors
-  const TextFieldUser(
-      {required this.hintText,
-      required this.labelText, this.controller,
+   const TextFieldUser(
+
+      { required this.hintText,
+
+      required this.labelText,
+        this.controller,
       required this.scure,
-      required this.onChanged, required this.validator});
+      required this.onChanged,
+        required this.validator, initialValue});
 
   @override
   _TextFieldUserState createState() => _TextFieldUserState();
@@ -31,6 +36,7 @@ class _TextFieldUserState extends State<TextFieldUser> {
       child: Directionality(
         textDirection: TextDirection.rtl,
         child: TextFormField(
+
           onChanged: widget.onChanged,
         validator:  widget.validator,
           controller: widget.controller,

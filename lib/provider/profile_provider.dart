@@ -7,6 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 class ProfileProvider with ChangeNotifier {
   late String name;
@@ -21,6 +22,13 @@ class ProfileProvider with ChangeNotifier {
   late String link;
   var accept;
   String? degree;
+
+  String? seminaraddress, location, description, seminarlink,from , to;
+  int? type;
+  DateTime? selectedDay;
+  DateTime? focusedDay;
+  CalendarFormat calendarFormat = CalendarFormat.month;
+
 
   List<TextEditingController> fields = <TextEditingController>[];
   late String nameTheses;
@@ -264,21 +272,26 @@ class ProfileProvider with ChangeNotifier {
 
   addSeminar({
     required BuildContext context,
-    required String nameTheses,
-    required String linkTheses,
-    required String assistantSupervisors,
-    required String nameSupervisors,
-    required String degreeTheses,
-    required String? thesesStatus,
+    required String seminaraddress,
+    required String location,
+    required String description,
+    required String seminarlink,
+    required String from,
+    required String? to,
+    required String? type,
+    required String? selectedDay,
   }) async {
     showLoading(context);
-    await FirebaseFirestore.instance.collection('theses').add({
-      'nameTheses': nameTheses,
-      'linkTheses': linkTheses,
-      'assistantSupervisors': assistantSupervisors,
-      'nameSupervisors': nameSupervisors,
-      'degreeTheses': degreeTheses,
-      'thesesStatus': thesesStatus,
+    await FirebaseFirestore.instance.collection('seminar').add({
+      'seminaraddress': seminaraddress,
+      'location': location,
+      'description':description,
+      'link': seminarlink,
+      'selectedDay': selectedDay,
+      //'username': auth.userName,
+      'from': from,
+      'to': to,
+      'type': type,
       'userId': FirebaseAuth.instance.currentUser!.uid,
     });
     Navigator.pop(context);
