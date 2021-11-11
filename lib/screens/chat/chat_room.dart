@@ -37,7 +37,8 @@ class _ChatRoomState extends State<ChatRoom> {
           TextPosition(offset: _controller.text.length));
   }
 
-   String? id = FirebaseAuth.instance.currentUser!.email;
+   String? id = FirebaseAuth.instance.currentUser!.uid;
+   String? email = FirebaseAuth.instance.currentUser!.email;
 
   String? message;
 
@@ -68,10 +69,15 @@ class _ChatRoomState extends State<ChatRoom> {
         body: Column(
           children: <Widget>[
             StreamBuilder<QuerySnapshot>(
+
                 stream: FirebaseFirestore.instance
-                    .collection('message')
+                    .collection('message').where('userId' ,isEqualTo: widget.userId).where(
+                    'userId', isEqualTo: id )
                     .snapshots(),
                 builder: (context, snapshot) {
+                  print(widget.userId);
+                  print('0000000000000000000000000000000000000000000000000000');
+                  print(id);
                   if (!snapshot.hasData) {
                     return const Center(
                       child: CircularProgressIndicator(),
