@@ -57,7 +57,7 @@ class _UnCompletedProjectState extends State<LaterSeminar> {
                             MaterialPageRoute(
                                 builder: (context) =>  SeminarDetails(
                                   description: snapshot.data!.docs[index]['description'],
-                                  seminarname:  snapshot.data!.docs[index]['username'],
+                                  seminarname:  snapshot.data!.docs[index]['seminaraddress'],
                                   location:  snapshot.data!.docs[index]['location'],
                                   type:  snapshot.data!.docs[index]['type'],
                                   username:  snapshot.data!.docs[index]['username'],

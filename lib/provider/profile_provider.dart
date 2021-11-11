@@ -278,10 +278,11 @@ class ProfileProvider with ChangeNotifier {
     required String seminarlink,
     required String from,
     required String? to,
+    required String? name,
     required int? type,
-    required String? selectedDay,
+    required DateTime? selectedDay,
   }) async {
-    showLoading(context);
+    
     await FirebaseFirestore.instance.collection('seminar').add({
       'seminaraddress': seminaraddress,
       'location': location,
@@ -292,8 +293,10 @@ class ProfileProvider with ChangeNotifier {
       'from': from,
       'to': to,
       'type': type,
+      'username' : name,
       'userId': FirebaseAuth.instance.currentUser!.uid,
     });
+    showLoading(context);
     Navigator.pop(context);
     notifyListeners();
   }

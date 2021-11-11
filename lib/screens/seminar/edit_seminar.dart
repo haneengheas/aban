@@ -37,18 +37,18 @@ class _EditSeminarState extends State<EditSeminar> {
   CalendarFormat _calendarFormat = CalendarFormat.month;
 
   void getData() async {
-    DocumentSnapshot documentSnapshot2 = await FirebaseFirestore.instance
-        .collection("seminar")
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .get();
+    // DocumentSnapshot documentSnapshot2 = (await FirebaseFirestore.instance
+    //     .collection("seminar")
+    //     .where('userId',isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+    //     .get());
     // debugPrint('userType is ${documentSnapshot2.get('userId')}');
 
-    name.text = documentSnapshot2.get('seminaraddress');
-    from.text = documentSnapshot2.get('from');
-    to.text = documentSnapshot2.get('to');
-    link.text = documentSnapshot2.get('link');
-    discription.text = documentSnapshot2.get('description');
-    location.text = documentSnapshot2.get('location');
+    // name.text = documentSnapshot2.get('seminaraddress');
+    // from.text = documentSnapshot2.get('from');
+    // to.text = documentSnapshot2.get('to');
+    // link.text = documentSnapshot2.get('link');
+    // discription.text = documentSnapshot2.get('description');
+    // location.text = documentSnapshot2.get('location');
     print(name);
     print(link);
     print("=/=/=/=//==/=//==/=/=//=//=/==/=/=/");
@@ -72,8 +72,10 @@ class _EditSeminarState extends State<EditSeminar> {
     super.initState();
   }
 
+
   @override
   Widget build(BuildContext context) {
+    var prov = Provider.of<ProfileProvider>(context);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: white,
@@ -116,9 +118,9 @@ class _EditSeminarState extends State<EditSeminar> {
                 TextFieldUser(
                     labelText: "العنوان",
                     scure: false,
-                    hintText: "${name}",
+                    hintText: "ادخل العنوان",
                     onChanged: (val) {
-                      name.text = val ;
+                      prov.seminaraddress = val ;
                     },
                     controller: name,
                     validator: (value) {
@@ -187,7 +189,7 @@ class _EditSeminarState extends State<EditSeminar> {
                         ),
                         TimeTextField(
                           onChanged: (val) {
-                            from.text = val ;
+                            prov.from = val ;
                           },
                           controller: from,
                           validator: (value) {
@@ -203,7 +205,7 @@ class _EditSeminarState extends State<EditSeminar> {
                         ),
                         TimeTextField(
                           onChanged: (val) {
-                            to.text = val ;
+                            prov.to= val ;
                           },
                           controller: to,
                           validator: (value) {
@@ -219,8 +221,9 @@ class _EditSeminarState extends State<EditSeminar> {
                 ),
                  TextFieldUser(
                    onChanged: (val){
-                     location.text = val;
+                     prov.location = val;
                    },
+                   controller: location,
                    validator: (value) {
                      if (value.isEmpty) {
                        return 'فضلا أدخل موقع الندوة';
@@ -278,7 +281,7 @@ class _EditSeminarState extends State<EditSeminar> {
                     scure: false,
                     hintText: "وصف الندوة",
                     onChanged: (val) {
-                      discription.text=val;
+                      prov.description=val;
                     },
                     controller: discription,
                     validator: (value) {
@@ -291,7 +294,7 @@ class _EditSeminarState extends State<EditSeminar> {
                     scure: true,
                     hintText: "الرابط",
                     onChanged: (val) {
-                      link.text=val;
+                      prov.seminarlink=val;
                     },
                     controller: link,
                     validator: (value) {

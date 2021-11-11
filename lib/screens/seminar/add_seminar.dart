@@ -6,8 +6,7 @@ import 'package:aban/provider/profile_provider.dart';
 import 'package:aban/widgets/buttons/submit_button.dart';
 import 'package:aban/widgets/buttons/tetfielduser.dart';
 import 'package:aban/widgets/textfieldtime.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -75,7 +74,7 @@ class _AddSeminarState extends State<AddSeminar> {
               color: clearblue,
             ),
             child: Form(
-              key: prov.formkey,
+              key: formKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
@@ -213,10 +212,10 @@ class _AddSeminarState extends State<AddSeminar> {
                           children: [
                             Radio(
                                 value: 1,
-                                groupValue: widget.type,
+                                groupValue:   prov.type,
                                 onChanged: (value) {
                                   setState(() {
-                                   prov.type = value as int?;
+                                   prov.type = value as int? ;
                                   });
                                 }),
                             Text('عامة', style: hintStyle3),
@@ -226,7 +225,7 @@ class _AddSeminarState extends State<AddSeminar> {
                           children: [
                             Radio(
                                 value: 2,
-                                groupValue: widget.type,
+                                groupValue:  prov.type,
                                 onChanged: (value) {
                                   setState(() {
                                     prov.type = value as int?;
@@ -264,7 +263,7 @@ class _AddSeminarState extends State<AddSeminar> {
                       }
                     },
                     onChanged: (val) {
-                      prov.link = val;
+                      prov.seminarlink = val;
                     },
                   ),
                   Directionality(
@@ -295,41 +294,33 @@ class _AddSeminarState extends State<AddSeminar> {
                         gradient: blueGradient,
                         text: "إضافة",
                         onTap: () async {
-                          print(_calendarFormat);
-                          print(_focusedDay);
-                          print(_selectedDay);
+                          print(prov.calendarFormat);
+                          print(prov.focusedDay);
+                          print(prov.selectedDay);
+                          print(prov.seminaraddress);
+                          print(prov.location);
+                          print(prov.type);
+                          print(prov.from);
+                          print(auth.userName);
+
                           if (formKey.currentState!.validate()) {
                             formKey.currentState!.save();
+
                             await prov.addSeminar(context: context,
-                                seminaraddress: prov.seminaraddress,
+                                seminaraddress: prov.seminaraddress,name: auth.userName,
                                 location: prov.location,
                                 description: prov.description,
                                 seminarlink: prov.seminarlink,
                                 from: prov.from,
                                 to: prov.to,
                                 type: prov.type,
-                                selectedDay: prov.selectedDay as String);
+                                selectedDay: prov.selectedDay );
                           }
 
 
                           print('=/=//=/=/////=====/=//=/=/=/');
 
-                          // addSeminar({
-                          //   required BuildContext context,
-                          //   required String seminaraddress,
-                          //   required String location,
-                          //   required int type,
-                          //   required String description,
-                          //   required String link,
-                          // }) async {
-                          //   showLoading(context);
-                          //
-                          //   );
-                          // }
-                          // Navigator.push(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //         builder: (context) => SeminarScreen()));
+                         Navigator.pop(context);
                         }),
                   )
                 ],
