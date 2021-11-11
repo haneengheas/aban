@@ -72,7 +72,7 @@ class _ChatRoomState extends State<ChatRoom> {
 
                 stream: FirebaseFirestore.instance
                     .collection('message').where('userId' ,isEqualTo: widget.userId).where(
-                    'userId', isEqualTo: id )
+                    'sent', isEqualTo: id )
                     .snapshots(),
                 builder: (context, snapshot) {
                   print(widget.userId);
