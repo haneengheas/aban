@@ -18,42 +18,54 @@ class MessageItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        isMe ?const Text(''): Container(
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(100),
-              image: DecorationImage(
-                image: NetworkImage(image),
-              )),
-          width: 50,
-          height: 50,
-        ),
-        const SizedBox(
-          width: 20,
-        ),
-        Column(
-          crossAxisAlignment:
-              isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
-          children: [
-            const SizedBox(
-              height: 7,
+    return Padding(
+      padding: const EdgeInsets.all(4.0),
+      child: Row(
+        mainAxisAlignment: isMe ? MainAxisAlignment.end:MainAxisAlignment.start,
+        // crossAxisAlignment:
+        // isMe ? CrossAxisAlignment.end : CrossAxisAlignment.end,
+        children: [
+          isMe ?const Text(''): Container(
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(100),
+                image: DecorationImage(
+                  image: NetworkImage(image),
+                )),
+            width: 50,
+            height: 50,
+          ),
+          const SizedBox(
+            width: 20,
+          ),
+          const SizedBox(
+            height: 7,
+          ),
+          Material(
+            borderRadius: isMe
+                ? const BorderRadius.only(
+                topLeft: Radius.circular(30.0),
+                bottomLeft: Radius.circular(30.0),
+                bottomRight: Radius.circular(30.0))
+                : const BorderRadius.only(
+              bottomLeft: Radius.circular(30.0),
+              bottomRight: Radius.circular(30.0),
+              topRight: Radius.circular(30.0),
             ),
-            Material(
-              elevation: 10,
-              borderRadius: BorderRadius.circular(30),
-              color: isMe ? blue : white,
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-                child: Text(text,
-                    style:
-                        TextStyle(fontSize: 20, color: isMe ? white : black)),
+            elevation: 5.0,
+            color: isMe ? blue : Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+              child: Text(
+                text,
+                style: TextStyle(
+                  color: isMe ? Colors.white : Colors.black54,
+                  fontSize: 15.0,
+                ),
               ),
             ),
-          ],
-        ),
-      ],
+          ),
+        ],
+      ),
     );
     //
     //

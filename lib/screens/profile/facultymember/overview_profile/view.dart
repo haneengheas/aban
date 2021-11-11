@@ -1,4 +1,5 @@
 import 'package:aban/constant/style.dart';
+import 'package:aban/screens/chat/chat_room.dart';
 import 'package:aban/screens/chat/view.dart';
 import 'package:aban/screens/resersh_list/field.dart';
 import 'package:aban/screens/resersh_list/project_all_user.dart';
@@ -99,7 +100,7 @@ class _MemberProfileState extends State<MemberProfile> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            const ChatScreen()));
+                                             ChatRoom(image:widget.image, name: widget.name, userId: widget.userid,)));
                               },
                               icon: const Icon(
                                 Icons.chat_rounded,

@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 
+
 class ChatRoom extends StatefulWidget {
   final String image, name;
   final String userId;
@@ -36,7 +37,7 @@ class _ChatRoomState extends State<ChatRoom> {
           TextPosition(offset: _controller.text.length));
   }
 
-  String id = FirebaseAuth.instance.currentUser!.uid;
+   String? id = FirebaseAuth.instance.currentUser!.email;
 
   String? message;
 
@@ -77,28 +78,26 @@ class _ChatRoomState extends State<ChatRoom> {
                     );
                   }
 
-                  final messages = snapshot.data!.docs;
+                  final messages = snapshot.data!.docs.reversed;
                   List<MessageItem> messageWidgets = [];
                   for (var message in messages) {
                     String messageText = message["Text"];
+                    String sent = message["sent"];
 
                     if (widget.userId == id) {
-                       messageWidget = MessageItem(
-                        text: messageText,
-                        isMe: false,
-                        image: widget.image,
-                      );
-                    } else {
-                       messageWidget = MessageItem(
-                          text: messageText, isMe: true, image: widget.image );
 
                     }
+
+                       messageWidget = MessageItem(
+                          text: messageText, isMe: sent == id, image: widget.image );
+
+
 
                    messageWidgets.add(messageWidget);
                   }
                   return Expanded(
                       child: ListView(
-                    // reverse: true,
+              reverse: true,
                     padding: const EdgeInsets.all(20),
                     children: messageWidgets,
                   ));
@@ -125,7 +124,8 @@ class _ChatRoomState extends State<ChatRoom> {
                           {
                             "Text": message,
                             "image": widget.image,
-                            'userId': widget.userId
+                            'userId': widget.userId,
+                            'sent': id,
                           },
                         );
                         //   print(widget.userId);
