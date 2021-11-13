@@ -111,7 +111,7 @@ import "package:quds_ui_kit/quds_ui_kit.dart";
               )),
               onPressed: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) =>const HelpScreen()));
+                    MaterialPageRoute(builder: (context) => HelpScreen()));
               }),
           QudsPopupMenuDivider(color: gray, thickness: .5),
           QudsPopupMenuItem(

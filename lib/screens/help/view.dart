@@ -1,13 +1,20 @@
 import 'package:aban/constant/style.dart';
 import 'package:aban/widgets/buttons/submit_button.dart';
 import 'package:aban/widgets/textField.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class HelpScreen extends StatelessWidget {
-  const HelpScreen({Key? key}) : super(key: key);
+   HelpScreen({Key? key}) : super(key: key);
+  TextEditingController emailController = TextEditingController();
+   TextEditingController descriptionController = TextEditingController();
+   TextEditingController problemTitleController = TextEditingController();
 
-  @override
+
+   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -40,17 +47,20 @@ class HelpScreen extends StatelessWidget {
             ),
             child:  Column(
               children: [
-                const TextFieldItem(
+                 TextFieldItem(
+                  controller: emailController,
                   labelText: "البريد الالكترونى",
                   scure: true,
                   hintText: "Reasearsh@ksuedu.sa",
                 ),
-                const TextFieldItem(
+                 TextFieldItem(
+                   controller: problemTitleController,
                   labelText: "عنوان المشكلة",
                   scure: true,
                   hintText: "العنوان",
                 ),
-                const   TextFieldItem(
+                   TextFieldItem(
+                     controller: descriptionController,
                   labelText: "وصف المشكلة",
                   scure: true,
                   hintText: "الوصف",
@@ -59,7 +69,17 @@ class HelpScreen extends StatelessWidget {
                   height: 50,
                 ),
                 SubmitButton(
-                    gradient: blueGradient, text: "ارسال", onTap: () {})
+                    gradient: blueGradient, text: "ارسال", onTap: () async{
+                      await FirebaseFirestore.instance.collection('help').add(
+                          {
+                            'email':emailController.text,
+                            'problemTitle':problemTitleController.text,
+                            'description':descriptionController.text,
+                            'userId':FirebaseAuth.instance.currentUser!.uid,
+                          });
+                      Navigator.pop(context);
+
+                })
               ],
             ),
           )
