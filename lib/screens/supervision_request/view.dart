@@ -6,8 +6,11 @@ import 'package:aban/widgets/textField.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+
 
 class SupervisionScreen extends StatefulWidget {
   String? userid;
@@ -24,6 +27,7 @@ class _SupervisionScreenState extends State<SupervisionScreen> {
   TextEditingController descriptionController = TextEditingController();
 
   String filter = '';
+   FirebaseMessaging _fcm= FirebaseMessaging.instance;
 
   @override
   void initState() {
@@ -33,7 +37,9 @@ class _SupervisionScreenState extends State<SupervisionScreen> {
       setState(() {});
     });
     print('-------------------------------');
-
+     _fcm.getToken().then((token){
+       print('the token is :'+ token!);
+     });
     super.initState();
   }
 
