@@ -1,5 +1,4 @@
 import 'package:aban/constant/style.dart';
-import 'package:aban/provider/auth_provider.dart';
 import 'package:aban/provider/profile_provider.dart';
 import 'package:aban/screens/Home/supervision_list.dart';
 import 'package:aban/screens/bookmark/view.dart';
@@ -12,147 +11,154 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import "package:quds_ui_kit/quds_ui_kit.dart";
 
-  Widget studentDrawer (BuildContext context) {
-    var prov = Provider.of<ProfileProvider>(context);
-    return QudsPopupButton(
-        // backgroundColor: Colors.red,
-        tooltip: 'T',
-        items: [
-          QudsPopupMenuItem(
-              title: null,
-              onPressed: () {},
-              trailing: const Icon(
-                Icons.menu,
-                color: blue,
-              )),
-          QudsPopupMenuDivider(color: gray, thickness: .5),
-
-          QudsPopupMenuItem(
-              trailing: const Icon(
-                Icons.info_outline,
-                color: blue,
-              ),
-              title: const   Align(
+Widget studentDrawer(BuildContext context) {
+  var prov = Provider.of<ProfileProvider>(context);
+  return QudsPopupButton(
+      // backgroundColor: Colors.red,
+      tooltip: 'T',
+      items: [
+        QudsPopupMenuItem(
+            title: null,
+            onPressed: () {},
+            trailing: const Icon(
+              Icons.menu,
+              color: blue,
+            )),
+        QudsPopupMenuDivider(color: gray, thickness: .5),
+        QudsPopupMenuItem(
+            trailing: const Icon(
+              Icons.info_outline,
+              color: blue,
+            ),
+            title: const Align(
                 alignment: Alignment.centerRight,
-                  child: Text(
-                'الملف الشخصي',
-              )),
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const ProfileScreen()));
-              }),
-          QudsPopupMenuDivider(color: gray, thickness: .5),
-          QudsPopupMenuItem(
-              trailing: const Icon(
-                Icons.bookmark_border,
-                color: blue,
-              ),
-              title: const Align(
-                  alignment: Alignment.centerRight,
+                child: Text(
+                  'الملف الشخصي',
+                )),
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const ProfileScreen()));
+            }),
+        QudsPopupMenuDivider(color: gray, thickness: .5),
+        QudsPopupMenuItem(
+            trailing: const Icon(
+              Icons.bookmark_border,
+              color: blue,
+            ),
+            title: const Align(
+                alignment: Alignment.centerRight,
+                child: Text(
+                  'المحفوظات',
+                )),
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const BookmarkScreen()));
+            }),
+        QudsPopupMenuDivider(color: gray, thickness: .5),
+        QudsPopupMenuItem(
+            trailing: const Icon(
+              Icons.chat_bubble_outline_outlined,
+              color: blue,
+            ),
+            title: const Align(
+                alignment: Alignment.centerRight,
+                child: Text(
+                  'المحادثات',
+                )),
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const ChatScreen()));
+            }),
+        QudsPopupMenuDivider(color: gray, thickness: .5),
+        QudsPopupMenuItem(
+            trailing: const Icon(
+              Icons.settings,
+              color: blue,
+            ),
+            title: const Align(
+                alignment: Alignment.centerRight,
+                child: Text(
+                  'تعديل الملف الشخصي',
+                )),
+            onPressed: () async {
+              // await prov.getData();
+              // print('------------');
+              // print(prov.email);
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => EditProfile()));
+            }),
+        QudsPopupMenuDivider(color: gray, thickness: .5),
+        QudsPopupMenuItem(
+            trailing: const Icon(
+              Icons.help,
+              color: blue,
+            ),
+            title: const Align(
+                alignment: Alignment.centerRight,
+                child: Text(
+                  'مساعدة',
+                )),
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => HelpScreen()));
+            }),
+        QudsPopupMenuDivider(color: gray, thickness: .5),
+        prov.accept == 0
+            ? QudsPopupMenuItem(
+                trailing: const Icon(
+                  Icons.supervised_user_circle,
+                  color: blue,
+                ),
+                title: const Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      'طلبات الاشراف',
+                    )),
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => SupervisionList()));
+                })
+            : QudsPopupMenuItem(
+                trailing: const Text(''),
+                title: const Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      '',
+                    )),
+                onPressed: () {
 
-                  child: Text(
-                'المحفوظات',
-              )),
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const BookmarkScreen()));
-              }),
-          QudsPopupMenuDivider(color: gray, thickness: .5),
-
-          QudsPopupMenuItem(
-              trailing:const  Icon(
-                Icons.chat_bubble_outline_outlined,
-                color: blue,
-              ),
-              title: const Align(
-                  alignment: Alignment.centerRight,
-
-                  child: Text(
-                'المحادثات',
-              )),
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) =>const ChatScreen()));
-              }),
-          QudsPopupMenuDivider(color: gray, thickness: .5),
-
-         QudsPopupMenuItem(
-              trailing: const Icon(
-                Icons.settings,
-                color: blue,
-              ),
-              title: const Align(
-                  alignment: Alignment.centerRight,
-
-                  child: Text(
-                'تعديل الملف الشخصي',
-              )),
-              onPressed: () async{
-                // await prov.getData();
-                // print('------------');
-                // print(prov.email);
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) =>   EditProfile()));
-              }),
-          QudsPopupMenuDivider(color: gray, thickness: .5),
-
-          QudsPopupMenuItem(
-              trailing: const Icon(
-                Icons.help,
-                color: blue,
-              ),
-              title: const Align(
-                  alignment: Alignment.centerRight,
-
-                  child: Text(
-
-
-                'مساعدة',
-              )),
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => HelpScreen()));
-              }),
-          QudsPopupMenuDivider(color: gray, thickness: .5),
-          QudsPopupMenuItem(
-              trailing: const Icon(
-                Icons.supervised_user_circle,
-                color: blue,
-              ),
-              title: const Align(
-                  alignment: Alignment.centerRight,
-
-                  child: Text(
-                    'طلبات الاشراف',
-                  )),
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => SupervisionList()));
-              }),
-          QudsPopupMenuDivider(color: gray, thickness: .5),
-          QudsPopupMenuItem(
-              popOnTap: false,
-              trailing: const Icon(
-                Icons.logout,
-                color: blue,
-              ),
-              title: const Align(
-                  alignment: Alignment.centerRight,
-                  child: Text(
-                'تسجيل خروج',
-              )),
-              onPressed: () {
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) =>const RegistScreen()));
-              }),
-        ],
-        child: const Icon(
-          Icons.menu,
-          size: 33,
-          color: white,
-        ));
-  }
-
+                }),
+        QudsPopupMenuDivider(color: gray, thickness: .5),
+        QudsPopupMenuItem(
+            popOnTap: false,
+            trailing: const Icon(
+              Icons.logout,
+              color: blue,
+            ),
+            title: const Align(
+                alignment: Alignment.centerRight,
+                child: Text(
+                  'تسجيل خروج',
+                )),
+            onPressed: () {
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const RegistScreen()));
+            }),
+      ],
+      child: const Icon(
+        Icons.menu,
+        size: 33,
+        color: white,
+      ));
+}
 
 // List<QudsPopupMenuBase> getMenuItems(BuildContext context) {
 //   return [

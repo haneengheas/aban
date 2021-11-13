@@ -7,10 +7,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class UnCompletedProject extends StatefulWidget {
-  const UnCompletedProject(this.projects, this.filter, {Key? key})
+   UnCompletedProject(this.projects, this.filter, {Key? key})
       : super(key: key);
   final List<ProjectModel> projects;
   final String? filter;
+  List isFav=[];
 
   @override
   _UnCompletedProjectState createState() => _UnCompletedProjectState();
@@ -112,12 +113,11 @@ class _UnCompletedProjectState extends State<UnCompletedProject> {
                           });
 
                           project.isFav = !project.isFav!;
-
                           await FirebaseFirestore.instance
                               .collection('project')
                               .doc(project.id)
                               .update(
-                                  {'isFav': project.isFav! });
+                                  {'isFav': widget.isFav });
                           if (project.isFav == false) {
                             FirebaseFirestore.instance
                                 .collection('projectBookmark')

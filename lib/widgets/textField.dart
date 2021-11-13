@@ -9,8 +9,11 @@ class TextFieldItem extends StatefulWidget {
   final String labelText;
   final bool scure;
   final TextEditingController? controller;
+  final FormFieldValidator?validator;
+
 // final Function onChanged;
   const TextFieldItem({
+    this.validator,
     required this.hintText,
     required this.labelText,
     required this.scure,
@@ -31,6 +34,7 @@ class _TextFieldItemState extends State<TextFieldItem> {
         textDirection: TextDirection.rtl,
         child: TextFormField(
           controller: widget.controller,
+          validator: widget.validator,
           // onChanged: (value) {
           //   widget.onChanged();
           // } ,

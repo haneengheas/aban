@@ -92,6 +92,8 @@ class _EditProfileState extends State<EditProfile> {
   Widget build(BuildContext context) {
     var prov = Provider.of<ProfileProvider>(context);
     var providers = Provider.of<MyModel>(context);
+    var provAuth = Provider.of<AuthProvider>(context);
+
 
     return Scaffold(
       backgroundColor: white,
@@ -355,7 +357,7 @@ class _EditProfileState extends State<EditProfile> {
                 ),
               ]),
               // accept theses montor
-              Column(
+              provAuth.usertype=='member'?Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
@@ -407,7 +409,7 @@ class _EditProfileState extends State<EditProfile> {
                     ),
                   ),
                 ],
-              ),
+              ):SizedBox(),
               const Divider(
                 height: 10,
                 thickness: 1,

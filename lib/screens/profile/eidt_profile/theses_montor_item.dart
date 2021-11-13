@@ -43,15 +43,6 @@ class _ThesesGraduatedMontorItemState extends State<ThesesGraduatedMontorItem> {
             .get();
     debugPrint('userType is ${documentSnapshot2.docs[0]['nameTheses']}');
     nameTheses.text = documentSnapshot2.docs[0].get('nameTheses');
-    // linkTheses.text = documentSnapshot2.get('faculty');
-    // link.text = documentSnapshot2.get('link');
-    // phone.text = documentSnapshot2.get('phone');
-    // degree.text = documentSnapshot2.get('degree');
-    // id.text = documentSnapshot2.get('id');
-    // image = documentSnapshot2.get('imageUrl');
-    // field = documentSnapshot2.get('fields');
-    // accept = documentSnapshot2.get('accept');
-
     setState(() {});
   }
 
@@ -140,7 +131,6 @@ class _ThesesGraduatedMontorItemState extends State<ThesesGraduatedMontorItem> {
                                           color: gray,
                                           endIndent: 10,
                                           indent: 10,
-// width: 1,
                                           thickness: 2,
                                         ),
                                         Padding(
@@ -246,11 +236,11 @@ void editTheses(
   // required TextEditingController nameSupervisors,
   // required TextEditingController assistantSupervisors,
   // required TextEditingController degreeTheses,
-  required String nameTheses,
-  required String linkTheses,
-  required String nameSupervisors,
-  required String assistantSupervisors,
-  required String degreeTheses,
+  required String? nameTheses,
+  required String ?linkTheses,
+  required String ?nameSupervisors,
+  required String ?assistantSupervisors,
+  required String ?degreeTheses,
   required String? thesesStatus,
   required GlobalKey<FormState> key,
 }) {
@@ -288,7 +278,7 @@ void editTheses(
                         return 'برجاءادخال اسم الاطروحة ';
                       }
                     },
-                    initialValue: nameTheses,
+                    initialValue: nameTheses!,
                   ),
                   EidtTextFieldUser(
                     // controller: linkTheses,
@@ -303,7 +293,7 @@ void editTheses(
                     hintText: 'رابط الاطروحة',
                     labelText: 'رابط الاطروحة',
                     scure: false,
-                    initialValue: linkTheses,
+                    initialValue: linkTheses!,
                   ),
                   EidtTextFieldUser(
                     // controller: nameSupervisors,
@@ -318,7 +308,7 @@ void editTheses(
                     hintText: 'اسم المشرف',
                     labelText: "المشرف",
                     scure: false,
-                    initialValue: nameSupervisors,
+                    initialValue: nameSupervisors!,
                   ),
                   EidtTextFieldUser(
                     // controller: assistantSupervisors,
@@ -333,7 +323,7 @@ void editTheses(
                     hintText: 'اسماء المشرفين المساعدين',
                     labelText: "المشرفون المساعدون",
                     scure: false,
-                    initialValue: assistantSupervisors,
+                    initialValue: assistantSupervisors!,
                   ),
                   EidtTextFieldUser(
                     // controller: degreeTheses,
@@ -348,7 +338,7 @@ void editTheses(
                     hintText: 'اختر الدرجة العمليه',
                     labelText: "الدرجة العلميه",
                     scure: false,
-                    initialValue: degreeTheses,
+                    initialValue: degreeTheses!,
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 7.5),
@@ -419,8 +409,6 @@ void editTheses(
               text: 'أضافة',
               color: blueGradient,
               onTap: () async {
-                print(auth.usertype);
-                if (auth.usertype == 0) {
                   print(auth.usertype);
                   if (key.currentState!.validate()) {
                     key.currentState!.save();
@@ -443,24 +431,24 @@ void editTheses(
                             dialogType: DialogType.SUCCES)
                         .show();
                   }
-                } else {
-                  if (key.currentState!.validate()) {
-                    key.currentState!.save();
-                    showLoading(context);
-                    await FirebaseFirestore.instance
-                        .collection('theses')
-                        .doc(indexed)
-                        .update({
-                      'nameTheses': nameTheses,
-                      'linkTheses': linkTheses,
-                      'assistantSupervisors': assistantSupervisors,
-                      'nameSupervisors': nameSupervisors,
-                      'degreeTheses': degreeTheses,
-                      'thesesStatus': thesesStatus,
-                    });
-                  }
-                  Navigator.pop(context);
-                }
+
+                //   if (key.currentState!.validate()) {
+                //     key.currentState!.save();
+                //     showLoading(context);
+                //     await FirebaseFirestore.instance
+                //         .collection('theses')
+                //         .doc(indexed)
+                //         .update({
+                //       'nameTheses': nameTheses,
+                //       'linkTheses': linkTheses,
+                //       'assistantSupervisors': assistantSupervisors,
+                //       'nameSupervisors': nameSupervisors,
+                //       'degreeTheses': degreeTheses,
+                //       'thesesStatus': thesesStatus,
+                //     });
+                //   }
+                //   Navigator.pop(context);
+                // }
               }),
         ],
       );
