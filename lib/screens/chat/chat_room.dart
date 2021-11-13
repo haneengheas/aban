@@ -82,9 +82,6 @@ class _ChatRoomState extends State<ChatRoom> {
                     .orderBy(
                       'timeDate',
                     )
-                    // .where('sent', isEqualTo: id)
-                    // .where('userId', isEqualTo: widget.userId)
-                    //      .where('userId', isEqualTo: id)
                     .snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
@@ -108,7 +105,6 @@ class _ChatRoomState extends State<ChatRoom> {
                           image: widget.image);
                       messageWidgets.add(messageWidget);
                     }
-
                   }
                   return Expanded(
                       child: ListView(
@@ -126,6 +122,7 @@ class _ChatRoomState extends State<ChatRoom> {
               child: Directionality(
                 textDirection: TextDirection.rtl,
                 child: TextFormField(
+                  maxLines: 3,
                   controller: _controller,
                   decoration: InputDecoration(
                     suffixIcon: IconButton(
