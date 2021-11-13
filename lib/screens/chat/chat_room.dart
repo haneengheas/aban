@@ -8,12 +8,11 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 
-
 class ChatRoom extends StatefulWidget {
   final String image, name;
   final String userId;
 
-  ChatRoom({required this.image, required this.name, required this.userId});
+   ChatRoom({required this.image, required this.name, required this.userId});
 
   @override
   State<ChatRoom> createState() => _ChatRoomState();
@@ -27,7 +26,10 @@ class _ChatRoomState extends State<ChatRoom> {
     _controller
       ..text += emoji.emoji
       ..selection = TextSelection.fromPosition(
-          TextPosition(offset: _controller.text.length));
+
+          TextPosition(offset: _controller.text.length),
+
+      );
   }
 
   _onBackspacePressed() {
@@ -37,12 +39,13 @@ class _ChatRoomState extends State<ChatRoom> {
           TextPosition(offset: _controller.text.length));
   }
 
-   String? id = FirebaseAuth.instance.currentUser!.uid;
-   String? email = FirebaseAuth.instance.currentUser!.email;
+  String? id = FirebaseAuth.instance.currentUser!.uid;
+  String? email = FirebaseAuth.instance.currentUser!.email;
 
   String? message;
 
-  late MessageItem  messageWidget;
+  late MessageItem messageWidget;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,15 +72,15 @@ class _ChatRoomState extends State<ChatRoom> {
         body: Column(
           children: <Widget>[
             StreamBuilder<QuerySnapshot>(
-
                 stream: FirebaseFirestore.instance
-                    .collection('message').where('userId' ,isEqualTo: widget.userId).where(
-                    'sent', isEqualTo: id )
+                    .collection('message')
+                   .where('sent', isEqualTo: widget.userId)
+                    .where('sent', isEqualTo: id)
+                    // .where('userId', isEqualTo: widget.userId)
+                    // .where('userId', isEqualTo: id)
                     .snapshots(),
                 builder: (context, snapshot) {
-                  print(widget.userId);
-                  print('0000000000000000000000000000000000000000000000000000');
-                  print(id);
+
                   if (!snapshot.hasData) {
                     return const Center(
                       child: CircularProgressIndicator(),
@@ -89,21 +92,16 @@ class _ChatRoomState extends State<ChatRoom> {
                   for (var message in messages) {
                     String messageText = message["Text"];
                     String sent = message["sent"];
+                    messageWidget = MessageItem(
+                        text: messageText,
+                        isMe: sent == id,
+                        image: widget.image);
 
-                    if (widget.userId == id) {
-
-                    }
-
-                       messageWidget = MessageItem(
-                          text: messageText, isMe: sent == id, image: widget.image );
-
-
-
-                   messageWidgets.add(messageWidget);
+                    messageWidgets.add(messageWidget);
                   }
                   return Expanded(
                       child: ListView(
-              reverse: true,
+                    reverse: true,
                     padding: const EdgeInsets.all(20),
                     children: messageWidgets,
                   ));
@@ -132,6 +130,7 @@ class _ChatRoomState extends State<ChatRoom> {
                             "image": widget.image,
                             'userId': widget.userId,
                             'sent': id,
+                            'name':widget.name,
                           },
                         );
                         //   print(widget.userId);

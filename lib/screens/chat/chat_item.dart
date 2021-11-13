@@ -3,7 +3,8 @@ import 'package:aban/screens/chat/chat_room.dart';
 import 'package:flutter/material.dart';
 
 class ChatItem extends StatelessWidget {
-  const ChatItem({Key? key}) : super(key: key);
+  final String image,name;
+  const ChatItem({required this.name,required this.image,});
 
 
   @override
@@ -25,12 +26,16 @@ class ChatItem extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const Image(
-                image:  AssetImage(
-                  'assets/user.png',
-                ),
-                height: 50,
-                color: blue,
+              Container(
+                height: 190, width: 50,
+
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: DecorationImage(image: NetworkImage(
+                     image,
+                    ),)),
+
+
               ),
 
               Column(
@@ -38,7 +43,7 @@ class ChatItem extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'اسم الباحث',
+                    name,
                     style: labelStyle2,
                   ),
                   Text(

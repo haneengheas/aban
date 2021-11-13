@@ -99,11 +99,7 @@ class _SearchItemState extends State<SearchItem> {
                                     snapshot.data!.docs[index]['imageUrl'],
                                   ), )),
 
-                                  // child: Image(
-                                  //   image:
-                                  //   height: sizeFromHeight(context, 13),
-                                  //   // color: blue,
-                                  // ),
+
                                 ),
                                 // SizedBox(
                                 //   width: sizeFromWidth(context, 30),
