@@ -126,7 +126,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => EditProfile(
-                                        userType: prov.usertype,
                                       )));
                         },
                         child: Container(
@@ -156,15 +155,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 5, vertical: 15),
                   child: StreamBuilder(
-                      stream: prov.usertype == 'member'
-                          ? FirebaseFirestore.instance
+                      stream:  FirebaseFirestore.instance
                               .collection('member')
-                              .where('userId',
-                                  isEqualTo:
-                                      FirebaseAuth.instance.currentUser!.uid)
-                              .snapshots()
-                          : FirebaseFirestore.instance
-                              .collection('graduated')
                               .where('userId',
                                   isEqualTo:
                                       FirebaseAuth.instance.currentUser!.uid)
@@ -228,12 +220,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             SizedBox(
                                               width: sizeFromWidth(context, 8),
                                             ),
-                                            prov.usertype == 'member'
-                                                ? Text(
+                                             Text(
                                                     "${snapshot.data!.docs[0]['email']}",
                                                     style: hintStyle,
-                                                  )
-                                                : SizedBox(),
+                                                  ),
                                           ],
                                         ),
                                         Row(

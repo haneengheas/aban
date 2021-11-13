@@ -8,11 +8,13 @@ class TextFieldItem extends StatefulWidget {
   final String hintText;
   final String labelText;
   final bool scure;
+  final TextEditingController? controller;
 // final Function onChanged;
   const TextFieldItem({
     required this.hintText,
     required this.labelText,
     required this.scure,
+    this.controller,
    // required this.onChanged
   });
 
@@ -28,6 +30,7 @@ class _TextFieldItemState extends State<TextFieldItem> {
       child: Directionality(
         textDirection: TextDirection.rtl,
         child: TextFormField(
+          controller: widget.controller,
           // onChanged: (value) {
           //   widget.onChanged();
           // } ,

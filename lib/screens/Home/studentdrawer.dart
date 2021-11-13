@@ -1,5 +1,7 @@
 import 'package:aban/constant/style.dart';
 import 'package:aban/provider/auth_provider.dart';
+import 'package:aban/provider/profile_provider.dart';
+import 'package:aban/screens/Home/supervision_list.dart';
 import 'package:aban/screens/bookmark/view.dart';
 import 'package:aban/screens/chat/view.dart';
 import 'package:aban/screens/help/view.dart';
@@ -11,7 +13,7 @@ import 'package:provider/provider.dart';
 import "package:quds_ui_kit/quds_ui_kit.dart";
 
   Widget studentDrawer (BuildContext context) {
-    var prov = Provider.of<AuthProvider>(context);
+    var prov = Provider.of<ProfileProvider>(context);
     return QudsPopupButton(
         // backgroundColor: Colors.red,
         tooltip: 'T',
@@ -74,7 +76,7 @@ import "package:quds_ui_kit/quds_ui_kit.dart";
               }),
           QudsPopupMenuDivider(color: gray, thickness: .5),
 
-          QudsPopupMenuItem(
+         QudsPopupMenuItem(
               trailing: const Icon(
                 Icons.settings,
                 color: blue,
@@ -90,7 +92,7 @@ import "package:quds_ui_kit/quds_ui_kit.dart";
                 // print('------------');
                 // print(prov.email);
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) =>   EditProfile(userType: prov.usertype,)));
+                    MaterialPageRoute(builder: (context) =>   EditProfile()));
               }),
           QudsPopupMenuDivider(color: gray, thickness: .5),
 
@@ -110,6 +112,22 @@ import "package:quds_ui_kit/quds_ui_kit.dart";
               onPressed: () {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) =>const HelpScreen()));
+              }),
+          QudsPopupMenuDivider(color: gray, thickness: .5),
+          QudsPopupMenuItem(
+              trailing: const Icon(
+                Icons.supervised_user_circle,
+                color: blue,
+              ),
+              title: const Align(
+                  alignment: Alignment.centerRight,
+
+                  child: Text(
+                    'طلبات الاشراف',
+                  )),
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => SupervisionList()));
               }),
           QudsPopupMenuDivider(color: gray, thickness: .5),
           QudsPopupMenuItem(

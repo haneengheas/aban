@@ -25,8 +25,7 @@ import 'package:path/path.dart' as path;
 import 'package:provider/provider.dart';
 
 class EditProfile extends StatefulWidget {
-   EditProfile({ required this.userType,Key? key}) : super(key: key);
-  String ? userType;
+   EditProfile({ Key? key}) : super(key: key);
   @override
   _EditProfileState createState() => _EditProfileState();
 }
@@ -53,7 +52,6 @@ class _EditProfileState extends State<EditProfile> {
   List<String> selectedDepartment = <String>[];
 
   void getData() async {
-    var provider = Provider.of<AuthProvider>(context);
     DocumentSnapshot documentSnapshot2 = await FirebaseFirestore.instance
         .collection("member")
         .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -144,11 +142,12 @@ class _EditProfileState extends State<EditProfile> {
                       SizedBox(
                         width: sizeFromWidth(context, 1.5),
                         child: TextFieldUser(
-                          onChanged: (val) {},
-                          controller: name,
+
                           labelText: "اسم الباحث",
                           hintText: "أسمك",
                           scure: false,
+                          onChanged: (val) {},
+                          controller: name,
                           validator: (value) {
                             if (value.isEmpty) {
                               return 'يجب ادخال اسم الباحث';
@@ -251,7 +250,8 @@ class _EditProfileState extends State<EditProfile> {
                               },
                               items: <String>[
                                 'دكتوراه',
-                                'ماجستير'
+                                'ماجستير',
+                                'طالب'
                               ].map<DropdownMenuItem<String>>((String value) {
                                 return DropdownMenuItem<String>(
                                   value: value,
@@ -365,47 +365,47 @@ class _EditProfileState extends State<EditProfile> {
                       style: labelStyle3,
                     ),
                   ),
-                  // Padding(
-                  //   padding: const EdgeInsets.symmetric(horizontal: 20),
-                  //   child: SizedBox(
-                  //     height: 30,
-                  //     child: Row(
-                  //       children: [
-                  //         Radio<int>(
-                  //             value: 0,
-                  //             groupValue: prov.accept,
-                  //             onChanged: (value) {
-                  //               setState(() {
-                  //                 prov.accept = value;
-                  //               });
-                  //             }),
-                  //         Text('نعم', style: hintStyle3),
-                  //       ],
-                  //     ),
-                  //   ),
-                  // ),
-                  // Padding(
-                  //   padding: const EdgeInsets.symmetric(horizontal: 20),
-                  //   child: SizedBox(
-                  //     height: 25,
-                  //     child: Row(
-                  //       children: [
-                  //         Radio(
-                  //             value: 1,
-                  //             groupValue: prov.accept,
-                  //             onChanged: (value) {
-                  //               setState(() {
-                  //                 prov.accept = value;
-                  //               });
-                  //             }),
-                  //         Text(
-                  //           'لا',
-                  //           style: hintStyle3,
-                  //         ),
-                  //       ],
-                  //     ),
-                  //   ),
-                  // ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: SizedBox(
+                      height: 30,
+                      child: Row(
+                        children: [
+                          Radio(
+                              value: 0,
+                              groupValue: prov.accept,
+                              onChanged: (value) {
+                                setState(() {
+                                  prov.accept = value;
+                                });
+                              }),
+                          Text('نعم', style: hintStyle3),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: SizedBox(
+                      height: 25,
+                      child: Row(
+                        children: [
+                          Radio(
+                              value: 1,
+                              groupValue: prov.accept,
+                              onChanged: (value) {
+                                setState(() {
+                                  prov.accept = value;
+                                });
+                              }),
+                          Text(
+                            'لا',
+                            style: hintStyle3,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 ],
               ),
               const Divider(

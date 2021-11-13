@@ -1,7 +1,6 @@
 import 'package:aban/constant/style.dart';
 import 'package:aban/screens/resersh_list/search_item.dart';
 import 'package:aban/widgets/search_textfield.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -25,9 +24,6 @@ class _ResershListState extends State<ResershList> {
 
   @override
   Widget build(BuildContext context) {
-
-
-
 
     return DefaultTabController(
       length: widget.departments.length,

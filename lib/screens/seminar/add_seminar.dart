@@ -6,19 +6,14 @@ import 'package:aban/provider/profile_provider.dart';
 import 'package:aban/widgets/buttons/submit_button.dart';
 import 'package:aban/widgets/buttons/tetfielduser.dart';
 import 'package:aban/widgets/textfieldtime.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class AddSeminar extends StatefulWidget {
-  String? seminaraddress;
-  String? location;
-
-  String? description;
-  String? link;
+  String? seminaraddress, location, description, link, from, to;
   int? type;
 
   AddSeminar({Key? key}) : super(key: key);
@@ -33,9 +28,10 @@ class _AddSeminarState extends State<AddSeminar> {
   DateTime? _focusedDay;
 
   CalendarFormat _calendarFormat = CalendarFormat.month;
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
   // var user = FirebaseFirestore.instance.collection('user').doc(
   //     FirebaseAuth.instance.currentUser!.uid).get();
-
 
   @override
   Widget build(BuildContext context) {
@@ -59,6 +55,7 @@ class _AddSeminarState extends State<AddSeminar> {
           color: blue,
         ),
       ),
+
       backgroundColor: white,
       body: SingleChildScrollView(
         child: SingleChildScrollView(
@@ -77,7 +74,7 @@ class _AddSeminarState extends State<AddSeminar> {
               color: clearblue,
             ),
             child: Form(
-              key: prov.formkey,
+              key: formKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
@@ -91,7 +88,7 @@ class _AddSeminarState extends State<AddSeminar> {
                       }
                     },
                     onChanged: (val) {
-                      widget.seminaraddress = val;
+                      prov.seminaraddress = val;
                     },
                   ),
                   Padding(
@@ -114,24 +111,24 @@ class _AddSeminarState extends State<AddSeminar> {
                       firstDay: DateTime.utc(2010, 10, 16),
                       lastDay: DateTime.utc(2030, 3, 14),
                       focusedDay: DateTime.now(),
-
                       selectedDayPredicate: (day) {
-                        return isSameDay(_selectedDay, day);
+                        return isSameDay(prov.selectedDay, day);
                       },
                       onDaySelected: (selectedDay, focusedDay) {
                         setState(() {
-                          _selectedDay = selectedDay;
-                          _focusedDay = focusedDay; // update `_focusedDay` here as well
+                          prov.selectedDay = selectedDay;
+                          prov.focusedDay =
+                              focusedDay; // update `_focusedDay` here as well
                         });
                       },
-                      calendarFormat: _calendarFormat,
+                      calendarFormat: prov.calendarFormat,
                       onFormatChanged: (format) {
                         setState(() {
-                          _calendarFormat = format;
+                          prov.calendarFormat = format;
                         });
                       },
                       onPageChanged: (focusedDay) {
-                        _focusedDay = focusedDay;
+                        prov.focusedDay = focusedDay;
                       },
                     ),
                   ),
@@ -143,12 +140,7 @@ class _AddSeminarState extends State<AddSeminar> {
                       style: hintStyle4,
                     ),
                   ),
-                  // TableCalendar(
-                  //     focusedDay: DateTime.now(),
-                  //     firstDay: DateTime.now(),
-                  //     lastDay: DateTime.now(),calendarFormat:CalendarFormat.week ,
-                  //
-                  //
+
                   // ),
 
                   Directionality(
@@ -161,14 +153,30 @@ class _AddSeminarState extends State<AddSeminar> {
                             'من',
                             style: hintStyle,
                           ),
-                          const TimeTextField(
+                          TimeTextField(
+                            onChanged: (val) {
+                              prov.from = val;
+                            },
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'فضلا أدخل وقت بداية الندوة';
+                              }
+                            },
                             text: '00:00   ص م',
                           ),
                           Text(
                             'إلى',
                             style: hintStyle,
                           ),
-                          const TimeTextField(
+                          TimeTextField(
+                            onChanged: (val) {
+                              prov.to = val;
+                            },
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'فضلا أدخل وقت انتهاء الندوة';
+                              }
+                            },
                             text: '00:00   ص م',
                           ),
                         ],
@@ -185,7 +193,7 @@ class _AddSeminarState extends State<AddSeminar> {
                       }
                     },
                     onChanged: (val) {
-                      widget.location = val;
+                     prov.location = val;
                     },
                   ),
                   Padding(
@@ -204,10 +212,10 @@ class _AddSeminarState extends State<AddSeminar> {
                           children: [
                             Radio(
                                 value: 1,
-                                groupValue: widget.type,
+                                groupValue:   prov.type,
                                 onChanged: (value) {
                                   setState(() {
-                                    widget.type = value as int?;
+                                   prov.type = value as int? ;
                                   });
                                 }),
                             Text('عامة', style: hintStyle3),
@@ -217,10 +225,10 @@ class _AddSeminarState extends State<AddSeminar> {
                           children: [
                             Radio(
                                 value: 2,
-                                groupValue: widget.type,
+                                groupValue:  prov.type,
                                 onChanged: (value) {
                                   setState(() {
-                                    widget.type = value as int?;
+                                    prov.type = value as int?;
                                   });
                                 }),
                             Text(
@@ -242,7 +250,7 @@ class _AddSeminarState extends State<AddSeminar> {
                       }
                     },
                     onChanged: (val) {
-                      widget.description = val;
+                      prov.description = val;
                     },
                   ),
                   TextFieldUser(
@@ -255,7 +263,7 @@ class _AddSeminarState extends State<AddSeminar> {
                       }
                     },
                     onChanged: (val) {
-                      widget.link = val;
+                      prov.seminarlink = val;
                     },
                   ),
                   Directionality(
@@ -286,42 +294,33 @@ class _AddSeminarState extends State<AddSeminar> {
                         gradient: blueGradient,
                         text: "إضافة",
                         onTap: () async {
-                          print(_calendarFormat);
-                          print(_focusedDay);
-                          print(_selectedDay);
+                          print(prov.calendarFormat);
+                          print(prov.focusedDay);
+                          print(prov.selectedDay);
+                          print(prov.seminaraddress);
+                          print(prov.location);
+                          print(prov.type);
+                          print(prov.from);
+                          print(auth.userName);
+
+                          if (formKey.currentState!.validate()) {
+                            formKey.currentState!.save();
+
+                            await prov.addSeminar(context: context,
+                                seminaraddress: prov.seminaraddress,name: auth.userName,
+                                location: prov.location,
+                                description: prov.description,
+                                seminarlink: prov.seminarlink,
+                                from: prov.from,
+                                to: prov.to,
+                                type: prov.type,
+                                selectedDay: prov.selectedDay );
+                          }
+
 
                           print('=/=//=/=/////=====/=//=/=/=/');
-                          await FirebaseFirestore.instance
-                              .collection('seminar')
-                              .add({
-                            'seminaraddress': widget.seminaraddress,
-                            'location': widget.location,
-                            // 'type': widget.type,
-                            'description': widget.description,
-                            'link': widget.link,
-                            'selectedDay': _selectedDay,
-                            'username':auth.userName,
-                            'type' : widget.type,
-                            'userId': FirebaseAuth.instance.currentUser!.uid,
-                          }).then((value) {
-                            Navigator.pop(context);
-                          });
-                          // addSeminar({
-                          //   required BuildContext context,
-                          //   required String seminaraddress,
-                          //   required String location,
-                          //   required int type,
-                          //   required String description,
-                          //   required String link,
-                          // }) async {
-                          //   showLoading(context);
-                          //
-                          //   );
-                          // }
-                          // Navigator.push(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //         builder: (context) => SeminarScreen()));
+
+                         Navigator.pop(context);
                         }),
                   )
                 ],
