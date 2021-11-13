@@ -25,6 +25,7 @@ class _SupervisionScreenState extends State<SupervisionScreen> {
   TextEditingController descriptionController = TextEditingController();
 
   String filter = '';
+  final FirebaseMessaging _fcm = FirebaseMessaging.instance;
 
   @override
   void initState() {
@@ -34,8 +35,8 @@ class _SupervisionScreenState extends State<SupervisionScreen> {
       setState(() {});
     });
     print('-------------------------------');
-    FirebaseMessaging.instance.getToken().then((value) {
-      print(value);
+    _fcm.getToken().then((token) {
+      print('the token is :'+ token!);
     });
     super.initState();
   }
