@@ -12,7 +12,7 @@ class ChatRoom extends StatefulWidget {
   final String image, name;
   final String userId;
 
-   ChatRoom({required this.image, required this.name, required this.userId});
+  ChatRoom({required this.image, required this.name, required this.userId});
 
   @override
   State<ChatRoom> createState() => _ChatRoomState();
@@ -26,9 +26,7 @@ class _ChatRoomState extends State<ChatRoom> {
     _controller
       ..text += emoji.emoji
       ..selection = TextSelection.fromPosition(
-
-          TextPosition(offset: _controller.text.length),
-
+        TextPosition(offset: _controller.text.length),
       );
   }
 
@@ -45,6 +43,13 @@ class _ChatRoomState extends State<ChatRoom> {
   String? message;
 
   late MessageItem messageWidget;
+
+  @override
+  void initState() {
+    print(id);
+    print(widget.userId);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,13 +79,14 @@ class _ChatRoomState extends State<ChatRoom> {
             StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance
                     .collection('message')
-                   .where('sent', isEqualTo: widget.userId)
-                    .where('sent', isEqualTo: id)
+                    .orderBy(
+                      'timeDate',
+                    )
+                    // .where('sent', isEqualTo: id)
                     // .where('userId', isEqualTo: widget.userId)
-                    // .where('userId', isEqualTo: id)
+                    //      .where('userId', isEqualTo: id)
                     .snapshots(),
                 builder: (context, snapshot) {
-
                   if (!snapshot.hasData) {
                     return const Center(
                       child: CircularProgressIndicator(),
@@ -92,12 +98,17 @@ class _ChatRoomState extends State<ChatRoom> {
                   for (var message in messages) {
                     String messageText = message["Text"];
                     String sent = message["sent"];
-                    messageWidget = MessageItem(
-                        text: messageText,
-                        isMe: sent == id,
-                        image: widget.image);
+                    if ((message["sent"] == id ||
+                            message["sent"] == widget.userId) &&
+                        (message["userId"] == id ||
+                            message["userId"] == widget.userId)) {
+                      messageWidget = MessageItem(
+                          text: messageText,
+                          isMe: sent == id,
+                          image: widget.image);
+                      messageWidgets.add(messageWidget);
+                    }
 
-                    messageWidgets.add(messageWidget);
                   }
                   return Expanded(
                       child: ListView(
@@ -130,7 +141,8 @@ class _ChatRoomState extends State<ChatRoom> {
                             "image": widget.image,
                             'userId': widget.userId,
                             'sent': id,
-                            'name':widget.name,
+                            'name': widget.name,
+                            'timeDate': DateTime.now()
                           },
                         );
                         //   print(widget.userId);
