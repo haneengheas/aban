@@ -419,47 +419,28 @@ void editTheses(
               text: 'أضافة',
               color: blueGradient,
               onTap: () async {
-                print(auth.usertype);
-                if (auth.usertype == 0) {
-                  print(auth.usertype);
-                  if (key.currentState!.validate()) {
-                    key.currentState!.save();
-                    await FirebaseFirestore.instance
-                        .collection('theses')
-                        .doc(indexed)
-                        .update({
-                      'nameTheses': prov.nameTheses,
-                      'linkTheses': prov.linkTheses,
-                      'assistantSupervisors': prov.assistantSupervisors,
-                      'nameSupervisors': prov.nameSupervisors,
-                      'degreeTheses': prov.degreeTheses,
-                      'thesesStatus': prov.thesesStatus,
-                    });
-                    Navigator.pop(context);
-                    AwesomeDialog(
-                            context: context,
-                            title: "هام",
-                            body: const Text("تمت عملية التعديل  بنجاح"),
-                            dialogType: DialogType.SUCCES)
-                        .show();
-                  }
-                } else {
-                  if (key.currentState!.validate()) {
-                    key.currentState!.save();
-                    showLoading(context);
-                    await FirebaseFirestore.instance
-                        .collection('theses')
-                        .doc(indexed)
-                        .update({
-                      'nameTheses': nameTheses,
-                      'linkTheses': linkTheses,
-                      'assistantSupervisors': assistantSupervisors,
-                      'nameSupervisors': nameSupervisors,
-                      'degreeTheses': degreeTheses,
-                      'thesesStatus': thesesStatus,
-                    });
-                  }
+                print(indexed);
+                if (key.currentState!.validate()) {
+                  key.currentState!.save();
+                  print(indexed);
+                  await FirebaseFirestore.instance
+                      .collection('theses')
+                      .doc(indexed)
+                      .update({
+                    'nameTheses': prov.nameTheses,
+                    'linkTheses': prov.linkTheses,
+                    'assistantSupervisors': prov.assistantSupervisors,
+                    'nameSupervisors': prov.nameSupervisors,
+                    'degreeTheses': prov.degreeTheses,
+                    'thesesStatus': prov.thesesStatus,
+                  });
                   Navigator.pop(context);
+                  AwesomeDialog(
+                      context: context,
+                      title: "هام",
+                      body: const Text("تمت عملية التعديل  بنجاح"),
+                      dialogType: DialogType.SUCCES)
+                      .show();
                 }
               }),
         ],

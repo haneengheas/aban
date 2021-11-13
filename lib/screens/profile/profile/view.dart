@@ -125,8 +125,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => EditProfile(
-                                      )));
+                                  builder: (context) => EditProfile()));
                         },
                         child: Container(
                           margin: const EdgeInsets.symmetric(horizontal: 15),
@@ -155,12 +154,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 5, vertical: 15),
                   child: StreamBuilder(
-                      stream:  FirebaseFirestore.instance
-                              .collection('member')
-                              .where('userId',
-                                  isEqualTo:
-                                      FirebaseAuth.instance.currentUser!.uid)
-                              .snapshots(),
+                      stream: FirebaseFirestore.instance
+                          .collection('member')
+                          .where('userId',
+                              isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+                          .snapshots(),
                       builder:
                           (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                         if (snapshot.hasError) {
@@ -220,10 +218,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             SizedBox(
                                               width: sizeFromWidth(context, 8),
                                             ),
-                                             Text(
-                                                    "${snapshot.data!.docs[0]['email']}",
-                                                    style: hintStyle,
-                                                  ),
+                                            Text(
+                                              "${snapshot.data!.docs[0]['email']}",
+                                              style: hintStyle,
+                                            ),
                                           ],
                                         ),
                                         Row(

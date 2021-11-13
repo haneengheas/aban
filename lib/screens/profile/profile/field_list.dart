@@ -37,41 +37,39 @@ class _FieldListState extends State<FieldList> {
     var prov = Provider.of<AuthProvider>(context);
 
     return StreamBuilder<QuerySnapshot>(
-        stream:  FirebaseFirestore.instance
+        stream: FirebaseFirestore.instance
             .collection("member")
             .where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
             .snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasData) {
             return ListView.builder(
-              itemCount: snapshot.data!.docs.length,
+              itemCount: snapshot.data!.docs[0]['fields'].length,
               itemBuilder: (context, index) {
-                return snapshot.data!.docs[index]['fields'].isEmpty
+                return snapshot.data!.docs[0]['fields'].isEmpty
                     ? const SizedBox()
                     : Row(
-                  children: [
-                    const Icon(
-                      Icons.circle,
-                      size: 10,
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Text(
-                      snapshot.data!.docs[index]['fields'][index],
-                      style: hintStyle,
-                    )
-                  ],
-                );
+                        children: [
+                          const Icon(
+                            Icons.circle,
+                            size: 10,
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            snapshot.data!.docs[0]['fields'][index],
+                            style: hintStyle,
+                          )
+                        ],
+                      );
               },
             );
           }
           return const SizedBox();
         });
   }
-
-  }
-
+}
 
 List fields = [
   'المجال الاول',

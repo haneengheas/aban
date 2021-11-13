@@ -1,20 +1,30 @@
 import 'package:aban/constant/style.dart';
-import 'package:aban/screens/chat/chat_room.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart'as intl;
 
-class ChatItem extends StatelessWidget {
+class ChatItem extends StatefulWidget {
   final String image,name;
-  const ChatItem({required this.name,required this.image,});
+  final Timestamp dateTime;
+  final Function ontap;
 
+   const ChatItem({required this.name,required this.image,required this.ontap,required this.dateTime});
 
+  @override
+  State<ChatItem> createState() => _ChatItemState();
+}
+
+class _ChatItemState extends State<ChatItem> {
   @override
   Widget build(BuildContext context) {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: GestureDetector(
-        onTap: () {
-          // Navigator.push(context, MaterialPageRoute(builder: (context)=> const ChatRoom(image:'x', userId: '',  )));
+        onTap:
+        (){
+          widget.ontap();
         },
+
         child: Container(
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(30), color: clearblue),
@@ -32,7 +42,7 @@ class ChatItem extends StatelessWidget {
                 decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     image: DecorationImage(image: NetworkImage(
-                     image,
+                     widget.image,
                     ),)),
 
 
@@ -43,7 +53,7 @@ class ChatItem extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    name,
+                    widget.name,
                     style: labelStyle2,
                   ),
                   Text(
@@ -51,7 +61,7 @@ class ChatItem extends StatelessWidget {
                     style: hintStyle3,
                   ),
                   Text(
-                    '9.57',
+                    intl.DateFormat('kk:mm').format(widget.dateTime.toDate()),
                     style: hintStyle3,
                   ),
                 ],
