@@ -42,6 +42,7 @@ dependencies:
   url_launcher:
   firebase_storage:
   firebase_messaging:
+  intl:
 
 
 

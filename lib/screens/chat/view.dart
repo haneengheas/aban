@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'chat_room.dart';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({Key? key}) : super(key: key);
@@ -21,78 +22,96 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: white,
-      appBar: AppBar(
-          backgroundColor: white,
-          title: Text('المحادثة',
-              style: GoogleFonts.cairo(
-                textStyle: const TextStyle(
-                    color: blue, fontWeight: FontWeight.bold, fontSize: 28),
-              )),
-          centerTitle: true,
-          elevation: 0,
-          leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: const Icon(
-              Icons.arrow_back,
-              color: blue,
+        backgroundColor: white,
+        appBar: AppBar(
+            backgroundColor: white,
+            title: Text('المحادثة',
+                style: GoogleFonts.cairo(
+                  textStyle: const TextStyle(
+                      color: blue, fontWeight: FontWeight.bold, fontSize: 28),
+                )),
+            centerTitle: true,
+            elevation: 0,
+            leading: IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: const Icon(
+                Icons.arrow_back,
+                color: blue,
+              ),
+            )),
+        body: Column(
+          children: [
+            const SearchTextField(
+              text: 'ابحث باسم باحث',
             ),
-          )),
+            StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance
+                    .collection('message')
+                    .where('sent', isEqualTo: id)
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  final data = snapshot.data!.docs;
+                  List<ChatItem> messageWidgets = [];
+                  List<String> messageList = <String>[];
 
-      body:Column(children: [
+                  for (var message in data) {
+                    String image = message["image"];
+                    String name = message["name"];
+                    String userId = message["userId"];
 
-        const SearchTextField(
-          text: 'ابحث باسم باحث',
-        ),
-        StreamBuilder<QuerySnapshot>(
-          stream: FirebaseFirestore.instance.collection('message').where(
-              'sent', isEqualTo: id).snapshots(),
-          builder: (context, snapshot) {
+                    if (!messageList.contains(name) &&
+                        (message['sent'] == id || message['userId'] == id)) {
+                      messageWidget = ChatItem(
+                        image: image,
+                        name: name,
+                        dateTime: message["timeDate"],
+                        ontap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ChatRoom(
+                                        image: image,
+                                        userId: userId,
+                                        name: name,
+                                      )));
+                        },
+                      );
 
-            if (!snapshot.hasData) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-            final data = snapshot.data!.docs;
-            List<ChatItem> messageWidgets = [];
-            for (var message in data) {
-              String image = message["image"];
-              String name = message["name"];
-              print(image);
-              print('0000000000000');
-              print(name);
-              messageWidget = ChatItem(
+                      messageWidgets.add(messageWidget);
 
-                  image: image, name: name,);
+                      messageList.add(message["name"]);
+                    }
+                  }
+                  return Expanded(
+                      child: ListView(
+                    padding: const EdgeInsets.all(20),
+                    children: messageWidgets,
+                  ));
 
-              messageWidgets.add(messageWidget);
-            }
-            return Expanded(
-                child: ListView(
-                  padding: const EdgeInsets.all(20),
-                  children: messageWidgets,
-                ));
-
-            // return ListView.builder(
-            //     itemCount: snapshot.data!.docs.length,
-            //
-            //     itemBuilder: (context, index) {
-            //       print(snapshot.data!.docs[index]['image']);
-            //       print('22222222222222222222222222');
-            //       print(snapshot.data!.docs[index]['name']);
-            //
-            //       return  ChatItem(name: snapshot.data!.docs[index]['name'], image: snapshot
-            //           .data!.docs[index]['image'],);
-            //
-            //
-            //
-            //     }
-            // );
-          }
-      ),],)
-    );
+                  // return ListView.builder(
+                  //     itemCount: snapshot.data!.docs.length,
+                  //
+                  //     itemBuilder: (context, index) {
+                  //       print(snapshot.data!.docs[index]['image']);
+                  //       print('22222222222222222222222222');
+                  //       print(snapshot.data!.docs[index]['name']);
+                  //
+                  //       return  ChatItem(name: snapshot.data!.docs[index]['name'], image: snapshot
+                  //           .data!.docs[index]['image'],);
+                  //
+                  //
+                  //
+                  //     }
+                  // );
+                }),
+          ],
+        ));
   }
 }

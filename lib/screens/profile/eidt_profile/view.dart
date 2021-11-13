@@ -4,7 +4,6 @@ import 'dart:math';
 
 import 'package:aban/constant/alert_methods.dart';
 import 'package:aban/constant/style.dart';
-import 'package:aban/provider/auth_provider.dart';
 import 'package:aban/provider/model.dart';
 import 'package:aban/provider/profile_provider.dart';
 import 'package:aban/screens/profile/eidt_profile/list_project_item.dart';
@@ -25,7 +24,7 @@ import 'package:path/path.dart' as path;
 import 'package:provider/provider.dart';
 
 class EditProfile extends StatefulWidget {
-   EditProfile({ Key? key}) : super(key: key);
+  EditProfile({Key? key}) : super(key: key);
   @override
   _EditProfileState createState() => _EditProfileState();
 }
@@ -42,7 +41,7 @@ class _EditProfileState extends State<EditProfile> {
   TextEditingController id = TextEditingController();
   TextEditingController link = TextEditingController();
   String? image;
-  List? field;
+  List? field = [];
   int? accepted;
   File? file = File('');
   Reference? ref;
@@ -51,7 +50,7 @@ class _EditProfileState extends State<EditProfile> {
 
   List<String> selectedDepartment = <String>[];
 
-  void getData() async {
+  getData() async {
     DocumentSnapshot documentSnapshot2 = await FirebaseFirestore.instance
         .collection("member")
         .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -75,16 +74,25 @@ class _EditProfileState extends State<EditProfile> {
 
   @override
   void initState() {
-    Future.delayed(Duration.zero, () {
-      var prov = Provider.of<ProfileProvider>(
+    var prov;
+    Future.delayed(Duration.zero, () async {
+      prov = Provider.of<ProfileProvider>(
         context,
         listen: false,
       );
       prov.fields.clear();
       prov.file = File('');
+
+      await getData();
+      for (var f in field!) {
+        prov.fields.add(TextEditingController(text: f));
+      }
+
+      print(prov.fields);
+
       setState(() {});
     });
-    getData();
+
     super.initState();
   }
 
@@ -144,7 +152,6 @@ class _EditProfileState extends State<EditProfile> {
                       SizedBox(
                         width: sizeFromWidth(context, 1.5),
                         child: TextFieldUser(
-
                           labelText: "اسم الباحث",
                           hintText: "أسمك",
                           scure: false,
@@ -153,9 +160,10 @@ class _EditProfileState extends State<EditProfile> {
                           validator: (value) {
                             if (value.isEmpty) {
                               return 'يجب ادخال اسم الباحث';
-                            } else if (value < 2) {
+                            } else if (value.length < 2) {
                               return 'يجب ان يحتوي الاسم علي ثلاث حروف علي الاقل';
                             }
+                            return null;
                           }, // initialValue: name,
                         ),
                       ),
@@ -170,7 +178,7 @@ class _EditProfileState extends State<EditProfile> {
                       width: sizeFromWidth(context, 2.3),
                       height: 70,
                       child: CollegeDropDown(
-                        strValue: this.college == '' ? null : this.college,
+                        strValue: college == '' ? null : college,
                         onTap: (v) {
                           college = v;
                           department = '';
@@ -184,15 +192,14 @@ class _EditProfileState extends State<EditProfile> {
                                   value: e,
                                 ))
                             .toList(),
-                        text: college!,
+                        text: college ?? "",
                       ),
                     ),
                     SizedBox(
                       width: sizeFromWidth(context, 2.3),
                       height: 70,
                       child: CollegeDropDown(
-                        strValue:
-                            this.department == '' ? null : this.department,
+                        strValue: department == '' ? null : department,
                         onTap: (v) {
                           department = v;
                           setState(() {});
@@ -204,7 +211,7 @@ class _EditProfileState extends State<EditProfile> {
                                   value: e,
                                 ))
                             .toList(),
-                        text: department!,
+                        text: department ?? "",
                       ),
                     ),
                   ],
@@ -232,7 +239,7 @@ class _EditProfileState extends State<EditProfile> {
                             padding: const EdgeInsets.symmetric(horizontal: 10),
                             child: DropdownButton<String>(
                               hint: Text(
-                                degree!,
+                                degree ?? "",
                                 style: hintStyle,
                               ),
                               value: prov.degree,
@@ -438,6 +445,7 @@ class _EditProfileState extends State<EditProfile> {
                       color: blueGradient,
                       onTap: () async {
                         showDialogWarning(context, ontap: () async {
+                          print('hhhhhhhh');
                           if (formkey.currentState!.validate()) {
                             formkey.currentState!.save();
                             List<String> fieldsStr = <String>[];
@@ -447,8 +455,7 @@ class _EditProfileState extends State<EditProfile> {
                             }
 
                             print('Str list is => $fieldsStr');
-                            // await prov.ref.putFile(prov.file!);
-                            // var imageUrl = await prov.ref.getDownloadURL();
+
                             await FirebaseFirestore.instance
                                 .collection('member')
                                 .doc(FirebaseAuth.instance.currentUser!.uid)
