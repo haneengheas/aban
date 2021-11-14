@@ -11,6 +11,7 @@ import 'package:aban/screens/profile/eidt_profile/list_project_item.dart';
 import 'package:aban/screens/profile/eidt_profile/project_item.dart';
 import 'package:aban/screens/profile/eidt_profile/theses_montor_item.dart';
 import 'package:aban/screens/profile/facultymember/create_profile/dropdown.dart';
+import 'package:aban/screens/profile/profile/view.dart';
 import 'package:aban/screens/registration/regist_screen/view.dart';
 import 'package:aban/widgets/buttons/buttonsuser.dart';
 import 'package:aban/widgets/buttons/tetfielduser.dart';
@@ -466,15 +467,17 @@ class _EditProfileState extends State<EditProfile> {
                                'email':emailuser.text,
                                // 'imageUrl': imageUrl,
                                'fields': fieldsStr
-                             }).then((value) {
+                             }).then((value) async {
                                Navigator.pop(context);
-                               AwesomeDialog(
+                               await AwesomeDialog(
                                    context: context,
                                    title: "هام",
                                    body:
                                    const Text("تمت عملية التعديل بنجاح"),
                                    dialogType: DialogType.SUCCES)
                                    .show();
+                               Navigator.push(context, MaterialPageRoute(builder: (context)=>ProfileScreen()));
+
                              });
                            }
                            else{
@@ -493,15 +496,17 @@ class _EditProfileState extends State<EditProfile> {
                                'email':emailuser.text,
                                // 'imageUrl': imageUrl,
                                'fields': fieldsStr
-                             }).then((value) {
+                             }).then((value) async{
                                Navigator.pop(context);
-                               AwesomeDialog(
+                               await AwesomeDialog(
                                    context: context,
                                    title: "هام",
                                    body:
                                    const Text("تمت عملية التعديل بنجاح"),
                                    dialogType: DialogType.SUCCES)
                                    .show();
+                               Navigator.push(context, MaterialPageRoute(builder: (context)=>ProfileScreen()));
+
                              });
                            }
                           }

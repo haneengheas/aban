@@ -49,18 +49,15 @@ class _UnCompletedProjectState extends State<LaterSeminar> {
                   itemBuilder: (context, index) {
                     return widget.filter == null || widget.filter == ""
                         ? _buildSeminarBox(
-                            widget.seminar[index],
-                          )
+                      widget.seminar[index],
+                    )
                         : widget.seminar[index].seminartitle!
-                                    .toLowerCase()
-                                    .contains(widget.filter!.toLowerCase()) ||
-                                widget.seminar[index].seminartitle!
-                                    .toLowerCase()
-                                    .contains(widget.filter!.toLowerCase())
-                            ? _buildSeminarBox(
-                                widget.seminar[index],
-                              )
-                            : Container();
+                        .toLowerCase()
+                        .contains(widget.filter!.toLowerCase())
+                        ? _buildSeminarBox(
+                      widget.seminar[index],
+                    )
+                        : Container();
                   },
                 ),
               ),

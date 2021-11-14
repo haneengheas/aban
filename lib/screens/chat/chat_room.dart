@@ -90,7 +90,7 @@ class _ChatRoomState extends State<ChatRoom> {
                     );
                   }
 
-                  final messages = snapshot.data!.docs.reversed;
+                  final messages = snapshot.data!.docs;
                   List<MessageItem> messageWidgets = [];
                   for (var message in messages) {
                     String messageText = message["Text"];
