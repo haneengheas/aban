@@ -80,7 +80,7 @@ class _ChatRoomState extends State<ChatRoom> {
                 stream: FirebaseFirestore.instance
                     .collection('message')
                     .orderBy(
-                      'timeDate',
+                      'timeDate',descending: true
                     )
                     .snapshots(),
                 builder: (context, snapshot) {
