@@ -24,8 +24,6 @@ class MessageItem extends StatelessWidget {
       child: Row(
         mainAxisAlignment:
             isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
-        // crossAxisAlignment:
-        // isMe ? CrossAxisAlignment.end : CrossAxisAlignment.end,
         children: [
           isMe
               ? const Text('')
@@ -55,23 +53,23 @@ class MessageItem extends StatelessWidget {
                     bottomRight: Radius.circular(30.0),
                     topRight: Radius.circular(30.0),
                   ),
-            elevation:8.0,
+            elevation: 5.0,
             color: isMe ? blue : Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
 
-
-                child: Padding(
-                  padding:const EdgeInsets.symmetric(vertical: 10,horizontal: 20),
                   child: Text(
                     text,
-
-
                     style: TextStyle(
                       color: isMe ? Colors.white : Colors.black54,
-                      fontSize: 19.0,
+                      fontSize: 14.0,
                     ),
                   ),
                 ),
-
+              ),
             ),
 
         ],

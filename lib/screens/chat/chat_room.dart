@@ -96,7 +96,7 @@ class _ChatRoomState extends State<ChatRoom> {
                     String messageText = message["Text"];
                     String sent = message["sent"];
                     if ((message["sent"] == id ||
-                            message["sent"] == widget.userId) &&
+                            message["sent"] == widget.userId)&&
                         (message["userId"] == id ||
                             message["userId"] == widget.userId)) {
                       messageWidget = MessageItem(
