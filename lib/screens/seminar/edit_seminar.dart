@@ -37,21 +37,22 @@ class _EditSeminarState extends State<EditSeminar> {
   CalendarFormat _calendarFormat = CalendarFormat.month;
 
   void getData() async {
-    // DocumentSnapshot documentSnapshot2 = (await FirebaseFirestore.instance
-    //     .collection("seminar")
-    //     .where('userId',isEqualTo: FirebaseAuth.instance.currentUser!.uid)
-    //     .get());
-    // debugPrint('userType is ${documentSnapshot2.get('userId')}');
+    QuerySnapshot documentSnapshot2 = await FirebaseFirestore.instance
+        .collection("seminar")
+        .where('userId',isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+        .get();
 
-    // name.text = documentSnapshot2.get('seminaraddress');
-    // from.text = documentSnapshot2.get('from');
-    // to.text = documentSnapshot2.get('to');
-    // link.text = documentSnapshot2.get('link');
-    // discription.text = documentSnapshot2.get('description');
-    // location.text = documentSnapshot2.get('location');
+    name.text = documentSnapshot2.docs[0]['seminaraddress'];
+    from.text = documentSnapshot2.docs[0]['from'];
+    to.text = documentSnapshot2.docs[0]['to'];
+    link.text = documentSnapshot2.docs[0]['link'];
+    discription.text = documentSnapshot2.docs[0]['description'];
+    location.text = documentSnapshot2.docs[0]['location'];
+    _selectedDay = documentSnapshot2.docs[0]['selectedDay'];
     print(name);
     print(link);
     print("=/=/=/=//==/=//==/=/=//=//=/==/=/=/");
+
 
     setState(() {});
   }

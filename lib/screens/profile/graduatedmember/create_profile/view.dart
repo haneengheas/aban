@@ -7,8 +7,7 @@ import 'package:aban/constant/alert_methods.dart';
 import 'package:aban/constant/style.dart';
 import 'package:aban/provider/model.dart';
 import 'package:aban/provider/profile_provider.dart';
-import 'package:aban/screens/Home/navigation.dart';
-import 'package:aban/screens/Home/studentdrawer.dart';
+
 import 'package:aban/screens/profile/facultymember/create_profile/dropdown.dart';
 import 'package:aban/widgets/buttons/buttonsuser.dart';
 import 'package:aban/widgets/buttons/submit_button.dart';
@@ -81,23 +80,30 @@ class _CreateGraduatedProfileState extends State<CreateGraduatedProfile> {
                             onTap: () async {
                               await showBottomSheet(context);
                             },
-                            child: CircleAvatar(
-                              backgroundColor: white,
-                              radius: 30,
-                              child: prov.file!.path == ''
-                                  ? const Image(
-                                      image: AssetImage(
-                                        'assets/user.png',
-                                      ),
-                                      height: 80,
-                                      color: blue,
-                                    )
-                                  : Image(
-                                      image: FileImage(
-                                        prov.file!,
-                                      ),
-                                      height: 80,
+                            child: prov.file!.path == ''
+                                ?  Container(
+                              height: sizeFromHeight(context, 3.8),
+                              width: sizeFromWidth(context, 2.9),
+                              margin: const EdgeInsets.all(3),
+                              decoration: BoxDecoration(
+                                  image: const DecorationImage(
+                                    image: AssetImage('assets/user.png'),
+                                    fit: BoxFit.fill,
+                                  ),
+                                  borderRadius: BorderRadius.circular(23)),
+                            )
+                                : Container(
+                              height: sizeFromHeight(context, 3.8),
+                              width: sizeFromWidth(context, 2.9),
+                              margin: const EdgeInsets.all(3),
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    image: FileImage(
+                                      prov.file!,
                                     ),
+                                    fit: BoxFit.fill,
+                                  ),
+                                  borderRadius: BorderRadius.circular(23)),
                             )),
                         SizedBox(
                           width: sizeFromWidth(context, 1.5),

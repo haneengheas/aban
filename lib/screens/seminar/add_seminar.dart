@@ -24,10 +24,9 @@ class AddSeminar extends StatefulWidget {
 
 class _AddSeminarState extends State<AddSeminar> {
   var val;
-  DateTime? _selectedDay;
-  DateTime? _focusedDay;
 
-  CalendarFormat _calendarFormat = CalendarFormat.month;
+
+
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   // var user = FirebaseFirestore.instance.collection('user').doc(
@@ -116,9 +115,10 @@ class _AddSeminarState extends State<AddSeminar> {
                       },
                       onDaySelected: (selectedDay, focusedDay) {
                         setState(() {
-                          prov.selectedDay = selectedDay;
+                          prov.selectedDay = selectedDay ;
                           prov.focusedDay =
-                              focusedDay; // update `_focusedDay` here as well
+                              focusedDay ; //
+                          // update `_focusedDay` here as well
                         });
                       },
                       calendarFormat: prov.calendarFormat,

@@ -5,12 +5,25 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class SeminarDetails extends StatelessWidget {
-  String? seminarname, username, location, description;
-  var type;
+  String? seminarname,
+      username,
+      location,
+      description,from,to,link,userid;
+  var type,selectday;
 
   SeminarDetails(
-      {Key? key,  required this.type, required this.description, required this.location, required this.seminarname, required this.username}) : super(key: key);
-
+      {Key? key,
+      required this.type,
+      required this.selectday,
+      required this.userid,
+      required this.from,
+      required this.to,
+      required this.link,
+      required this.description,
+      required this.location,
+      required this.seminarname,
+      required this.username})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -87,9 +100,7 @@ class SeminarDetails extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(
-                              type == 1
-                                  ? 'عامة'
-                                  : 'خاصة',
+                              type == 1 ? 'عامة' : 'خاصة',
                               style: labelStyle3,
                             ),
                             Container(

@@ -1,13 +1,16 @@
 import 'package:aban/constant/style.dart';
 import 'package:aban/screens/seminar/seminar_details.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:aban/screens/seminar/seminar_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'add_seminar.dart';
 
 class LaterSeminar extends StatefulWidget {
-  const LaterSeminar({Key? key}) : super(key: key);
+  LaterSeminar(this.filter, this.seminar, {Key? key}) : super(key: key);
+
+  final List<SeminarModel> seminar;
+  final String? filter;
 
   @override
   _UnCompletedProjectState createState() => _UnCompletedProjectState();
@@ -18,13 +21,7 @@ class _UnCompletedProjectState extends State<LaterSeminar> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
-        stream: FirebaseFirestore.instance
-            .collection('seminar')
-            .where('selectedDay', isGreaterThan: DateTime.now())
-            .snapshots(),
-        builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          return Column(
+    return  Column(
             children: [
               TextButton(
                 onPressed: () {
@@ -48,94 +45,114 @@ class _UnCompletedProjectState extends State<LaterSeminar> {
               ),
               Expanded(
                 child: ListView.builder(
-                  itemCount: snapshot.data!.docs.length,
+                  itemCount: widget.seminar.length,
                   itemBuilder: (context, index) {
-                    return InkWell(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>  SeminarDetails(
-                                  description: snapshot.data!.docs[index]['description'],
-                                  seminarname:  snapshot.data!.docs[index]['seminaraddress'],
-                                  location:  snapshot.data!.docs[index]['location'],
-                                  type:  snapshot.data!.docs[index]['type'],
-                                  username:  snapshot.data!.docs[index]['username'],
+                    return widget.filter == null || widget.filter == ""
+                        ? _buildSeminarBox(
+                            widget.seminar[index],
+                          )
+                        : widget.seminar[index].seminartitle!
+                                    .toLowerCase()
+                                    .contains(widget.filter!.toLowerCase()) ||
+                                widget.seminar[index].seminartitle!
+                                    .toLowerCase()
+                                    .contains(widget.filter!.toLowerCase())
+                            ? _buildSeminarBox(
+                                widget.seminar[index],
+                              )
+                            : Container();
+                  },
+                ),
+              ),
+            ],
+          );
 
-                                )));
-                      },
-                      child: Container(
-                        margin: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 10),
-                        width: sizeFromWidth(context, 1),
-                        height: 125,
-                        decoration: BoxDecoration(
-                          color: clearblue,
-                          borderRadius: BorderRadius.circular(25),
-                        ),
-                        child: Directionality(
-                          textDirection: TextDirection.rtl,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Text(
-                                        snapshot.data!.docs[index]
-                                            ['seminaraddress'],
-                                        style: labelStyle2,
-                                      ),
-                                      SizedBox(
-                                        width: sizeFromWidth(context, 5),
-                                      ),
-                                      Text(
-                                        // snapshot.data!.docs[index]
-                                        // ['selectedDay'].toString(),
-                                        '9999999',
-                                        style: hintStyle3,
-                                      ),
-                                      const Icon(
-                                        Icons.date_range,
-                                        color: blue,
-                                        size: 20,
-                                      )
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Text(
-                                    snapshot.data!.docs[index]['username'],
-                                    style: hintStyle3,
-                                  ),
-                                ],
-                              ),
-                              const VerticalDivider(
-                                color: gray,
-                                endIndent: 10,
-                                indent: 10,
-                                width: 5,
-                                thickness: 2,
-                              ),
-                              Padding(
-
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 20),
-                                child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        snapshot.data!.docs[index]['type'] == 1
-                                            ? 'عامة'
-                                            : 'خاصة',
-                                        style: labelStyle3,
-                                      ),
-                                      // InkWell(
+  }
+  Widget _buildSeminarBox(SeminarModel seminar) => InkWell(
+    onTap: () {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => SeminarDetails(
+                description: seminar.discription,
+                from: seminar.from,
+                link: seminar.link,
+                location: seminar.location,
+                selectday: seminar.selectday,
+                seminarname: seminar.seminartitle,
+                to: seminar.to,
+                type: seminar.type,
+                userid: seminar.userid,
+                username: seminar.username,
+              )));
+    },
+    child: Container(
+      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+      width: sizeFromWidth(context, 1),
+      height: 125,
+      decoration: BoxDecoration(
+        color: clearblue,
+        borderRadius: BorderRadius.circular(25),
+      ),
+      child: Directionality(
+        textDirection: TextDirection.rtl,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      seminar.seminartitle!,
+                      style: labelStyle2,
+                    ),
+                    SizedBox(
+                      width: sizeFromWidth(context, 5),
+                    ),
+                    Text(
+                      // snapshot.data!.docs[index]
+                      // ['selectedDay'].toString(),
+                      '9999999',
+                      style: hintStyle3,
+                    ),
+                    const Icon(
+                      Icons.date_range,
+                      color: blue,
+                      size: 20,
+                    )
+                  ],
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Text(
+                 seminar.username!,
+                  style: hintStyle3,
+                ),
+              ],
+            ),
+            const VerticalDivider(
+              color: gray,
+              endIndent: 10,
+              indent: 10,
+              width: 5,
+              thickness: 2,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      seminar.type == 1
+                          ? 'عامة'
+                          : 'خاصة',
+                      style: labelStyle3,
+                    ),
+                    // InkWell(
 // onTap: () {
 // setState(() {
 // checked = !checked;
@@ -163,18 +180,15 @@ class _UnCompletedProjectState extends State<LaterSeminar> {
 // ),
 // ),
 // ),
-                                    ]),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ],
-          );
-        });
-  }
+                  ]),
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
+
+
 }
+
+

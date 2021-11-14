@@ -4,6 +4,7 @@ import 'dart:math';
 
 import 'package:aban/constant/alert_methods.dart';
 import 'package:aban/constant/style.dart';
+import 'package:aban/provider/auth_provider.dart';
 import 'package:aban/provider/model.dart';
 import 'package:aban/provider/profile_provider.dart';
 import 'package:aban/screens/profile/eidt_profile/list_project_item.dart';
