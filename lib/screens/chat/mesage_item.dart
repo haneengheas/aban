@@ -55,7 +55,7 @@ class MessageItem extends StatelessWidget {
                     bottomRight: Radius.circular(30.0),
                     topRight: Radius.circular(30.0),
                   ),
-            elevation: 5.0,
+            elevation:8.0,
             color: isMe ? blue : Colors.white,
 
 
