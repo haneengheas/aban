@@ -107,8 +107,7 @@ Widget studentDrawer(BuildContext context) {
                   MaterialPageRoute(builder: (context) => HelpScreen()));
             }),
         QudsPopupMenuDivider(color: gray, thickness: .5),
-        prov.accept == 0
-            ? QudsPopupMenuItem(
+        prov.accept == 0 ? QudsPopupMenuItem(
                 trailing: const Icon(
                   Icons.supervised_user_circle,
                   color: blue,
@@ -132,6 +131,7 @@ Widget studentDrawer(BuildContext context) {
                       '',
                     )),
                 onPressed: () {
+                  print(prov.accept);
 
                 }),
         QudsPopupMenuDivider(color: gray, thickness: .5),
