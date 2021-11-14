@@ -80,7 +80,7 @@ class _ChatRoomState extends State<ChatRoom> {
                 stream: FirebaseFirestore.instance
                     .collection('message')
                     .orderBy(
-                      'timeDate',descending: true
+                      'timeDate'
                     )
                     .snapshots(),
                 builder: (context, snapshot) {
@@ -90,7 +90,7 @@ class _ChatRoomState extends State<ChatRoom> {
                     );
                   }
 
-                  final messages = snapshot.data!.docs;
+                  final messages = snapshot.data!.docs.reversed;
                   List<MessageItem> messageWidgets = [];
                   for (var message in messages) {
                     String messageText = message["Text"];
@@ -131,6 +131,7 @@ class _ChatRoomState extends State<ChatRoom> {
                         color: blue,
                       ),
                       onPressed: () {
+                       print(DateTime.now().toUtc()) ;
                         if (_controller.text.isNotEmpty) {
                           FirebaseFirestore.instance.collection('message').add(
                             {
