@@ -43,7 +43,9 @@ class _FieldListresershState extends State<FieldListresersh> {
               itemCount: snapshot.data!.docs[0]['fields'].length,
               itemBuilder: (context, index) {
 
-                return Row(
+                return snapshot.data!.docs[0]['fields'].isEmpty
+                    ? const SizedBox()
+                    : Row(
                   children: [
                     const Icon(
                       Icons.circle,
@@ -66,3 +68,11 @@ class _FieldListresershState extends State<FieldListresersh> {
   }
 }
 
+List fields = [
+  'المجال الاول',
+  'المجال الثاني',
+  'المجال الثالث',
+  'المجال الرابع',
+  'المجال الخامس',
+  'المجال السادس',
+];

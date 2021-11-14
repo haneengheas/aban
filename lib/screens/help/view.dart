@@ -40,7 +40,7 @@ class HelpScreen extends StatelessWidget {
         children: [
           Container(
             width: sizeFromWidth(context, 1),
-            height: sizeFromHeight(context, 1.5),
+            height: sizeFromHeight(context, 1.3),
             margin: const EdgeInsets.symmetric(horizontal: 20,vertical: 20),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(25),
@@ -85,7 +85,7 @@ class HelpScreen extends StatelessWidget {
                     hintText: "الوصف",
                   ),
                   const SizedBox(
-                    height: 50,
+                    height: 80,
                   ),
                   SubmitButton(
                       gradient: blueGradient, text: "ارسال", onTap: () async{
@@ -97,15 +97,19 @@ class HelpScreen extends StatelessWidget {
                                 'problemTitle':problemTitleController.text,
                                 'description':descriptionController.text,
                                 'userId':FirebaseAuth.instance.currentUser!.uid,
-                              });
-                        }
-                        Navigator.pop(context);
+                              }).then((value) {
+                            Navigator.pop(context);
+
+                          });
                           await AwesomeDialog(
-                            context: context,
-                            title: "هام",
-                            body: const Text("تم الارسال بنجاح"),
-                            dialogType: DialogType.SUCCES)
-                          ..show();
+                              context: context,
+                              title: "هام",
+                              body: const Text("تم الارسال بنجاح"),
+                              dialogType: DialogType.SUCCES)
+                            ..show();
+                        }
+
+
                   })
                 ],
               ),

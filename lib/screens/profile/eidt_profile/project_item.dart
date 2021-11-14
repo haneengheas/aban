@@ -178,11 +178,11 @@ class ProjectItem extends StatelessWidget {
 void editProject(BuildContext context,
     {required String text,
     required indexed,
-    // required TextEditingController projectName,
-    // required TextEditingController descriptionProject,
-    // required TextEditingController leaderName,
+    // required TextEditingController ?projectName,
+    // required TextEditingController ?descriptionProject,
+    // required TextEditingController ?leaderName,
     // required String? projectStatus,
-    // required TextEditingController memberProjectName,
+    // required TextEditingController ?memberProjectName,
     required String projectName,
     required String descriptionProject,
     required String leaderName,
@@ -194,6 +194,10 @@ void editProject(BuildContext context,
     builder: (BuildContext context) {
       var prov = Provider.of<ProfileProvider>(context);
       var auth = Provider.of<AuthProvider>(context);
+      TextEditingController? projectName1= TextEditingController(text: projectName);
+      TextEditingController? descriptionProject1= TextEditingController(text: descriptionProject);
+      TextEditingController? leaderName1= TextEditingController(text: leaderName);
+      TextEditingController? memberProjectName1= TextEditingController(text: memberProjectName);
 
       return AlertDialog(
         title: Center(child: Text(text)),
@@ -211,10 +215,8 @@ void editProject(BuildContext context,
               child: Column(
                 children: [
                   EidtTextFieldUser(
-                    // controller: projectName,
-                    onChanged: (val) {
-                      prov.projectName = val;
-                    },
+                     controller: projectName1,
+
                     validator: (value) {
                       if (value.isEmpty) {
                         return 'برجاءادخال اسم المشروع ';
@@ -223,13 +225,11 @@ void editProject(BuildContext context,
                     hintText: 'اسم المشروع',
                     labelText: "اسم المشروع",
                     scure: false,
-                    initialValue: projectName,
+
                   ),
                   EidtTextFieldUser(
-                    // controller: descriptionProject,
-                    onChanged: (val) {
-                      prov.descriptionProject = val;
-                    },
+                    controller: descriptionProject1,
+
                     validator: (value) {
                       if (value.isEmpty) {
                         return 'برجاءادخال وصف المشروع ';
@@ -238,13 +238,11 @@ void editProject(BuildContext context,
                     hintText: 'وصف المشروع',
                     labelText: "وصف المشروع",
                     scure: false,
-                    initialValue: descriptionProject,
+
                   ),
                   EidtTextFieldUser(
-                    // controller: leaderName,
-                    onChanged: (val) {
-                      prov.leaderName = val;
-                    },
+                     controller: leaderName1,
+
                     validator: (value) {
                       if (value.isEmpty) {
                         return 'برجاءادخال اسم القائد ';
@@ -253,13 +251,11 @@ void editProject(BuildContext context,
                     hintText: 'اسم القائد',
                     labelText: "القائد",
                     scure: false,
-                    initialValue: leaderName,
+
                   ),
                   EidtTextFieldUser(
-                    // controller: memberProjectName,
-                    onChanged: (val) {
-                      prov.memberProjectName = val;
-                    },
+                     controller: memberProjectName1,
+
                     validator: (value) {
                       if (value.isEmpty) {
                         return 'برجاءادخال اسماء الاعضاء ';
@@ -268,7 +264,7 @@ void editProject(BuildContext context,
                     hintText: 'اسم الاعضاء',
                     labelText: "الاعضاء",
                     scure: false,
-                    initialValue: memberProjectName,
+
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 7.5),
@@ -287,7 +283,7 @@ void editProject(BuildContext context,
                                 'اختر حالة المشروع',
                                 style: hintStyle,
                               ),
-                              value: prov.projectStatus,
+                              value: projectStatus,
                               underline: Container(
                                 width: 30,
                                 padding:
@@ -340,50 +336,27 @@ void editProject(BuildContext context,
               text: 'أضافة',
               color: blueGradient,
               onTap: () async {
-                if (auth.usertype == 0) {
-                  if (Keys.currentState!.validate()) {
-                    Keys.currentState!.save();
-                    await FirebaseFirestore.instance
-                        .collection('project')
-                        .doc(indexed)
-                        .update({
-                      'projectName': prov.projectName,
-                      'descriptionProject': prov.descriptionProject,
-                      'leaderName': prov.leaderName,
-                      'projectStatus': prov.projectStatus,
-                      'memberProjectName': prov.memberProjectName,
-                    });
-                    Navigator.pop(context);
-                    AwesomeDialog(
-                        context: context,
-                        title: "هام",
-                        body: const Text("تمت عملية التعديل بنجاح"),
-                        dialogType: DialogType.SUCCES)
-                        .show();
-                  }
-                } else if (auth.usertype == 1) {
-                  if (Keys.currentState!.validate()) {
-                    Keys.currentState!.save();
-                    await FirebaseFirestore.instance
-                        .collection('project')
-                        .doc(indexed)
-                        .update({
-                      'projectName': prov.projectName,
-                      'descriptionProject': prov.descriptionProject,
-                      'leaderName': prov.leaderName,
-                      'projectStatus': prov.projectStatus,
-                      'memberProjectName': prov.memberProjectName,
-                    });
-                    Navigator.pop(context);
-                    AwesomeDialog(
-                        context: context,
-                        title: "هام",
-                        body: const Text("تمت عملية التعديل بنجاح"),
-                        dialogType: DialogType.SUCCES)
-                        .show();
-                  }
+                if (Keys.currentState!.validate()) {
+                  Keys.currentState!.save();
+                  await FirebaseFirestore.instance
+                      .collection('project')
+                      .doc(indexed)
+                      .update({
+                    'projectName':projectName1.text,
+                    'descriptionProject': descriptionProject1.text,
+                    'leaderName':leaderName1.text,
+                    'projectStatus': prov.projectStatus,
+                    'memberProjectName':memberProjectName1.text,
+                  });
+                  Navigator.pop(context);
+                  AwesomeDialog(
+                      context: context,
+                      title: "هام",
+                      body: const Text("تمت عملية التعديل بنجاح"),
+                      dialogType: DialogType.SUCCES)
+                      .show();
                 }
-              }),
+              }  ),
         ],
       );
     },

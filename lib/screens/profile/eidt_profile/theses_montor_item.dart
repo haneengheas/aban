@@ -241,16 +241,12 @@ void editTheses(
   BuildContext context, {
   required String text,
   required indexed,
-  // required TextEditingController nameTheses,
-  // required TextEditingController linkTheses,
-  // required TextEditingController nameSupervisors,
-  // required TextEditingController assistantSupervisors,
-  // required TextEditingController degreeTheses,
-  required String nameTheses,
-  required String linkTheses,
-  required String nameSupervisors,
-  required String assistantSupervisors,
-  required String degreeTheses,
+
+  required String? nameTheses,
+  required String ? linkTheses,
+  required String ? nameSupervisors,
+  required String ? assistantSupervisors,
+  required String ? degreeTheses,
   required String? thesesStatus,
   required GlobalKey<FormState> key,
 }) {
@@ -259,7 +255,20 @@ void editTheses(
     builder: (BuildContext context) {
       var prov = Provider.of<ProfileProvider>(context);
       var auth = Provider.of<AuthProvider>(context);
+      TextEditingController? nameTheses1= TextEditingController(text: nameTheses);
+      TextEditingController? linkTheses1= TextEditingController(text: linkTheses);
+      TextEditingController? nameSupervisors1= TextEditingController(text: nameSupervisors);
+      TextEditingController? degreeTheses1= TextEditingController(text: degreeTheses);
+      TextEditingController? assistantSupervisors1= TextEditingController(text: assistantSupervisors);
 
+
+
+
+
+      //     TextEditingController linkTheses1,
+      // TextEditingController nameSupervisors1,
+      // TextEditingController assistantSupervisors1,
+      // TextEditingController degreeTheses1,
       return AlertDialog(
         title: Center(child: Text(text)),
         titleTextStyle: labelStyle,
@@ -276,25 +285,19 @@ void editTheses(
               child: Column(
                 children: [
                   EidtTextFieldUser(
-                    // controller: nameTheses,
+                   controller: nameTheses1,
                     hintText: 'اسم الاطروحة',
                     labelText: "اسم الاطروحة",
                     scure: false,
-                    onChanged: (val) {
-                      prov.nameTheses = val;
-                    },
                     validator: (value) {
                       if (value.isEmpty) {
                         return 'برجاءادخال اسم الاطروحة ';
                       }
                     },
-                    initialValue: nameTheses,
+
                   ),
                   EidtTextFieldUser(
-                    // controller: linkTheses,
-                    onChanged: (val) {
-                      prov.linkTheses = val;
-                    },
+                     controller: linkTheses1,
                     validator: (value) {
                       if (value.isEmpty) {
                         return 'برجاءادخال رابط الاطروحة ';
@@ -303,13 +306,11 @@ void editTheses(
                     hintText: 'رابط الاطروحة',
                     labelText: 'رابط الاطروحة',
                     scure: false,
-                    initialValue: linkTheses,
+
                   ),
                   EidtTextFieldUser(
-                    // controller: nameSupervisors,
-                    onChanged: (val) {
-                      prov.nameSupervisors = val;
-                    },
+                   controller: nameSupervisors1,
+
                     validator: (value) {
                       if (value.isEmpty) {
                         return 'برجاءادخال اسماء المشرفين  ';
@@ -318,13 +319,10 @@ void editTheses(
                     hintText: 'اسم المشرف',
                     labelText: "المشرف",
                     scure: false,
-                    initialValue: nameSupervisors,
+
                   ),
                   EidtTextFieldUser(
-                    // controller: assistantSupervisors,
-                    onChanged: (val) {
-                      prov.assistantSupervisors = val;
-                    },
+                    controller: assistantSupervisors1,
                     validator: (value) {
                       if (value.isEmpty) {
                         return 'برجاءادخال اسماء المشرفين المساعدين ';
@@ -333,13 +331,11 @@ void editTheses(
                     hintText: 'اسماء المشرفين المساعدين',
                     labelText: "المشرفون المساعدون",
                     scure: false,
-                    initialValue: assistantSupervisors,
+
                   ),
                   EidtTextFieldUser(
-                    // controller: degreeTheses,
-                    onChanged: (val) {
-                      prov.degreeTheses = val;
-                    },
+                     controller: degreeTheses1,
+
                     validator: (value) {
                       if (value.isEmpty) {
                         return 'برجاءادخال الدرجة العلمية ';
@@ -347,9 +343,7 @@ void editTheses(
                     },
                     hintText: 'اختر الدرجة العمليه',
                     labelText: "الدرجة العلميه",
-                    scure: false,
-                    initialValue: degreeTheses,
-                  ),
+                    scure: false,),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 7.5),
                     child: Column(
@@ -427,11 +421,11 @@ void editTheses(
                       .collection('theses')
                       .doc(indexed)
                       .update({
-                    'nameTheses': prov.nameTheses,
-                    'linkTheses': prov.linkTheses,
-                    'assistantSupervisors': prov.assistantSupervisors,
-                    'nameSupervisors': prov.nameSupervisors,
-                    'degreeTheses': prov.degreeTheses,
+                    'nameTheses': nameTheses1.text,
+                    'linkTheses': linkTheses1.text,
+                    'assistantSupervisors': assistantSupervisors1.text,
+                    'nameSupervisors': nameSupervisors1.text,
+                    'degreeTheses': degreeTheses1.text,
                     'thesesStatus': prov.thesesStatus,
                   });
                   Navigator.pop(context);

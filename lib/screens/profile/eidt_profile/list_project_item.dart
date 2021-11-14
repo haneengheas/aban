@@ -29,8 +29,8 @@ class _ListProjectItemState extends State<ListProjectItem> {
                             padding: const EdgeInsets.symmetric(horizontal: 10),
                             child: TextFormField(
                               controller: e,
-                              decoration: InputDecoration(
-                                  hintText: " ${widget.fields![0]}",
+                              decoration: const InputDecoration(
+                                  hintText: "المجال  ",
                                   floatingLabelBehavior:
                                       FloatingLabelBehavior.always),
                             ),

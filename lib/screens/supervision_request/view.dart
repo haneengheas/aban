@@ -133,7 +133,7 @@ class _SupervisionScreenState extends State<SupervisionScreen> {
                               dialogType: DialogType.SUCCES)
                             ..show();
                         });
-                        await sendNotification(body: 'ان شاء الله شغالة',title: 'notification');
+                        await sendNotification(body:nameController.text ,title: 'إطروحة جديدة');
                       })
                 ],
               ),

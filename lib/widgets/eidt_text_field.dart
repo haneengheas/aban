@@ -6,18 +6,22 @@ class EidtTextFieldUser extends StatefulWidget {
   final String hintText;
   final String labelText;
   final bool scure;
-  final Function(String) onChanged;
+  final Function(String) ?onChanged;
   final FormFieldValidator   validator;
-  final String initialValue;
+  final String ?initialValue;
+  final TextEditingController ?controller;
 
   // ignore: use_key_in_widget_constructors
   const EidtTextFieldUser(
+
       {required this.hintText,
         required this.labelText,
         required this.scure,
-        required this.onChanged,
-        required this.initialValue,
-        required this.validator});
+         this.onChanged,
+         this.initialValue,
+        required this.validator,
+        this.controller,
+      });
 
   @override
   _EidtTextFieldUserState createState() => _EidtTextFieldUserState();
@@ -37,6 +41,7 @@ class _EidtTextFieldUserState extends State<EidtTextFieldUser> {
           onChanged: widget.onChanged,
           validator:  widget.validator,
           obscureText: widget.scure,
+          controller: widget.controller,
           decoration: InputDecoration(
             // prefixIcon: Icon(Icons.star,size: 5,color: Colors.red,),
             labelText: widget.labelText,

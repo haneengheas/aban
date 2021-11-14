@@ -1,8 +1,11 @@
 import 'package:aban/constant/style.dart';
+import 'package:aban/provider/profile_provider.dart';
 import 'package:aban/screens/seminar/seminar_details.dart';
 import 'package:aban/screens/seminar/seminar_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'add_seminar.dart';
 
@@ -18,174 +21,204 @@ class LaterSeminar extends StatefulWidget {
 
 class _UnCompletedProjectState extends State<LaterSeminar> {
   bool checked = true;
+  bool? isFav = false;
 
   @override
   Widget build(BuildContext context) {
-    return  Column(
+    var prov = Provider.of<ProfileProvider>(context);
+    return Column(
+      children: [
+        TextButton(
+          onPressed: () {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => AddSeminar()));
+          },
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              TextButton(
-                onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => AddSeminar()));
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'أضف ندوة  ',
-                      style: hintStyle2,
-                    ),
-                    const Icon(
-                      Icons.add_circle_outline,
-                      color: blue,
-                      size: 20,
-                    ),
-                  ],
-                ),
+              Text(
+                'أضف ندوة  ',
+                style: hintStyle2,
               ),
-              Expanded(
-                child: ListView.builder(
-                  itemCount: widget.seminar.length,
-                  itemBuilder: (context, index) {
-                    return widget.filter == null || widget.filter == ""
-                        ? _buildSeminarBox(
-                      widget.seminar[index],
-                    )
-                        : widget.seminar[index].seminartitle!
-                        .toLowerCase()
-                        .contains(widget.filter!.toLowerCase())
-                        ? _buildSeminarBox(
-                      widget.seminar[index],
-                    )
-                        : Container();
-                  },
-                ),
+              const Icon(
+                Icons.add_circle_outline,
+                color: blue,
+                size: 20,
               ),
             ],
-          );
-
-  }
-  Widget _buildSeminarBox(SeminarModel seminar) => InkWell(
-    onTap: () {
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => SeminarDetails(
-                description: seminar.discription,
-                from: seminar.from,
-                link: seminar.link,
-                location: seminar.location,
-                selectday: seminar.selectday,
-                seminarname: seminar.seminartitle,
-                to: seminar.to,
-                type: seminar.type,
-                userid: seminar.userid,
-                username: seminar.username,
-              )));
-    },
-    child: Container(
-      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-      width: sizeFromWidth(context, 1),
-      height: 125,
-      decoration: BoxDecoration(
-        color: clearblue,
-        borderRadius: BorderRadius.circular(25),
-      ),
-      child: Directionality(
-        textDirection: TextDirection.rtl,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Row(
-                  children: [
-                    Text(
-                      seminar.seminartitle!,
-                      style: labelStyle2,
-                    ),
-                    SizedBox(
-                      width: sizeFromWidth(context, 5),
-                    ),
-                    Text(
-                      // snapshot.data!.docs[index]
-                      // ['selectedDay'].toString(),
-                      '9999999',
-                      style: hintStyle3,
-                    ),
-                    const Icon(
-                      Icons.date_range,
-                      color: blue,
-                      size: 20,
-                    )
-                  ],
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Text(
-                 seminar.username!,
-                  style: hintStyle3,
-                ),
-              ],
-            ),
-            const VerticalDivider(
-              color: gray,
-              endIndent: 10,
-              indent: 10,
-              width: 5,
-              thickness: 2,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20),
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      seminar.type == 1
-                          ? 'عامة'
-                          : 'خاصة',
-                      style: labelStyle3,
-                    ),
-                    // InkWell(
-// onTap: () {
-// setState(() {
-// checked = !checked;
-// });
-// },
-// child: Container(
-// height: 40,
-// width: 25,
-// margin: const EdgeInsets.symmetric(
-// vertical: 10),
-// child: checked
-// ? const ImageIcon(
-// AssetImage(
-// 'assets/bookmark (1).png',
-// ),
-// color: blue,
-// size: 50,
-// )
-// : const ImageIcon(
-// AssetImage(
-// 'assets/bookmark (2).png',
-// ),
-// color: blue,
-// size: 50,
-// ),
-// ),
-// ),
-                  ]),
-            ),
-          ],
+          ),
         ),
-      ),
-    ),
-  );
-
-
+        Expanded(
+          child: StreamBuilder(
+            stream: FirebaseFirestore.instance
+                .collection('seminar')
+                .where('selectedDay', isGreaterThan: DateTime.now())
+                .snapshots(),
+            builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              if(snapshot.hasData){
+                return ListView.builder(
+                    itemCount: snapshot.data!.docs.length,
+                    itemBuilder: (context, index) {
+                      return InkWell(
+                        onTap: () {
+                          // Navigator.push(
+                          //     context,
+                          //     MaterialPageRoute(
+                          //         builder: (context) => SeminarDetails(
+                          //               description: snapshot.data!.docs[index]
+                          //                   ['description'],
+                          //               from: snapshot.data!.docs[index]
+                          //                   ['from'],
+                          //               link: snapshot.data!.docs[index]
+                          //                   ['link'],
+                          //               location: snapshot.data!.docs[index]
+                          //                   ['location'],
+                          //               selectday: snapshot.data!.docs[index]
+                          //                   ['selectedDay'],
+                          //               seminarname: snapshot.data!.docs[index]
+                          //                   ['seminaraddress'],
+                          //               to: snapshot.data!.docs[index]
+                          //                   ['to'],
+                          //               type: snapshot.data!.docs[index]
+                          //                   ['type'],
+                          //
+                          //               username: snapshot.data!.docs[index]
+                          //                   ['username'],
+                          //             )));
+                        },
+                        child: Container(
+                          margin: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 10),
+                          width: sizeFromWidth(context, 1),
+                          height: 125,
+                          decoration: BoxDecoration(
+                            color: clearblue,
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                          child: Directionality(
+                            textDirection: TextDirection.rtl,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          snapshot.data!.docs[index]
+                                          ['seminaraddress'],
+                                          style: labelStyle3,
+                                        ),
+                                        SizedBox(
+                                          width: sizeFromWidth(context, 5),
+                                        ),
+                                        Text(
+                                          // snapshot.data!.docs[index]
+                                          // ['selectedDay'].toString(),
+                                          '9999999',
+                                          style: hintStyle3,
+                                        ),
+                                        const Icon(
+                                          Icons.date_range,
+                                          color: blue,
+                                          size: 20,
+                                        )
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Text(
+                                      snapshot.data!.docs[index]['username'],
+                                      style: hintStyle3,
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          snapshot.data!.docs[index]['to'] + 'pm',
+                                          style: hintStyle3,
+                                        ),
+                                        Text(
+                                          ':' +
+                                              snapshot.data!.docs[index]['from']
+                                                  .toString() +
+                                              'pm',
+                                          style: hintStyle3,
+                                        ),
+                                      ],
+                                    ),
+                                    Text(
+                                      snapshot.data!.docs[index]['location'],
+                                      style: hintStyle3,
+                                    ),
+                                  ],
+                                ),
+                                const VerticalDivider(
+                                  color: gray,
+                                  endIndent: 10,
+                                  indent: 10,
+                                  width: 5,
+                                  thickness: 2,
+                                ),
+                                Padding(
+                                  padding:
+                                  const EdgeInsets.symmetric(vertical: 20),
+                                  child: Column(
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          snapshot.data!.docs[index]['type'] == 1
+                                              ? 'عامة'
+                                              : 'خاصة',
+                                          style: labelStyle3,
+                                        ),
+                                        InkWell(
+                                          onTap: () async {
+                                            setState(() {
+                                              isFav = isFav!;
+                                            });
+                                          },
+                                          child: Container(
+                                            height: 40,
+                                            width: 25,
+                                            margin: const EdgeInsets.symmetric(
+                                                vertical: 10, horizontal: 10),
+                                            child: isFav == true
+                                                ? const ImageIcon(
+                                              AssetImage(
+                                                'assets/bookmark (1).png',
+                                              ),
+                                              color: blue,
+                                              size: 50,
+                                            )
+                                                : const ImageIcon(
+                                              AssetImage(
+                                                'assets/bookmark (2).png',
+                                              ),
+                                              color: blue,
+                                              size: 50,
+                                            ),
+                                          ),
+                                        ),
+                                      ]),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    });
+              }
+              return const Text('');
+            },
+          ),
+        ),
+      ],
+    );
+  }
 }
-
-

@@ -107,7 +107,7 @@ Widget studentDrawer(BuildContext context) {
                   MaterialPageRoute(builder: (context) => HelpScreen()));
             }),
         QudsPopupMenuDivider(color: gray, thickness: .5),
-        prov.accept == 0 ? QudsPopupMenuItem(
+         QudsPopupMenuItem(
                 trailing: const Icon(
                   Icons.supervised_user_circle,
                   color: blue,
@@ -122,18 +122,8 @@ Widget studentDrawer(BuildContext context) {
                       context,
                       MaterialPageRoute(
                           builder: (context) => SupervisionList()));
-                })
-            : QudsPopupMenuItem(
-                trailing: const Text(''),
-                title: const Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      '',
-                    )),
-                onPressed: () {
-                  print(prov.accept);
-
                 }),
+
         QudsPopupMenuDivider(color: gray, thickness: .5),
         QudsPopupMenuItem(
             popOnTap: false,
