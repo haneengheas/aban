@@ -79,9 +79,9 @@ class _ChatRoomState extends State<ChatRoom> {
             StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance
                     .collection('message')
-                    .orderBy(
-                      'timeDate',
-                    )
+                    // .orderBy(
+                    //   'timeDate',
+                    // )
                     .snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
@@ -104,7 +104,7 @@ class _ChatRoomState extends State<ChatRoom> {
                           isMe: sent == id,
                           image: widget.image);
                       messageWidgets.add(messageWidget);
-                    }
+                    }else {print('object');}
                   }
                   return Expanded(
                       child: ListView(
