@@ -122,6 +122,7 @@ class _ChatRoomState extends State<ChatRoom> {
               child: Directionality(
                 textDirection: TextDirection.rtl,
                 child: TextFormField(
+
                   maxLines: 3,
                   controller: _controller,
                   decoration: InputDecoration(
@@ -132,6 +133,9 @@ class _ChatRoomState extends State<ChatRoom> {
                       ),
                       onPressed: () {
                         _controller.clear();
+                        print(message);
+                        print('ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd');
+                        if(message !=null ){
                         FirebaseFirestore.instance.collection('message').add(
                           {
                             "Text": message,
@@ -141,7 +145,7 @@ class _ChatRoomState extends State<ChatRoom> {
                             'name': widget.name,
                             'timeDate': DateTime.now()
                           },
-                        );
+                        );}else {print('0');}
                         //   print(widget.userId);
                       },
                     ),

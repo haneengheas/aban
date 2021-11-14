@@ -1,6 +1,7 @@
 // ignore_for_file: use_key_in_widget_constructors
 
 import 'package:aban/constant/style.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class MessageItem extends StatelessWidget {
@@ -64,6 +65,7 @@ class MessageItem extends StatelessWidget {
                   padding:const EdgeInsets.symmetric(vertical: 10,horizontal: 20),
                   child: Text(
                     text,
+
 
                     style: TextStyle(
                       color: isMe ? Colors.white : Colors.black54,
