@@ -247,7 +247,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               const SizedBox(
                                 height: 10,
                               ),
-                              prov.usertype == 'member'
+                              prov.usertype == 0
                                   ? Row(
                                       children: [
                                         snapshot.data!.docs[0]['accept'] == 0

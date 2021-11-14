@@ -69,6 +69,8 @@ class _SearchItemState extends State<SearchItem> {
                                           .docs[index]['faculty'],
                                       accept: snapshot.data!
                                           .docs[index]['accept'],
+                                    token:  snapshot.data!
+                                        .docs[index]['token'],
                                     );
 
 

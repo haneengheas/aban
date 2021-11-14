@@ -34,10 +34,7 @@ class _EditProfileState extends State<EditProfile> {
   final GlobalKey<FormState> formkey = GlobalKey<FormState>();
   TextEditingController name = TextEditingController();
   TextEditingController emailuser = TextEditingController();
-
-  // TextEditingController degree = TextEditingController();
   String? degree;
-
   TextEditingController phone = TextEditingController();
   TextEditingController id = TextEditingController();
   TextEditingController link = TextEditingController();
@@ -88,9 +85,7 @@ class _EditProfileState extends State<EditProfile> {
       for (var f in field!) {
         prov.fields.add(TextEditingController(text: f));
       }
-
       print(prov.fields);
-
       setState(() {});
     });
 
@@ -102,8 +97,6 @@ class _EditProfileState extends State<EditProfile> {
     var prov = Provider.of<ProfileProvider>(context);
     var providers = Provider.of<MyModel>(context);
     var provAuth = Provider.of<AuthProvider>(context);
-
-
     return Scaffold(
       backgroundColor: white,
       appBar: AppBar(
@@ -303,23 +296,23 @@ class _EditProfileState extends State<EditProfile> {
                 // widget of email and link
                 Row(
                   children: [
-                    // SizedBox(
-                    //   width: sizeFromWidth(context, 2),
-                    //   child: TextFieldUser(
-                    //     onChanged: (val) {
-                    //       prov.email = val;
-                    //     },
-                    //     validator: (value) {
-                    //       if (value.isEmpty) {
-                    //         return 'برجاءادخال البريد الجامعي بشكل صحيح ';
-                    //       }
-                    //     },
-                    //     controller: emailuser,
-                    //     hintText: "Reasearsh@ksuedu.sa",
-                    //     labelText: "البريد الجامعى",
-                    //     scure: false,
-                    //   ),
-                    // ),
+                    SizedBox(
+                      width: sizeFromWidth(context, 2),
+                      child: TextFieldUser(
+                        onChanged: (val) {
+                          prov.email = val;
+                        },
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return 'برجاءادخال البريد الجامعي بشكل صحيح ';
+                          }
+                        },
+                        controller: emailuser,
+                        hintText: "Reasearsh@ksuedu.sa",
+                        labelText: "البريد الجامعى",
+                        scure: false,
+                      ),
+                    ),
                     SizedBox(
                       width: sizeFromWidth(context, 2),
                       child: TextFieldUser(
@@ -365,7 +358,7 @@ class _EditProfileState extends State<EditProfile> {
                 ),
               ]),
               // accept theses montor
-              provAuth.usertype=='member'?Column(
+              provAuth.usertype== 0?Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
@@ -402,7 +395,7 @@ class _EditProfileState extends State<EditProfile> {
                         children: [
                           Radio(
                               value: 1,
-                              groupValue: prov.accept,
+                              groupValue:prov.accept,
                               onChanged: (value) {
                                 setState(() {
                                   prov.accept = value;
@@ -457,30 +450,60 @@ class _EditProfileState extends State<EditProfile> {
 
                             print('Str list is => $fieldsStr');
 
-                            await FirebaseFirestore.instance
-                                .collection('member')
-                                .doc(FirebaseAuth.instance.currentUser!.uid)
-                                .update({
-                              'name': name.text,
-                              'accept': prov.accept,
-                              'degree': degree,
-                              'faculty': college,
-                              'department': department,
-                              'id': id.text,
-                              'link': link.text,
-                              'phone': phone.text,
-                              // 'imageUrl': imageUrl,
-                              'fields': fieldsStr
-                            }).then((value) {
-                              Navigator.pop(context);
-                              AwesomeDialog(
-                                      context: context,
-                                      title: "هام",
-                                      body:
-                                          const Text("تمت عملية التعديل بنجاح"),
-                                      dialogType: DialogType.SUCCES)
-                                  .show();
-                            });
+                           if(provAuth.usertype== 0){
+                             await FirebaseFirestore.instance
+                                 .collection('member')
+                                 .doc(FirebaseAuth.instance.currentUser!.uid)
+                                 .update({
+                               'name': name.text,
+                               'accept': prov.accept,
+                               'degree': degree,
+                               'faculty': college,
+                               'department': department,
+                               'id': id.text,
+                               'link': link.text,
+                               'phone': phone.text,
+                               'email':emailuser.text,
+                               // 'imageUrl': imageUrl,
+                               'fields': fieldsStr
+                             }).then((value) {
+                               Navigator.pop(context);
+                               AwesomeDialog(
+                                   context: context,
+                                   title: "هام",
+                                   body:
+                                   const Text("تمت عملية التعديل بنجاح"),
+                                   dialogType: DialogType.SUCCES)
+                                   .show();
+                             });
+                           }
+                           else{
+                             await FirebaseFirestore.instance
+                                 .collection('member')
+                                 .doc(FirebaseAuth.instance.currentUser!.uid)
+                                 .update({
+                               'name': name.text,
+                               'accept':2,
+                               'degree': degree,
+                               'faculty': college,
+                               'department': department,
+                               'id': id.text,
+                               'link': link.text,
+                               'phone': phone.text,
+                               'email':emailuser.text,
+                               // 'imageUrl': imageUrl,
+                               'fields': fieldsStr
+                             }).then((value) {
+                               Navigator.pop(context);
+                               AwesomeDialog(
+                                   context: context,
+                                   title: "هام",
+                                   body:
+                                   const Text("تمت عملية التعديل بنجاح"),
+                                   dialogType: DialogType.SUCCES)
+                                   .show();
+                             });
+                           }
                           }
 
                           print(name);
@@ -490,6 +513,7 @@ class _EditProfileState extends State<EditProfile> {
                       text: 'الغاء',
                       color: redGradient,
                       onTap: () {
+                        print(provAuth.usertype);
                         Navigator.pop(context);
                       }),
                 ],

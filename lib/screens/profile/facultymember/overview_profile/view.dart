@@ -1,6 +1,5 @@
 import 'package:aban/constant/style.dart';
 import 'package:aban/screens/chat/chat_room.dart';
-import 'package:aban/screens/chat/view.dart';
 import 'package:aban/screens/resersh_list/field.dart';
 import 'package:aban/screens/resersh_list/project_all_user.dart';
 import 'package:aban/screens/resersh_list/project_uncomplered.dart';
@@ -12,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class MemberProfile extends StatefulWidget {
-  String name, image, faculty, email, phone, degree, id, userid;
+  String name, image, faculty, email, phone, degree, id, userid, token;
   int accept;
 
   MemberProfile(
@@ -25,6 +24,7 @@ class MemberProfile extends StatefulWidget {
       required this.email,
       required this.degree,
       required this.id,
+      required this.token,
       required this.phone})
       : super(key: key);
 
@@ -99,8 +99,11 @@ class _MemberProfileState extends State<MemberProfile> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) =>
-                                             ChatRoom(image:widget.image, name: widget.name, userId: widget.userid,)));
+                                        builder: (context) => ChatRoom(
+                                              image: widget.image,
+                                              name: widget.name,
+                                              userId: widget.userid,
+                                            )));
                               },
                               icon: const Icon(
                                 Icons.chat_rounded,
@@ -122,7 +125,10 @@ class _MemberProfileState extends State<MemberProfile> {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                   SupervisionScreen(userid: this.userId)));
+                                                  SupervisionScreen(
+                                                    userid: this.userId,
+                                                    token: widget.token,
+                                                  )));
                                     },
                                     icon: const Icon(
                                       Icons.cast_for_education,
