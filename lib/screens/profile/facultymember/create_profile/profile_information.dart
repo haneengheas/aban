@@ -25,6 +25,7 @@ class _ProfileInformationState extends State<ProfileInformation> {
   String department = '';
 
   List<String> selectedDepartment = <String>[];
+
   @override
   Widget build(BuildContext context) {
     var prov = Provider.of<ProfileProvider>(context);
@@ -39,20 +40,25 @@ class _ProfileInformationState extends State<ProfileInformation> {
                 onTap: () async {
                   await showBottomSheet(context);
                 },
-                child: prov.file!.path == ''
-                    ? const Image(
-                        image: AssetImage(
-                          'assets/user.png',
-                        ),
-                        color: blue,
-                        height: 80,
-                      )
-                    : Image(
-                        image: FileImage(
-                          prov.file!,
-                        ),
-                        height: 80,
+                child: CircleAvatar(
+
+                  backgroundColor: white,
+                    radius: 30,
+                    child: prov.file!.path == ''
+                        ? const Image(
+                      image: AssetImage(
+                        'assets/user.png',
                       ),
+                      color: blue,
+                      height: 80,
+                    )
+                        : Image(
+                      image: FileImage(
+                        prov.file!,
+                      ),
+                      height: 80,
+                    ),
+                ),
               ),
               SizedBox(
                 width: sizeFromWidth(context, 1.5),
@@ -88,10 +94,11 @@ class _ProfileInformationState extends State<ProfileInformation> {
                 },
                 listData: providers.departments.keys
                     .toList()
-                    .map((e) => DropdownMenuItem(
-                          child: Text(e),
-                          value: e,
-                        ))
+                    .map((e) =>
+                    DropdownMenuItem(
+                      child: Text(e),
+                      value: e,
+                    ))
                     .toList(), text: '',
               ),
             ),
@@ -104,10 +111,11 @@ class _ProfileInformationState extends State<ProfileInformation> {
                 },
                 listData: selectedDepartment
                     .toList()
-                    .map((e) => DropdownMenuItem(
-                          child: Text(e),
-                          value: e,
-                        ))
+                    .map((e) =>
+                    DropdownMenuItem(
+                      child: Text(e),
+                      value: e,
+                    ))
                     .toList(), text: '',
               ),
             ),
@@ -246,7 +254,7 @@ showBottomSheet(context) {
               InkWell(
                 onTap: () async {
                   var picked =
-                      await ImagePicker().pickImage(source: ImageSource.camera);
+                  await ImagePicker().pickImage(source: ImageSource.camera);
                   if (picked != null) {
                     prov.file = File(picked.path);
                     var rang = Random().nextInt(100000);

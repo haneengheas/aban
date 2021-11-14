@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:aban/constant/style.dart';
 import 'package:aban/screens/theses_screen/theses_model.dart';
 import 'package:aban/widgets/buttons/submit_button.dart';
@@ -6,61 +8,74 @@ import 'package:aban/widgets/textField.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-
+import 'package:http/http.dart' as http;
 
 class SupervisionScreen extends StatefulWidget {
   String? userid;
+  String ? token;
 
-  SupervisionScreen({required this.userid, Key? key}) : super(key: key);
+  SupervisionScreen({required this.userid,required this.token, Key? key}) : super(key: key);
 
   @override
   State<SupervisionScreen> createState() => _SupervisionScreenState();
 }
 
 class _SupervisionScreenState extends State<SupervisionScreen> {
-  List<ModelTheses> thesesList = <ModelTheses>[];
   TextEditingController nameController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
 
-  String filter = '';
-   FirebaseMessaging _fcm= FirebaseMessaging.instance;
+
+  var serverToken =
+      'AAAAbeSU8yI:APA91bGd-C-K5jzv88l-BgOph56JG-jATdZGMwGWwa1hmHG1P_F7xuZu7C0poeb2Pf2upHDmJsT-Q0YRAPgZ9CyJLMr_29Oexf5_AfpmsJxRtE_tNbNZAPvsENC8GsTAwpMyADFM5Ozl';
+
+  sendNotification(
+      {required String body, required String title}) async {
+    await http.post(
+      Uri.parse('https://fcm.googleapis.com/fcm/send'),
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        'Authorization': 'key=$serverToken',
+      },
+      body: jsonEncode(
+        <String, dynamic>{
+          'notification': <String, dynamic>{
+            'body': body.toString(),
+            'title': title.toString(),
+          },
+          'priority': 'high',
+          'data': <String, dynamic>{
+            'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+            'id': '1',
+            'status': 'done'
+          },
+          'to': widget.token,
+        },
+      ),
+    );
+  }
+
+  getMassege() {
+    FirebaseMessaging.onMessage.listen((event) {
+      print('===============notification===========');
+      print(event.notification!.title);
+      print(event.notification!.body);
+      print(event.data['id']);
+      print(event.data['status']);
+    });
+  }
 
   @override
   void initState() {
-    getTheses();
-    nameController.addListener(() {
-      filter = nameController.text;
-      setState(() {});
-    });
     print('-------------------------------');
-     _fcm.getToken().then((token){
-       print('the token is :'+ token!);
-     });
+    print(widget.token);
+    getMassege();
     super.initState();
   }
 
-  getTheses() async {
-    QuerySnapshot querySnapshot =
-        await FirebaseFirestore.instance.collection('theses').get();
 
-    for (var doc in querySnapshot.docs) {
-      thesesList.add(ModelTheses(
-          nameTheses: doc['nameTheses'],
-          assistantSupervisors: doc['assistantSupervisors'],
-          degreeTheses: doc['degreeTheses'],
-          nameSupervisors: doc['nameSupervisors'],
-          linkTheses: doc['linkTheses'],
-          thesesStatus: doc['thesesStatus'],
-          isFav: doc['isFav'],
-          id: doc.id));
-    }
-
-    setState(() {});
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +121,7 @@ class _SupervisionScreenState extends State<SupervisionScreen> {
                             .collection('super')
                             .add({
                           'name': nameController.text,
-                          'description':descriptionController.text,
+                          'description': descriptionController.text,
                           'reciveid': widget.userid,
                           'sendid': FirebaseAuth.instance.currentUser!.uid,
                         }).then((value) {
@@ -118,6 +133,7 @@ class _SupervisionScreenState extends State<SupervisionScreen> {
                               dialogType: DialogType.SUCCES)
                             ..show();
                         });
+                        await sendNotification(body: 'ان شاء الله شغالة',title: 'notification');
                       })
                 ],
               ),

@@ -1,20 +1,88 @@
 import 'package:aban/constant/style.dart';
 import 'package:aban/screens/seminar/complete_seminar.dart';
 import 'package:aban/screens/seminar/later_seminar.dart';
+import 'package:aban/screens/seminar/seminar_model.dart';
 import 'package:aban/widgets/customAppBar.dart';
 import 'package:aban/widgets/search_textfield.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class SeminarScreen extends StatefulWidget {
-final int counter;
-const SeminarScreen({Key? key, required this.counter}) : super(key: key);
+  final int counter;
+
+  const SeminarScreen({Key? key, required this.counter}) : super(key: key);
+
   @override
   _ProjectScreenState createState() => _ProjectScreenState();
 }
 
-class _ProjectScreenState extends State< SeminarScreen> {
+class _ProjectScreenState extends State<SeminarScreen> {
+  List<SeminarModel> unCompletedSeminar = <SeminarModel>[];
+  List<SeminarModel> completedSeminar = <SeminarModel>[];
+  TextEditingController searchController = TextEditingController();
+  String filter = '';
+
+  @override
+  void initState() {
+    getCompletedSeminar();
+    getUnCompletedSeminar();
+
+    searchController.addListener(() {
+      filter = searchController.text;
+      setState(() {});
+    });
+
+    super.initState();
+  }
+
+  getCompletedSeminar() async {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('seminar')
+        .where('selectedDay', isLessThanOrEqualTo: DateTime.now())
+        .get();
+
+    for (var doc in querySnapshot.docs) {
+      completedSeminar.add(SeminarModel(
+          type: doc['type'],
+          discription: doc['description'],
+          from: doc['from'],
+          link: doc['link'],
+          location: doc['location'],
+          selectday: doc['selectedDay'],
+          seminartitle: doc['seminaraddress'],
+          to: doc['to'],
+          userid: doc.id,
+          username: doc['username']));
+    }
+
+    setState(() {});
+  }
+
+  getUnCompletedSeminar() async {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('seminar')
+        .where('selectedDay', isGreaterThan: DateTime.now())
+        .get();
+
+    for (var doc in querySnapshot.docs) {
+      completedSeminar.add(SeminarModel(
+          type: doc['type'],
+          discription: doc['description'],
+          from: doc['from'],
+          link: doc['link'],
+          location: doc['location'],
+          selectday: doc['selectedDay'],
+          seminartitle: doc['seminaraddress'],
+          to: doc['to'],
+          userid: doc.id,
+          username: doc['username']));
+    }
+
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -22,19 +90,20 @@ class _ProjectScreenState extends State< SeminarScreen> {
       child: Scaffold(
         backgroundColor: white,
         appBar: PreferredSize(
-          preferredSize:const Size.fromHeight(50),
+          preferredSize: const Size.fromHeight(50),
           child: customAppBar(context, title: 'ندوة'),
         ),
-        body: SingleChildScrollView(child:
-          Column(
+        body: SingleChildScrollView(
+          child: Column(
             children: [
-              const SearchTextField(
+              SearchTextField(
                 text: "البحث عن ندوة",
+                controller: this.searchController,
               ),
               Container(
                 height: MediaQuery.of(context).size.height / 1.4,
-                decoration:const BoxDecoration(
-                  borderRadius:  BorderRadius.only(
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(25),
                     topRight: Radius.circular(25),
                   ),
@@ -48,8 +117,10 @@ class _ProjectScreenState extends State< SeminarScreen> {
                       labelColor: blue,
                       unselectedLabelColor: gray,
                       labelStyle: GoogleFonts.cairo(
-                        textStyle:const TextStyle(
-                            fontSize: 22, height: 1.5, fontWeight: FontWeight.w800),
+                        textStyle: const TextStyle(
+                            fontSize: 22,
+                            height: 1.5,
+                            fontWeight: FontWeight.w800),
                       ),
                       isScrollable: false,
                       unselectedLabelStyle: labelStyle,
@@ -61,20 +132,21 @@ class _ProjectScreenState extends State< SeminarScreen> {
                         Tab(
                           text: " مكتملة",
                         ),
-
                       ],
                     )),
                   ),
-                  const  Expanded(
+                  Expanded(
                     child: SizedBox(
-                      child:  TabBarView(
-                        children:  [LaterSeminar(), CompleteSeminar()],
+                      child: TabBarView(
+                        children: [
+                          LaterSeminar(this.filter, this.unCompletedSeminar),
+                          CompleteSeminar(this.filter, this.completedSeminar)
+                        ],
                       ),
                     ),
                   ),
                 ]),
               )
-
             ],
           ),
         ),

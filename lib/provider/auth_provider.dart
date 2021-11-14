@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_typing_uninitialized_variables, avoid_print
 
-import 'package:aban/screens/registration/wellcome_screen/view.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -140,16 +139,20 @@ class AuthProvider with ChangeNotifier {
   }
 //test
   getUserStatus() async {
-    await FirebaseFirestore.instance
-        .collection('users')
-        //get all docs and make for loop in it and get what i need ==> userid == my unique id
-        .where('userid', isEqualTo: (FirebaseAuth.instance.currentUser!).uid)
-        // get it
-        .get()
-        .then((value) {
-      //this return a list of query snapshot , but it include a one item - because the firebase uid is unique for each user -
-      print(value.docs[0]['val']);
-    });
+    DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
+        .collection("user")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get();
+
+    debugPrint('userType is ${documentSnapshot.get('userType')}');
+    debugPrint('userName is ${documentSnapshot.get('username')}');
+
+
+    usertype = documentSnapshot.get('userType') == 'student' ? 1 : 0;
+    userName = documentSnapshot.get('username') ;
+    print(usertype);
+    notifyListeners();
+
   }
 
   logout() async {
