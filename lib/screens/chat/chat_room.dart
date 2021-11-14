@@ -79,9 +79,9 @@ class _ChatRoomState extends State<ChatRoom> {
             StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance
                     .collection('message')
-                    // .orderBy(
-                    //   'timeDate',
-                    // )
+                    .orderBy(
+                      'timeDate'
+                    )
                     .snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
@@ -90,13 +90,13 @@ class _ChatRoomState extends State<ChatRoom> {
                     );
                   }
 
-                  final messages = snapshot.data!.docs;
+                  final messages = snapshot.data!.docs.reversed;
                   List<MessageItem> messageWidgets = [];
                   for (var message in messages) {
                     String messageText = message["Text"];
                     String sent = message["sent"];
                     if ((message["sent"] == id ||
-                            message["sent"] == widget.userId) &&
+                            message["sent"] == widget.userId)&&
                         (message["userId"] == id ||
                             message["userId"] == widget.userId)) {
                       messageWidget = MessageItem(
@@ -131,6 +131,7 @@ class _ChatRoomState extends State<ChatRoom> {
                         color: blue,
                       ),
                       onPressed: () {
+                       print(DateTime.now().toUtc()) ;
                         if (_controller.text.isNotEmpty) {
                           FirebaseFirestore.instance.collection('message').add(
                             {
@@ -139,7 +140,7 @@ class _ChatRoomState extends State<ChatRoom> {
                               'userId': widget.userId,
                               'sent': id,
                               'name': widget.name,
-                              'timeDate': DateTime.now()
+                              'timeDate': DateTime.now().toUtc()
                             },
                           );
                         } else {
