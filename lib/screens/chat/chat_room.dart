@@ -135,7 +135,7 @@ class _ChatRoomState extends State<ChatRoom> {
                         _controller.clear();
                         print(message);
                         print('ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd');
-                        if(message !=null ){
+
                         FirebaseFirestore.instance.collection('message').add(
                           {
                             "Text": message,
@@ -144,8 +144,8 @@ class _ChatRoomState extends State<ChatRoom> {
                             'sent': id,
                             'name': widget.name,
                             'timeDate': DateTime.now()
-                          },
-                        );}else {print('0');}
+                     },
+                        );
                         //   print(widget.userId);
                       },
                     ),
