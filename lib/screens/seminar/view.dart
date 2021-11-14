@@ -67,7 +67,7 @@ class _ProjectScreenState extends State<SeminarScreen> {
         .get();
 
     for (var doc in querySnapshot.docs) {
-      completedSeminar.add(SeminarModel(
+      unCompletedSeminar.add(SeminarModel(
           type: doc['type'],
           discription: doc['description'],
           from: doc['from'],

@@ -199,6 +199,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           children: [
                                             Text(
                                               "${snapshot.data!.docs[0]['faculty'] + '-' + snapshot.data!.docs[0]['department']}",
+                                              maxLines: 2,
+                                              overflow: TextOverflow.ellipsis,
                                               style: hintStyle,
                                             ),
                                             // Text(
@@ -216,10 +218,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               style: hintStyle,
                                             ),
                                             SizedBox(
-                                              width: sizeFromWidth(context, 8),
+                                              width:
+                                                  sizeFromWidth(context, 8),
                                             ),
                                             Text(
                                               "${snapshot.data!.docs[0]['email']}",
+                                              maxLines: 2,
+                                              overflow: TextOverflow.ellipsis,
                                               style: hintStyle,
                                             ),
                                           ],
@@ -233,7 +238,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               style: hintStyle,
                                             ),
                                             SizedBox(
-                                              width: sizeFromWidth(context, 8),
+                                              width:
+                                                  sizeFromWidth(context, 8),
                                             ),
                                             Text(
                                               "${snapshot.data!.docs[0]['phone']}",

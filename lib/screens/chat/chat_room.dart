@@ -139,7 +139,7 @@ class _ChatRoomState extends State<ChatRoom> {
                               'userId': widget.userId,
                               'sent': id,
                               'name': widget.name,
-                              'timeDate': DateTime.now()
+                              'timeDate': DateTime.now().toUtc()
                             },
                           );
                         } else {
