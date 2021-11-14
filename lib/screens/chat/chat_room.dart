@@ -79,9 +79,9 @@ class _ChatRoomState extends State<ChatRoom> {
             StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance
                     .collection('message')
-                    .orderBy(
-                      'timeDate',
-                    )
+                    // .orderBy(
+                    //   'timeDate',
+                    // )
                     .snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
@@ -104,7 +104,7 @@ class _ChatRoomState extends State<ChatRoom> {
                           isMe: sent == id,
                           image: widget.image);
                       messageWidgets.add(messageWidget);
-                    }
+                    }else {print('object');}
                   }
                   return Expanded(
                       child: ListView(
@@ -122,7 +122,6 @@ class _ChatRoomState extends State<ChatRoom> {
               child: Directionality(
                 textDirection: TextDirection.rtl,
                 child: TextFormField(
-
                   maxLines: 3,
                   controller: _controller,
                   decoration: InputDecoration(
@@ -132,20 +131,24 @@ class _ChatRoomState extends State<ChatRoom> {
                         color: blue,
                       ),
                       onPressed: () {
-                        _controller.clear();
-                        print(message);
-                        print('ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd');
+                        if (_controller.text.isNotEmpty) {
+                          FirebaseFirestore.instance.collection('message').add(
+                            {
+                              "Text": message,
+                              "image": widget.image,
+                              'userId': widget.userId,
+                              'sent': id,
+                              'name': widget.name,
+                              'timeDate': DateTime.now()
+                            },
+                          );
+                        } else {
+                          print('object');
+                        }
+                        setState(() {
+                          _controller.clear();
+                        });
 
-                        FirebaseFirestore.instance.collection('message').add(
-                          {
-                            "Text": message,
-                            "image": widget.image,
-                            'userId': widget.userId,
-                            'sent': id,
-                            'name': widget.name,
-                            'timeDate': DateTime.now()
-                     },
-                        );
                         //   print(widget.userId);
                       },
                     ),

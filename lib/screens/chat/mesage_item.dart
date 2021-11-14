@@ -55,11 +55,9 @@ class MessageItem extends StatelessWidget {
                     bottomRight: Radius.circular(30.0),
                     topRight: Radius.circular(30.0),
                   ),
-            elevation: 5.0,
+            elevation:8.0,
             color: isMe ? blue : Colors.white,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                  vertical: 10.0, horizontal: 20.0),
+
 
                 child: Padding(
                   padding:const EdgeInsets.symmetric(vertical: 10,horizontal: 20),
@@ -75,7 +73,7 @@ class MessageItem extends StatelessWidget {
                 ),
 
             ),
-          ),
+
         ],
       ),
     );
