@@ -22,7 +22,7 @@ class ProfileProvider with ChangeNotifier {
   late String link;
   var accept;
   String? degree;
-
+  int ? counter ;
   late String seminaraddress, location, description, seminarlink,from , to;
   int? type;
   DateTime? selectedDay;
@@ -46,7 +46,7 @@ class ProfileProvider with ChangeNotifier {
   final GlobalKey<FormState> formkey = GlobalKey<FormState>();
 
   String? projectStatus;
-  bool? isFav;
+  bool isFav = false;
 
   String college = '';
   String department = '';
@@ -94,13 +94,14 @@ class ProfileProvider with ChangeNotifier {
       'department': department,
     });
     showLoading(context);
+    counter=1;
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(
             builder: (context) => NavigationFile(
                   d: studentDrawer(context),
                   title: 'مرحبا $name  ً',
-                  counter: 1,
+                  counter: counter!,
                 )));
     notifyListeners();
   }
@@ -284,7 +285,7 @@ class ProfileProvider with ChangeNotifier {
   }) async {
     
     await FirebaseFirestore.instance.collection('seminar').add({
-      'seminaraddress': seminaraddress,
+      'seminarAddress': seminaraddress,
       'location': location,
       'description':description,
       'link': seminarlink,
@@ -294,6 +295,7 @@ class ProfileProvider with ChangeNotifier {
       'to': to,
       'type': type,
       'username' : name,
+      'isFav':false,
       'userId': FirebaseAuth.instance.currentUser!.uid,
     });
     showLoading(context);

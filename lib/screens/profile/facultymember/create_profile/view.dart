@@ -200,67 +200,69 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                     ],
                   ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          // SizedBox(height: 10,),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 20,right: 15),
-                            child: Text(
-                              'الدرجة العلمية ',
-                              style: labelStyle3,
-                            ),
-                          ),
-                          Directionality(
-                            textDirection: TextDirection.rtl,
-                            child: Container(
-                              width: sizeFromWidth(context, 2.4),
-                              height: 50,
-                              padding: EdgeInsets.symmetric(horizontal: 10),
-                              child: DropdownButton<String>(
-                                hint: Text(
-                                  'ادخل الدرجة العلمية',
-                                  style: hintStyle,
-                                ),
-                                value: prov.degree,
-                                underline: Container(
-                                  width: 20,
-
-                                  height: 1,
-                                  decoration: const BoxDecoration(
-                                      color: lightGray,
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: blue,
-                                        )
-                                      ]),
-                                ),
-                                onChanged: (newValue) {
-                                  prov.degree = newValue!;
-                                },
-                                items: <String>[
-                                  'دكتوراه',
-                                  'ماجستير',
-                                  'طالب'
-                                ].map<DropdownMenuItem<String>>((String value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: SizedBox(
-                                      width: sizeFromWidth(context, 8),
-                                      height: 50,
-                                      // for example
-                                      child:
-                                          Text(value, textAlign: TextAlign.right),
-                                    ),
-                                  );
-                                }).toList(),
+                      SizedBox(
+                        width: sizeFromWidth(context,2.1),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(top: 20,right: 15),
+                              child: Text(
+                                'الدرجة العلمية ',
+                                style: labelStyle3,
                               ),
                             ),
-                          ),
-                        ],
+                            Directionality(
+                              textDirection: TextDirection.rtl,
+                              child: Container(
+                                width: sizeFromWidth(context, 2.1),
+                                height: 50,
+                                padding: const EdgeInsets.symmetric(horizontal: 10),
+                                child: DropdownButton<String>(
+                                  hint: Text(
+                                    'ادخل الدرجة العلمية',
+                                    style: hintStyle,
+                                  ),
+                                  value: prov.degree,
+                                  underline: Container(
+                                    width: 20,
+
+                                    height: 1,
+                                    decoration: const BoxDecoration(
+                                        color: lightGray,
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: blue,
+                                          )
+                                        ]),
+                                  ),
+                                  onChanged: (newValue) {
+                                    prov.degree = newValue!;
+                                  },
+                                  items: <String>[
+                                    'دكتوراه',
+                                    'ماجستير',
+                                    'طالب'
+                                  ].map<DropdownMenuItem<String>>((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: SizedBox(
+                                        width: sizeFromWidth(context, 6),
+                                        height: 50,
+                                        // for example
+                                        child:
+                                            Text(value, textAlign: TextAlign.right),
+                                      ),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                       SizedBox(
                         width: sizeFromWidth(context, 2),
@@ -473,14 +475,7 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                         );
                         print(name);
 
-                        // Navigator.pushReplacement(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //         builder: (context) => NavigationFile(
-                        //               d: studentDrawer(context),
-                        //               title: '${prov.name} مرحباً',
-                        //               counter: 1,
-                        //             )));
+
                       }
                     }
                   },

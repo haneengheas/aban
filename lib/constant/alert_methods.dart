@@ -25,9 +25,11 @@ showDialogWarning(
             height: 40,
             alignment: Alignment.center,
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-            child: Text(
-              text,
-              style: labelStyle2,
+            child: Center(
+              child: Text(
+                text,
+                style: labelStyle2,
+              ),
             )),
         actions: <Widget>[
           ButtonUser(

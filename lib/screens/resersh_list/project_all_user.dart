@@ -1,12 +1,14 @@
 // ignore_for_file: avoid_print, use_key_in_widget_constructors
 
 import 'package:aban/constant/style.dart';
+import 'package:aban/provider/profile_provider.dart';
 import 'package:aban/screens/project_screen/proj_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class CompletedProjectResersh extends StatefulWidget {
   final String text;
@@ -88,6 +90,7 @@ class _CompletedProjectResershState extends State<CompletedProjectResersh> {
     );
   }
   Widget _buildProjectBox(ProjectModel projectModel){
+    var prov = Provider.of<ProfileProvider>(context);
     return Container(
       margin: const EdgeInsets.symmetric(
           horizontal: 10, vertical: 10),
@@ -142,14 +145,14 @@ class _CompletedProjectResershState extends State<CompletedProjectResersh> {
             // const SizedBox(
             //   width: 50,
             // ),
-            const VerticalDivider(
+            prov.counter == 2? const SizedBox():const VerticalDivider(
               color: gray,
               endIndent: 10,
               indent: 10,
               width: 20,
               thickness: 2,
             ),
-            InkWell(
+            prov.counter == 2? const SizedBox(): InkWell(
               onTap: () async {
                 FirebaseFirestore.instance
                     .collection('projectBookmark')

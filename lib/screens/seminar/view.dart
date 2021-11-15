@@ -10,9 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class SeminarScreen extends StatefulWidget {
-  final int counter;
-
-  const SeminarScreen({Key? key, required this.counter}) : super(key: key);
+  const SeminarScreen({Key? key, }) : super(key: key);
 
   @override
   _ProjectScreenState createState() => _ProjectScreenState();
@@ -89,9 +87,39 @@ class _ProjectScreenState extends State<SeminarScreen> {
       length: 2,
       child: Scaffold(
         backgroundColor: white,
-        appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(50),
-          child: customAppBar(context, title: 'ندوة'),
+        appBar: AppBar(
+          backgroundColor: white,
+          title: Text('ندوة',
+              style: GoogleFonts.cairo(
+                textStyle: const TextStyle(
+                    color: blue, fontWeight: FontWeight.bold, fontSize: 28),
+              )),
+          centerTitle: true,
+          elevation: 0,
+          leading: const SizedBox(),
+          // leading: IconButton(
+          //   onPressed: () {
+          //     if (widget.counter == 1) {
+          //       Navigator.push(
+          //           context,
+          //           MaterialPageRoute(
+          //               builder: (context) => NavigationFile(
+          //                   d: studentDrawer(context),
+          //                   title: 'مرحبا"اسم الباحث"',
+          //                   counter: 1)));
+          //     } else if (widget.counter == 2) {
+          //       Navigator.push(
+          //           context,
+          //           MaterialPageRoute(
+          //               builder: (context) => NavigationFile(
+          //                   d: guestDrawer(context),
+          //                   title: 'مرحبا',
+          //                   counter: 2)));
+          //     }
+          //   },
+          //   icon: const Icon(Icons.arrow_back),
+          //   color: blue,
+          // ),
         ),
         body: SingleChildScrollView(
           child: Column(

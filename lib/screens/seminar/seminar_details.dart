@@ -10,19 +10,21 @@ class SeminarDetails extends StatelessWidget {
       location,
       description,from,to,link,userid;
   var type,selectday;
+ bool ?isFav;
 
   SeminarDetails(
       {Key? key,
-      required this.type,
-      required this.selectday,
-      required this.userid,
-      required this.from,
-      required this.to,
-      required this.link,
-      required this.description,
-      required this.location,
-      required this.seminarname,
-      required this.username})
+      this.type,
+      this.selectday,
+       this.userid,
+    this.from,
+      this.to,
+      this.link,
+         this.isFav,
+       this.description,
+       this.location,
+       this.seminarname,
+       this.username})
       : super(key: key);
 
   @override
@@ -49,52 +51,69 @@ class SeminarDetails extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Row(
-                            children: [
-                              Text(
-                                '$seminarname',
-                                style: labelStyle3,
-                              ),
-                              SizedBox(
-                                width: sizeFromWidth(context, 5),
-                              ),
-                              Text(
-                                '24 ابريل2021',
-                                style: hintStyle3,
-                              ),
-                              const Icon(
-                                Icons.date_range,
-                                color: blue,
-                                size: 20,
-                              )
-                            ],
-                          ),
-                          Text(
-                            '8:00-8:30pm',
-                            style: hintStyle3,
-                          ),
-                          Text(
-                            '$username',
-                            style: hintStyle3,
-                          ),
-                          Text(
-                            '$location',
-                            style: hintStyle3,
-                          ),
-                        ],
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  '$seminarname',
+                                  style: labelStyle3,
+                                ),
+
+                                Row(
+                                  children: [
+                                    Text(
+                                      // snapshot.data!.docs[index]
+                                      // ['selectedDay'].toString(),
+                                      '29/5/2021',
+                                      style: hintStyle3,
+                                    ),
+                                    const Icon(
+                                      Icons.date_range,
+                                      color: blue,
+                                      size: 20,
+                                    )
+                                  ],
+                                )
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  '$to',
+                                  style: hintStyle3,
+                                ),
+                                Text(
+                                  ':' +
+                                   '$from' +
+                                      'pm',
+                                  style: hintStyle3,
+                                ),
+                              ],
+                            ),
+                            Text(
+                              '$username',
+                              style: hintStyle3,
+                            ),
+                            Text(
+                              '$location',
+                              style: hintStyle3,
+                            ),
+                          ],
+                        ),
                       ),
                       const VerticalDivider(
                         color: gray,
                         endIndent: 10,
-                        indent: 10,
-                        width: 5,
-                        thickness: 2,
+                        indent: 20,
+                        width: 20,
+                        thickness: 5,
                       ),
                       Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -104,16 +123,26 @@ class SeminarDetails extends StatelessWidget {
                               style: labelStyle3,
                             ),
                             Container(
-                              height: 30,
-                              width: 20,
-                              margin: const EdgeInsets.symmetric(vertical: 10),
-                              child: const ImageIcon(
+                              height: 40,
+                              width: 25,
+                              margin: const EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 10),
+                              child: isFav== true? const ImageIcon(
                                 AssetImage(
                                   'assets/bookmark (2).png',
+
                                 ),
                                 color: blue,
+                                size: 50,
+                              )
+                                  : const ImageIcon(
+                                AssetImage(
+                                  'assets/bookmark (1).png',
+                                ),
+                                color: blue,
+                                size: 50,
                               ),
-                            ),
+                            )
                           ]),
                     ],
                   ),
@@ -124,9 +153,11 @@ class SeminarDetails extends StatelessWidget {
                     'وصف الندوة',
                     style: labelStyle3,
                   ),
-                  Text(
-                    '$description',
-                    style: hintStyle3,
+                  Expanded(
+                    child: Text(
+                      '$description',
+                      style: hintStyle3,
+                    ),
                   ),
                   TextButton(
                     onPressed: () {

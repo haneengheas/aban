@@ -78,70 +78,59 @@ class _SearchItemState extends State<SearchItem> {
 
                                   ));
                       },
-                      child: Padding(
-                        padding: const EdgeInsets.all(9.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(30),
-                              color: clearblue),
-                          height: sizeFromHeight(context, 7),
-                          width: sizeFromWidth(context, 1.1),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 10, horizontal: 20),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Container(
-                                  height: 190,width: 50,
-
-                                  decoration:  BoxDecoration(
-                                      shape: BoxShape.circle, image:DecorationImage(image: NetworkImage(
-                                    snapshot.data!.docs[index]['imageUrl'],
-                                  ), )),
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 10 ,vertical: 10),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30),
+                            color: clearblue),
+                        height: sizeFromHeight(context, 7),
+                        width: sizeFromWidth(context, 1),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                              height: 190,width: 50,
+                              decoration:  BoxDecoration(
+                                  shape: BoxShape.circle, image:DecorationImage(image: NetworkImage(
+                                snapshot.data!.docs[index]['imageUrl'],
+                              ), )),
 
 
-                                ),
-                                // SizedBox(
-                                //   width: sizeFromWidth(context, 30),
-                                // ),
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment
-                                        .start,
-                                    // mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            right: 30),
-                                        child: Text(
-                                          snapshot.data!.docs[index]['name'],
-                                          style: labelStyle2,
-                                        ),
-                                      ),
-                                      const Divider(
-                                        thickness: 1,
-                                        endIndent: 20,
-                                        indent: 19,
-                                        color: lightGray,
-                                        height: 1.5,
-                                      ),
-                                      Text(
-                                        '        ${snapshot.data!
-                                            .docs[index]['email']} ',
-                                        style: hintStyle,
-                                      ), Text(
-                                        '        ${snapshot.data!
-                                            .docs[index]['degree']}',
-                                        style: hintStyle,
-                                      ),
-                                    ],
-                                  ),
-                                )
-                              ],
                             ),
-                          ),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment
+                                    .start,
+                                // mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                                    child: Text(
+                                      snapshot.data!.docs[index]['name'],
+                                      style: labelStyle3,
+                                    ),
+                                  ),
+                                  const Divider(
+                                    thickness: 1,
+                                    endIndent: 20,
+                                    indent: 19,
+                                    color: lightGray,
+                                    height: 1.5,
+                                  ),
+                                  Text(
+                                    '        ${snapshot.data!
+                                        .docs[index]['email']} ',
+                                    style: hintStyle3,
+                                  ), Text(
+                                    '        ${snapshot.data!
+                                        .docs[index]['degree']}',
+                                    style: hintStyle3,
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
                         ),
                       ),
                     );

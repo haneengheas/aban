@@ -14,9 +14,9 @@ class NavigationFile extends StatefulWidget {
   NavigationFile({Key? key,  required this.d,required this.title,required this.counter,}) : super(key: key){
     pages=[
       HomeScreen(c: d, title: title,),
-      ProjectScreen(counter: counter,),
-      ThesesScreen(counter:counter),
-      SeminarScreen(counter: counter,) ,   ];
+      ProjectScreen(),
+      ThesesScreen(),
+      SeminarScreen() ,   ];
   }
   @override
   _NavigationFileState createState() => _NavigationFileState();

@@ -9,9 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ProjectScreen extends StatefulWidget {
-  final int counter;
 
-  const ProjectScreen({Key? key, required this.counter}) : super(key: key);
+  const ProjectScreen({Key? key,}) : super(key: key);
 
   @override
   _ProjectScreenState createState() => _ProjectScreenState();
@@ -27,7 +26,6 @@ class _ProjectScreenState extends State<ProjectScreen> {
   void initState() {
     getCompletedProjects();
     getUnCompletedProjects();
-
     searchController.addListener(() {
       filter = searchController.text;
       setState(() {

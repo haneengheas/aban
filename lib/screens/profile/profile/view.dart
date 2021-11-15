@@ -165,8 +165,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           return Text("${snapshot.error}");
                         }
                         if (snapshot.hasData) {
-                          List user = [];
-
                           return Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -185,69 +183,69 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       margin: const EdgeInsets.symmetric(
                                           horizontal: 10),
                                     ),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          "${snapshot.data!.docs[0]['name']}",
-                                          style: labelStyle2,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceAround,
-                                          children: [
-                                            Text(
-                                              "${snapshot.data!.docs[0]['faculty'] + '-' + snapshot.data!.docs[0]['department']}",
-                                              maxLines: 2,
-                                              overflow: TextOverflow.ellipsis,
-                                              style: hintStyle,
-                                            ),
-                                            // Text(
-                                            //   "${snapshot.data!.docs[0]['link']}",
-                                            //   style: hintStyle,
-                                            // ),
-                                          ],
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              "${snapshot.data!.docs[0]['degree']}",
-                                              style: hintStyle,
-                                            ),
-                                            SizedBox(
-                                              width:
-                                                  sizeFromWidth(context, 8),
-                                            ),
-                                            Text(
-                                              "${snapshot.data!.docs[0]['email']}",
-                                              maxLines: 2,
-                                              overflow: TextOverflow.ellipsis,
-                                              style: hintStyle,
-                                            ),
-                                          ],
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              "${snapshot.data!.docs[0]['id']}",
-                                              style: hintStyle,
-                                            ),
-                                            SizedBox(
-                                              width:
-                                                  sizeFromWidth(context, 8),
-                                            ),
-                                            Text(
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "${snapshot.data!.docs[0]['name']}",
+                                            style: labelStyle2,
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            children: [
+                                              Expanded(child: Text(
+                                                "${snapshot.data!.docs[0]['faculty'] + '-' + snapshot.data!.docs[0]['department']}",
+                                                maxLines: 2,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: hintStyle,
+                                              ),)
+                                              // Text(
+                                              //   "${snapshot.data!.docs[0]['link']}",
+                                              //   style: hintStyle,
+                                              // ),
+                                            ],
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Expanded(
+                                                child: Text(
+                                                  "${snapshot.data!.docs[0]['degree']}",
+                                                  style: hintStyle,
+                                                ),
+                                              ),
+                                           
+                                              Expanded(child: Text(
+                                                "${snapshot.data!.docs[0]['email']}",
+                                                maxLines: 2,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: hintStyle,
+                                              ),)
+                                            ],
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Expanded(
+                                                child: Text(
+                                                  "${snapshot.data!.docs[0]['id']}",
+                                                  style: hintStyle,
+                                                ),
+                                              ),
+                                            
+                                            Expanded(child:   Text(
                                               "${snapshot.data!.docs[0]['phone']}",
                                               style: hintStyle,
-                                            ),
-                                          ],
-                                        ),
-                                      ],
+                                            ),)
+                                            ],
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ]),
                               const SizedBox(
@@ -285,9 +283,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       style: hintStyle),
                                 ),
                               ),
-                              SizedBox(
+                               SizedBox(
                                 height:
-                                    MediaQuery.of(context).size.height / 1.9,
+                                MediaQuery.of(context).size.height / 2.2,
                                 child: Column(
                                   children: [
                                     const Divider(
@@ -347,7 +345,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     ),
                                   ],
                                 ),
-                              )
+                              ),
                             ],
                           );
                         }

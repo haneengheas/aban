@@ -42,7 +42,6 @@ class _FieldListresershState extends State<FieldListresersh> {
             return ListView.builder(
               itemCount: snapshot.data!.docs[0]['fields'].length,
               itemBuilder: (context, index) {
-
                 return snapshot.data!.docs[0]['fields'].isEmpty
                     ? const SizedBox()
                     : Row(

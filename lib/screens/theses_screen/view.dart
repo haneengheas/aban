@@ -12,11 +12,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ThesesScreen extends StatefulWidget {
-  final int counter;
 
   const ThesesScreen({
     Key? key,
-    required this.counter,
   }) : super(key: key);
 
   @override

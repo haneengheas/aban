@@ -5,6 +5,7 @@ import 'package:aban/screens/Home/navigation.dart';
 import 'package:aban/screens/Home/view.dart';
 import 'package:aban/screens/registration/regist_screen/view.dart';
 import 'package:aban/screens/splash_screen/view.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -13,12 +14,12 @@ late  bool islogin;
 void main()async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  // var user = FirebaseAuth.instance.currentUser;
-  // if (user == null) {
-  //   islogin = false;
-  // } else {
-  //   islogin = true;
-  // }
+  var user = FirebaseAuth.instance.currentUser;
+  if (user == null) {
+    islogin = false;
+  } else {
+    islogin = true;
+  }
   runApp(
     MultiProvider(
       providers: [
@@ -52,28 +53,18 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  // login(context){
-  //   if(islogin== false){
-  //     Navigator.pushReplacement(
-  //         context, MaterialPageRoute(builder: (context) => const RegistScreen()));
-  //   }
-  //   else if(  islogin== true ){
-  //
-  //     Navigator.pushReplacement(
-  //         context, MaterialPageRoute(builder: (context) =>  NavigationFile(counter: null,
-  //       title: ,
-  //       d: ,
-  //
-  //
-  //     )));
-  //   }
-  //   else if(islogin== true){
-  //     Navigator.pushReplacement(
-  //         context, MaterialPageRoute(builder: (context) => const NavigationScreen()));
-  //   }
-  //
-  // }
 
+
+  @override
+void initState() {
+    Future.delayed(Duration.zero, () {
+      var prov = Provider.of<AuthProvider>(context, listen: false);
+      prov.getUserStatus();
+      setState(() {});
+    });
+    // TODO: implement initState
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return  const MaterialApp(

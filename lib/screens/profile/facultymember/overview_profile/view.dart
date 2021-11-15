@@ -238,7 +238,7 @@ class _MemberProfileState extends State<MemberProfile> {
                         child: Text("الذهاب الى ابحاثى", style: hintStyle),
                       ),
                       SizedBox(
-                        height: MediaQuery.of(context).size.height / 1.9,
+                        height: MediaQuery.of(context).size.height / 2.3,
                         child: Column(
                           children: [
                             const Divider(

@@ -3,6 +3,7 @@
 import 'package:aban/constant/loading_methods.dart';
 import 'package:aban/constant/style.dart';
 import 'package:aban/provider/auth_provider.dart';
+import 'package:aban/provider/profile_provider.dart';
 import 'package:aban/screens/Home/guestdawer.dart';
 import 'package:aban/screens/Home/navigation.dart';
 import 'package:aban/screens/Home/studentdrawer.dart';
@@ -25,12 +26,18 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void initState() {
+    Future.delayed(Duration.zero, () {
+      var prov = Provider.of<ProfileProvider>(context, listen: false);
+      prov.counter!= null;
+      setState(() {});
+    });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     var provider = Provider.of<AuthProvider>(context);
+    var prov = Provider.of<ProfileProvider>(context);
 
     return Directionality(
       textDirection: TextDirection.rtl,
@@ -91,6 +98,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   gradient: blueGradient,
                   text: 'تسجيل دخول',
                   onTap: () async {
+                    prov.counter =1;
                     if (_formKey.currentState!.validate()) {
                       _formKey.currentState!.save();
                       showLoading(context);
@@ -105,7 +113,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   builder: (context) => NavigationFile(
                                         d: studentDrawer(context),
                                         title: ' مرحبا${provider.userName}ً ',
-                                        counter: provider.usertype,
+                                        counter: prov.counter!,
                                       )));
                         }
 
@@ -132,13 +140,15 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 child: InkWell(
                   onTap: () {
+                    prov.counter=2;
+                    print(prov.counter);
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => NavigationFile(
                                   d: guestDrawer(context),
                                   title: 'مرحبا',
-                                  counter: 2,
+                                  counter: prov.counter!,
                                 )));
                   },
                   child: Text(

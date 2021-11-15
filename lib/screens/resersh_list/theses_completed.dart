@@ -1,12 +1,14 @@
 // ignore_for_file: avoid_print, use_key_in_widget_constructors
 
 import 'package:aban/constant/style.dart';
+import 'package:aban/provider/profile_provider.dart';
 import 'package:aban/screens/theses_screen/theses_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class CompeletedThesesresersh extends StatefulWidget {
   final String text;
@@ -75,6 +77,8 @@ class _CompeletedThesesresershState extends State<CompeletedThesesresersh> {
     );
   }
   Widget _buildThesesBox(ModelTheses theses){
+    var prov = Provider.of<ProfileProvider>(context);
+
     return  Container(
       margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
@@ -96,17 +100,10 @@ class _CompeletedThesesresershState extends State<CompeletedThesesresersh> {
                 children: [
                   Text(
                     "اسم الاطروحة: " + theses.nameTheses!,
-                    maxLines: 2,
-                    style: GoogleFonts.cairo(
-                      textStyle: const TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
-                        height: 1,
-                        color: black,
-                        overflow: TextOverflow.clip,
-                      ),
+
+                    style: labelStyle3,
                     ),
-                  ),
+
                   Text(
                     'المشرف:' + theses.nameSupervisors!,
                     style: hintStyle3,
@@ -118,14 +115,14 @@ class _CompeletedThesesresershState extends State<CompeletedThesesresersh> {
                 ],
               ),
             ),
-            const VerticalDivider(
+            prov.counter == 2? const SizedBox():const VerticalDivider(
               color: gray,
               endIndent: 10,
               indent: 10,
               width: 10,
               thickness: 2,
             ),
-            Column(
+            prov.counter == 2? const SizedBox():Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
