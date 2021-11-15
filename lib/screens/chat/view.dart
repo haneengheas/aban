@@ -67,7 +67,10 @@ class _ChatScreenState extends State<ChatScreen> {
                     String userId = message["userId"];
 
                     if (!messageList.contains(name) &&
-                        (message['sent'] == id || message['userId'] == id)) {
+                        (message["sent"] == id ||
+                            message["sent"] == userId) &&
+                        (message["userId"] == id ||
+                            message["userId"] == userId)) {
                       messageWidget = ChatItem(
                         image: image,
                         name: name,
@@ -95,21 +98,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     children: messageWidgets,
                   ));
 
-                  // return ListView.builder(
-                  //     itemCount: snapshot.data!.docs.length,
-                  //
-                  //     itemBuilder: (context, index) {
-                  //       print(snapshot.data!.docs[index]['image']);
-                  //       print('22222222222222222222222222');
-                  //       print(snapshot.data!.docs[index]['name']);
-                  //
-                  //       return  ChatItem(name: snapshot.data!.docs[index]['name'], image: snapshot
-                  //           .data!.docs[index]['image'],);
-                  //
-                  //
-                  //
-                  //     }
-                  // );
+
                 }),
           ],
         ));
