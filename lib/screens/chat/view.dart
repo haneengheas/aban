@@ -67,10 +67,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     String userId = message["userId"];
 
                     if (!messageList.contains(name) &&
-                        (message["sent"] == id ||
-                            message["sent"] == userId) &&
-                        (message["userId"] == id ||
-                            message["userId"] == userId)) {
+                        (message['sent'] == id || message['userId'] == id)) {
                       messageWidget = ChatItem(
                         image: image,
                         name: name,
@@ -84,7 +81,9 @@ class _ChatScreenState extends State<ChatScreen> {
                                         userId: userId,
                                         name: name,
                                       )));
-                        },
+                        }, ontapicon: (){
+
+                      },
                       );
 
                       messageWidgets.add(messageWidget);
