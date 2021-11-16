@@ -1,6 +1,8 @@
 import 'package:aban/constant/style.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
 class SeminarBookmark extends StatefulWidget {
   const SeminarBookmark({Key? key}) : super(key: key);
 
@@ -16,14 +18,15 @@ class _SeminarBookmarkState extends State<SeminarBookmark> {
         child: StreamBuilder(
           stream: FirebaseFirestore.instance
               .collection('seminarBookmark')
+              .where('userId',
+                  isEqualTo: FirebaseAuth.instance.currentUser!.uid)
               .snapshots(),
-          builder:
-              (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (snapshot.hasData) {
               return ListView.builder(
                   itemCount: snapshot.data!.docs.length,
                   itemBuilder: (context, index) {
-                    return  Container(
+                    return Container(
                       margin: const EdgeInsets.symmetric(
                           horizontal: 10, vertical: 10),
                       padding: const EdgeInsets.symmetric(
@@ -41,22 +44,20 @@ class _SeminarBookmarkState extends State<SeminarBookmark> {
                           children: [
                             Expanded(
                               child: Column(
-                                crossAxisAlignment: CrossAxisAlignment
-                                    .start,
-                                mainAxisAlignment: MainAxisAlignment
-                                    .spaceEvenly,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
                                 children: [
                                   Row(
                                     // crossAxisAlignment: CrossAxisAlignment.start,
                                     mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
                                         snapshot.data!.docs[index]
-                                        ['seminarAddress'],
+                                            ['seminarAddress'],
                                         style: labelStyle3,
                                       ),
-
                                       Row(
                                         children: [
                                           Text(
@@ -74,7 +75,6 @@ class _SeminarBookmarkState extends State<SeminarBookmark> {
                                       )
                                     ],
                                   ),
-
                                   Text(
                                     snapshot.data!.docs[index]['username'],
                                     style: hintStyle3,
@@ -82,14 +82,12 @@ class _SeminarBookmarkState extends State<SeminarBookmark> {
                                   Row(
                                     children: [
                                       Text(
-                                        snapshot.data!.docs[index]['to'] +
-                                            'pm',
+                                        snapshot.data!.docs[index]['to'] + 'pm',
                                         style: hintStyle3,
                                       ),
                                       Text(
                                         ':' +
-                                            snapshot.data!
-                                                .docs[index]['from']
+                                            snapshot.data!.docs[index]['from']
                                                 .toString() +
                                             'pm',
                                         style: hintStyle3,
@@ -125,7 +123,7 @@ class _SeminarBookmarkState extends State<SeminarBookmark> {
                                     onTap: () async {
                                       if (snapshot.data!
                                           .docs[index]['isFav'] == true) {
-                                        FirebaseFirestore.instance
+                                        await FirebaseFirestore.instance
                                             .collection('seminarBookmark')
                                             .doc(snapshot.data!.docs[index].id)
                                             .delete();

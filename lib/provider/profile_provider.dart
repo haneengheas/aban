@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:aban/constant/loading_methods.dart';
 import 'package:aban/screens/Home/navigation.dart';
 import 'package:aban/screens/Home/studentdrawer.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -297,6 +298,16 @@ class ProfileProvider with ChangeNotifier {
       'username' : name,
       'isFav':false,
       'userId': FirebaseAuth.instance.currentUser!.uid,
+    }).then((value) async{
+      Navigator.pop(context);
+      await AwesomeDialog(
+      context: context,
+      title: "هام",
+      body: const Text("تم الاضافة بنجاح"),
+      dialogType: DialogType.SUCCES)
+      ..show();
+
+
     });
     showLoading(context);
     Navigator.pop(context);
