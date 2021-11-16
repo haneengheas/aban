@@ -61,11 +61,17 @@ class MessageItem extends StatelessWidget {
                 padding:
                     const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
 
-                  child: Text(
-                    text,
-                    style: TextStyle(
-                      color: isMe ? Colors.white : Colors.black54,
-                      fontSize: 14.0,
+                  child: SizedBox(
+                    width: 60
+                    ,
+                    child: Text(
+                      text,
+                      maxLines: 10,
+                      style: TextStyle(
+                        overflow: TextOverflow.ellipsis,
+                        color: isMe ? Colors.white : Colors.black54,
+                        fontSize: 14.0,
+                      ),
                     ),
                   ),
                 ),
