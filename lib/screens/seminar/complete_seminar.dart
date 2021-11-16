@@ -3,6 +3,7 @@ import 'package:aban/provider/profile_provider.dart';
 import 'package:aban/screens/seminar/seminar_details.dart';
 import 'package:aban/screens/seminar/seminar_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -21,8 +22,8 @@ class CompleteSeminar extends StatefulWidget {
 }
 
 class _UnCompletedProjectState extends State<CompleteSeminar> {
-  bool checked = true;
-  bool isFav = false;
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -192,10 +193,9 @@ class _UnCompletedProjectState extends State<CompleteSeminar> {
                     ),
                     InkWell(
                       onTap: () async {
-                        await FirebaseFirestore.instance
+                        FirebaseFirestore.instance
                             .collection('seminarBookmark')
-                            .doc(
-                            seminar.docId)
+                            .doc(seminar.docId)
                             .set({
                           'description': seminar.discription,
                           'from': seminar.from,
@@ -203,35 +203,34 @@ class _UnCompletedProjectState extends State<CompleteSeminar> {
                           'link': seminar.link,
                           'location': seminar.location,
                           'selectedDay': seminar.selectday,
-                          'userId': seminar.docId,
+                          'userId': FirebaseAuth.instance.currentUser!.uid,
                           'type': seminar.type,
                           'seminarAddress': seminar.seminartitle,
                           'username': seminar.username,
-                          'isFav': isFav ? false : true
+                          'isFav': seminar.isFav! ? false : true
+
                         });
 
-                        isFav = !isFav;
+                        seminar.isFav = !seminar.isFav!;
                         await FirebaseFirestore.instance
                             .collection('seminar')
-                            .doc(
-                            seminar.docId)
+                            .doc(seminar.docId)
                             .update(
-                            {'isFav': isFav});
-                        if (isFav == false) {
+                            {'isFav': seminar.isFav! });
+                        if (seminar.isFav== false) {
                           FirebaseFirestore.instance
                               .collection('seminarBookmark')
-                              .doc(
-                              seminar.docId)
+                              .doc(seminar.docId)
                               .delete();
                         }
                         setState(() {});
+
                       },
                       child: Container(
                         height: 40,
                         width: 25,
-                        margin: const EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 20),
-                        child: !isFav
+                        margin: const EdgeInsets.symmetric(vertical: 10,horizontal: 10),
+                        child: !seminar.isFav!
                             ? const ImageIcon(
                           AssetImage(
                             'assets/bookmark (1).png',

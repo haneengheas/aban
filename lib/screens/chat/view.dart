@@ -1,6 +1,5 @@
 import 'package:aban/constant/style.dart';
 import 'package:aban/screens/chat/chat_item.dart';
-import 'package:aban/screens/chat/chatlist.dart';
 import 'package:aban/widgets/search_textfield.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -18,125 +17,91 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   String? id = FirebaseAuth.instance.currentUser!.uid;
-  TextEditingController searchController = TextEditingController();
-  List<Chatlist> chatlist = <Chatlist>[];
-  List<Chatlist> chatlist2 = <Chatlist>[];
-  String filter = '';
-
-  @override
-  void initState() {
-    chat();
-    searchController.addListener(() {
-      filter = searchController.text;
-      setState(() {});
-    });
-    // TODO: implement initState
-    super.initState();
-  }
-
-  chat() async {
-    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-        .collection('message')
-        .where('sent', isEqualTo: id)
-        .get();
-
-    for (var doc in querySnapshot.docs) {
-      chatlist.add(Chatlist(
-          userId: doc["userId"],
-          sentId: doc['sent'],
-          image: doc["image"],
-          name: doc["name"],
-          time: doc["timeDate"]));
-    }
-    for (var item in chatlist) {
-      if (!chatlist.contains(item.name) &&
-          (item.userId == id || item.sentId == id)){
-        chatlist2.add(Chatlist(
-          userId: item.userId,
-          sentId: item.sentId,
-          image: item.image,
-          name: item.name,
-          time: item.time,
-        ));
-      }
-    }
-
-    setState(() {});
-  }
+  late ChatItem messageWidget;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: white,
-      appBar: AppBar(
-          backgroundColor: white,
-          title: Text('المحادثة',
-              style: GoogleFonts.cairo(
-                textStyle: const TextStyle(
-                    color: blue, fontWeight: FontWeight.bold, fontSize: 28),
-              )),
-          centerTitle: true,
-          elevation: 0,
-          leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: const Icon(
-              Icons.arrow_back,
-              color: blue,
-            ),
-          )),
-      body: ListView(
-        children: [
-          // SearchTextField(
-          //   text: 'ابحث باسم باحث',
-          //   controller: searchController,
-          // ),
-          SizedBox(height: 20,),
-          SizedBox(
-            height: sizeFromHeight(context, 1.1),
-            child: ListView.builder(
-              itemCount: chatlist2.length,
-              itemBuilder: (context, index) {
-                return filter == null || filter == ""
-                    ? _buildProjBox(
-                        chatlist2[index],
-                      )
-                    : chatlist2[index]
-                                .name!
-                                .toLowerCase()
-                                .contains(filter.toLowerCase()) ||
-                            chatlist2[index]
-                                .name!
-                                .toLowerCase()
-                                .contains(filter.toLowerCase())
-                        ? _buildProjBox(
-                            chatlist2[index],
-                          )
-                        : Container();
+        backgroundColor: white,
+        appBar: AppBar(
+            backgroundColor: white,
+            title: Text('المحادثة',
+                style: GoogleFonts.cairo(
+                  textStyle: const TextStyle(
+                      color: blue, fontWeight: FontWeight.bold, fontSize: 28),
+                )),
+            centerTitle: true,
+            elevation: 0,
+            leading: IconButton(
+              onPressed: () {
+                Navigator.pop(context);
               },
+              icon: const Icon(
+                Icons.arrow_back,
+                color: blue,
+              ),
+            )),
+        body: Column(
+          children: [
+            // const SearchTextField(
+            //   text: 'ابحث باسم باحث',
+            // ),
+            const SizedBox(
+              height: 20,
             ),
-          ),
-        ],
-      ),
-    );
-  }
+            StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance
+                    .collection('message')
+                    .where('sent', isEqualTo: id)
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  final data = snapshot.data!.docs;
+                  List<ChatItem> messageWidgets = [];
+                  List<String> messageList = <String>[];
 
-  Widget _buildProjBox(Chatlist doc) {
-    return ChatItem(
-        name: doc.name!,
-        image: doc.image!,
-        ontap: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => ChatRoom(
-                        image: doc.image!,
-                        userId: doc.userId!,
-                        name: doc.name!,
-                      )));
-        },
-        ontapicon: () {},
-        dateTime: doc.time!);
+                  for (var message in data) {
+                    String image = message["image"];
+                    String name = message["name"];
+                    String userId = message["userId"];
+
+                    if (!messageList.contains(name) &&
+                        (message['sent'] == id || message['userId'] == id)) {
+                      messageWidget = ChatItem(
+                        image: image,
+                        name: name,
+                        dateTime: message["timeDate"],
+                        ontap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ChatRoom(
+                                    image: image,
+                                    userId: userId,
+                                    name: name,
+                                  )));
+                        },
+                        ontapicon: () {
+
+                        },
+                      );
+
+                      messageWidgets.add(messageWidget);
+
+                      messageList.add(message["name"]);
+                    }
+                  }
+                  return Expanded(
+                      child: ListView(
+                        padding: const EdgeInsets.all(20),
+                        children: messageWidgets,
+                      ));
+                }),
+          ],
+        ));
   }
 }
