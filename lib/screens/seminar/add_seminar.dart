@@ -161,8 +161,9 @@ class _AddSeminarState extends State<AddSeminar> {
                               if (value.isEmpty) {
                                 return 'فضلا أدخل وقت بداية الندوة';
                               }
+
                             },
-                            text: '00:00   ص م',
+                            text: '00:00',
                           ),
                           Text(
                             'إلى',
@@ -320,7 +321,7 @@ class _AddSeminarState extends State<AddSeminar> {
 
                           print('=/=//=/=/////=====/=//=/=/=/');
 
-                         Navigator.pop(context);
+
                         }),
                   )
                 ],

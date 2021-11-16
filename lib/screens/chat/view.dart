@@ -88,10 +88,11 @@ class _ChatScreenState extends State<ChatScreen> {
           )),
       body: ListView(
         children: [
-          SearchTextField(
-            text: 'ابحث باسم باحث',
-            controller: searchController,
-          ),
+          // SearchTextField(
+          //   text: 'ابحث باسم باحث',
+          //   controller: searchController,
+          // ),
+          SizedBox(height: 20,),
           SizedBox(
             height: sizeFromHeight(context, 1.1),
             child: ListView.builder(

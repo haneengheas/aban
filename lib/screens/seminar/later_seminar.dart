@@ -22,7 +22,7 @@ class LaterSeminar extends StatefulWidget {
 
 class _UnCompletedProjectState extends State<LaterSeminar> {
 
-  bool isFav = false;
+  bool ?isFav ;
 
 
   @override
@@ -61,6 +61,8 @@ class _UnCompletedProjectState extends State<LaterSeminar> {
                 return ListView.builder(
                     itemCount: snapshot.data!.docs.length,
                     itemBuilder: (context, index) {
+                      isFav = snapshot.data!.docs[index]['isFav'];
+                      print(isFav);
                       return     InkWell(
                         onTap: () {
                           Navigator.push(
@@ -218,10 +220,10 @@ class _UnCompletedProjectState extends State<LaterSeminar> {
                                                 .docs[index][ 'seminarAddress'],
                                             'username': snapshot.data!
                                                 .docs[index]['username'],
-                                            'isFav': isFav ? false : true
+                                            'isFav': isFav! ? false : true
                                           });
 
-                                          isFav = !isFav;
+                                          isFav = !isFav!;
                                           await FirebaseFirestore.instance
                                               .collection('seminar')
                                               .doc(
@@ -242,7 +244,7 @@ class _UnCompletedProjectState extends State<LaterSeminar> {
                                           width: 25,
                                           margin: const EdgeInsets.symmetric(
                                               vertical: 10, horizontal: 20),
-                                          child: !isFav
+                                          child: !isFav!
                                               ? const ImageIcon(
                                             AssetImage(
                                               'assets/bookmark (1).png',

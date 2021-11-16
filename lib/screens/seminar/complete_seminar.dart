@@ -22,8 +22,7 @@ class CompleteSeminar extends StatefulWidget {
 }
 
 class _UnCompletedProjectState extends State<CompleteSeminar> {
-  bool checked = true;
-  bool isFav = false;
+  bool ?isFav ;
 
   @override
   Widget build(BuildContext context) {
@@ -61,6 +60,7 @@ class _UnCompletedProjectState extends State<CompleteSeminar> {
                 return ListView.builder(
                     itemCount: snapshot.data!.docs.length,
                     itemBuilder: (context, index) {
+                      isFav = snapshot.data!.docs[index]['isFav'];
                       return InkWell(
                         onTap: () {
                           Navigator.push(
@@ -216,12 +216,10 @@ class _UnCompletedProjectState extends State<CompleteSeminar> {
                                                 .docs[index]['type'],
                                             'seminarAddress': snapshot.data!
                                                 .docs[index][ 'seminarAddress'],
-                                            'seminarAddress': snapshot.data!
-                                                .docs[index][ 'seminarAddress'],
-                                            'isFav': isFav ? false : true
+                                            'isFav': isFav! ? false : true
                                           });
 
-                                          isFav = !isFav;
+                                          isFav = !isFav!;
                                           await FirebaseFirestore.instance
                                               .collection('seminar')
                                               .doc(
@@ -242,7 +240,7 @@ class _UnCompletedProjectState extends State<CompleteSeminar> {
                                           width: 25,
                                           margin: const EdgeInsets.symmetric(
                                               vertical: 10, horizontal: 20),
-                                          child: !isFav
+                                          child: !isFav!
                                               ? const ImageIcon(
                                             AssetImage(
                                               'assets/bookmark (1).png',
