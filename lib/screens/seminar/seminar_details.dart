@@ -8,23 +8,29 @@ class SeminarDetails extends StatelessWidget {
   String? seminarname,
       username,
       location,
-      description, from, to, link, userid, docid;
+      description,
+      from,
+      to,
+      link,
+      userid,
+      docid;
   var type, selectday;
-  bool ?isFav;
+  bool? isFav;
 
-  SeminarDetails({Key? key,
-    this.type,
-    this.selectday,
-    this.userid,
-    this.from,
-    this.to,
-    this.link,
-    this.docid,
-    this.isFav,
-    this.description,
-    this.location,
-    this.seminarname,
-    this.username})
+  SeminarDetails(
+      {Key? key,
+      this.type,
+      this.selectday,
+      this.userid,
+      this.from,
+      this.to,
+      this.link,
+      this.docid,
+      this.isFav,
+      this.description,
+      this.location,
+      this.seminarname,
+      this.username})
       : super(key: key);
 
   @override
@@ -65,7 +71,6 @@ class SeminarDetails extends StatelessWidget {
                                   '$seminarname',
                                   style: labelStyle3,
                                 ),
-
                                 Row(
                                   children: [
                                     Text(
@@ -90,9 +95,7 @@ class SeminarDetails extends StatelessWidget {
                                   style: hintStyle3,
                                 ),
                                 Text(
-                                  ':' +
-                                      '$from' +
-                                      'pm',
+                                  ':' + '$from' + 'pm',
                                   style: hintStyle3,
                                 ),
                               ],
@@ -127,21 +130,21 @@ class SeminarDetails extends StatelessWidget {
                               width: 25,
                               margin: const EdgeInsets.symmetric(
                                   vertical: 10, horizontal: 10),
-                              child: isFav == true ? const ImageIcon(
-                                AssetImage(
-                                  'assets/bookmark (2).png',
-
-                                ),
-                                color: blue,
-                                size: 50,
-                              )
+                              child: isFav == true
+                                  ? const ImageIcon(
+                                      AssetImage(
+                                        'assets/bookmark (2).png',
+                                      ),
+                                      color: blue,
+                                      size: 50,
+                                    )
                                   : const ImageIcon(
-                                AssetImage(
-                                  'assets/bookmark (1).png',
-                                ),
-                                color: blue,
-                                size: 50,
-                              ),
+                                      AssetImage(
+                                        'assets/bookmark (1).png',
+                                      ),
+                                      color: blue,
+                                      size: 50,
+                                    ),
                             )
                           ]),
                     ],
@@ -165,8 +168,7 @@ class SeminarDetails extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) =>
-                                  EditSeminar(
+                              builder: (context) => EditSeminar(
                                     docId: docid,
                                     username: username,
                                     isFav: isFav,
@@ -179,7 +181,6 @@ class SeminarDetails extends StatelessWidget {
                                     seminarname: seminarname,
                                     to: to,
                                     type: type,
-
                                   )));
                     },
                     child: Row(

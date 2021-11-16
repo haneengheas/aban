@@ -2,7 +2,6 @@ import 'package:aban/constant/style.dart';
 import 'package:aban/screens/seminar/complete_seminar.dart';
 import 'package:aban/screens/seminar/later_seminar.dart';
 import 'package:aban/screens/seminar/seminar_model.dart';
-import 'package:aban/widgets/customAppBar.dart';
 import 'package:aban/widgets/search_textfield.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
@@ -43,6 +42,7 @@ class _ProjectScreenState extends State<SeminarScreen> {
 
     for (var doc in querySnapshot.docs) {
       completedSeminar.add(SeminarModel(
+
           type: doc['type'],
           discription: doc['description'],
           from: doc['from'],
