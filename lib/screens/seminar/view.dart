@@ -2,7 +2,6 @@ import 'package:aban/constant/style.dart';
 import 'package:aban/screens/seminar/complete_seminar.dart';
 import 'package:aban/screens/seminar/later_seminar.dart';
 import 'package:aban/screens/seminar/seminar_model.dart';
-import 'package:aban/widgets/customAppBar.dart';
 import 'package:aban/widgets/search_textfield.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
@@ -43,16 +42,21 @@ class _ProjectScreenState extends State<SeminarScreen> {
 
     for (var doc in querySnapshot.docs) {
       completedSeminar.add(SeminarModel(
+
           type: doc['type'],
           discription: doc['description'],
           from: doc['from'],
           link: doc['link'],
           location: doc['location'],
           selectday: doc['selectedDay'],
-          seminartitle: doc['seminaraddress'],
+          seminartitle: doc['seminarAddress'],
           to: doc['to'],
-          userid: doc.id,
-          username: doc['username']));
+          userid:  doc['userId'],
+          docId: doc.id,
+          isFav: doc['isFav'],
+          username: doc['username']
+      )
+      );
     }
 
     setState(() {});
@@ -71,10 +75,12 @@ class _ProjectScreenState extends State<SeminarScreen> {
           from: doc['from'],
           link: doc['link'],
           location: doc['location'],
-          selectday: doc['selectedDay'],
-          seminartitle: doc['seminaraddress'],
+          // selectday: doc['selectedDay'],
+          seminartitle: doc['seminarAddress'],
           to: doc['to'],
-          userid: doc.id,
+          userid:  doc['userId'],
+          docId: doc.id,
+          isFav: doc['isFav'],
           username: doc['username']));
     }
 

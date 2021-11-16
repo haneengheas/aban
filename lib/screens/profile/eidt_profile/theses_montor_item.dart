@@ -24,40 +24,11 @@ class ThesesGraduatedMontorItem extends StatefulWidget {
 }
 
 class _ThesesGraduatedMontorItemState extends State<ThesesGraduatedMontorItem> {
-  TextEditingController nameTheses = TextEditingController();
-  TextEditingController linkTheses = TextEditingController();
-  TextEditingController assistantSupervisor = TextEditingController();
-  TextEditingController nameSupervisors = TextEditingController();
-  TextEditingController degreeTheses = TextEditingController();
-  String? thesesStatus;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   GlobalKey<FormState> Key = GlobalKey<FormState>();
-
   dynamic indexed;
-
-  void getData() async {
-    QuerySnapshot<Map<String, dynamic>> documentSnapshot2 =
-        await FirebaseFirestore.instance
-            .collection('theses')
-            .where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
-            .get();
-    debugPrint('userType is ${documentSnapshot2.docs[0]['nameTheses']}');
-    nameTheses.text = documentSnapshot2.docs[0].get('nameTheses');
-    // linkTheses.text = documentSnapshot2.get('faculty');
-    // link.text = documentSnapshot2.get('link');
-    // phone.text = documentSnapshot2.get('phone');
-    // degree.text = documentSnapshot2.get('degree');
-    // id.text = documentSnapshot2.get('id');
-    // image = documentSnapshot2.get('imageUrl');
-    // field = documentSnapshot2.get('fields');
-    // accept = documentSnapshot2.get('accept');
-
-    setState(() {});
-  }
-
   @override
   void initState() {
-    getData();
     super.initState();
   }
 
@@ -361,7 +332,7 @@ void editTheses(
                                 'اختر حالة الاطروحة',
                                 style: hintStyle,
                               ),
-                              value: prov.thesesStatus,
+                              value: thesesStatus,
                               underline: Container(
                                 width: 30,
                                 padding:

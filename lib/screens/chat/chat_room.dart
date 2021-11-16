@@ -131,7 +131,8 @@ class _ChatRoomState extends State<ChatRoom> {
                         color: blue,
                       ),
                       onPressed: () {
-                       print(DateTime.now().toUtc()) ;
+                       print(DateTime.now().toLocal()) ;
+                       print('//=/=/=/=/===/=/') ;
                         if (_controller.text.isNotEmpty) {
                           FirebaseFirestore.instance.collection('message').add(
                             {
