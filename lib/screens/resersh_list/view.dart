@@ -1,6 +1,8 @@
 import 'package:aban/constant/style.dart';
+import 'package:aban/screens/resersh_list/reasher_list.dart';
 import 'package:aban/screens/resersh_list/search_item.dart';
 import 'package:aban/widgets/search_textfield.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -10,7 +12,8 @@ class ResershList extends StatefulWidget {
   final List<String> departments;
 
   //
-  const ResershList({Key? key,
+  const ResershList({
+    Key? key,
     required this.title,
     required this.departments,
   }) : super(key: key);
@@ -20,29 +23,47 @@ class ResershList extends StatefulWidget {
 }
 
 class _ResershListState extends State<ResershList> {
+  TextEditingController searchController = TextEditingController();
+  List<ResearchModel> item = <ResearchModel>[];
+  String filter = '';
 
+@override
+  void initState() {
 
+  searchController.addListener(() {
+    filter = searchController.text;
+    setState(() {
+
+    });
+  });
+  // TODO: implement initState
+    super.initState();
+
+  }
   @override
   Widget build(BuildContext context) {
-
     return DefaultTabController(
       length: widget.departments.length,
       child: Scaffold(
           backgroundColor: white,
           appBar: AppBar(
-            backgroundColor: white,
-            title: Text(widget.title,
-                style: GoogleFonts.cairo(
-                  textStyle:const TextStyle(
-                      color: blue, fontWeight: FontWeight.bold, fontSize: 28),
-                )),
-            centerTitle: true,
-            elevation: 0,
-            leading: IconButton(onPressed: (){Navigator.pop(context);}, icon:const Icon(
-              Icons.arrow_back,
-              color: blue,
-            ),)
-          ),
+              backgroundColor: white,
+              title: Text(widget.title,
+                  style: GoogleFonts.cairo(
+                    textStyle: const TextStyle(
+                        color: blue, fontWeight: FontWeight.bold, fontSize: 28),
+                  )),
+              centerTitle: true,
+              elevation: 0,
+              leading: IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: const Icon(
+                  Icons.arrow_back,
+                  color: blue,
+                ),
+              )),
           body: SingleChildScrollView(
             child: Column(
               // crossAxisAlignment: CrossAxisAlignment.start,
@@ -57,7 +78,8 @@ class _ResershListState extends State<ResershList> {
                       children: [
                         SizedBox(
                             width: sizeFromWidth(context, 1),
-                            child:const SearchTextField(
+                            child:  SearchTextField(
+                              controller: this.searchController,
                               text: 'البحث باسم الباحث',
                             )),
                         const SizedBox(
@@ -78,19 +100,28 @@ class _ResershListState extends State<ResershList> {
                                         fontWeight: FontWeight.bold),
                                   ),
                                   isScrollable: true,
-                                  tabs: widget.departments.map((e) => Tab(
-                                    text: e,
-                                  ),).toList(),
+                                  tabs: widget.departments
+                                      .map(
+                                        (e) => Tab(
+                                          text: e,
+                                        ),
+                                      )
+                                      .toList(),
                                 )),
                               ),
                               Expanded(
                                 child: SizedBox(
                                   child: TabBarView(
-                                    children: widget.departments.map((e) =>  SearchItem(title:e,),).toList(),
+                                    children: widget.departments
+                                        .map(
+                                          (e) => SearchItem(
+                                            title: e, filter: filter,
+                                          ),
+                                        )
+                                        .toList(),
                                   ),
                                 ),
                               ),
-
                             ],
                           ),
                         )

@@ -1,8 +1,7 @@
 import 'package:aban/constant/style.dart';
 import 'package:aban/provider/auth_provider.dart';
-import 'package:aban/provider/profile_provider.dart';
 import 'package:aban/screens/profile/facultymember/overview_profile/view.dart';
-import 'package:aban/screens/profile/graduatedmember/overview_profile/view.dart';
+import 'package:aban/screens/resersh_list/reasher_list.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,134 +9,157 @@ import 'package:provider/provider.dart';
 
 class SearchItem extends StatefulWidget {
   final String title;
-//1
-  const SearchItem({ required this.title,});
+ // final List<ResearchModel> projects;
+  final String? filter;
+
+  const SearchItem({
+    required this.title,
+   // required this.projects,
+    required this.filter,
+  });
 
   @override
   _SearchItemState createState() => _SearchItemState();
 }
 
 class _SearchItemState extends State<SearchItem> {
+  List<ResearchModel> projects = <ResearchModel>[];
+
+  itemss() async {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('member')
+        .where('department', isEqualTo: widget.title)
+        .get();
+
+    for (var doc in querySnapshot.docs) {
+      projects.add(ResearchModel(
+        name: doc['name'],
+        degree: doc['degree'],
+        email: doc['email'],
+        imageUrl: doc['imageUrl'],
+        phone: doc['phone'],
+        id: doc['id'],
+        faculty: doc['faculty'],
+        accept: doc['accept'],
+        token: doc['token'],
+        link: doc['link'],
+        userId: doc['userId'],
+      ));
+      print(doc['name']);
+      print('444444444444444444444444444444444444444444444444');
+    }
+
+    setState(() {});
+  }
   @override
   void initState() {
+    itemss();
     // TODO: implement initState
     super.initState();
-    print(widget.title.toString());
-    print('=====================================');
-    // print(widget.title.toList());
-    print('=====================================');
-    print(widget.title);
   }
-
   @override
   Widget build(BuildContext context) {
+    return ListView.builder(
+      itemCount: projects.length,
+      itemBuilder: (context, index) {
+        return widget.filter == null || widget.filter == ""
+            ? _buildProjBox(
+          projects[index],
+        )
+            : projects[index].name!
+            .toLowerCase()
+            .contains(widget.filter!.toLowerCase()) ||
+           projects[index].name!
+                .toLowerCase()
+                .contains(widget.filter!.toLowerCase())
+            ? _buildProjBox(
+        projects[index],
+        )
+            : Container();
+      },
+    );
+  }
+
+  Widget _buildProjBox(ResearchModel project) {
     var prov = Provider.of<AuthProvider>(context);
-    return Scaffold(
-      body: StreamBuilder(
-          stream: FirebaseFirestore.instance.collection('member').where(
-              'department', isEqualTo: widget.title).snapshots(),
-          builder:
-              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Text('');
-            }
-            if (snapshot.hasData) {
-              return ListView.builder(
-                  itemCount: snapshot.data!.docs.length,
-                  itemBuilder: (context, index) {
-                    return GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) {
-
-                                  return  MemberProfile(
-                                      userid: snapshot.data!
-                                          .docs[index]['userId'],
-
-                                      name: snapshot.data!.docs[index]['name'],
-                                      degree: snapshot.data!
-                                          .docs[index]['degree'],
-                                      email: snapshot.data!.docs[index]['email'],
-                                      image: snapshot.data!
-                                          .docs[index]['imageUrl'],
-                                      phone: snapshot.data!
-                                          .docs[index]['phone'],
-                                      id: snapshot.data!.docs[index]['id'],
-                                      faculty: snapshot.data!
-                                          .docs[index]['faculty'],
-                                      accept: snapshot.data!
-                                          .docs[index]['accept'],
-                                    token:  snapshot.data!
-                                        .docs[index]['token'],
-                                    );
-
-
-                                }
-
-                                  ));
-                      },
-                      child: Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 10 ,vertical: 10),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                            color: clearblue),
-                        height: sizeFromHeight(context, 7),
-                        width: sizeFromWidth(context, 1),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Container(
-                              height: 190,width: 50,
-                              decoration:  BoxDecoration(
-                                  shape: BoxShape.circle, image:DecorationImage(image: NetworkImage(
-                                snapshot.data!.docs[index]['imageUrl'],
-                              ), )),
-
-
-                            ),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment
-                                    .start,
-                                // mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                                    child: Text(
-                                      snapshot.data!.docs[index]['name'],
-                                      style: labelStyle3,
-                                    ),
-                                  ),
-                                  const Divider(
-                                    thickness: 1,
-                                    endIndent: 20,
-                                    indent: 19,
-                                    color: lightGray,
-                                    height: 1.5,
-                                  ),
-                                  Text(
-                                    '        ${snapshot.data!
-                                        .docs[index]['email']} ',
-                                    style: hintStyle3,
-                                  ), Text(
-                                    '        ${snapshot.data!
-                                        .docs[index]['degree']}',
-                                    style: hintStyle3,
-                                  ),
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    );
-                  });
-            }
-            return const Text('');
-          }),
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) =>
+                MemberProfile(userid: project.userId!,
+                    accept: project.accept,
+                    name: project.name!,
+                    image: project.imageUrl!,
+                    faculty: project.faculty!,
+                    email: project.email!,
+                    degree: project.degree!,
+                    id: project.id!,
+                    token: project.token!,
+                    phone: project.phone!)
+            ));
+      },
+      child: Container(
+        margin: const EdgeInsets.symmetric(
+            horizontal: 10, vertical: 10),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(30),
+            color: clearblue),
+        height: sizeFromHeight(context, 7),
+        width: sizeFromWidth(context, 1),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              height: 190,
+              width: 50,
+              decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: DecorationImage(
+                    image: NetworkImage(
+                      project.imageUrl!,
+                    ),
+                  )),
+            ),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                // mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20),
+                    child: Text(
+                      project.name!,
+                      style: labelStyle3,
+                    ),
+                  ),
+                  const Divider(
+                    thickness: 1,
+                    endIndent: 20,
+                    indent: 19,
+                    color: lightGray,
+                    height: 1.5,
+                  ),
+                  Text(
+                    '        ${project.email!} ',
+                    style: hintStyle3,
+                  ),
+                  Text(
+                    '        ${project.degree!}',
+                    style: hintStyle3,
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
     );
   }
 }
+
+
+
+
+

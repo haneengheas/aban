@@ -1,11 +1,12 @@
 class ResearchModel {
-  String ?userId,phone,name,link,imageUrl,orcidid,faculty,email,degree,accept,id;
+  String ?userId,phone,name,link,imageUrl, token,faculty,email,degree,id;
+  int accept;
   ResearchModel({
     this.degree,
     this.name,
     this.email,
-    this.orcidid,
-    this.accept,
+    this.token,
+    required this.accept,
     this.link,
     this.faculty,
     this.phone,

@@ -81,9 +81,10 @@ class _ChatScreenState extends State<ChatScreen> {
                                         userId: userId,
                                         name: name,
                                       )));
-                        }, ontapicon: (){
+                        },
+                        ontapicon: () {
 
-                      },
+                        },
                       );
 
                       messageWidgets.add(messageWidget);
@@ -96,8 +97,6 @@ class _ChatScreenState extends State<ChatScreen> {
                     padding: const EdgeInsets.all(20),
                     children: messageWidgets,
                   ));
-
-
                 }),
           ],
         ));
