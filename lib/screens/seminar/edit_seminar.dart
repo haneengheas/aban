@@ -8,14 +8,39 @@ import 'package:aban/widgets/buttons/tetfielduser.dart';
 import 'package:aban/widgets/textfieldtime.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class EditSeminar extends StatefulWidget {
-  const EditSeminar({Key? key}) : super(key: key);
+  String? seminarname,
+      username,
+      location,
+      description,
+      from,
+      to,
+      link,
+      userid,
+      docId;
+  var type, selectday;
+  bool? isFav;
+
+  EditSeminar(
+      {this.from,
+      this.isFav,
+      this.userid,
+      this.type,
+      this.link,
+      this.description,
+      this.location,
+      this.selectday,
+      this.seminarname,
+      this.to,
+      this.docId,
+      this.username,
+      Key? key})
+      : super(key: key);
 
   @override
   _EditSeminarState createState() => _EditSeminarState();
@@ -37,22 +62,22 @@ class _EditSeminarState extends State<EditSeminar> {
   CalendarFormat _calendarFormat = CalendarFormat.month;
 
   void getData() async {
-    QuerySnapshot documentSnapshot2 = await FirebaseFirestore.instance
+    DocumentSnapshot documentSnapshot2 = (await FirebaseFirestore.instance
         .collection("seminar")
-        .where('userId',isEqualTo: FirebaseAuth.instance.currentUser!.uid)
-        .get();
+        .doc(widget.docId)
+        .get());
 
-    name.text = documentSnapshot2.docs[0]['seminarAddress'];
-    from.text = documentSnapshot2.docs[0]['from'];
-    to.text = documentSnapshot2.docs[0]['to'];
-    link.text = documentSnapshot2.docs[0]['link'];
-    discription.text = documentSnapshot2.docs[0]['description'];
-    location.text = documentSnapshot2.docs[0]['location'];
-    _selectedDay = documentSnapshot2.docs[0]['selectedDay'];
+    name.text = documentSnapshot2.get('seminarAddress');
+    from.text = documentSnapshot2.get('from');
+    to.text = documentSnapshot2.get('to');
+    link.text = documentSnapshot2.get('link');
+    discription.text = documentSnapshot2.get('description');
+    location.text = documentSnapshot2.get('location');
+    // _selectedDay = documentSnapshot2.get('selectedDay');
+    widget.type = documentSnapshot2.get('type');
     print(name);
     print(link);
     print("=/=/=/=//==/=//==/=/=//=//=/==/=/=/");
-
 
     setState(() {});
   }
@@ -69,10 +94,10 @@ class _EditSeminarState extends State<EditSeminar> {
       setState(() {});
     });
     getData();
+    print(widget.docId);
     print(name.text);
     super.initState();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -102,10 +127,6 @@ class _EditSeminarState extends State<EditSeminar> {
           child: Container(
             width: sizeFromWidth(context, 1),
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-            // height: MediaQuery
-            //     .of(context)
-            //     .size
-            //     .height,
             margin: const EdgeInsets.symmetric(
               horizontal: 20,
             ),
@@ -121,7 +142,7 @@ class _EditSeminarState extends State<EditSeminar> {
                     scure: false,
                     hintText: "ادخل العنوان",
                     onChanged: (val) {
-                      prov.seminaraddress = val ;
+                      prov.seminaraddress = val;
                     },
                     controller: name,
                     validator: (value) {
@@ -144,7 +165,7 @@ class _EditSeminarState extends State<EditSeminar> {
                   padding: const EdgeInsets.symmetric(
                     horizontal: 10,
                   ),
-                  child:TableCalendar(
+                  child: TableCalendar(
                     rowHeight: 30,
                     firstDay: DateTime.utc(2010, 10, 16),
                     lastDay: DateTime.utc(2030, 3, 14),
@@ -190,7 +211,7 @@ class _EditSeminarState extends State<EditSeminar> {
                         ),
                         TimeTextField(
                           onChanged: (val) {
-                            prov.from = val ;
+                            prov.from = val;
                           },
                           controller: from,
                           validator: (value) {
@@ -206,7 +227,7 @@ class _EditSeminarState extends State<EditSeminar> {
                         ),
                         TimeTextField(
                           onChanged: (val) {
-                            prov.to= val ;
+                            prov.to = val;
                           },
                           controller: to,
                           validator: (value) {
@@ -220,22 +241,23 @@ class _EditSeminarState extends State<EditSeminar> {
                     ),
                   ),
                 ),
-                 TextFieldUser(
-                   onChanged: (val){
-                     prov.location = val;
-                   },
-                   controller: location,
-                   validator: (value) {
-                     if (value.isEmpty) {
-                       return 'فضلا أدخل موقع الندوة';
-                     }
-                   },
+                TextFieldUser(
+                  onChanged: (val) {
+                    prov.location = val;
+                  },
+                  controller: location,
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'فضلا أدخل موقع الندوة';
+                    }
+                  },
                   labelText: "الموقع",
-                  scure: true,
+                  scure: false,
                   hintText: "موقع الندوة",
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
                   child: Text(
                     'النوع',
                     style: hintStyle4,
@@ -249,10 +271,10 @@ class _EditSeminarState extends State<EditSeminar> {
                         children: [
                           Radio(
                               value: 1,
-                              groupValue: val,
+                              groupValue: widget.type,
                               onChanged: (value) {
                                 setState(() {
-                                  val = value;
+                                  widget.type = value;
                                 });
                               }),
                           Text('عامة', style: hintStyle3),
@@ -262,10 +284,10 @@ class _EditSeminarState extends State<EditSeminar> {
                         children: [
                           Radio(
                               value: 2,
-                              groupValue: val,
+                              groupValue: widget.type,
                               onChanged: (value) {
                                 setState(() {
-                                  val = value;
+                                  widget.type = value;
                                 });
                               }),
                           Text(
@@ -282,7 +304,7 @@ class _EditSeminarState extends State<EditSeminar> {
                     scure: false,
                     hintText: "وصف الندوة",
                     onChanged: (val) {
-                      prov.description=val;
+                      prov.description = val;
                     },
                     controller: discription,
                     validator: (value) {
@@ -292,10 +314,10 @@ class _EditSeminarState extends State<EditSeminar> {
                     }),
                 TextFieldUser(
                     labelText: "رابط الوصول الى الندوة",
-                    scure: true,
+                    scure: false,
                     hintText: "الرابط",
                     onChanged: (val) {
-                      prov.seminarlink=val;
+                      prov.seminarlink = val;
                     },
                     controller: link,
                     validator: (value) {
@@ -311,9 +333,12 @@ class _EditSeminarState extends State<EditSeminar> {
                           text: 'حذف الندوة',
                           color: redGradient,
                           onTap: () {
-                            showDialogWarning(context,
-                                ontap: () {},
-                                text: 'هل انت متأكد من حذف هذة الندوة');
+                            showDialogWarning(context, ontap: () async {
+                              await FirebaseFirestore.instance
+                                  .collection('seminar')
+                                  .doc(widget.docId)
+                                  .delete();
+                            }, text: 'هل انت متأكد من حذف هذة الندوة');
                           }),
                       ButtonUser(
                           text: 'حفظ التغييرات',
@@ -325,24 +350,30 @@ class _EditSeminarState extends State<EditSeminar> {
 
                                 await FirebaseFirestore.instance
                                     .collection('seminar')
-                                    .doc(FirebaseAuth.instance.currentUser!.uid)
+                                    .doc(widget.docId)
                                     .update({
-                                  'seminaraddress': name.text,
+                                  'seminarAddress': name.text,
                                   'description': discription.text,
                                   'location': location.text,
                                   'link': link.text,
-                                  'from':from.text,
-                                  'to': to.text
-
-                                }).then((value) {
+                                  'from': from.text,
+                                  'to': to.text,
+                                  'type': widget.type
+                                }).then((value) async {
                                   Navigator.pop(context);
-                                  AwesomeDialog(
+                                  await AwesomeDialog(
                                           context: context,
                                           title: "هام",
                                           body: const Text(
                                               "تمت عملية التعديل بنجاح"),
                                           dialogType: DialogType.SUCCES)
                                       .show();
+                                  Navigator.pop(context);
+                                  // Navigator.push(
+                                  //     context,
+                                  //     MaterialPageRoute(
+                                  //         builder: (context) =>
+                                  //             const SeminarScreen()));
                                 });
                               }
 

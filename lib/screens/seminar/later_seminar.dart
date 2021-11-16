@@ -68,6 +68,7 @@ class _UnCompletedProjectState extends State<LaterSeminar> {
                               MaterialPageRoute(
                                   builder: (context) =>
                                       SeminarDetails(
+                                        docid:snapshot.data!.docs[index].id ,
                                         description: snapshot.data!.docs[index]
                                         ['description'],
                                         isFav: snapshot.data!.docs[index]

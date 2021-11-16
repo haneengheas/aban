@@ -101,6 +101,7 @@ class _SearchItemState extends State<SearchItem> {
       child: Container(
         margin: const EdgeInsets.symmetric(
             horizontal: 10, vertical: 10),
+        padding:const  EdgeInsets.symmetric(vertical: 15,horizontal: 10),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(30),
             color: clearblue),
@@ -124,7 +125,7 @@ class _SearchItemState extends State<SearchItem> {
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                // mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Padding(
                     padding: const EdgeInsets.symmetric(

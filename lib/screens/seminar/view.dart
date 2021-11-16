@@ -49,10 +49,14 @@ class _ProjectScreenState extends State<SeminarScreen> {
           link: doc['link'],
           location: doc['location'],
           selectday: doc['selectedDay'],
-          seminartitle: doc['seminaraddress'],
+          seminartitle: doc['seminarAddress'],
           to: doc['to'],
-          userid: doc.id,
-          username: doc['username']));
+          userid:  doc['userId'],
+          docId: doc.id,
+          isFav: doc['isFav'],
+          username: doc['username']
+      )
+      );
     }
 
     setState(() {});
@@ -71,10 +75,12 @@ class _ProjectScreenState extends State<SeminarScreen> {
           from: doc['from'],
           link: doc['link'],
           location: doc['location'],
-          selectday: doc['selectedDay'],
-          seminartitle: doc['seminaraddress'],
+          // selectday: doc['selectedDay'],
+          seminartitle: doc['seminarAddress'],
           to: doc['to'],
-          userid: doc.id,
+          userid:  doc['userId'],
+          docId: doc.id,
+          isFav: doc['isFav'],
           username: doc['username']));
     }
 

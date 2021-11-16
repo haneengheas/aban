@@ -377,10 +377,10 @@ class _EditProfileState extends State<EditProfile> {
                         children: [
                           Radio(
                               value: 0,
-                              groupValue: prov.accept,
+                              groupValue: accepted,
                               onChanged: (value) {
                                 setState(() {
-                                  prov.accept = value;
+                                  accepted = value as int?;
                                 });
                               }),
                           Text('نعم', style: hintStyle3),
@@ -396,10 +396,10 @@ class _EditProfileState extends State<EditProfile> {
                         children: [
                           Radio(
                               value: 1,
-                              groupValue:prov.accept,
+                              groupValue:accepted,
                               onChanged: (value) {
                                 setState(() {
-                                  prov.accept = value;
+                                  accepted = value as int?;
                                 });
                               }),
                           Text(
@@ -457,7 +457,7 @@ class _EditProfileState extends State<EditProfile> {
                                  .doc(FirebaseAuth.instance.currentUser!.uid)
                                  .update({
                                'name': name.text,
-                               'accept': prov.accept,
+                               'accept':accepted,
                                'degree': degree,
                                'faculty': college,
                                'department': department,
