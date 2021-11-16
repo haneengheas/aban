@@ -187,7 +187,7 @@ class _ChatScreenState extends State<ChatScreen> {
             StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance
                     .collection('message')
-                    .where('sent', isEqualTo: id)
+                    // .where('sent', isEqualTo: id)
                     .snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
