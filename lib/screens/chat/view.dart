@@ -25,7 +25,6 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   void initState() {
-
     chat();
     searchController.addListener(() {
       filter = searchController.text;
@@ -38,18 +37,29 @@ class _ChatScreenState extends State<ChatScreen> {
   chat() async {
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('message')
-        // .where('sent', isEqualTo: id)
+        .where('sent', isEqualTo: id)
         .get();
 
     for (var doc in querySnapshot.docs) {
-
-        chatlist.add(Chatlist(
-            userId: doc["userId"],
-            image: doc["image"],
-            name: doc["name"],
-            time: doc["timeDate"]));
+      chatlist.add(Chatlist(
+          userId: doc["userId"],
+          sentId: doc['sent'],
+          image: doc["image"],
+          name: doc["name"],
+          time: doc["timeDate"]));
+    }
+    for (var item in chatlist) {
+      if (!chatlist.contains(item.name) &&
+          (item.userId == id || item.sentId == id)){
+        chatlist2.add(Chatlist(
+          userId: item.userId,
+          sentId: item.sentId,
+          image: item.image,
+          name: item.name,
+          time: item.time,
+        ));
       }
-
+    }
 
     setState(() {});
   }
@@ -82,30 +92,30 @@ class _ChatScreenState extends State<ChatScreen> {
             text: 'ابحث باسم باحث',
             controller: searchController,
           ),
-          SizedBox(height: sizeFromHeight(context, 1.1),
+          SizedBox(
+            height: sizeFromHeight(context, 1.1),
             child: ListView.builder(
-              itemCount: chatlist.length,
+              itemCount: chatlist2.length,
               itemBuilder: (context, index) {
                 return filter == null || filter == ""
                     ? _buildProjBox(
-                  chatlist[index],
-                )
-                    : chatlist[index]
-                    .name!
-                    .toLowerCase()
-                    .contains(filter.toLowerCase()) ||
-                    chatlist[index]
-                        .name!
-                        .toLowerCase()
-                        .contains(filter.toLowerCase())
-                    ? _buildProjBox(
-                  chatlist[index],
-                )
-                    : Container();
+                        chatlist2[index],
+                      )
+                    : chatlist2[index]
+                                .name!
+                                .toLowerCase()
+                                .contains(filter.toLowerCase()) ||
+                            chatlist2[index]
+                                .name!
+                                .toLowerCase()
+                                .contains(filter.toLowerCase())
+                        ? _buildProjBox(
+                            chatlist2[index],
+                          )
+                        : Container();
               },
             ),
           ),
-
         ],
       ),
     );
