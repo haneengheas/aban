@@ -42,7 +42,7 @@ class _EditSeminarState extends State<EditSeminar> {
         .where('userId',isEqualTo: FirebaseAuth.instance.currentUser!.uid)
         .get();
 
-    name.text = documentSnapshot2.docs[0]['seminaraddress'];
+    name.text = documentSnapshot2.docs[0]['seminarAddress'];
     from.text = documentSnapshot2.docs[0]['from'];
     to.text = documentSnapshot2.docs[0]['to'];
     link.text = documentSnapshot2.docs[0]['link'];
