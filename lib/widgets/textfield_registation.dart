@@ -34,7 +34,7 @@ class _TextFieldRegistationState extends State<TextFieldRegistation> {
         child: TextFormField(
           onChanged:
             widget.onChanged,
-
+          obscureText: widget.scure,
           decoration: InputDecoration(
             // ToDo:
             // شيلت النجمة

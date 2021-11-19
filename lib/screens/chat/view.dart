@@ -20,7 +20,7 @@ class _ChatScreenState extends State<ChatScreen> {
   String? id = FirebaseAuth.instance.currentUser!.uid;
   TextEditingController searchController = TextEditingController();
   List<Chatlist> chatlist = <Chatlist>[];
-  List<Chatlist> chatlist2 = <Chatlist>[];
+  // List<Chatlist> chatlist2 = <Chatlist>[];
   String filter = '';
 
   @override
@@ -37,27 +37,21 @@ class _ChatScreenState extends State<ChatScreen> {
   chat() async {
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('message')
-        .where('sent', isEqualTo: id)
+        .orderBy('timeDate')
         .get();
 
     for (var doc in querySnapshot.docs) {
-      chatlist.add(Chatlist(
-          userId: doc["userId"],
-          sentId: doc['sent'],
-          image: doc["image"],
-          name: doc["name"],
-          time: doc["timeDate"]));
-    }
-    for (var item in chatlist) {
-      if (!chatlist.contains(item.name) &&
-          (item.userId == id || item.sentId == id)){
-        chatlist2.add(Chatlist(
-          userId: item.userId,
-          sentId: item.sentId,
-          image: item.image,
-          name: item.name,
-          time: item.time,
-        ));
+      if (
+      !chatlist.contains(doc["name"])
+          &&
+          (doc["userId"] == id || doc['sent'] == id)) {
+        chatlist.add(Chatlist(
+            massage: doc["Text"],
+            userId: doc["userId"],
+            sentId: doc['sent'],
+            image: doc["image"],
+            name: doc["name"],
+            time: doc["timeDate"]));
       }
     }
 
@@ -88,30 +82,32 @@ class _ChatScreenState extends State<ChatScreen> {
           )),
       body: ListView(
         children: [
-          // SearchTextField(
-          //   text: 'ابحث باسم باحث',
-          //   controller: searchController,
-          // ),
-          SizedBox(height: 20,),
+          SearchTextField(
+            text: 'ابحث باسم باحث',
+            controller: searchController,
+          ),
+          SizedBox(
+            height: 20,
+          ),
           SizedBox(
             height: sizeFromHeight(context, 1.1),
             child: ListView.builder(
-              itemCount: chatlist2.length,
+              itemCount: chatlist.length,
               itemBuilder: (context, index) {
                 return filter == null || filter == ""
                     ? _buildProjBox(
-                        chatlist2[index],
+                        chatlist[index],
                       )
-                    : chatlist2[index]
+                    : chatlist[index]
                                 .name!
                                 .toLowerCase()
                                 .contains(filter.toLowerCase()) ||
-                            chatlist2[index]
+                            chatlist[index]
                                 .name!
                                 .toLowerCase()
                                 .contains(filter.toLowerCase())
                         ? _buildProjBox(
-                            chatlist2[index],
+                            chatlist[index],
                           )
                         : Container();
               },
@@ -123,20 +119,24 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   Widget _buildProjBox(Chatlist doc) {
+    print(doc.massage!);
+    print('000000');
     return ChatItem(
-        name: doc.name!,
-        image: doc.image!,
-        ontap: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => ChatRoom(
-                        image: doc.image!,
-                        userId: doc.userId!,
-                        name: doc.name!,
-                      )));
-        },
-        ontapicon: () {},
-        dateTime: doc.time!);
+      name: doc.name!,
+      image: doc.image!,
+      ontap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ChatRoom(
+                      image: doc.image!,
+                      userId: doc.userId!,
+                      name: doc.name!,
+                    )));
+      },
+      ontapicon: () {},
+      dateTime: doc.time!,
+      lastmassage: doc.massage!,
+    );
   }
 }

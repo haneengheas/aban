@@ -20,7 +20,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   late String name, email, password, password1;
-
+  var _usernameController = TextEditingController();
+  late String _usernameError;
+  bool validateStructure(String value) {
+    String pattern = r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
+    RegExp regExp = new RegExp(pattern);
+    return regExp.hasMatch(value);
+  }
   @override
   Widget build(BuildContext context) {
     var provider = Provider.of<AuthProvider>(context);
@@ -66,21 +72,27 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   TextFieldRegistation(
                       hintText: "*****",
                       labelText: "كلمة المرور",
-                      scure: false,
+                      scure: true,
+
                       onChanged: (val) {
                         password = val;
                       },
                       validator: (value) {
+
                         if (value!.isEmpty) {
-                          return 'الرجاء ادخال كلمة المرور ';
+                        return 'الرجاء ادخال كلمة المرور ';
+
                         } else if (value.length < 5) {
                           return 'يجب ان تتكون كلمة المرور علي الاقل من ستة حروف وارقام';
+                        }
+                        else if (!validateStructure(value)) {
+                            return 'يجب ان تحتوى كلمة المرور على رقم واحد على الأقل من \nالأرقام والأحرف الكبيرة والأحرف الصغيرة و الرموز @#%&* ';
                         }
                       }),
                   TextFieldRegistation(
                       hintText: "*****",
                       labelText: "تاكيد كلمة المرور",
-                      scure: false,
+                      scure: true,
                       onChanged: (val) {
                         password1 = val;
                       },
@@ -163,11 +175,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             print(userType);
                             provider.singup(
                                 email, password, name, userType, context);
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                    const WellcomeScreen()));
+
                           } else {
                             (e) {
                               print(e);

@@ -12,7 +12,7 @@ class ChatRoom extends StatefulWidget {
   final String image, name;
   final String userId;
 
-  ChatRoom({required this.image, required this.name, required this.userId});
+  const ChatRoom({required this.image, required this.name, required this.userId});
 
   @override
   State<ChatRoom> createState() => _ChatRoomState();
@@ -93,6 +93,8 @@ class _ChatRoomState extends State<ChatRoom> {
                   final messages = snapshot.data!.docs.reversed;
                   List<MessageItem> messageWidgets = [];
                   for (var message in messages) {
+                    print(message['timeDate']);
+                    print('lllllllllllllllllllllllll');
                     String messageText = message["Text"];
                     String sent = message["sent"];
                     if ((message["sent"] == id ||
@@ -102,7 +104,7 @@ class _ChatRoomState extends State<ChatRoom> {
                       messageWidget = MessageItem(
                           text: messageText,
                           isMe: sent == id,
-                          image: widget.image);
+                          image: widget.image, time: message['timeDate'],);
                       messageWidgets.add(messageWidget);
                     }else {print('object');}
                   }
