@@ -283,19 +283,19 @@ class _MemberProfileState extends State<MemberProfile> {
                                       userId: userId,
                                     ),
                                     CompeletedThesesresersh(
-                                      text: 'اطروحة مكتملة تحت اشرافي',
+                                      text: '',
                                       userId: userId,
                                     ),
                                     UnComletedThesesListresersh(
-                                      text: 'اطروحة جارية تحت اشرافي',
+                                      text: '',
                                       userId: userId,
                                     ),
                                     CompletedProjectResersh(
-                                      text: 'اطروحة جارية تحت اشرافي',
+                                      text: '',
                                       userId: userId,
                                     ),
                                     UnCompletedProjectresersh(
-                                      text: 'اطروحة جارية تحت اشرافي',
+                                      text: '',
                                       userId: userId,
                                     ),
                                   ],

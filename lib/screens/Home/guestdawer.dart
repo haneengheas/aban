@@ -34,7 +34,7 @@ import 'package:quds_ui_kit/screens/quds_popup_menu.dart';
                   alignment: Alignment.centerRight,
                   child: Text('تسجيل خروج',)),
               onPressed: () {
-                Navigator.push(context,
+                Navigator.pushReplacement(context,
                     MaterialPageRoute(builder: (context) =>const RegistScreen()));              }),
           QudsPopupMenuDivider(color: gray, thickness: .5),
           QudsPopupMenuItem(

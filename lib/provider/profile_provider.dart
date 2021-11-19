@@ -101,7 +101,7 @@ class ProfileProvider with ChangeNotifier {
         MaterialPageRoute(
             builder: (context) => NavigationFile(
                   d: studentDrawer(context),
-                  title: '  مرحبا $name  ً',
+                  title: '   مرحبا $name ',
                   counter: counter!,
                 )));
     notifyListeners();

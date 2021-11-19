@@ -22,11 +22,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
   late String name, email, password, password1;
   var _usernameController = TextEditingController();
   late String _usernameError;
+
   bool validateStructure(String value) {
-    String pattern = r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
+    String pattern =
+        r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
     RegExp regExp = new RegExp(pattern);
     return regExp.hasMatch(value);
   }
+
   @override
   Widget build(BuildContext context) {
     var provider = Provider.of<AuthProvider>(context);
@@ -67,26 +70,27 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           return 'الرجاء كتابه البريد الالكتروني بشكل صحيح';
                         } else if (!value.toString().contains('@')) {
                           return ' @ يجب ان يحتوي البريد الالكتروني علي  ';
+                        } else if (!value
+                                .toString()
+                                .contains('student.ksu.edu.sa') &&
+                            !value.toString().contains('ksu.edu.sa')) {
+                          return ' يجب ان يحتوي البريد الالكتروني علي  ksu.edu.sa او student.ksu.edu.sa ';
                         }
                       }),
                   TextFieldRegistation(
                       hintText: "*****",
                       labelText: "كلمة المرور",
                       scure: true,
-
                       onChanged: (val) {
                         password = val;
                       },
                       validator: (value) {
-
                         if (value!.isEmpty) {
-                        return 'الرجاء ادخال كلمة المرور ';
-
+                          return 'الرجاء ادخال كلمة المرور ';
                         } else if (value.length < 5) {
                           return 'يجب ان تتكون كلمة المرور علي الاقل من ستة حروف وارقام';
-                        }
-                        else if (!validateStructure(value)) {
-                            return 'يجب ان تحتوى كلمة المرور على رقم واحد على الأقل من \nالأرقام والأحرف الكبيرة والأحرف الصغيرة و الرموز @#%&* ';
+                        } else if (!validateStructure(value)) {
+                          return 'يجب ان تحتوى كلمة المرور على رقم واحد على الأقل من \nالأرقام والأحرف الكبيرة والأحرف الصغيرة و الرموز @#%&* ';
                         }
                       }),
                   TextFieldRegistation(
@@ -163,7 +167,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     child: SubmitButton(
                         gradient: blueGradient,
                         text: 'متابعة',
-                        onTap: () async{
+                        onTap: () async {
                           if (_formKey.currentState!.validate()) {
                             _formKey.currentState!.save();
                             String userType = Provider.of<AuthProvider>(context,
@@ -175,7 +179,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             print(userType);
                             provider.singup(
                                 email, password, name, userType, context);
-
                           } else {
                             (e) {
                               print(e);
