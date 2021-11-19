@@ -1,7 +1,4 @@
 import 'package:aban/constant/style.dart';
-import 'package:aban/screens/Home/guestdawer.dart';
-import 'package:aban/screens/Home/navigation.dart';
-import 'package:aban/screens/Home/studentdrawer.dart';
 import 'package:aban/screens/theses_screen/completed_theses.dart';
 import 'package:aban/screens/theses_screen/theses_model.dart';
 import 'package:aban/screens/theses_screen/uncompleted_theses.dart';
