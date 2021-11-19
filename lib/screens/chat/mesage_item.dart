@@ -31,7 +31,7 @@ class MessageItem extends StatelessWidget {
           isMe
               ?Text(intl.DateFormat('kk:mm a').format(time.toDate()),
                   style: const TextStyle(
-                      fontSize: 16,
+                      fontSize: 14,
                       fontWeight: FontWeight.w600,
                       height: 1.5,
                       color: gray))
@@ -91,7 +91,7 @@ class MessageItem extends StatelessWidget {
               ? const Text('')
               :  Text(intl.DateFormat('kk:mm').format(time.toDate()),
                   style: const TextStyle(
-                      fontSize: 16,
+                      fontSize: 14,
                       fontWeight: FontWeight.w600,
                       height: 1.5,
                       color: gray)),
