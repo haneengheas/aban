@@ -30,7 +30,13 @@ class _CompletedThesesState extends State<CompletedTheses> {
               )
             : widget.theses[index].nameTheses!
                     .toLowerCase()
-                    .contains(widget.filter!.toLowerCase())
+                    .contains(widget.filter!.toLowerCase()) ||
+            widget.theses[index].nameSupervisors!
+                .toLowerCase()
+                .contains(widget.filter!.toLowerCase()) ||
+            widget.theses[index].assistantSupervisors!
+                .toLowerCase()
+                .contains(widget.filter!.toLowerCase())
                 ? _buildProjBox(
                     widget.theses[index],
                   )

@@ -30,7 +30,13 @@ class _UnCompletedThesesState extends State<UnCompletedTheses> {
         )
             : widget.theses[index].nameTheses!
             .toLowerCase()
-            .contains(widget.filter!.toLowerCase())
+            .contains(widget.filter!.toLowerCase()) ||
+            widget.theses[index].assistantSupervisors!
+                .toLowerCase()
+                .contains(widget.filter!.toLowerCase()) ||
+            widget.theses[index].nameSupervisors!
+                .toLowerCase()
+                .contains(widget.filter!.toLowerCase())
             ? _buildThesesBox(
           widget.theses[index],
         )

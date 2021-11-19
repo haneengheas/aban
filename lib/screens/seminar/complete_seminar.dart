@@ -62,6 +62,9 @@ class _UnCompletedProjectState extends State<CompleteSeminar> {
               )
                   : widget.seminar[index].seminartitle!
                   .toLowerCase()
+                  .contains(widget.filter!.toLowerCase())||
+              widget.seminar[index].username!
+                  .toLowerCase()
                   .contains(widget.filter!.toLowerCase())
                   ? buildSeminarBox(
                 widget.seminar[index],

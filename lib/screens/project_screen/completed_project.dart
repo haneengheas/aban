@@ -19,7 +19,6 @@ class CompletedProject extends StatefulWidget {
 }
 
 class _CompletedProjectState extends State<CompletedProject> {
-
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
@@ -32,7 +31,10 @@ class _CompletedProjectState extends State<CompletedProject> {
             : widget.projects[index].projectName!
                         .toLowerCase()
                         .contains(widget.filter!.toLowerCase()) ||
-                    widget.projects[index].projectName!
+                    widget.projects[index].leaderName!
+                        .toLowerCase()
+                        .contains(widget.filter!.toLowerCase()) ||
+                    widget.projects[index].memberProjectName!
                         .toLowerCase()
                         .contains(widget.filter!.toLowerCase())
                 ? _buildProjBox(
@@ -51,13 +53,13 @@ class _CompletedProjectState extends State<CompletedProject> {
             context,
             MaterialPageRoute(
                 builder: (context) => ProJectDetailsScreen(
-                  description: project.descriptionProject!,
-                  leader: project.leaderName!,
-                  members: project.memberProjectName!,
-                  nameProject: project.memberProjectName!,
-                  status: project.projectStatus!,
-                  isFav: project.isFav!,
-                )));
+                      description: project.descriptionProject!,
+                      leader: project.leaderName!,
+                      members: project.memberProjectName!,
+                      nameProject: project.memberProjectName!,
+                      status: project.projectStatus!,
+                      isFav: project.isFav!,
+                    )));
       },
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
@@ -93,68 +95,74 @@ class _CompletedProjectState extends State<CompletedProject> {
                   ],
                 ),
               ),
-              prov.counter == 2? const SizedBox(): const VerticalDivider(
-                color: gray,
-                endIndent: 10,
-                indent: 10,
-                width: 10,
-                thickness: 2,
-              ),
-              prov.counter == 2? const SizedBox():Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    InkWell(
-                      onTap: () async {
-                        FirebaseFirestore.instance
-                            .collection('projectBookmark')
-                            .doc(project.id)
-                            .set({
-                          'projectName': project.projectName,
-                          'leaderName': project.leaderName,
-                          'descriptionProject': project.descriptionProject,
-                          'memberProjectName': project.memberProjectName,
-                          'projectStatus': project.projectStatus,
-                          'userId': FirebaseAuth.instance.currentUser!.uid,
-                          'isFav': project.isFav! ? false : true
-                        });
-
-                        project.isFav = !project.isFav!;
-                        await FirebaseFirestore.instance
-                            .collection('project')
-                            .doc(project.id)
-                            .update({'isFav': project.isFav!});
-                        if (project.isFav == false) {
-                          FirebaseFirestore.instance
-                              .collection('projectBookmark')
-                              .doc(project.id)
-                              .delete();
-                        }
-                        setState(() {});
-                        print(project.id);
-                      },
-                      child: Container(
-                        height: 40,
-                        width: 25,
-                        margin: const EdgeInsets.symmetric(
-                            vertical: 30, horizontal: 10),
-                        child: !project.isFav!
-                            ? const ImageIcon(
-                          AssetImage(
-                            'assets/bookmark (1).png',
-                          ),
-                          color: blue,
-                          size: 50,
-                        )
-                            : const ImageIcon(
-                          AssetImage(
-                            'assets/bookmark (2).png',
-                          ),
-                          color: blue,
-                          size: 50,
-                        ),
-                      ),
+              prov.counter == 2
+                  ? const SizedBox()
+                  : const VerticalDivider(
+                      color: gray,
+                      endIndent: 10,
+                      indent: 10,
+                      width: 10,
+                      thickness: 2,
                     ),
-                  ]),
+              prov.counter == 2
+                  ? const SizedBox()
+                  : Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                          InkWell(
+                            onTap: () async {
+                              FirebaseFirestore.instance
+                                  .collection('projectBookmark')
+                                  .doc(project.id)
+                                  .set({
+                                'projectName': project.projectName,
+                                'leaderName': project.leaderName,
+                                'descriptionProject':
+                                    project.descriptionProject,
+                                'memberProjectName': project.memberProjectName,
+                                'projectStatus': project.projectStatus,
+                                'userId':
+                                    FirebaseAuth.instance.currentUser!.uid,
+                                'isFav': project.isFav! ? false : true
+                              });
+
+                              project.isFav = !project.isFav!;
+                              await FirebaseFirestore.instance
+                                  .collection('project')
+                                  .doc(project.id)
+                                  .update({'isFav': project.isFav!});
+                              if (project.isFav == false) {
+                                FirebaseFirestore.instance
+                                    .collection('projectBookmark')
+                                    .doc(project.id)
+                                    .delete();
+                              }
+                              setState(() {});
+                              print(project.id);
+                            },
+                            child: Container(
+                              height: 40,
+                              width: 25,
+                              margin: const EdgeInsets.symmetric(
+                                  vertical: 30, horizontal: 10),
+                              child: !project.isFav!
+                                  ? const ImageIcon(
+                                      AssetImage(
+                                        'assets/bookmark (1).png',
+                                      ),
+                                      color: blue,
+                                      size: 50,
+                                    )
+                                  : const ImageIcon(
+                                      AssetImage(
+                                        'assets/bookmark (2).png',
+                                      ),
+                                      color: blue,
+                                      size: 50,
+                                    ),
+                            ),
+                          ),
+                        ]),
             ],
           ),
         ),
