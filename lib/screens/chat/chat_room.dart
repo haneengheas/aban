@@ -22,13 +22,13 @@ class _ChatRoomState extends State<ChatRoom> {
   final TextEditingController _controller = TextEditingController();
   bool emojiShowing = false;
 
-  _onEmojiSelected(Emoji emoji) {
-    _controller
-      ..text += emoji.emoji
-      ..selection = TextSelection.fromPosition(
-        TextPosition(offset: _controller.text.length),
-      );
-  }
+  // _onEmojiSelected(Emoji emoji) {
+  //   _controller
+  //     ..text += emoji.emoji
+  //     ..selection = TextSelection.fromPosition(
+  //       TextPosition(offset: _controller.text.length),
+  //     );
+  // }
 
   _onBackspacePressed() {
     _controller
@@ -188,7 +188,7 @@ class _ChatRoomState extends State<ChatRoom> {
                 height: 250,
                 child: EmojiPicker(
                     onEmojiSelected: (Category category, Emoji emoji) {
-                      _onEmojiSelected(emoji);
+                      // _onEmojiSelected(emoji);
                     },
                     onBackspacePressed: _onBackspacePressed,
                     config: Config(

@@ -3,6 +3,7 @@ import 'package:aban/provider/profile_provider.dart';
 import 'package:aban/screens/seminar/seminar_details.dart';
 import 'package:aban/screens/seminar/seminar_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +23,6 @@ class LaterSeminar extends StatefulWidget {
 
 class _UnCompletedProjectState extends State<LaterSeminar> {
 
-  bool isFav = false;
 
 
   @override
@@ -206,21 +206,21 @@ class _UnCompletedProjectState extends State<LaterSeminar> {
                           'link': seminar.link,
                           'location': seminar.location,
                           'selectedDay': seminar.selectday,
-                          'userId': seminar.docId,
+                          'userId': FirebaseAuth.instance.currentUser!.uid,
                           'type': seminar.type,
                           'seminarAddress': seminar.seminartitle,
                           'username': seminar.username,
-                          'isFav': isFav ? false : true
+                          'isFav': seminar.isFav! ? false : true
                         });
 
-                        isFav = !isFav;
+                        seminar.isFav = !seminar.isFav!;
                         await FirebaseFirestore.instance
                             .collection('seminar')
                             .doc(
                             seminar.docId)
                             .update(
-                            {'isFav': isFav});
-                        if (isFav == false) {
+                            {'isFav': seminar.isFav});
+                        if (seminar.isFav == false) {
                           FirebaseFirestore.instance
                               .collection('seminarBookmark')
                               .doc(
@@ -234,7 +234,7 @@ class _UnCompletedProjectState extends State<LaterSeminar> {
                         width: 25,
                         margin: const EdgeInsets.symmetric(
                             vertical: 10, horizontal: 20),
-                        child: !isFav
+                        child: !seminar.isFav!
                             ? const ImageIcon(
                           AssetImage(
                             'assets/bookmark (1).png',
