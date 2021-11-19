@@ -1,11 +1,7 @@
 import 'package:aban/provider/auth_provider.dart';
 import 'package:aban/provider/model.dart';
 import 'package:aban/provider/profile_provider.dart';
-import 'package:aban/screens/Home/navigation.dart';
-import 'package:aban/screens/Home/view.dart';
-import 'package:aban/screens/registration/regist_screen/view.dart';
 import 'package:aban/screens/splash_screen/view.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
