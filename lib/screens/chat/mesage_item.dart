@@ -1,13 +1,15 @@
 // ignore_for_file: use_key_in_widget_constructors
 
 import 'package:aban/constant/style.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart' as intl;
 
 class MessageItem extends StatelessWidget {
   const MessageItem(
       {required this.text,
-      // required this.date,
+      required this.time,
       required this.isMe,
       required this.image});
 
@@ -16,15 +18,24 @@ class MessageItem extends StatelessWidget {
   // final String date;
 
   final bool isMe;
+  final Timestamp time;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(4.0),
+      padding: const EdgeInsets.all(3.0),
       child: Row(
         mainAxisAlignment:
             isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
         children: [
+          isMe
+              ?Text(intl.DateFormat('kk:mm a').format(time.toDate()),
+                  style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      height: 1.5,
+                      color: gray))
+              : const Text(''),
           isMe
               ? const Text('')
               : Container(
@@ -60,82 +71,32 @@ class MessageItem extends StatelessWidget {
               child: Padding(
                 padding:
                     const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-
-                  child: SizedBox(
-                    width: 60
-                    ,
-                    child: Text(
-                      text,
-                      maxLines: 10,
-                      style: TextStyle(
-                        overflow: TextOverflow.ellipsis,
-                        color: isMe ? Colors.white : Colors.black54,
-                        fontSize: 14.0,
-                      ),
+                child: SizedBox(
+                  width: 60,
+                  child: Text(
+                    text,
+                    maxLines: 10,
+                    style: TextStyle(
+                      overflow: TextOverflow.ellipsis,
+                      color: isMe ? Colors.white : Colors.black54,
+                      fontSize: 14.0,
                     ),
                   ),
                 ),
               ),
             ),
-
+          ),
+          const SizedBox(width: 15,),
+          isMe
+              ? const Text('')
+              :  Text(intl.DateFormat('kk:mm').format(time.toDate()),
+                  style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      height: 1.5,
+                      color: gray)),
         ],
       ),
     );
-    //
-    //
-    // Padding(
-    //   padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
-    //   child: Directionality(
-    //     textDirection: isMe ? TextDirection.ltr : TextDirection.rtl,
-    //     child: Column(
-    //       children: [
-    //         Row(
-    //           children: [
-    //             const Image(
-    //               image: AssetImage('assets/user.png'),
-    //               width: 40,
-    //               color: blue,
-    //             ),
-    //             const SizedBox(
-    //               width: 5,
-    //             ),
-    //             SizedBox(
-    //               width: sizeFromWidth(context, 1.4),
-    //               height: 90,
-    //               child: Material(
-    //                 elevation: 9,
-    //                 borderRadius: BorderRadius.circular(100),
-    //                 color: isMe ? blue : white,
-    //                 child: Expanded(
-    //                   child: Padding(
-    //                     padding: const EdgeInsets.symmetric(
-    //                         vertical: 5, horizontal:60),
-    //                     child: Directionality(
-    //                       textDirection: TextDirection.rtl,
-    //                       child: Text(
-    //                         text,
-    //                         style: TextStyle(
-    //                           fontSize: 13,
-    //                           color: isMe ? white : black,
-    //                         ),
-    //                       ),
-    //                     ),
-    //                   ),
-    //                 ),
-    //               ),
-    //             ),
-    //           ],
-    //         ),
-    //         // SizedBox(
-    //         //   height: 7,
-    //         // ),
-    //         // Text(
-    //         //   date,
-    //         //   style: TextStyle(color: gray, fontSize: 20),
-    //         // ),
-    //       ],
-    //     ),
-    //   ),
-    // );
   }
 }

@@ -4,13 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' as intl;
 
 class ChatItem extends StatefulWidget {
-  final String image, name;
+  final String image, name, lastmassage;
   final Timestamp dateTime;
   final Function ontap, ontapicon;
 
   const ChatItem(
       {required this.name,
       required this.image,
+      required this.lastmassage,
       required this.ontap,
       required this.ontapicon,
       required this.dateTime});
@@ -59,11 +60,11 @@ class _ChatItemState extends State<ChatItem> {
                     style: labelStyle2,
                   ),
                   Text(
-                    'متى اخر رسالة',
+                  widget.lastmassage,
                     style: hintStyle3,
                   ),
                   Text(
-                    intl.DateFormat('kk:mm').format(widget.dateTime.toDate()),
+                    intl.DateFormat('kk:mm a').format(widget.dateTime.toDate()),
                     style: hintStyle3,
                   ),
                 ],
