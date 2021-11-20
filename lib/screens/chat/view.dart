@@ -194,8 +194,7 @@ class _ChatScreenState extends State<ChatScreen> {
             StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance
                     .collection('message')
-                    .orderBy('timeDate')
-                    // .where('sent', isEqualTo: id)
+                    .orderBy('timeDate',descending: true).limit(1)
                     .snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
@@ -211,6 +210,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     String image = message["image"];
                     String name = message["name"];
                     String userId = message["userId"];
+                    String lastmassage = message["Text"];
 
                     if (!messageList.contains(name) &&
                         (message['sent'] == id || message['userId'] == id)) {
@@ -244,7 +244,7 @@ class _ChatScreenState extends State<ChatScreen> {
                           );
 
                         },
-                        lastmassage: message["Text"],
+                        lastmassage: lastmassage,
                       );
 
                       messageWidgets.add(messageWidget);
