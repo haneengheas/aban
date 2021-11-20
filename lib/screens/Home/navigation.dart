@@ -31,10 +31,12 @@ class _NavigationFileState extends State<NavigationFile> {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: index,
         backgroundColor: blue,
+        selectedIconTheme: const IconThemeData(color: gray,),
         selectedLabelStyle: hintStyle4,
         unselectedLabelStyle: hintStyle4,
-        selectedItemColor: gray,
-        unselectedItemColor: white,
+        selectedItemColor: white,
+        mouseCursor: MouseCursor.defer,
+        unselectedItemColor: gray,
         iconSize: 40,
         type: BottomNavigationBarType.fixed,
         onTap: (value) {

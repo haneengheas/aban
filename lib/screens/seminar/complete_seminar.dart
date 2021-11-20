@@ -94,6 +94,8 @@ class _UnCompletedProjectState extends State<CompleteSeminar> {
                       selectday: seminar.selectday,
                       seminarname: seminar.seminartitle,
                       to: seminar.to,
+                      dropdown: seminar.dropdown,
+                      dropdown2: seminar.dropdown2,
                       type: seminar.type,
                       userid: seminar.userid,
                       username: seminar.username,
@@ -158,14 +160,14 @@ class _UnCompletedProjectState extends State<CompleteSeminar> {
                       children: [
                         Text(
                           seminar.to!.toString() +
-                              'pm',
+                              seminar.dropdown2!,
                           style: hintStyle3,
                         ),
                         Text(
                           ':' +
                               seminar.from.toString()
                                   .toString() +
-                              'pm',
+                              seminar.dropdown!,
                           style: hintStyle3,
                         ),
                       ],

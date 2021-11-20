@@ -24,11 +24,12 @@ class ProfileProvider with ChangeNotifier {
   var accept;
   String? degree;
   int ? counter ;
-  late String seminaraddress, location, description, seminarlink,from , to;
+  late String seminaraddress, location, description, seminarlink,from, dropdownValue,dropdownValue2, to;
   int? type;
   DateTime? selectedDay;
   DateTime? focusedDay;
   CalendarFormat calendarFormat = CalendarFormat.month;
+
 
 
   List<TextEditingController> fields = <TextEditingController>[];
@@ -238,6 +239,8 @@ class ProfileProvider with ChangeNotifier {
     required String from,
     required String? to,
     required String? name,
+    required String? timedrop,
+    required String? timedrop2,
     required int? type,
     required DateTime? selectedDay,
   }) async {
@@ -247,6 +250,8 @@ class ProfileProvider with ChangeNotifier {
       'location': location,
       'description':description,
       'link': seminarlink,
+      'timedrop' : timedrop,
+      'timedrop2' : timedrop2,
       'selectedDay': selectedDay,
       //'username': auth.userName,
       'from': from,
@@ -257,12 +262,12 @@ class ProfileProvider with ChangeNotifier {
       'userId': FirebaseAuth.instance.currentUser!.uid,
     }).then((value) async{
       Navigator.pop(context);
-      await AwesomeDialog(
+      await  AwesomeDialog(
       context: context,
       title: "هام",
       body: const Text("تم الاضافة بنجاح"),
       dialogType: DialogType.SUCCES)
-      ..show();
+      .show();
 
 
     });
