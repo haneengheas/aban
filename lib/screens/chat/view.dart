@@ -142,6 +142,7 @@
 //     );
 //   }
 // }
+import 'package:aban/constant/alert_methods.dart';
 import 'package:aban/constant/style.dart';
 import 'package:aban/screens/chat/chat_item.dart';
 import 'package:aban/widgets/search_textfield.dart';
@@ -193,6 +194,7 @@ class _ChatScreenState extends State<ChatScreen> {
             StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance
                     .collection('message')
+                    .orderBy('timeDate')
                     // .where('sent', isEqualTo: id)
                     .snapshots(),
                 builder: (context, snapshot) {
@@ -226,7 +228,22 @@ class _ChatScreenState extends State<ChatScreen> {
                                         name: name,
                                       )));
                         },
-                        ontapicon: () {},
+                        ontapicon: () async  {
+                          await  showDialogWarning(
+                            context,
+                            text: 'هل انت متاكد من حذف المحادثة؟',
+                            ontap: () async{
+                              await FirebaseFirestore.instance
+                                  .collection('message')
+                                  .get()
+                                  .then((snapshot) {
+                                message.reference.delete();
+                              });
+                              Navigator.pop(context);
+                            },
+                          );
+
+                        },
                         lastmassage: message["Text"],
                       );
 
