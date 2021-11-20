@@ -85,7 +85,7 @@ class _ProfileInformationState extends State<ProfileInformation> {
           children: [
             Expanded(
               child: CollegeDropDown(
-                strValue: this.college == '' ? null : this.college,
+                strValue: college == '' ? null : college,
                 onTap: (v) {
                   college = v;
                   department = '';
@@ -104,7 +104,7 @@ class _ProfileInformationState extends State<ProfileInformation> {
             ),
             Expanded(
               child: CollegeDropDown(
-                strValue: this.department == '' ? null : this.department,
+                strValue: department == '' ? null : department,
                 onTap: (v) {
                   department = v;
                   setState(() {});

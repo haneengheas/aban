@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, must_be_immutable
 
 import 'package:aban/constant/style.dart';
 import 'package:aban/provider/auth_provider.dart';

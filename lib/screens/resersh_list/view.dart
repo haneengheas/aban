@@ -2,7 +2,6 @@ import 'package:aban/constant/style.dart';
 import 'package:aban/screens/resersh_list/reasher_list.dart';
 import 'package:aban/screens/resersh_list/search_item.dart';
 import 'package:aban/widgets/search_textfield.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -79,7 +78,7 @@ class _ResershListState extends State<ResershList> {
                         SizedBox(
                             width: sizeFromWidth(context, 1),
                             child:  SearchTextField(
-                              controller: this.searchController,
+                              controller: searchController,
                               text: 'البحث باسم الباحث',
                             )),
                         const SizedBox(

@@ -167,7 +167,7 @@ class _ProjectScreenState extends State<SeminarScreen> {
             children: [
               SearchTextField(
                 text: "البحث عن ندوة",
-                controller: this.searchController,
+                controller: searchController,
               ),
               Container(
                 height: MediaQuery.of(context).size.height / 1.4,
@@ -208,8 +208,8 @@ class _ProjectScreenState extends State<SeminarScreen> {
                     child: SizedBox(
                       child: TabBarView(
                         children: [
-                          LaterSeminar(this.filter, this.unCompletedSeminar),
-                          CompleteSeminar(this.filter, this.completedSeminar)
+                          LaterSeminar(filter, unCompletedSeminar),
+                          CompleteSeminar(filter, completedSeminar)
                         ],
                       ),
                     ),

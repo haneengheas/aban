@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class CompletedTheses extends StatefulWidget {
-  CompletedTheses(this.theses, this.filter, {Key? key}) : super(key: key);
+  const CompletedTheses(this.theses, this.filter, {Key? key}) : super(key: key);
   final List<ModelTheses> theses;
   final String? filter;
 

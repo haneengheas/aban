@@ -1,11 +1,11 @@
+// ignore_for_file: use_key_in_widget_constructors, avoid_print
+
 import 'package:aban/constant/style.dart';
-import 'package:aban/provider/auth_provider.dart';
 import 'package:aban/screens/profile/facultymember/overview_profile/view.dart';
 import 'package:aban/screens/resersh_list/reasher_list.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class SearchItem extends StatefulWidget {
   final String title;
@@ -90,7 +90,6 @@ class _SearchItemState extends State<SearchItem> {
   }
 
   Widget _buildProjBox(ResearchModel project) {
-    var prov = Provider.of<AuthProvider>(context);
     return GestureDetector(
       onTap: () {
         Navigator.push(context,

@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
+
 import 'dart:io';
 
 import 'package:aban/constant/loading_methods.dart';
@@ -146,6 +148,8 @@ class ProfileProvider with ChangeNotifier {
     required String leaderName,
     required String? projectStatus,
     required String memberProjectName,
+    required String ? college,
+    required String ?department,
     // required String ? projectDegree,
   }) async {
     showLoading(context);
@@ -155,6 +159,8 @@ class ProfileProvider with ChangeNotifier {
       'leaderName': leaderName,
       'projectStatus': projectStatus,
       'memberProjectName': memberProjectName,
+      'college': college,
+      'department':department,
       // 'projectDegree':projectDegree,
       'isFav': false,
       'userId': FirebaseAuth.instance.currentUser!.uid,

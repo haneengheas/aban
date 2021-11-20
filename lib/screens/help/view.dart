@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:aban/constant/style.dart';
 import 'package:aban/widgets/buttons/submit_button.dart';
 import 'package:aban/widgets/textField.dart';
@@ -101,12 +103,12 @@ class HelpScreen extends StatelessWidget {
                             Navigator.pop(context);
 
                           });
-                          await AwesomeDialog(
+                          AwesomeDialog(
                               context: context,
                               title: "هام",
                               body: const Text("تم الارسال بنجاح"),
                               dialogType: DialogType.SUCCES)
-                            ..show();
+                            .show();
                         }
 
 

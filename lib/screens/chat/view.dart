@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:aban/constant/style.dart';
 import 'package:aban/screens/chat/chat_item.dart';
 import 'package:aban/screens/chat/chatlist.dart';
@@ -86,7 +88,7 @@ class _ChatScreenState extends State<ChatScreen> {
             text: 'ابحث باسم باحث',
             controller: searchController,
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           SizedBox(

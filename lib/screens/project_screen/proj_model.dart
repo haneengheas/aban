@@ -4,7 +4,10 @@ class ProjectModel {
       memberProjectName,
       projectStatus,
       projectName,
-      userId,id;
+      college,
+      department,
+      userId,
+      id;
   bool? isFav;
 
   ProjectModel(
@@ -14,6 +17,8 @@ class ProjectModel {
       this.projectName,
       this.memberProjectName,
       this.projectStatus,
+      this.college,
+      this.department,
       this.userId,
       this.id});
 }

@@ -8,11 +8,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class UnCompletedTheses extends StatefulWidget {
-   UnCompletedTheses(this.theses, this.filter, {Key? key})
+   const UnCompletedTheses(this.theses, this.filter, {Key? key})
       : super(key: key);
   final List<ModelTheses> theses;
   final String? filter;
-  bool ?isFav;
   @override
   _UnCompletedThesesState createState() => _UnCompletedThesesState();
 }

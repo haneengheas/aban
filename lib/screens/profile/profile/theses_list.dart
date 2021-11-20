@@ -98,14 +98,14 @@ class _CompeletedThesesState extends State<CompeletedTheses> {
               itemCount: completedTheses.length,
               itemBuilder: (context, index) {
 
-                return _Buildthesesbox( completedTheses[index]);
+                return _buildthesesbox( completedTheses[index]);
               }),
         ),
       )
     ]);
   }
 
-  Widget _Buildthesesbox( ModelTheses theses) {
+  Widget _buildthesesbox( ModelTheses theses) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
