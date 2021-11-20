@@ -106,7 +106,8 @@ class _HelpScreenState extends State<HelpScreen> {
                           final Email email = Email(
                             body: descriptionController.text,
                             // subject: 'abanproject202 0000000000000000001@gmail.com',
-                            recipients: ['abanproject2021@gmail.com'],
+                            recipients: ['haneengheas@gmail.com'],
+                            subject: problemTitleController.text,
 
                           );
                           await FlutterEmailSender.send(email);
@@ -116,6 +117,7 @@ class _HelpScreenState extends State<HelpScreen> {
                               body: const Text("تم الارسال بنجاح"),
                               dialogType: DialogType.SUCCES)
                             .show();
+
                         }
 
 
