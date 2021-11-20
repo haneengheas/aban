@@ -105,7 +105,7 @@ class _HelpScreenState extends State<HelpScreen> {
                         if(formkey.currentState!.validate()){
                           final Email email = Email(
                             body: descriptionController.text,
-                            subject: 'abanproject202 0000000000000000001@gmail.com',
+                            // subject: 'abanproject202 0000000000000000001@gmail.com',
                             recipients: ['abanproject2021@gmail.com'],
 
                           );
