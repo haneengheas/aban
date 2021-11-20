@@ -61,6 +61,8 @@ class _HelpScreenState extends State<HelpScreen> {
               child: Column(
                 children: [
                   //  TextFieldItem(
+                  /// انا حزفتة لان الميل بيدخل بصاحب الاميل
+                  ///
                   //    validator: (val){
                   //      if(val.isEmpty){
                   //        return 'يجب ادخال البريد الالكتروني' ;
