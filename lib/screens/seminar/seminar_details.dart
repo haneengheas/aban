@@ -13,6 +13,8 @@ class SeminarDetails extends StatelessWidget {
       to,
       link,
       userid,
+  dropdown,
+  dropdown2,
       docid;
   var type, selectday;
   bool? isFav;
@@ -26,6 +28,8 @@ class SeminarDetails extends StatelessWidget {
       this.to,
       this.link,
       this.docid,
+        this.dropdown,
+        this.dropdown2,
       this.isFav,
       this.description,
       this.location,
@@ -91,11 +95,11 @@ class SeminarDetails extends StatelessWidget {
                             Row(
                               children: [
                                 Text(
-                                  '$to',
+                                  '$to'+ '$dropdown2',
                                   style: hintStyle3,
                                 ),
                                 Text(
-                                  ':' + '$from' + 'pm',
+                                  ':' + '$from' + '$dropdown',
                                   style: hintStyle3,
                                 ),
                               ],

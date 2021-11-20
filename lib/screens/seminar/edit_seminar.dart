@@ -21,6 +21,8 @@ class EditSeminar extends StatefulWidget {
       from,
       to,
       link,
+      dropdown,
+      dropdown2,
       userid,
       docId;
   var type, selectday;
@@ -28,6 +30,8 @@ class EditSeminar extends StatefulWidget {
 
   EditSeminar(
       {this.from,
+        this.dropdown,
+        this.dropdown2,
       this.isFav,
       this.userid,
       this.type,
@@ -68,6 +72,8 @@ class _EditSeminarState extends State<EditSeminar> {
         .get());
 
     name.text = documentSnapshot2.get('seminarAddress');
+    widget.dropdown = documentSnapshot2.get('timedrop');
+    widget.dropdown2 = documentSnapshot2.get('timedrop2');
     from.text = documentSnapshot2.get('from');
     to.text = documentSnapshot2.get('to');
     link.text = documentSnapshot2.get('link');
@@ -209,34 +215,66 @@ class _EditSeminarState extends State<EditSeminar> {
                           'من',
                           style: hintStyle,
                         ),
-                        TimeTextField(
-                          onChanged: (val) {
-                            prov.from = val;
-                          },
-                          controller: from,
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return 'فضلا أدخل وقت بداية الندوة';
-                            }
-                          },
-                          text: '00:00   ص م',
+                        Container(width: 90,
+                          child: TimeTextField(
+                            onChanged: (val) {
+                              prov.from = val;
+                            },
+                            controller: from,
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'فضلا أدخل وقت بداية الندوة';
+                              }
+                            },
+                            text: '00:00   ص م',
+                          ),
                         ),
+                        DropdownButton<String>(
+                            value: widget.dropdown,
+                            onChanged: ( newValue) {
+                              setState(() {
+                                prov.dropdownValue = newValue!;
+                              });
+                            },
+
+                            items: <String>[ 'pm', 'am'].map<DropdownMenuItem<String>>
+                              ((String? value ){
+                              return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value!));
+                            }).toList()),
                         Text(
                           'إلى',
                           style: hintStyle,
                         ),
-                        TimeTextField(
-                          onChanged: (val) {
-                            prov.to = val;
-                          },
-                          controller: to,
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return 'فضلا أدخل وقت بداية الندوة';
-                            }
-                          },
-                          text: '00:00   ص م',
+                        Container(width: 90,
+                          child: TimeTextField(
+                            onChanged: (val) {
+                              prov.to = val;
+                            },
+                            controller: to,
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'فضلا أدخل وقت بداية الندوة';
+                              }
+                            },
+                            text: '00:00   ص م',
+                          ),
                         ),
+                        DropdownButton<String>(
+                            value: widget.dropdown2,
+                            onChanged: ( newValue) {
+                              setState(() {
+                                prov.dropdownValue2 = newValue!;
+                              });
+                            },
+
+                            items: <String>[ 'pm', 'am'].map<DropdownMenuItem<String>>
+                              ((String? value ){
+                              return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value!));
+                            }).toList()),
                       ],
                     ),
                   ),

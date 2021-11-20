@@ -3,6 +3,7 @@
 import 'package:aban/constant/style.dart';
 import 'package:aban/provider/auth_provider.dart';
 import 'package:aban/provider/profile_provider.dart';
+import 'package:aban/screens/seminar/timedropdown.dart';
 import 'package:aban/widgets/buttons/submit_button.dart';
 import 'package:aban/widgets/buttons/tetfielduser.dart';
 import 'package:aban/widgets/textfieldtime.dart';
@@ -24,8 +25,6 @@ class AddSeminar extends StatefulWidget {
 
 class _AddSeminarState extends State<AddSeminar> {
   var val;
-
-
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
@@ -54,7 +53,6 @@ class _AddSeminarState extends State<AddSeminar> {
           color: blue,
         ),
       ),
-
       backgroundColor: white,
       body: SingleChildScrollView(
         child: SingleChildScrollView(
@@ -92,7 +90,7 @@ class _AddSeminarState extends State<AddSeminar> {
                   ),
                   Padding(
                     padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     child: Text(
                       'التاريخ',
                       style: hintStyle4,
@@ -115,9 +113,8 @@ class _AddSeminarState extends State<AddSeminar> {
                       },
                       onDaySelected: (selectedDay, focusedDay) {
                         setState(() {
-                          prov.selectedDay = selectedDay ;
-                          prov.focusedDay =
-                              focusedDay ; //
+                          prov.selectedDay = selectedDay;
+                          prov.focusedDay = focusedDay; //
                           // update `_focusedDay` here as well
                         });
                       },
@@ -134,7 +131,7 @@ class _AddSeminarState extends State<AddSeminar> {
                   ),
                   Padding(
                     padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     child: Text(
                       'الوقت',
                       style: hintStyle4,
@@ -153,33 +150,68 @@ class _AddSeminarState extends State<AddSeminar> {
                             'من',
                             style: hintStyle,
                           ),
-                          TimeTextField(
-                            onChanged: (val) {
-                              prov.from = val;
-                            },
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'فضلا أدخل وقت بداية الندوة';
-                              }
-
-                            },
-                            text: '00:00',
+                          Container(
+                            width: 90,
+                            child: TimeTextField(
+                              onChanged: (val) {
+                                prov.from = val;
+                              },
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return 'فضلا أدخل وقت بداية الندوة';
+                                }
+                              },
+                              text: '00:00',
+                            ),
                           ),
+                          // TimeDropDown(val: prov.dropdownValue,)
+                          DropdownButton<String>(
+                            value: prov.dropdownValue,
+                              onChanged: ( newValue) {
+                                setState(() {
+                                  prov.dropdownValue = newValue!;
+                                });
+                              },
+
+                              items: <String>[ 'pm', 'am'].map<DropdownMenuItem<String>>
+                                ((String? value ){
+                                return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Text(value!));
+                              }).toList()),
+
                           Text(
                             'إلى',
                             style: hintStyle,
                           ),
-                          TimeTextField(
-                            onChanged: (val) {
-                              prov.to = val;
-                            },
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'فضلا أدخل وقت انتهاء الندوة';
-                              }
-                            },
-                            text: '00:00   ص م',
+                          Container(width: 90,
+                            child: TimeTextField(
+                              onChanged: (val) {
+                                prov.to = val;
+                              },
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return 'فضلا أدخل وقت انتهاء الندوة';
+                                }
+                              },
+                              text: '00:00 ',
+                            ),
                           ),
+                          // TimeDropDown(val: prov.dropdownValue2,)
+                          DropdownButton<String>(
+                              value: prov.dropdownValue2,
+                              onChanged: ( newValue) {
+                                setState(() {
+                                  prov.dropdownValue2 = newValue!;
+                                });
+                              },
+
+                              items: <String>[ 'pm', 'am'].map<DropdownMenuItem<String>>
+                                ((String? value ){
+                                return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Text(value!));
+                              }).toList()),
                         ],
                       ),
                     ),
@@ -194,12 +226,12 @@ class _AddSeminarState extends State<AddSeminar> {
                       }
                     },
                     onChanged: (val) {
-                     prov.location = val;
+                      prov.location = val;
                     },
                   ),
                   Padding(
                     padding:
-                    const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                        const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
                     child: Text(
                       'النوع',
                       style: hintStyle4,
@@ -213,10 +245,10 @@ class _AddSeminarState extends State<AddSeminar> {
                           children: [
                             Radio(
                                 value: 1,
-                                groupValue:   prov.type,
+                                groupValue: prov.type,
                                 onChanged: (value) {
                                   setState(() {
-                                   prov.type = value as int? ;
+                                    prov.type = value as int?;
                                   });
                                 }),
                             Text('عامة', style: hintStyle3),
@@ -226,7 +258,7 @@ class _AddSeminarState extends State<AddSeminar> {
                           children: [
                             Radio(
                                 value: 2,
-                                groupValue:  prov.type,
+                                groupValue: prov.type,
                                 onChanged: (value) {
                                   setState(() {
                                     prov.type = value as int?;
@@ -280,7 +312,7 @@ class _AddSeminarState extends State<AddSeminar> {
                           children: <TextSpan>[
                             TextSpan(
                               text:
-                              'عند اضافة ندوة قادمة سيتم حذفها تلقائيابعد انتهاء موعدها؛ و يمكنك اضافتهالاحقا كندوة مكتملة لاجل توثيقها',
+                                  'عند اضافة ندوة قادمة سيتم حذفها تلقائيابعد انتهاء موعدها؛ و يمكنك اضافتهالاحقا كندوة مكتملة لاجل توثيقها',
                               style: GoogleFonts.cairo(
                                   textStyle: const TextStyle(
                                       color: Colors.red,
@@ -307,21 +339,23 @@ class _AddSeminarState extends State<AddSeminar> {
                           if (formKey.currentState!.validate()) {
                             formKey.currentState!.save();
 
-                            await prov.addSeminar(context: context,
-                                seminaraddress: prov.seminaraddress,name: auth.userName,
+                            await prov.addSeminar(
+                                context: context,
+                                seminaraddress: prov.seminaraddress,
+                                name: auth.userName,
                                 location: prov.location,
                                 description: prov.description,
                                 seminarlink: prov.seminarlink,
                                 from: prov.from,
                                 to: prov.to,
                                 type: prov.type,
-                                selectedDay: prov.selectedDay );
+                                selectedDay: prov.selectedDay,
+                                timedrop: prov.dropdownValue,
+                                timedrop2: prov.dropdownValue2,
+                            );
                           }
 
-
                           print('=/=//=/=/////=====/=//=/=/=/');
-
-
                         }),
                   )
                 ],

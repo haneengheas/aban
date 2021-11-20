@@ -52,6 +52,8 @@ class _ProjectScreenState extends State<SeminarScreen> {
           seminartitle: doc['seminarAddress'],
           to: doc['to'],
           userid:  doc['userId'],
+          dropdown: doc['timedrop'],
+          dropdown2: doc['timedrop2'],
           docId: doc.id,
           isFav: doc['isFav'],
           username: doc['username']
@@ -74,6 +76,8 @@ class _ProjectScreenState extends State<SeminarScreen> {
           discription: doc['description'],
           from: doc['from'],
           link: doc['link'],
+          dropdown: doc['timedrop'],
+          dropdown2: doc['timedrop2'],
           location: doc['location'],
           // selectday: doc['selectedDay'],
           seminartitle: doc['seminarAddress'],

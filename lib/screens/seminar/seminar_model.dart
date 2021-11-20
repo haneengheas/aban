@@ -7,6 +7,8 @@ class SeminarModel {
       userid,
       from,
       to,
+  dropdown,
+  dropdown2,
       docId;
   var selectday;
   int? type;
@@ -14,6 +16,8 @@ class SeminarModel {
 
   SeminarModel(
       {this.location,
+        this.dropdown,
+        this.dropdown2,
       this.to,
       this.link,
       this.from,
