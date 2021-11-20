@@ -43,7 +43,7 @@ class _SearchItemState extends State<SearchItem> {
         accept: doc['accept'],
         token: doc['token'],
         link: doc['link'],
-        userId: doc['userId'],
+        userId: doc['userId'], fields: doc['fields'],
       ));
       print(doc['name']);
       print('444444444444444444444444444444444444444444444444');
@@ -71,6 +71,15 @@ class _SearchItemState extends State<SearchItem> {
             .contains(widget.filter!.toLowerCase()) ||
            projects[index].name!
                 .toLowerCase()
+                .contains(widget.filter!.toLowerCase()) ||
+            projects[index].email!
+                .toLowerCase()
+                .contains(widget.filter!.toLowerCase()) ||
+            projects[index].id!
+                .toLowerCase()
+                .contains(widget.filter!.toLowerCase())||
+            projects[index].fields.toString().toLowerCase()
+
                 .contains(widget.filter!.toLowerCase())
             ? _buildProjBox(
         projects[index],
