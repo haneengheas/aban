@@ -1,6 +1,7 @@
 import 'package:aban/provider/auth_provider.dart';
 import 'package:aban/provider/model.dart';
 import 'package:aban/provider/profile_provider.dart';
+
 import 'package:aban/screens/splash_screen/view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -63,7 +64,7 @@ void initState() {
   }
   @override
   Widget build(BuildContext context) {
-    return  const MaterialApp(
+    return  const  MaterialApp(
       debugShowCheckedModeBanner: false,
       home: SplashScreen(),
     );

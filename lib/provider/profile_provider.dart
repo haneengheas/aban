@@ -46,12 +46,13 @@ class ProfileProvider with ChangeNotifier {
   late String leaderName;
   late String memberProjectName;
   final GlobalKey<FormState> formkey = GlobalKey<FormState>();
+  String? projectDegree;
 
   String? projectStatus;
   bool isFav = false;
 
-  String college = '';
-  String department = '';
+  String ?college ;
+  String ?department;
 
 // methods to add and create member profile in fire base
   createMemberProfile({
@@ -65,7 +66,7 @@ class ProfileProvider with ChangeNotifier {
     required String degree,
     required String link,
     required var accept,
-    required File file,
+    File ?file,
     required String email,
   }) async {
     // if (file == null)
@@ -76,7 +77,7 @@ class ProfileProvider with ChangeNotifier {
     //       dialogType: DialogType.ERROR)
     //     ..show();
     showLoading(context);
-    await ref.putFile(file);
+    await ref.putFile(file!);
     var imageUrl = await ref.getDownloadURL();
     await FirebaseFirestore.instance
         .collection('member')
@@ -117,6 +118,8 @@ class ProfileProvider with ChangeNotifier {
     required String nameSupervisors,
     required String? degreeTheses,
     required String? thesesStatus,
+    required String ? college,
+    required String ?department,
   }) async {
     showLoading(context);
     await FirebaseFirestore.instance.collection('theses').add({
@@ -128,6 +131,8 @@ class ProfileProvider with ChangeNotifier {
       'thesesStatus': thesesStatus,
       'isFav': false,
       'userId': FirebaseAuth.instance.currentUser!.uid,
+      'college': college,
+      'department':department,
     });
     Navigator.pop(context);
     notifyListeners();
@@ -141,6 +146,7 @@ class ProfileProvider with ChangeNotifier {
     required String leaderName,
     required String? projectStatus,
     required String memberProjectName,
+    // required String ? projectDegree,
   }) async {
     showLoading(context);
     await FirebaseFirestore.instance.collection('project').add({
@@ -149,6 +155,7 @@ class ProfileProvider with ChangeNotifier {
       'leaderName': leaderName,
       'projectStatus': projectStatus,
       'memberProjectName': memberProjectName,
+      // 'projectDegree':projectDegree,
       'isFav': false,
       'userId': FirebaseAuth.instance.currentUser!.uid,
     });
@@ -156,59 +163,6 @@ class ProfileProvider with ChangeNotifier {
     notifyListeners();
   }
 
-// methods to create graduated profile  in fire base
-//   createGraduatedProfile({
-//     required BuildContext context,
-//     required String name,
-//     required String faculty,
-//     required String phone,
-//     required String id,
-//     required String department,
-//     required String degree,
-//     required String link,
-//     required var accept,
-//     required List<String> fields,
-//     required File file,
-//   }) async {
-//     // if (file == null)
-//     //   return AwesomeDialog(
-//     //       context: context,
-//     //       title: "هام",
-//     //       body: Text("please choose Image"),
-//     //       dialogType: DialogType.ERROR)
-//     //     ..show();
-//
-//     await ref.putFile(file);
-//     var imageUrl = await ref.getDownloadURL();
-//     await FirebaseFirestore.instance
-//         .collection('member')
-//         .doc(FirebaseAuth.instance.currentUser!.uid)
-//         .set({
-//       'faculty': faculty,
-//       'phone': phone,
-//       'name': name,
-//       'imageUrl': imageUrl,
-//       'id': id,
-//       'degree': degree,
-//       'link': link,
-//       'accept': accept,
-//       'fields': fields,
-//       'userId': FirebaseAuth.instance.currentUser!.uid,
-//       'department': department,
-//     });
-//     showLoading(context);
-//     Navigator.pushReplacement(
-//         context,
-//         MaterialPageRoute(
-//             builder: (context) => NavigationFile(
-//               d: studentDrawer(context),
-//               title: '$name مرحبا  ً',
-//               counter: 1,
-//             )));
-//     notifyListeners();
-//   }
-
-  // methods to add theses for member in fire base
   addGraduatedTheses({
     required BuildContext context,
     required String nameTheses,
@@ -240,6 +194,8 @@ class ProfileProvider with ChangeNotifier {
     required String descriptionProject,
     required String leaderName,
     required String? projectStatus,
+    // required String ? projectDegree,
+
     required String memberProjectName,
   }) async {
     showLoading(context);
@@ -248,6 +204,7 @@ class ProfileProvider with ChangeNotifier {
       'descriptionProject': descriptionProject,
       'leaderName': leaderName,
       'projectStatus': projectStatus,
+      // 'projectDegree':projectDegree,
       'isFav': false,
       'memberProjectName': memberProjectName,
       'userId': FirebaseAuth.instance.currentUser!.uid,

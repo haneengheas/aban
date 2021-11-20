@@ -8,6 +8,8 @@ import 'package:aban/constant/style.dart';
 import 'package:aban/provider/model.dart';
 import 'package:aban/provider/profile_provider.dart';
 import 'package:aban/screens/profile/facultymember/create_profile/accept_supervision.dart';
+import 'package:aban/screens/profile/facultymember/create_profile/project_list.dart';
+import 'package:aban/screens/profile/facultymember/create_profile/theses_list.dart';
 import 'package:aban/widgets/buttons/buttonsuser.dart';
 import 'package:aban/widgets/buttons/submit_button.dart';
 import 'package:aban/widgets/buttons/tetfielduser.dart';
@@ -24,7 +26,11 @@ import 'package:provider/provider.dart';
 import 'dropdown.dart';
 
 class CreateMemberProfile extends StatefulWidget {
-  const CreateMemberProfile({
+  String? email, nameuser;
+
+  CreateMemberProfile({
+    this.nameuser,
+    this.email,
     Key? key,
   }) : super(key: key);
 
@@ -41,7 +47,6 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
 
   List<String> selectedDepartment = <String>[];
   List<String> selectedDegree = <String>['دكتوراة'];
-
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   getData() async {
@@ -70,6 +75,10 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
   Widget build(BuildContext context) {
     var prov = Provider.of<ProfileProvider>(context);
     var providers = Provider.of<MyModel>(context);
+    TextEditingController nameuser =
+        TextEditingController(text: widget.nameuser);
+    TextEditingController email = TextEditingController(text: widget.email);
+
     return Scaffold(
       backgroundColor: white,
       appBar: AppBar(
@@ -109,28 +118,27 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                     child: Row(
                       children: [
                         InkWell(
-                          onTap: () async {
-                            await showBottomSheet(context);
-                          },
-                          child: CircleAvatar(
-                            backgroundColor: white,
-                            radius: 30,
-                            child: prov.file!.path == ''
-                                ? const Image(
-                              image: AssetImage(
-                                'assets/user.png',
-                              ),
-                              height: 80,
-                              color:blue,
-                            )
-                                : Image(
-                              image: FileImage(
-                                prov.file!,
-                              ),
-                              height: 80,
-                            ),
-                          )
-                        ),
+                            onTap: () async {
+                              await showBottomSheet(context);
+                            },
+                            child: CircleAvatar(
+                              backgroundColor: white,
+                              radius: 30,
+                              child: prov.file!.path == ''
+                                  ? const Image(
+                                      image: AssetImage(
+                                        'assets/user.png',
+                                      ),
+                                      height: 80,
+                                      color: blue,
+                                    )
+                                  : Image(
+                                      image: FileImage(
+                                        prov.file!,
+                                      ),
+                                      height: 80,
+                                    ),
+                            )),
                         SizedBox(
                           width: sizeFromWidth(context, 1.5),
                           child: Directionality(
@@ -144,9 +152,11 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                                     return 'الرجاء ادخال الاسم ';
                                   }
                                 },
+                                controller: nameuser,
                                 labelText: 'اسم الباحث',
                                 hintText: 'اسمك ',
                                 scure: false,
+                                // initialValue: widget.nameuser,
                               )),
                         ),
                       ],
@@ -200,16 +210,17 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                     ],
                   ),
                   Row(
-                     mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       SizedBox(
-                        width: sizeFromWidth(context,2.1),
+                        width: sizeFromWidth(context, 2.1),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Padding(
-                              padding: const EdgeInsets.only(top: 20,right: 15),
+                              padding:
+                                  const EdgeInsets.only(top: 20, right: 15),
                               child: Text(
                                 'الدرجة العلمية ',
                                 style: labelStyle3,
@@ -220,7 +231,8 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                               child: Container(
                                 width: sizeFromWidth(context, 2.1),
                                 height: 50,
-                                padding: const EdgeInsets.symmetric(horizontal: 10),
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 10),
                                 child: DropdownButton<String>(
                                   hint: Text(
                                     'ادخل الدرجة العلمية',
@@ -229,7 +241,6 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                                   value: prov.degree,
                                   underline: Container(
                                     width: 20,
-
                                     height: 1,
                                     decoration: const BoxDecoration(
                                         color: lightGray,
@@ -245,16 +256,16 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                                   items: <String>[
                                     'دكتوراه',
                                     'ماجستير',
-                                    'طالب'
-                                  ].map<DropdownMenuItem<String>>((String value) {
+                                  ].map<DropdownMenuItem<String>>(
+                                      (String value) {
                                     return DropdownMenuItem<String>(
                                       value: value,
                                       child: SizedBox(
                                         width: sizeFromWidth(context, 6),
                                         height: 50,
                                         // for example
-                                        child:
-                                            Text(value, textAlign: TextAlign.right),
+                                        child: Text(value,
+                                            textAlign: TextAlign.right),
                                       ),
                                     );
                                   }).toList(),
@@ -286,7 +297,6 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
-
                     children: [
                       SizedBox(
                         width: sizeFromWidth(context, 2),
@@ -298,11 +308,13 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                               onChanged: (value) {
                                 prov.email = value;
                               },
+                              controller: email,
                               validator: (value) {
                                 if (value.isEmpty) {
                                   return 'الرجاءادخال بريدك الجامعي ';
                                 }
                               },
+                              // initialValue: widget.email,
                               scure: false,
                             )),
                       ),
@@ -367,14 +379,37 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
               Column(
                 children: prov.fields
                     .map((e) => Card(
+                          shadowColor: gray,
+                          margin: const EdgeInsets.symmetric(
+                              horizontal: 15, vertical: 5),
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            child: TextFormField(
-                              controller: e,
-                              decoration: InputDecoration(
-                                  hintText: "المجال ${cards.length + 1}",
-                                  floatingLabelBehavior:
-                                      FloatingLabelBehavior.always),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 10,
+                            ),
+                            child: Row(
+                              children: [
+                                SizedBox(
+                                  width: sizeFromWidth(context, 1.4),
+                                  child: TextFormField(
+                                    controller: e,
+                                    decoration: InputDecoration(
+                                        hintText: "المجال ${cards.length + 1}",
+                                        floatingLabelBehavior:
+                                            FloatingLabelBehavior.always),
+                                  ),
+                                ),
+                                IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        prov.fields.remove(e);
+                                      });
+                                    },
+                                    icon: const Icon(
+                                      Icons.remove_circle_outline_sharp,
+                                      color: red,
+                                      size: 18,
+                                    )),
+                              ],
                             ),
                           ),
                         ))
@@ -397,69 +432,39 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                 thickness: 1,
                 color: lightGray,
               ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                child: Text(
-                  "اطروحات تحت اشرافك :",
-                  style: labelStyle3,
-                ),
-              ),
-              ButtonUser(
-                  text: "اضافة اطروحة",
-                  color: blueGradient,
-                  onTap: () {
-                    showDialogTheses(
-                      context,
-                      text: 'اضافة اطروحة',
-                    );
-                  }),
+               ThesesList(department: department,college: college,),
               const Divider(
                 height: 20,
                 thickness: 1,
                 color: lightGray,
               ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                child: Text(
-                  "المشاريع:",
-                  style: labelStyle3,
-                ),
-              ),
-              ButtonUser(
-                  text: "اضافة مشروع",
-                  color: blueGradient,
-                  onTap: () {
-                    showDialogProject(
-                      context,
-                      text: 'إضافة مشروع',
-                    );
-                  }),
+              const ProjectList(),
               Center(
                 child: SubmitButton(
                   onTap: () async {
+                    prov.college = college;
+                    prov.department = department;
+                    print(prov.department);
+                    print(prov.college);
                     if (formKey.currentState!.validate()) {
                       formKey.currentState!.save();
-                      if (prov.file!.path == '') {
+                      print('=================');
+                      print(prov.file!.path);
+                      List<String> fieldsStr = <String>[];
+
+                      for (var element in prov.fields) {
+                        fieldsStr.add(element.text);
+                      }
+                      print('Str list is => $fieldsStr');
+                      if (fieldsStr.isEmpty) {
                         return AwesomeDialog(
                             context: context,
                             title: "هام",
-                            body: const Text("يجب إدخال الصورة"),
+                            body: const Text("يجب إدخال مجال"),
                             dialogType: DialogType.ERROR)
                           ..show();
                       } else {
-                        print(prov.file!.path);
-                        List<String> fieldsStr = <String>[];
-
-                        for (var element in prov.fields) {
-                          fieldsStr.add(element.text);
-                        }
-
-                        print('Str list is => $fieldsStr');
-
                         await prov.createMemberProfile(
-
                           context: context,
                           faculty: college,
                           department: department,
@@ -468,14 +473,12 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                           id: prov.id,
                           fields: fieldsStr,
                           accept: prov.accept,
-                          name: prov.name,
+                          name: nameuser.text,
                           phone: prov.phone,
                           link: prov.link,
-                          email: prov.email,
+                          email: email.text,
                         );
                         print(name);
-
-
                       }
                     }
                   },

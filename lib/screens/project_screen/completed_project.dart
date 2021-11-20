@@ -59,6 +59,7 @@ class _CompletedProjectState extends State<CompletedProject> {
                       nameProject: project.memberProjectName!,
                       status: project.projectStatus!,
                       isFav: project.isFav!,
+                      id: project.id!,
                     )));
       },
       child: Container(

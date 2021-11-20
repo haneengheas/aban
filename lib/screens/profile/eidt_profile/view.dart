@@ -71,6 +71,90 @@ class _EditProfileState extends State<EditProfile> {
 
     setState(() {});
   }
+  deleteData()async{
+    // await FirebaseFirestore.instance
+    //     .collection('member')
+    //     .doc(FirebaseAuth.instance.currentUser!.uid)
+    //     .delete();
+    // await FirebaseFirestore.instance
+    //     .collection('user')
+    //     .doc(FirebaseAuth.instance.currentUser!.uid)
+    //     .delete();
+    // await FirebaseAuth.instance.currentUser!.delete();
+    await FirebaseFirestore.instance
+        .collection('theses')
+        .where('userId',
+        isEqualTo:
+        FirebaseAuth.instance.currentUser!.uid)
+        .get()
+        .then((snapshot) {
+      for (DocumentSnapshot ds in snapshot.docs) {
+        ds.reference.delete();
+      }
+    });
+    await FirebaseFirestore.instance
+        .collection('project')
+        .where('userId',
+        isEqualTo:
+        FirebaseAuth.instance.currentUser!.uid)
+        .get()
+        .then((snapshot) {
+      for (DocumentSnapshot ds in snapshot.docs) {
+        ds.reference.delete();
+      }
+    });
+    await FirebaseFirestore.instance
+        .collection('projectBookmark')
+        .where('userId',
+        isEqualTo:
+        FirebaseAuth.instance.currentUser!.uid)
+        .get()
+        .then((snapshot) {
+      for (DocumentSnapshot ds in snapshot.docs) {
+        ds.reference.delete();
+      }
+    });
+    await FirebaseFirestore.instance
+        .collection('thesesBookmark')
+        .where('userId',
+        isEqualTo:
+        FirebaseAuth.instance.currentUser!.uid)
+        .get()
+        .then((snapshot) {
+      for (DocumentSnapshot ds in snapshot.docs) {
+        ds.reference.delete();
+      }
+    });
+    await FirebaseFirestore.instance
+        .collection('seminar')
+        .where('userId',
+        isEqualTo:
+        FirebaseAuth.instance.currentUser!.uid)
+        .get()
+        .then((snapshot) {
+      for (DocumentSnapshot ds in snapshot.docs) {
+        ds.reference.delete();
+      }
+    });   await FirebaseFirestore.instance
+        .collection('seminarBookmark')
+        .where('userId',
+        isEqualTo:
+        FirebaseAuth.instance.currentUser!.uid)
+        .get()
+        .then((snapshot) {
+      for (DocumentSnapshot ds in snapshot.docs) {
+        ds.reference.delete();
+      }
+    });
+    await AwesomeDialog(
+        context: context,
+        title: "هام",
+        body: const Text(
+            "تمت عملية الحذف بنجاح"),
+        dialogType: DialogType.SUCCES)
+        .show();
+
+  }
 
   @override
   void initState() {
@@ -253,10 +337,10 @@ class _EditProfileState extends State<EditProfile> {
                               onChanged: (newValue) {
                                 prov.degree = newValue!;
                               },
-                              items: <String>[
+                              items:provAuth.usertype == 0? <String>[
                                 'دكتوراه',
                                 'ماجستير',
-                                'طالب'
+
                               ].map<DropdownMenuItem<String>>((String value) {
                                 return DropdownMenuItem<String>(
                                   value: value,
@@ -266,6 +350,21 @@ class _EditProfileState extends State<EditProfile> {
                                     // for example
                                     child:
                                         Text(value, textAlign: TextAlign.right),
+                                  ),
+                                );
+                              }).toList():<String>[
+                                'طالب دكتوراه',
+                                'طالب ماجستير',
+
+                              ].map<DropdownMenuItem<String>>((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: SizedBox(
+                                    width: sizeFromWidth(context, 8),
+                                    height: 50,
+                                    // for example
+                                    child:
+                                    Text(value, textAlign: TextAlign.right),
                                   ),
                                 );
                               }).toList(),
@@ -414,7 +513,7 @@ class _EditProfileState extends State<EditProfile> {
                         ),
                       ],
                     )
-                  : SizedBox(),
+                  : const SizedBox(),
               const Divider(
                 height: 10,
                 thickness: 1,
@@ -537,16 +636,7 @@ class _EditProfileState extends State<EditProfile> {
                         showDialogWarning(context,
                             text: 'هل انت متاكد من حذف الحساب ؟',
                             ontap: () async {
-                          await FirebaseFirestore.instance
-                              .collection('member')
-                              .doc(FirebaseAuth.instance.currentUser!.uid)
-                              .delete();
-                          await FirebaseFirestore.instance
-                              .collection('user')
-                              .doc(FirebaseAuth.instance.currentUser!.uid)
-                              .delete();
-                          await FirebaseAuth.instance.currentUser!.delete();
-
+                          await deleteData();
                           Navigator.push(
                               context,
                               MaterialPageRoute(

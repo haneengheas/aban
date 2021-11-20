@@ -34,6 +34,8 @@ class _ThesesGraduatedMontorItemState extends State<ThesesGraduatedMontorItem> {
 
   @override
   Widget build(BuildContext context) {
+    var prov = Provider.of<ProfileProvider>(context);
+    var provider = Provider.of<AuthProvider>(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -201,7 +203,8 @@ class _ThesesGraduatedMontorItemState extends State<ThesesGraduatedMontorItem> {
               showDialogTheses(
                 context,
                 text: 'إضافة اطروحة',
-              );
+                department:prov.department!,
+               college: prov.college!);
             }),
       ],
     );
