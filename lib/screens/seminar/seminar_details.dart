@@ -1,8 +1,10 @@
 import 'package:aban/constant/style.dart';
+import 'package:aban/provider/profile_provider.dart';
 import 'package:aban/screens/seminar/edit_seminar.dart';
 import 'package:aban/widgets/customAppBar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SeminarDetails extends StatelessWidget {
   String? seminarname,
@@ -13,6 +15,8 @@ class SeminarDetails extends StatelessWidget {
       to,
       link,
       userid,
+  dropdown,
+  dropdown2,
       docid;
   var type, selectday;
   bool? isFav;
@@ -26,6 +30,8 @@ class SeminarDetails extends StatelessWidget {
       this.to,
       this.link,
       this.docid,
+        this.dropdown,
+        this.dropdown2,
       this.isFav,
       this.description,
       this.location,
@@ -35,6 +41,7 @@ class SeminarDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var prov = Provider.of<ProfileProvider>(context);
     return Scaffold(
       appBar: PreferredSize(
           child: customAppBar(context, title: 'ندوة'),
@@ -91,11 +98,11 @@ class SeminarDetails extends StatelessWidget {
                             Row(
                               children: [
                                 Text(
-                                  '$to',
+                                  '$to'+ '$dropdown2',
                                   style: hintStyle3,
                                 ),
                                 Text(
-                                  ':' + '$from' + 'pm',
+                                  ':' + '$from' + '$dropdown',
                                   style: hintStyle3,
                                 ),
                               ],
@@ -162,7 +169,7 @@ class SeminarDetails extends StatelessWidget {
                       style: hintStyle3,
                     ),
                   ),
-                  TextButton(
+                  prov.counter == 2? const SizedBox():TextButton(
                     onPressed: () {
                       print(docid);
                       Navigator.push(

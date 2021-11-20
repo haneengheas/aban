@@ -35,7 +35,7 @@ class _UnCompletedProjectState extends State<LaterSeminar> {
             Navigator.push(
                 context, MaterialPageRoute(builder: (context) => AddSeminar()));
           },
-          child: Row(
+          child: prov.counter == 2? const SizedBox():Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
@@ -79,7 +79,8 @@ class _UnCompletedProjectState extends State<LaterSeminar> {
   }
 
   Widget buildSeminarBox(SeminarModel seminar){
-    return  InkWell(
+    var prov = Provider.of<ProfileProvider>(context);
+    return InkWell(
       onTap: () {
         Navigator.push(
             context,
@@ -91,6 +92,8 @@ class _UnCompletedProjectState extends State<LaterSeminar> {
                       isFav: seminar.isFav,
                       from: seminar.from,
                       link: seminar.link,
+                      dropdown: seminar.dropdown,
+                      dropdown2: seminar.dropdown2,
                       location: seminar.location,
                       selectday: seminar.selectday,
                       seminarname: seminar.seminartitle,
@@ -159,14 +162,14 @@ class _UnCompletedProjectState extends State<LaterSeminar> {
                       children: [
                         Text(
                           seminar.to.toString() +
-                              'pm',
+                             seminar.dropdown2!,
                           style: hintStyle3,
                         ),
                         Text(
                           ':' +
                               seminar.from
                                   .toString() +
-                              'pm',
+                              seminar.dropdown!,
                           style: hintStyle3,
                         ),
                       ],
@@ -196,7 +199,7 @@ class _UnCompletedProjectState extends State<LaterSeminar> {
                           : 'خاصة',
                       style: labelStyle3,
                     ),
-                    InkWell(
+                    prov.counter == 2? const SizedBox():InkWell(
                       onTap: () async {
                         await FirebaseFirestore.instance
                             .collection('seminarBookmark')

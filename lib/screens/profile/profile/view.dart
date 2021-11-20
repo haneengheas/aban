@@ -1,5 +1,8 @@
 import 'package:aban/constant/style.dart';
 import 'package:aban/provider/auth_provider.dart';
+import 'package:aban/provider/profile_provider.dart';
+import 'package:aban/screens/Home/navigation.dart';
+import 'package:aban/screens/Home/studentdrawer.dart';
 import 'package:aban/screens/profile/eidt_profile/view.dart';
 import 'package:aban/screens/profile/profile/field_list.dart';
 import 'package:aban/screens/profile/profile/project_list.dart';
@@ -88,6 +91,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     var prov = Provider.of<AuthProvider>(context);
+    var provider = Provider.of<ProfileProvider>(context);
     return DefaultTabController(
       length: 5,
       child: Scaffold(
@@ -103,7 +107,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
               elevation: 0,
               leading: IconButton(
                 onPressed: () {
-                  Navigator.pop(context);
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => NavigationFile(
+                                title: ' مرحبا${prov.userName} ',
+                                d: studentDrawer(context),
+                                counter: provider.counter!,
+                              )));
                 },
                 icon: const Icon(
                   Icons.arrow_back,
@@ -196,12 +207,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceAround,
                                             children: [
-                                              Expanded(child: Text(
-                                                "${snapshot.data!.docs[0]['faculty'] + '-' + snapshot.data!.docs[0]['department']}",
-                                                maxLines: 2,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: hintStyle,
-                                              ),)
+                                              Expanded(
+                                                child: Text(
+                                                  "${snapshot.data!.docs[0]['faculty'] + '-' + snapshot.data!.docs[0]['department']}",
+                                                  maxLines: 2,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: hintStyle,
+                                                ),
+                                              )
                                               // Text(
                                               //   "${snapshot.data!.docs[0]['link']}",
                                               //   style: hintStyle,
@@ -218,13 +232,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                   style: hintStyle,
                                                 ),
                                               ),
-                                           
-                                              Expanded(child: Text(
-                                                "${snapshot.data!.docs[0]['email']}",
-                                                maxLines: 2,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: hintStyle,
-                                              ),)
+                                              Expanded(
+                                                child: Text(
+                                                  "${snapshot.data!.docs[0]['email']}",
+                                                  maxLines: 2,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: hintStyle,
+                                                ),
+                                              )
                                             ],
                                           ),
                                           Row(
@@ -233,15 +249,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             children: [
                                               Expanded(
                                                 child: Text(
-                                                  "${snapshot.data!.docs[0]['id']}",
-                                                  style: hintStyle,
+                                                  "Orcid id:${snapshot.data!.docs[0]['id']}",
+                                                  style: GoogleFonts.cairo(
+                                                    textStyle: const TextStyle(
+                                                        fontSize: 15,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        height: 1.5,
+                                                        decoration: TextDecoration.underline,
+                                                        decorationThickness: 2,
+                                                        color: gray),
+                                                  ),
                                                 ),
                                               ),
-                                            
-                                            Expanded(child:   Text(
-                                              "${snapshot.data!.docs[0]['phone']}",
-                                              style: hintStyle,
-                                            ),)
+                                              Expanded(
+                                                child: Text(
+                                                  "${snapshot.data!.docs[0]['phone']}",
+                                                  style: hintStyle,
+                                                ),
+                                              )
                                             ],
                                           ),
                                         ],
@@ -279,13 +305,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     await launch(
                                         snapshot.data!.docs[0]['link']);
                                   },
-                                  child: Text("الذهاب الى ابحاثى",
-                                      style: hintStyle),
+                                  child: Text(
+                                    "الذهاب الى ابحاثى",
+                                    style: GoogleFonts.cairo(
+                                      textStyle: const TextStyle(
+                                          decoration: TextDecoration.underline,
+                                          decorationThickness: 2,
+                                          decorationColor: blue,
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w400,
+                                          color: blue),
+                                    ),
+                                  ),
                                 ),
                               ),
-                               SizedBox(
+                              SizedBox(
                                 height:
-                                MediaQuery.of(context).size.height / 2.2,
+                                    MediaQuery.of(context).size.height / 2.2,
                                 child: Column(
                                   children: [
                                     const Divider(

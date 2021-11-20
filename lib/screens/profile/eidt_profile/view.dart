@@ -27,6 +27,7 @@ import 'package:provider/provider.dart';
 
 class EditProfile extends StatefulWidget {
   EditProfile({Key? key}) : super(key: key);
+
   @override
   _EditProfileState createState() => _EditProfileState();
 }
@@ -69,6 +70,90 @@ class _EditProfileState extends State<EditProfile> {
     print(accepted);
 
     setState(() {});
+  }
+  deleteData()async{
+    // await FirebaseFirestore.instance
+    //     .collection('member')
+    //     .doc(FirebaseAuth.instance.currentUser!.uid)
+    //     .delete();
+    // await FirebaseFirestore.instance
+    //     .collection('user')
+    //     .doc(FirebaseAuth.instance.currentUser!.uid)
+    //     .delete();
+    // await FirebaseAuth.instance.currentUser!.delete();
+    await FirebaseFirestore.instance
+        .collection('theses')
+        .where('userId',
+        isEqualTo:
+        FirebaseAuth.instance.currentUser!.uid)
+        .get()
+        .then((snapshot) {
+      for (DocumentSnapshot ds in snapshot.docs) {
+        ds.reference.delete();
+      }
+    });
+    await FirebaseFirestore.instance
+        .collection('project')
+        .where('userId',
+        isEqualTo:
+        FirebaseAuth.instance.currentUser!.uid)
+        .get()
+        .then((snapshot) {
+      for (DocumentSnapshot ds in snapshot.docs) {
+        ds.reference.delete();
+      }
+    });
+    await FirebaseFirestore.instance
+        .collection('projectBookmark')
+        .where('userId',
+        isEqualTo:
+        FirebaseAuth.instance.currentUser!.uid)
+        .get()
+        .then((snapshot) {
+      for (DocumentSnapshot ds in snapshot.docs) {
+        ds.reference.delete();
+      }
+    });
+    await FirebaseFirestore.instance
+        .collection('thesesBookmark')
+        .where('userId',
+        isEqualTo:
+        FirebaseAuth.instance.currentUser!.uid)
+        .get()
+        .then((snapshot) {
+      for (DocumentSnapshot ds in snapshot.docs) {
+        ds.reference.delete();
+      }
+    });
+    await FirebaseFirestore.instance
+        .collection('seminar')
+        .where('userId',
+        isEqualTo:
+        FirebaseAuth.instance.currentUser!.uid)
+        .get()
+        .then((snapshot) {
+      for (DocumentSnapshot ds in snapshot.docs) {
+        ds.reference.delete();
+      }
+    });   await FirebaseFirestore.instance
+        .collection('seminarBookmark')
+        .where('userId',
+        isEqualTo:
+        FirebaseAuth.instance.currentUser!.uid)
+        .get()
+        .then((snapshot) {
+      for (DocumentSnapshot ds in snapshot.docs) {
+        ds.reference.delete();
+      }
+    });
+    await AwesomeDialog(
+        context: context,
+        title: "هام",
+        body: const Text(
+            "تمت عملية الحذف بنجاح"),
+        dialogType: DialogType.SUCCES)
+        .show();
+
   }
 
   @override
@@ -252,10 +337,10 @@ class _EditProfileState extends State<EditProfile> {
                               onChanged: (newValue) {
                                 prov.degree = newValue!;
                               },
-                              items: <String>[
+                              items:provAuth.usertype == 0? <String>[
                                 'دكتوراه',
                                 'ماجستير',
-                                'طالب'
+
                               ].map<DropdownMenuItem<String>>((String value) {
                                 return DropdownMenuItem<String>(
                                   value: value,
@@ -265,6 +350,21 @@ class _EditProfileState extends State<EditProfile> {
                                     // for example
                                     child:
                                         Text(value, textAlign: TextAlign.right),
+                                  ),
+                                );
+                              }).toList():<String>[
+                                'طالب دكتوراه',
+                                'طالب ماجستير',
+
+                              ].map<DropdownMenuItem<String>>((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: SizedBox(
+                                    width: sizeFromWidth(context, 8),
+                                    height: 50,
+                                    // for example
+                                    child:
+                                    Text(value, textAlign: TextAlign.right),
                                   ),
                                 );
                               }).toList(),
@@ -359,59 +459,61 @@ class _EditProfileState extends State<EditProfile> {
                 ),
               ]),
               // accept theses montor
-              provAuth.usertype== 0?Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 20, top: 20),
-                    child: Text(
-                      "هل تقبل الاشراف على الاطروحات؟",
-                      style: labelStyle3,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: SizedBox(
-                      height: 30,
-                      child: Row(
-                        children: [
-                          Radio(
-                              value: 0,
-                              groupValue: accepted,
-                              onChanged: (value) {
-                                setState(() {
-                                  accepted = value as int?;
-                                });
-                              }),
-                          Text('نعم', style: hintStyle3),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: SizedBox(
-                      height: 25,
-                      child: Row(
-                        children: [
-                          Radio(
-                              value: 1,
-                              groupValue:accepted,
-                              onChanged: (value) {
-                                setState(() {
-                                  accepted = value as int?;
-                                });
-                              }),
-                          Text(
-                            'لا',
-                            style: hintStyle3,
+              provAuth.usertype == 0
+                  ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(right: 20, top: 20),
+                          child: Text(
+                            "هل تقبل الاشراف على الاطروحات؟",
+                            style: labelStyle3,
                           ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ):SizedBox(),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: SizedBox(
+                            height: 30,
+                            child: Row(
+                              children: [
+                                Radio(
+                                    value: 0,
+                                    groupValue: accepted,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        accepted = value as int?;
+                                      });
+                                    }),
+                                Text('نعم', style: hintStyle3),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: SizedBox(
+                            height: 25,
+                            child: Row(
+                              children: [
+                                Radio(
+                                    value: 1,
+                                    groupValue: accepted,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        accepted = value as int?;
+                                      });
+                                    }),
+                                Text(
+                                  'لا',
+                                  style: hintStyle3,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
+                  : const SizedBox(),
               const Divider(
                 height: 10,
                 thickness: 1,
@@ -451,64 +553,67 @@ class _EditProfileState extends State<EditProfile> {
 
                             print('Str list is => $fieldsStr');
 
-                           if(provAuth.usertype== 0){
-                             await FirebaseFirestore.instance
-                                 .collection('member')
-                                 .doc(FirebaseAuth.instance.currentUser!.uid)
-                                 .update({
-                               'name': name.text,
-                               'accept':accepted,
-                               'degree': degree,
-                               'faculty': college,
-                               'department': department,
-                               'id': id.text,
-                               'link': link.text,
-                               'phone': phone.text,
-                               'email':emailuser.text,
-                               // 'imageUrl': imageUrl,
-                               'fields': fieldsStr
-                             }).then((value) async {
-                               Navigator.pop(context);
-                               await AwesomeDialog(
-                                   context: context,
-                                   title: "هام",
-                                   body:
-                                   const Text("تمت عملية التعديل بنجاح"),
-                                   dialogType: DialogType.SUCCES)
-                                   .show();
-                               Navigator.push(context, MaterialPageRoute(builder: (context)=>ProfileScreen()));
-
-                             });
-                           }
-                           else{
-                             await FirebaseFirestore.instance
-                                 .collection('member')
-                                 .doc(FirebaseAuth.instance.currentUser!.uid)
-                                 .update({
-                               'name': name.text,
-                               'accept':2,
-                               'degree': degree,
-                               'faculty': college,
-                               'department': department,
-                               'id': id.text,
-                               'link': link.text,
-                               'phone': phone.text,
-                               'email':emailuser.text,
-                               // 'imageUrl': imageUrl,
-                               'fields': fieldsStr
-                             }).then((value) async{
-                               Navigator.pop(context);
-                               await AwesomeDialog(
-                                   context: context,
-                                   title: "هام",
-                                   body:
-                                   const Text("تمت عملية التعديل بنجاح"),
-                                   dialogType: DialogType.SUCCES)
-                                   .show();
-                               Navigator.push(context, MaterialPageRoute(builder: (context)=>ProfileScreen()));
-
-                             });
-                           }
+                            if (provAuth.usertype == 0) {
+                              await FirebaseFirestore.instance
+                                  .collection('member')
+                                  .doc(FirebaseAuth.instance.currentUser!.uid)
+                                  .update({
+                                'name': name.text,
+                                'accept': accepted,
+                                'degree': degree,
+                                'faculty': college,
+                                'department': department,
+                                'id': id.text,
+                                'link': link.text,
+                                'phone': phone.text,
+                                'email': emailuser.text,
+                                // 'imageUrl': imageUrl,
+                                'fields': fieldsStr
+                              }).then((value) async {
+                                Navigator.pop(context);
+                                await AwesomeDialog(
+                                        context: context,
+                                        title: "هام",
+                                        body: const Text(
+                                            "تمت عملية التعديل بنجاح"),
+                                        dialogType: DialogType.SUCCES)
+                                    .show();
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => ProfileScreen()));
+                              });
+                            } else {
+                              await FirebaseFirestore.instance
+                                  .collection('member')
+                                  .doc(FirebaseAuth.instance.currentUser!.uid)
+                                  .update({
+                                'name': name.text,
+                                'accept': 2,
+                                'degree': degree,
+                                'faculty': college,
+                                'department': department,
+                                'id': id.text,
+                                'link': link.text,
+                                'phone': phone.text,
+                                'email': emailuser.text,
+                                // 'imageUrl': imageUrl,
+                                'fields': fieldsStr
+                              }).then((value) async {
+                                Navigator.pop(context);
+                                await AwesomeDialog(
+                                        context: context,
+                                        title: "هام",
+                                        body: const Text(
+                                            "تمت عملية التعديل بنجاح"),
+                                        dialogType: DialogType.SUCCES)
+                                    .show();
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => ProfileScreen()));
+                              });
+                            }
                           }
 
                           print(name);
@@ -531,16 +636,7 @@ class _EditProfileState extends State<EditProfile> {
                         showDialogWarning(context,
                             text: 'هل انت متاكد من حذف الحساب ؟',
                             ontap: () async {
-                          await FirebaseFirestore.instance
-                              .collection('member')
-                              .doc(FirebaseAuth.instance.currentUser!.uid)
-                              .delete();
-                          await FirebaseFirestore.instance
-                              .collection('user')
-                              .doc(FirebaseAuth.instance.currentUser!.uid)
-                              .delete();
-                          await FirebaseAuth.instance.currentUser!.delete();
-
+                          await deleteData();
                           Navigator.push(
                               context,
                               MaterialPageRoute(

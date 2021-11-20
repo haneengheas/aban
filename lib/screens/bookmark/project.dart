@@ -1,6 +1,8 @@
 import 'package:aban/constant/style.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
 class ProjectBookMark extends StatefulWidget {
   const ProjectBookMark({Key? key}) : super(key: key);
 
@@ -16,9 +18,10 @@ class _ProjectBookMarkState extends State<ProjectBookMark> {
         child: StreamBuilder(
           stream: FirebaseFirestore.instance
               .collection('projectBookmark')
+              .where('userId',
+                  isEqualTo: FirebaseAuth.instance.currentUser!.uid)
               .snapshots(),
-          builder:
-              (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (snapshot.hasData) {
               return ListView.builder(
                   itemCount: snapshot.data!.docs.length,
@@ -26,7 +29,7 @@ class _ProjectBookMarkState extends State<ProjectBookMark> {
                     return Container(
                       margin: const EdgeInsets.symmetric(
                           horizontal: 10, vertical: 10),
-                      padding:  const EdgeInsets.symmetric(
+                      padding: const EdgeInsets.symmetric(
                           horizontal: 10, vertical: 10),
                       width: sizeFromWidth(context, 1),
                       height: 120,
@@ -37,32 +40,35 @@ class _ProjectBookMarkState extends State<ProjectBookMark> {
                       child: Directionality(
                         textDirection: TextDirection.rtl,
                         child: Row(
-                          mainAxisAlignment:
-                          MainAxisAlignment.spaceEvenly,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             Expanded(
                               child: Column(
-                                crossAxisAlignment:
-                                CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceEvenly,
+                                    MainAxisAlignment.spaceEvenly,
                                 children: [
                                   Text(
-                                    'اسم المشروع:'+snapshot.data!.docs[index]['projectName'],
+                                    'اسم المشروع:' +
+                                        snapshot.data!.docs[index]
+                                            ['projectName'],
                                     style: labelStyle2,
                                   ),
                                   Text(
-                                    'القائد:'+snapshot.data!.docs[index]['leaderName'],
+                                    'القائد:' +
+                                        snapshot.data!.docs[index]
+                                            ['leaderName'],
                                     style: hintStyle3,
                                   ),
                                   Text(
-                                    'الاعضاء:'+snapshot.data!.docs[index]['memberProjectName'],
+                                    'الاعضاء:' +
+                                        snapshot.data!.docs[index]
+                                            ['memberProjectName'],
                                     style: hintStyle3,
                                   ),
                                 ],
                               ),
                             ),
-
                             const VerticalDivider(
                               color: gray,
                               endIndent: 10,
@@ -71,13 +77,12 @@ class _ProjectBookMarkState extends State<ProjectBookMark> {
                               thickness: 2,
                             ),
                             Column(
-                                crossAxisAlignment:
-                                CrossAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   InkWell(
                                     onTap: () async {
-                                      if (snapshot.data!
-                                          .docs[index]['isFav'] == true) {
+                                      if (snapshot.data!.docs[index]['isFav'] ==
+                                          true) {
                                         FirebaseFirestore.instance
                                             .collection('projectBookmark')
                                             .doc(snapshot.data!.docs[index].id)
@@ -85,32 +90,32 @@ class _ProjectBookMarkState extends State<ProjectBookMark> {
                                         await FirebaseFirestore.instance
                                             .collection('theses')
                                             .doc(snapshot.data!.docs[index].id)
-                                            .update(
-                                            {'isFav': false });
+                                            .update({'isFav': false});
                                       }
                                       setState(() {});
                                     },
                                     child: Container(
                                       height: 30,
                                       width: 20,
-                                      margin:
-                                      const EdgeInsets.symmetric(
-                                          vertical: 30,horizontal: 10),
-                                      child:snapshot.data!.docs[index]['isFav'] == true? const ImageIcon(
-                                        AssetImage(
-                                          'assets/bookmark (2).png',
-
-                                        ),
-                                        color: blue,
-                                        size: 50,
-                                      )
+                                      margin: const EdgeInsets.symmetric(
+                                          vertical: 30, horizontal: 10),
+                                      child: snapshot.data!.docs[index]
+                                                  ['isFav'] ==
+                                              true
+                                          ? const ImageIcon(
+                                              AssetImage(
+                                                'assets/bookmark (2).png',
+                                              ),
+                                              color: blue,
+                                              size: 50,
+                                            )
                                           : const ImageIcon(
-                                        AssetImage(
-                                          'assets/bookmark (1).png',
-                                        ),
-                                        color: blue,
-                                        size: 50,
-                                      ),
+                                              AssetImage(
+                                                'assets/bookmark (1).png',
+                                              ),
+                                              color: blue,
+                                              size: 50,
+                                            ),
                                     ),
                                   )
                                 ]),

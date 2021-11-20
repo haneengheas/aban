@@ -2,7 +2,6 @@
 
 import 'package:aban/constant/style.dart';
 import 'package:aban/provider/auth_provider.dart';
-import 'package:aban/screens/registration/wellcome_screen/view.dart';
 import 'package:aban/widgets/buttons/submit_button.dart';
 import 'package:aban/widgets/textfield_registation.dart';
 import 'package:flutter/material.dart';
@@ -73,7 +72,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         } else if (!value
                                 .toString()
                                 .contains('student.ksu.edu.sa') &&
-                            !value.toString().contains('ksu.edu.sa')) {
+                            !value.toString().contains('ksu.edu.sa') &&
+                            !value.toString().contains('@gmail.com')) {
                           return ' يجب ان يحتوي البريد الالكتروني علي  ksu.edu.sa او student.ksu.edu.sa ';
                         }
                       }),
