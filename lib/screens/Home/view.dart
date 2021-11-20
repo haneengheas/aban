@@ -1,12 +1,9 @@
 import 'package:aban/constant/style.dart';
-import 'package:aban/provider/auth_provider.dart';
-import 'package:aban/provider/profile_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 import 'college_views.dart';
 
 class HomeScreen extends StatefulWidget {
