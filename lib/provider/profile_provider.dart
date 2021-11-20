@@ -24,7 +24,7 @@ class ProfileProvider with ChangeNotifier {
   var accept;
   String? degree;
   int ? counter ;
-  late String seminaraddress, location, description, seminarlink,from, dropdownValue,dropdownValue2, to;
+  late String seminaraddress, location, description, seminarlink,from, dropdownValue ='pm',dropdownValue2='pm', to;
   int? type;
   DateTime? selectedDay;
   DateTime? focusedDay;
