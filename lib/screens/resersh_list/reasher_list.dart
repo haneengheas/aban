@@ -1,6 +1,7 @@
 class ResearchModel {
   String ?userId,phone,name,link,imageUrl, token,faculty,email,degree,id;
   int accept;
+  List fields;
   ResearchModel({
     this.degree,
     this.name,
@@ -13,5 +14,7 @@ class ResearchModel {
     this.userId,
     this.imageUrl,
     this.id,
+    required this.fields,
+
 });
 }
