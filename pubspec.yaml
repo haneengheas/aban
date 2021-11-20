@@ -39,6 +39,7 @@ dependencies:
   awesome_dialog:
   image_picker:
   path:
+  flutter_email_sender:
   url_launcher:
   firebase_storage:
   firebase_messaging:

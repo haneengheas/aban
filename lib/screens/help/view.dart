@@ -2,17 +2,27 @@ import 'package:aban/constant/style.dart';
 import 'package:aban/widgets/buttons/submit_button.dart';
 import 'package:aban/widgets/textField.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_email_sender/flutter_email_sender.dart';
 
-class HelpScreen extends StatelessWidget {
+class HelpScreen extends StatefulWidget {
    HelpScreen({Key? key}) : super(key: key);
+
+  @override
+  State<HelpScreen> createState() => _HelpScreenState();
+}
+
+class _HelpScreenState extends State<HelpScreen> {
   TextEditingController emailController = TextEditingController();
+
    TextEditingController descriptionController = TextEditingController();
+
    TextEditingController problemTitleController = TextEditingController();
+
    final GlobalKey<FormState> formkey = GlobalKey<FormState>();
+
 
 
    @override
@@ -50,17 +60,17 @@ class HelpScreen extends StatelessWidget {
               key:formkey,
               child: Column(
                 children: [
-                   TextFieldItem(
-                     validator: (val){
-                       if(val.isEmpty){
-                         return 'يجب ادخال البريد الالكتروني' ;
-                       }
-                     },
-                     controller: emailController,
-                    labelText: "البريد الالكترونى",
-                    scure: true,
-                    hintText: "Reasearsh@ksuedu.sa",
-                  ),
+                  //  TextFieldItem(
+                  //    validator: (val){
+                  //      if(val.isEmpty){
+                  //        return 'يجب ادخال البريد الالكتروني' ;
+                  //      }
+                  //    },
+                  //    controller: emailController,
+                  //   labelText: "البريد الالكترونى",
+                  //   scure: true,
+                  //   hintText: "Reasearsh@ksuedu.sa",
+                  // ),
                    TextFieldItem(
 
                    validator: (val){
@@ -88,25 +98,22 @@ class HelpScreen extends StatelessWidget {
                     height: 80,
                   ),
                   SubmitButton(
-                      gradient: blueGradient, text: "ارسال", onTap: () async{
-                        if(formkey.currentState!.validate()){
-                          formkey.currentState!.save();
-                          await FirebaseFirestore.instance.collection('help').add(
-                              {
-                                'email':emailController.text,
-                                'problemTitle':problemTitleController.text,
-                                'description':descriptionController.text,
-                                'userId':FirebaseAuth.instance.currentUser!.uid,
-                              }).then((value) {
-                            Navigator.pop(context);
+                      gradient: blueGradient, text:"ارسال", onTap: () async{
 
-                          });
+                        if(formkey.currentState!.validate()){
+                          final Email email = Email(
+                            body: descriptionController.text,
+                            subject: 'abanproject202 0000000000000000001@gmail.com',
+                            recipients: ['abanproject2021@gmail.com'],
+
+                          );
+                          await FlutterEmailSender.send(email);
                           await AwesomeDialog(
                               context: context,
                               title: "هام",
                               body: const Text("تم الارسال بنجاح"),
                               dialogType: DialogType.SUCCES)
-                            ..show();
+                            .show();
                         }
 
 
