@@ -14,8 +14,7 @@ class ChatRoom extends StatefulWidget {
   final String image, name;
   final String userId;
 
-  const ChatRoom(
-      {required this.image, required this.name, required this.userId});
+  const ChatRoom({required this.image, required this.name, required this.userId});
 
   @override
   State<ChatRoom> createState() => _ChatRoomState();
@@ -82,8 +81,9 @@ class _ChatRoomState extends State<ChatRoom> {
             StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance
                     .collection('message')
-                    // .where('sent', isEqualTo: id)
-                    .orderBy('timeDate')
+                    .orderBy(
+                      'timeDate'
+                    )
                     .snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
@@ -100,19 +100,15 @@ class _ChatRoomState extends State<ChatRoom> {
                     String messageText = message["Text"];
                     String sent = message["sent"];
                     if ((message["sent"] == id ||
-                            message["sent"] == widget.userId) &&
+                            message["sent"] == widget.userId)&&
                         (message["userId"] == id ||
                             message["userId"] == widget.userId)) {
                       messageWidget = MessageItem(
-                        text: messageText,
-                        isMe: sent == id,
-                        image: widget.image,
-                        time: message['timeDate'],
-                      );
+                          text: messageText,
+                          isMe: sent == id,
+                          image: widget.image, time: message['timeDate'],);
                       messageWidgets.add(messageWidget);
-                    } else {
-                      print('object');
-                    }
+                    }else {print('object');}
                   }
                   return Expanded(
                       child: ListView(
@@ -139,8 +135,8 @@ class _ChatRoomState extends State<ChatRoom> {
                         color: blue,
                       ),
                       onPressed: () {
-                        print(DateTime.now().toLocal());
-                        print('//=/=/=/=/===/=/');
+                       print(DateTime.now().toLocal()) ;
+                       print('//=/=/=/=/===/=/') ;
                         if (_controller.text.isNotEmpty) {
                           FirebaseFirestore.instance.collection('message').add(
                             {
