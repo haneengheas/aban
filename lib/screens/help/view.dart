@@ -108,7 +108,6 @@ class _HelpScreenState extends State<HelpScreen> {
                             // subject: 'abanproject202 0000000000000000001@gmail.com',
                             recipients: ['haneengheas@gmail.com'],
                             subject: problemTitleController.text,
-
                           );
                           await FlutterEmailSender.send(email);
                           await AwesomeDialog(
