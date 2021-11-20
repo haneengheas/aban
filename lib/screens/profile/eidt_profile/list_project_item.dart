@@ -19,25 +19,49 @@ class _ListProjectItemState extends State<ListProjectItem> {
   Widget build(BuildContext context) {
     var prov = Provider.of<ProfileProvider>(context);
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: widget.fields!.isEmpty
           ? []
           : [
-              Column(
-                children: prov.fields
-                    .map((e) => Card(
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            child: TextFormField(
-                              controller: e,
-                              decoration: const InputDecoration(
-                                  hintText: "المجال  ",
-                                  floatingLabelBehavior:
-                                      FloatingLabelBehavior.always),
-                            ),
-                          ),
-                        ))
-                    .toList(),
+        Column(
+          children: prov.fields
+              .map((e) => Card(
+            shadowColor: gray,
+            margin: const EdgeInsets.symmetric(
+                horizontal: 15, vertical: 5),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 10,
               ),
+              child: Row(
+                children: [
+                  SizedBox(
+                    width: sizeFromWidth(context, 1.4),
+                    child: TextFormField(
+                      controller: e,
+                      decoration: InputDecoration(
+                          hintText: "المجال ${cards.length + 1}",
+                          floatingLabelBehavior:
+                          FloatingLabelBehavior.always),
+                    ),
+                  ),
+                  IconButton(
+                      onPressed: () {
+                        setState(() {
+                          prov.fields.remove(e);
+                        });
+                      },
+                      icon: const Icon(
+                        Icons.remove_circle_outline_sharp,
+                        color: red,
+                        size: 18,
+                      )),
+                ],
+              ),
+            ),
+          ))
+              .toList(),
+        ),
               TextButton.icon(
                   onPressed: () =>
                       setState(() => prov.fields.add(TextEditingController())),

@@ -10,8 +10,11 @@ import 'package:provider/provider.dart';
 
 class WellcomeScreen extends StatefulWidget {
   // final int value;
-  const WellcomeScreen({
+  String ? email , name;
+   WellcomeScreen({
     Key? key,
+    this.name,
+    this.email,
     // required this.value,
   }) : super(key: key);
 
@@ -80,14 +83,18 @@ class _WellcomeScreenState extends State<WellcomeScreen> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            const CreateMemberProfile(
+                                             CreateMemberProfile(
+                                               email: widget.email,
+                                               nameuser: widget.name,
                                             )));
                               } else if (provider.usertype== 1) {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            const CreateGraduatedProfile(
+                                             CreateGraduatedProfile(
+                                               email: widget.email,
+                                               nameuser: widget.name,
                                             )));
                               }
                             });

@@ -55,7 +55,7 @@ class AuthProvider with ChangeNotifier {
               context,
               MaterialPageRoute(
                   builder: (context) =>
-                  const WellcomeScreen()));
+                   WellcomeScreen(email: email,name: name,)));
         });
       }
     }on FirebaseAuthException catch (e) {

@@ -33,7 +33,7 @@ class _NavigationFileState extends State<NavigationFile> {
         backgroundColor: blue,
         selectedLabelStyle: hintStyle4,
         unselectedLabelStyle: hintStyle4,
-        selectedItemColor: white,
+        selectedItemColor: gray,
         unselectedItemColor: white,
         iconSize: 40,
         type: BottomNavigationBarType.fixed,

@@ -35,7 +35,7 @@ class _UnCompletedProjectState extends State<CompleteSeminar> {
             Navigator.push(
                 context, MaterialPageRoute(builder: (context) => AddSeminar()));
           },
-          child: Row(
+          child: prov.counter == 2? const SizedBox():Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
@@ -77,6 +77,7 @@ class _UnCompletedProjectState extends State<CompleteSeminar> {
     );
   }
   Widget buildSeminarBox(SeminarModel seminar){
+    var prov = Provider.of<ProfileProvider>(context);
     return InkWell(
       onTap: () {
         Navigator.push(
@@ -194,7 +195,7 @@ class _UnCompletedProjectState extends State<CompleteSeminar> {
                           : 'خاصة',
                       style: labelStyle3,
                     ),
-                    InkWell(
+                    prov.counter == 2? const SizedBox(): InkWell(
                       onTap: () async {
                         FirebaseFirestore.instance
                             .collection('seminarBookmark')
@@ -258,125 +259,3 @@ class _UnCompletedProjectState extends State<CompleteSeminar> {
     );
   }
 }
-//   Widget buildSeminarBox(SeminarModel seminar) =>
-//       InkWell(
-//         onTap: () {
-//           Navigator.push(
-//               context,
-//               MaterialPageRoute(
-//                   builder: (context) =>
-//                       SeminarDetails(
-//                         description: seminar.discription,
-//                         from: seminar.from,
-//                         link: seminar.link,
-//                         isFav: seminar.isFav,
-//                         location: seminar.location,
-//                         selectday: seminar.selectday,
-//                         seminarname: seminar.seminartitle,
-//                         to: seminar.to,
-//                         type: seminar.type,
-//                         userid: seminar.userid,
-//                         username: seminar.username,
-//                       )));
-//         },
-//         child: Container(
-//           margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-//           width: sizeFromWidth(context, 1),
-//           height: 120,
-//           decoration: BoxDecoration(
-//             color: clearblue,
-//             borderRadius: BorderRadius.circular(25),
-//           ),
-//           child: Directionality(
-//             textDirection: TextDirection.rtl,
-//             child: Row(
-//               mainAxisAlignment: MainAxisAlignment.spaceAround,
-//               children: [
-//                 Padding(
-//                   padding:
-//                   const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-//                   child: Column(
-//                     crossAxisAlignment: CrossAxisAlignment.start,
-//                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-//                     children: [
-//                       Row(
-//                         children: [
-//                           Text(
-//                             seminar.seminartitle!,
-//                             style: labelStyle2,
-//                           ),
-//                           SizedBox(
-//                             width: sizeFromWidth(context, 5),
-//                           ),
-//                           Text(
-//                             seminar.selectday.toString(),
-//                             style: hintStyle3,
-//                           ),
-//                           const Icon(
-//                             Icons.date_range,
-//                             color: blue,
-//                             size: 20,
-//                           )
-//                         ],
-//                       ),
-//                       Text(
-//                         '8:00-8:30pm',
-//                         style: hintStyle3,
-//                       ),
-//                       Text(
-//                         seminar.username!,
-//                         style: hintStyle3,
-//                       ),
-//                       Text(
-//                         seminar.location!,
-//                         style: hintStyle3,
-//                       ),
-//                     ],
-//                   ),
-//                 ),
-//                 const VerticalDivider(
-//                   color: gray,
-//                   endIndent: 10,
-//                   indent: 10,
-//                   width: 5,
-//                   thickness: 2,
-//                 ),
-//                 Column(
-//                     crossAxisAlignment: CrossAxisAlignment.center,
-//                     mainAxisAlignment: MainAxisAlignment.center,
-//                     children: [
-//                       Text(
-//                         'عامة',
-//                         style: labelStyle3,
-//                       ),
-//                       InkWell(
-//                         onTap: () {
-//                           setState(() {
-//                             print('=/=/=/=/=/=/=/=/=//=/=/=/=/=/=/=/=/');
-//                             checked = !checked;
-//                           });
-//                         },
-//                         child: Container(
-//                           margin: const EdgeInsets.symmetric(vertical: 5),
-//                           child: checked
-//                               ? const ImageIcon(
-//                             AssetImage(
-//                               'assets/bookmark (1).png',
-//                             ),
-//                             color: blue,
-//                           )
-//                               : const ImageIcon(
-//                             AssetImage(
-//                               'assets/bookmark (2).png',
-//                             ),
-//                             color: blue,
-//                           ),
-//                         ),
-//                       ),
-//                     ]),
-//               ],
-//             ),
-//           ),
-//         ),
-//       );
-// }

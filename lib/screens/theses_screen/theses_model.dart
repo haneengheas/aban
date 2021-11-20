@@ -5,6 +5,8 @@ class ModelTheses {
       degreeTheses,
       assistantSupervisors,
       nameSupervisors,
+      college,
+      department,
       userId,id;
   bool? isFav;
 
@@ -17,5 +19,7 @@ class ModelTheses {
         this.thesesStatus,
         this.nameSupervisors,
         this.userId,
+        this.college,
+        this.department,
         this.id});
 }

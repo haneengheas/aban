@@ -1,5 +1,6 @@
 import 'package:aban/constant/style.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 class ThesesBookMark extends StatefulWidget {
@@ -16,7 +17,8 @@ class _ThesesBookMarkState extends State<ThesesBookMark> {
         height: sizeFromHeight(context, 2.2),
         child: StreamBuilder(
           stream: FirebaseFirestore.instance
-              .collection('thesesBookmark')
+              .collection('thesesBookmark') .where('userId',
+              isEqualTo: FirebaseAuth.instance.currentUser!.uid)
               .snapshots(),
           builder:
               (context, AsyncSnapshot<QuerySnapshot> snapshot) {

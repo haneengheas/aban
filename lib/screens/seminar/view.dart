@@ -1,4 +1,9 @@
 import 'package:aban/constant/style.dart';
+import 'package:aban/provider/auth_provider.dart';
+import 'package:aban/provider/profile_provider.dart';
+import 'package:aban/screens/Home/guestdawer.dart';
+import 'package:aban/screens/Home/navigation.dart';
+import 'package:aban/screens/Home/studentdrawer.dart';
 import 'package:aban/screens/seminar/complete_seminar.dart';
 import 'package:aban/screens/seminar/later_seminar.dart';
 import 'package:aban/screens/seminar/seminar_model.dart';
@@ -7,6 +12,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class SeminarScreen extends StatefulWidget {
   const SeminarScreen({Key? key, }) : super(key: key);
@@ -89,6 +95,8 @@ class _ProjectScreenState extends State<SeminarScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var prov = Provider.of<ProfileProvider>(context);
+    var provider = Provider.of<AuthProvider>(context);
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -102,7 +110,30 @@ class _ProjectScreenState extends State<SeminarScreen> {
               )),
           centerTitle: true,
           elevation: 0,
-          leading: const SizedBox(),
+          leading: IconButton(
+            onPressed: () {
+              if (prov.counter == 1) {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => NavigationFile(
+                            d: studentDrawer(context),
+                            title: ' مرحبا${provider.userName} ',
+                            counter: prov.counter!)));
+              } else if (prov.counter == 2) {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => NavigationFile(
+                            d: guestDrawer(context),
+                            title: 'مرحبا',
+                            counter: prov.counter!)));
+              }
+            },
+            icon: const Icon(Icons.arrow_back),
+            color: blue,
+          ),
+
           // leading: IconButton(
           //   onPressed: () {
           //     if (widget.counter == 1) {

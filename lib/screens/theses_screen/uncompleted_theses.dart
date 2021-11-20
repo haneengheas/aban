@@ -36,6 +36,12 @@ class _UnCompletedThesesState extends State<UnCompletedTheses> {
                 .contains(widget.filter!.toLowerCase()) ||
             widget.theses[index].nameSupervisors!
                 .toLowerCase()
+                .contains(widget.filter!.toLowerCase()) ||
+            widget.theses[index].department!
+                .toLowerCase()
+                .contains(widget.filter!.toLowerCase()) ||
+            widget.theses[index].college!
+                .toLowerCase()
                 .contains(widget.filter!.toLowerCase())
             ? _buildThesesBox(
           widget.theses[index],
