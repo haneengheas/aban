@@ -87,6 +87,7 @@ class _UnCompletedProjectState extends State<LaterSeminar> {
             MaterialPageRoute(
                 builder: (context) =>
                     SeminarDetails(
+                      //kldcnm,,/
                       docid: seminar.docId ,
                       description: seminar.discription,
                       isFav: seminar.isFav,
