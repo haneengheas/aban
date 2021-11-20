@@ -1,3 +1,5 @@
+// ignore_for_file: use_key_in_widget_constructors, avoid_print
+
 import 'dart:io';
 
 import 'package:aban/constant/style.dart';

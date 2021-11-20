@@ -1,17 +1,13 @@
-// ignore_for_file: prefer_typing_uninitialized_variables
+// ignore_for_file: prefer_typing_uninitialized_variables, avoid_print, must_be_immutable
 
 import 'dart:io';
 import 'dart:math';
-
-import 'package:aban/constant/alert_methods.dart';
 import 'package:aban/constant/style.dart';
 import 'package:aban/provider/model.dart';
 import 'package:aban/provider/profile_provider.dart';
-
 import 'package:aban/screens/profile/facultymember/create_profile/dropdown.dart';
 import 'package:aban/screens/profile/facultymember/create_profile/project_list.dart';
 import 'package:aban/screens/profile/facultymember/create_profile/theses_list.dart';
-import 'package:aban/widgets/buttons/buttonsuser.dart';
 import 'package:aban/widgets/buttons/submit_button.dart';
 import 'package:aban/widgets/buttons/tetfielduser.dart';
 import 'package:aban/widgets/customAppBar.dart';
@@ -140,8 +136,7 @@ class _CreateGraduatedProfileState extends State<CreateGraduatedProfile> {
                             width: sizeFromWidth(context, 2.3),
                             height: 70,
                             child: CollegeDropDown(
-                              strValue: this.college == '' ? null : this
-                                  .college,
+                              strValue: college == '' ? null : college,
                               onTap: (v) {
                                 college = v;
                                 department = '';
@@ -165,7 +160,7 @@ class _CreateGraduatedProfileState extends State<CreateGraduatedProfile> {
                             height: 70,
                             child: CollegeDropDown(
                               strValue:
-                              this.department == '' ? null : this.department,
+                              department == '' ? null : department,
                               onTap: (v) {
                                 department = v;
                                 setState(() {});
@@ -204,7 +199,7 @@ class _CreateGraduatedProfileState extends State<CreateGraduatedProfile> {
                                 child: Container(
                                   width: sizeFromWidth(context, 2.3),
                                   height: 50,
-                                  padding: EdgeInsets.symmetric(horizontal: 10),
+                                  padding: const EdgeInsets.symmetric(horizontal: 10),
                                   child: DropdownButton<String>(
                                     hint: Text(
                                       'ادخل الدرجة العلمية',
@@ -352,7 +347,6 @@ class _CreateGraduatedProfileState extends State<CreateGraduatedProfile> {
                     children: prov.fields
                         .map((e) =>
                         Card(
-
                           shadowColor: gray,
                           margin:  const EdgeInsets.symmetric(horizontal: 15,vertical: 5),
                           child: Padding(
@@ -400,52 +394,20 @@ class _CreateGraduatedProfileState extends State<CreateGraduatedProfile> {
                     thickness: 1,
                     color: lightGray,
                   ),
-                  // Padding(
-                  //   padding: const EdgeInsets.symmetric(
-                  //       horizontal: 15, vertical: 10),
-                  //   child: Text(
-                  //     "اطروحات تحت اشرافك :",
-                  //     style: labelStyle3,
-                  //   ),
-                  // ),
                   ThesesList(department: department,college: college,),
-
-                  // ButtonUser(
-                  //     text: "اضافة اطروحة",
-                  //     color: blueGradient,
-                  //     onTap: () {
-                  //       showDialogTheses(
-                  //         context,
-                  //         text: 'إضافة اطروحة', department:department ,
-                  //         college: college,
-                  //       );
-                  //     }),
                   const Divider(
                     height: 30,
                     thickness: 1,
                     color: lightGray,
                   ),
-                  // Padding(
-                  //   padding: const EdgeInsets.symmetric(
-                  //       horizontal: 15, vertical: 5),
-                  //   child: Text(
-                  //     "المشاريع:",
-                  //     style: labelStyle3,
-                  //   ),
-                  // ),
-                  const ProjectList(),
-                  // ButtonUser(
-                  //     text: "اضافة مشروع",
-                  //     color: blueGradient,
-                  //     onTap: () {
-                  //       showDialogProject(
-                  //         context,
-                  //         text: 'إضافة مشروع',
-                  //       );
-                  //     }),
+                   ProjectList(department: department,college: college,),
                   Center(
                     child: SubmitButton(
                       onTap: () async {
+                        prov.college = college;
+                        prov.department = department;
+                        print(prov.department);
+                        print(prov.college);
                         if (formKey.currentState!.validate()) {
                           formKey.currentState!.save();
                           print(prov.file!.path);

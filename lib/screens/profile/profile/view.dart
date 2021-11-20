@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:aban/constant/style.dart';
 import 'package:aban/provider/auth_provider.dart';
 import 'package:aban/provider/profile_provider.dart';
@@ -136,7 +138,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => EditProfile()));
+                                  builder: (context) => const EditProfile()));
                         },
                         child: Container(
                           margin: const EdgeInsets.symmetric(horizontal: 15),
@@ -295,7 +297,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         ),
                                       ],
                                     )
-                                  : SizedBox(),
+                                  : const SizedBox(),
                               Padding(
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 15),
@@ -387,7 +389,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         }
 
                         return const Text('');
-                        ;
+
                       }),
                 ),
               ],

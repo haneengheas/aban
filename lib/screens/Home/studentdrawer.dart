@@ -1,5 +1,4 @@
 import 'package:aban/constant/style.dart';
-import 'package:aban/provider/profile_provider.dart';
 import 'package:aban/screens/Home/supervision_list.dart';
 import 'package:aban/screens/bookmark/view.dart';
 import 'package:aban/screens/chat/view.dart';
@@ -8,13 +7,10 @@ import 'package:aban/screens/profile/eidt_profile/view.dart';
 import 'package:aban/screens/profile/profile/view.dart';
 import 'package:aban/screens/registration/regist_screen/view.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import "package:quds_ui_kit/quds_ui_kit.dart";
 
 Widget studentDrawer(BuildContext context) {
-  var prov = Provider.of<ProfileProvider>(context);
   return QudsPopupButton(
-      // backgroundColor: Colors.red,
       tooltip: 'T',
       items: [
         QudsPopupMenuItem(
@@ -89,7 +85,7 @@ Widget studentDrawer(BuildContext context) {
               // print('------------');
               // print(prov.email);
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => EditProfile()));
+                  MaterialPageRoute(builder: (context) => const EditProfile()));
             }),
         QudsPopupMenuDivider(color: gray, thickness: .5),
         QudsPopupMenuItem(
@@ -121,7 +117,7 @@ Widget studentDrawer(BuildContext context) {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => SupervisionList()));
+                          builder: (context) =>const SupervisionList()));
                 }),
 
         QudsPopupMenuDivider(color: gray, thickness: .5),

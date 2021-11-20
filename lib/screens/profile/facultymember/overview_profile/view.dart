@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print, must_be_immutable
+
 import 'package:aban/constant/style.dart';
 import 'package:aban/screens/chat/chat_room.dart';
 import 'package:aban/screens/resersh_list/field.dart';
@@ -126,7 +128,7 @@ class _MemberProfileState extends State<MemberProfile> {
                                           MaterialPageRoute(
                                               builder: (context) =>
                                                   SupervisionScreen(
-                                                    userid: this.userId,
+                                                    userid: userId,
                                                     token: widget.token,
                                                   )));
                                     },

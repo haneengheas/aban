@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_typing_uninitialized_variables
+// ignore_for_file: prefer_typing_uninitialized_variables, avoid_print, must_be_immutable
 
 import 'package:aban/constant/alert_methods.dart';
 import 'package:aban/constant/style.dart';
@@ -215,7 +215,7 @@ class _EditSeminarState extends State<EditSeminar> {
                           'من',
                           style: hintStyle,
                         ),
-                        Container(width: 90,
+                        SizedBox(width: 90,
                           child: TimeTextField(
                             onChanged: (val) {
                               prov.from = val;
@@ -247,7 +247,7 @@ class _EditSeminarState extends State<EditSeminar> {
                           'إلى',
                           style: hintStyle,
                         ),
-                        Container(width: 90,
+                        SizedBox(width: 90,
                           child: TimeTextField(
                             onChanged: (val) {
                               prov.to = val;

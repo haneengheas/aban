@@ -1,16 +1,13 @@
-// ignore_for_file: prefer_typing_uninitialized_variables, avoid_print
+// ignore_for_file: prefer_typing_uninitialized_variables, avoid_print, must_be_immutable
 
 import 'dart:io';
 import 'dart:math';
-
-import 'package:aban/constant/alert_methods.dart';
 import 'package:aban/constant/style.dart';
 import 'package:aban/provider/model.dart';
 import 'package:aban/provider/profile_provider.dart';
 import 'package:aban/screens/profile/facultymember/create_profile/accept_supervision.dart';
 import 'package:aban/screens/profile/facultymember/create_profile/project_list.dart';
 import 'package:aban/screens/profile/facultymember/create_profile/theses_list.dart';
-import 'package:aban/widgets/buttons/buttonsuser.dart';
 import 'package:aban/widgets/buttons/submit_button.dart';
 import 'package:aban/widgets/buttons/tetfielduser.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
@@ -169,7 +166,7 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                         width: sizeFromWidth(context, 2.3),
                         height: 70,
                         child: CollegeDropDown(
-                          strValue: this.college == '' ? null : this.college,
+                          strValue: college == '' ? null : college,
                           onTap: (v) {
                             college = v;
                             department = '';
@@ -192,7 +189,7 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                         height: 70,
                         child: CollegeDropDown(
                           strValue:
-                              this.department == '' ? null : this.department,
+                              department == '' ? null : department,
                           onTap: (v) {
                             department = v;
                             setState(() {});
@@ -438,7 +435,7 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                 thickness: 1,
                 color: lightGray,
               ),
-              const ProjectList(),
+               ProjectList(department: department,college: college,),
               Center(
                 child: SubmitButton(
                   onTap: () async {

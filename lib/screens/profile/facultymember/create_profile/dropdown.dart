@@ -21,7 +21,7 @@ class _CollegeDropDownState extends State<CollegeDropDown> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 16),
+      margin: const EdgeInsets.symmetric(horizontal: 16),
       child: DropdownButton<String>(
           hint: Text(
            widget.text,

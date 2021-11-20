@@ -51,7 +51,6 @@ void showDialogTheses(
   required String text,
   required String department,
   required String college,
-
 }) {
   showDialog(
     context: context,
@@ -262,13 +261,12 @@ void showDialogTheses(
                       thesesStatus: prov.thesesStatus);
                   Navigator.pop(context);
                   AwesomeDialog(
-                      context: context,
-                      title: "هام",
-                      body: const Text("تمت عملية الاضافة بنجاح"),
-                      dialogType: DialogType.SUCCES)
+                          context: context,
+                          title: "هام",
+                          body: const Text("تمت عملية الاضافة بنجاح"),
+                          dialogType: DialogType.SUCCES)
                       .show();
                 }
-
               }),
         ],
       );
@@ -279,12 +277,13 @@ void showDialogTheses(
 void showDialogProject(
   BuildContext context, {
   required String text,
+  required String department,
+  required String college,
 }) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
       var prov = Provider.of<ProfileProvider>(context);
-      var auth = Provider.of<AuthProvider>(context);
 
       return AlertDialog(
         title: Center(child: Text(text)),
@@ -419,46 +418,26 @@ void showDialogProject(
               text: 'أضافة',
               color: blueGradient,
               onTap: () async {
-                if (auth.usertype == 0) {
-                  if (prov.formkey.currentState!.validate()) {
-                    prov.formkey.currentState!.save();
-                    await prov.addProjectsMember(
-                        context: context,
-                        projectName: prov.projectName,
-                        descriptionProject: prov.descriptionProject,
-                        leaderName: prov.leaderName,
-                        memberProjectName: prov.memberProjectName,
-                        projectStatus: prov.projectStatus,
-                        // projectDegree: prov.projectDegree
-                    );
-                    Navigator.pop(context);
-                    AwesomeDialog(
-                            context: context,
-                            title: "هام",
-                            body: const Text("تمت عملية الاضافة بنجاح"),
-                            dialogType: DialogType.SUCCES)
-                        .show();
-                  }
-                } else if (auth.usertype == 1) {
-                  if (prov.formkey.currentState!.validate()) {
-                    prov.formkey.currentState!.save();
-                    await prov.addGraduatedProject(
-                        context: context,
-                        projectName: prov.projectName,
-                        descriptionProject: prov.descriptionProject,
-                        leaderName: prov.leaderName,
-                        memberProjectName: prov.memberProjectName,
-                        projectStatus: prov.projectStatus,
-                        // projectDegree: prov.projectDegree
-                    );
-                    Navigator.pop(context);
-                    AwesomeDialog(
-                            context: context,
-                            title: "هام",
-                            body: const Text("تمت عملية الاضافة بنجاح"),
-                            dialogType: DialogType.SUCCES)
-                        .show();
-                  }
+                if (prov.formkey.currentState!.validate()) {
+                  prov.formkey.currentState!.save();
+                  await prov.addProjectsMember(
+                    context: context,
+                    projectName: prov.projectName,
+                    descriptionProject: prov.descriptionProject,
+                    leaderName: prov.leaderName,
+                    memberProjectName: prov.memberProjectName,
+                    projectStatus: prov.projectStatus,
+                    college: college,
+                    department: department,
+                    // projectDegree: prov.projectDegree
+                  );
+                  Navigator.pop(context);
+                  AwesomeDialog(
+                      context: context,
+                      title: "هام",
+                      body: const Text("تمت عملية الاضافة بنجاح"),
+                      dialogType: DialogType.SUCCES)
+                      .show();
                 }
               }),
         ],

@@ -57,6 +57,8 @@ class _ProjectScreenState extends State<ProjectScreen> {
           projectStatus: doc['projectStatus'],
           memberProjectName: doc['memberProjectName'],
           projectName: doc['projectName'],
+          department: doc['department'],
+          college: doc['college'],
           id: doc.id),
       );
     }
@@ -79,6 +81,8 @@ class _ProjectScreenState extends State<ProjectScreen> {
           projectStatus: doc['projectStatus'],
           memberProjectName: doc['memberProjectName'],
           projectName: doc['projectName'],
+          department: doc['department'],
+          college: doc['college'],
           id: doc.id));
     }
 
@@ -125,32 +129,6 @@ class _ProjectScreenState extends State<ProjectScreen> {
             icon: const Icon(Icons.arrow_back),
             color: blue,
           ),
-
-
-          // leading: IconButton(
-          //   onPressed: () {
-          //     if (widget.counter == 1) {
-          //       Navigator.push(
-          //           context,
-          //           MaterialPageRoute(
-          //               builder: (context) => NavigationFile(
-          //                   d: studentDrawer(context),
-          //                   title: 'مرحبا"اسم الباحث"',
-          //                   counter: 1)));
-          //     } else if (widget.counter == 2) {
-          //       Navigator.push(
-          //           context,
-          //           MaterialPageRoute(
-          //               builder: (context) => NavigationFile(
-          //                     d: guestDrawer(context),
-          //                     title: 'مرحبا',
-          //                     counter: 2,
-          //                   )));
-          //     }
-          //   },
-          //   icon: const Icon(Icons.arrow_back),
-          //   color: blue,
-          // ),
         ),
         body: SingleChildScrollView(
           physics: const ClampingScrollPhysics(
@@ -159,7 +137,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
             children: [
               SearchTextField(
                 text: "البحث عن مشروع",
-                controller: this.searchController,
+                controller: searchController,
               ),
               Container(
                 height: MediaQuery.of(context).size.height / 1.4,
@@ -198,8 +176,8 @@ class _ProjectScreenState extends State<ProjectScreen> {
                     child: SizedBox(
                       child: TabBarView(
                         children: [
-                          UnCompletedProject(this.unCompletedProjects,this.filter),
-                          CompletedProject(this.completedProjects,this.filter)
+                          UnCompletedProject(unCompletedProjects,filter),
+                          CompletedProject(completedProjects,filter)
                         ],
                       ),
                     ),

@@ -145,7 +145,7 @@ class _ThesesScreenState extends State<ThesesScreen> {
             children: [
               SearchTextField(
                 text: 'البحث عن اطروحة',
-                controller: this.searchController,
+                controller: searchController,
               ),
               Container(
                 height: MediaQuery.of(context).size.height / 1.415,
@@ -185,8 +185,8 @@ class _ThesesScreenState extends State<ThesesScreen> {
                       child: TabBarView(
                         children: [
                           UnCompletedTheses(
-                              this.unCompletedTheses, this.filter),
-                          CompletedTheses(this.completedTheses, this.filter)
+                              unCompletedTheses, filter),
+                          CompletedTheses(completedTheses, filter)
                         ],
                       ),
                     ),

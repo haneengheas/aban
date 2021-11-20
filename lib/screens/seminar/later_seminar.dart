@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:aban/constant/style.dart';
 import 'package:aban/provider/profile_provider.dart';
 import 'package:aban/screens/seminar/seminar_details.dart';
@@ -12,7 +14,7 @@ import 'package:provider/provider.dart';
 import 'add_seminar.dart';
 
 class LaterSeminar extends StatefulWidget {
-  LaterSeminar(this.filter, this.seminar, {Key? key}) : super(key: key);
+  const LaterSeminar(this.filter, this.seminar, {Key? key}) : super(key: key);
 
   final List<SeminarModel> seminar;
   final String? filter;
@@ -87,6 +89,7 @@ class _UnCompletedProjectState extends State<LaterSeminar> {
             MaterialPageRoute(
                 builder: (context) =>
                     SeminarDetails(
+                      //kldcnm,,/
                       docid: seminar.docId ,
                       description: seminar.discription,
                       isFav: seminar.isFav,

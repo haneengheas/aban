@@ -1,7 +1,7 @@
+// ignore_for_file: avoid_print
+
 import 'package:aban/constant/alert_methods.dart';
-import 'package:aban/constant/loading_methods.dart';
 import 'package:aban/constant/style.dart';
-import 'package:aban/provider/auth_provider.dart';
 import 'package:aban/provider/profile_provider.dart';
 import 'package:aban/widgets/buttons/buttonsuser.dart';
 import 'package:aban/widgets/eidt_text_field.dart';
@@ -12,7 +12,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class ThesesGraduatedMontorItem extends StatefulWidget {
@@ -25,7 +24,7 @@ class ThesesGraduatedMontorItem extends StatefulWidget {
 
 class _ThesesGraduatedMontorItemState extends State<ThesesGraduatedMontorItem> {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  GlobalKey<FormState> Key = GlobalKey<FormState>();
+  GlobalKey<FormState> key = GlobalKey<FormState>();
   dynamic indexed;
   @override
   void initState() {
@@ -35,7 +34,6 @@ class _ThesesGraduatedMontorItemState extends State<ThesesGraduatedMontorItem> {
   @override
   Widget build(BuildContext context) {
     var prov = Provider.of<ProfileProvider>(context);
-    var provider = Provider.of<AuthProvider>(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -134,7 +132,7 @@ class _ThesesGraduatedMontorItemState extends State<ThesesGraduatedMontorItem> {
                                     onPressed: () {
                                       editTheses(context,
                                           text: 'تعديل اطروحة',
-                                          key: Key,
+                                          key: key,
                                           indexed:
                                               snapshot.data!.docs[index].id,
                                           degreeTheses: snapshot.data!
@@ -228,7 +226,6 @@ void editTheses(
     context: context,
     builder: (BuildContext context) {
       var prov = Provider.of<ProfileProvider>(context);
-      var auth = Provider.of<AuthProvider>(context);
       TextEditingController? nameTheses1= TextEditingController(text: nameTheses);
       TextEditingController? linkTheses1= TextEditingController(text: linkTheses);
       TextEditingController? nameSupervisors1= TextEditingController(text: nameSupervisors);

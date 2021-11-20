@@ -1,6 +1,7 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:aban/constant/alert_methods.dart';
 import 'package:aban/constant/style.dart';
-import 'package:aban/provider/auth_provider.dart';
 import 'package:aban/provider/profile_provider.dart';
 import 'package:aban/widgets/buttons/buttonsuser.dart';
 import 'package:aban/widgets/eidt_text_field.dart';
@@ -18,12 +19,14 @@ class ProjectItem extends StatelessWidget {
   TextEditingController memberProjectName = TextEditingController();
   String? projectStatus;
   GlobalKey<FormState> formKeys = GlobalKey<FormState>();
-  GlobalKey<FormState> Keys = GlobalKey<FormState>();
+  GlobalKey<FormState> keys = GlobalKey<FormState>();
 
   dynamic indexed;
 
   @override
   Widget build(BuildContext context) {
+    var prov = Provider.of<ProfileProvider>(context);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -117,7 +120,7 @@ class ProjectItem extends StatelessWidget {
                                             .docs[index]['projectStatus'],
                                         indexed:
                                         snapshot.data!.docs[index].id,
-                                        Keys: Keys,
+                                        keys: keys,
                                       );
                                     },
                                     icon: const Icon(Icons.edit),
@@ -167,6 +170,8 @@ class ProjectItem extends StatelessWidget {
             onTap: () {
               showDialogProject(
                 context,
+                department:prov.department!,
+                college: prov.college!,
                 text: 'إضافة مشروع',
               );
             }),
@@ -178,22 +183,16 @@ class ProjectItem extends StatelessWidget {
 void editProject(BuildContext context,
     {required String text,
     required indexed,
-    // required TextEditingController ?projectName,
-    // required TextEditingController ?descriptionProject,
-    // required TextEditingController ?leaderName,
-    // required String? projectStatus,
-    // required TextEditingController ?memberProjectName,
     required String projectName,
     required String descriptionProject,
     required String leaderName,
     required String? projectStatus,
     required String memberProjectName,
-    required GlobalKey<FormState> Keys}) {
+    required GlobalKey<FormState> keys}) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
       var prov = Provider.of<ProfileProvider>(context);
-      var auth = Provider.of<AuthProvider>(context);
       TextEditingController? projectName1= TextEditingController(text: projectName);
       TextEditingController? descriptionProject1= TextEditingController(text: descriptionProject);
       TextEditingController? leaderName1= TextEditingController(text: leaderName);
@@ -211,7 +210,7 @@ void editProject(BuildContext context,
           child: SizedBox(
             height: MediaQuery.of(context).size.height / 1.3,
             child: Form(
-              key: Keys,
+              key: keys,
               child: Column(
                 children: [
                   EidtTextFieldUser(
@@ -336,8 +335,8 @@ void editProject(BuildContext context,
               text: 'أضافة',
               color: blueGradient,
               onTap: () async {
-                if (Keys.currentState!.validate()) {
-                  Keys.currentState!.save();
+                if (keys.currentState!.validate()) {
+                  keys.currentState!.save();
                   await FirebaseFirestore.instance
                       .collection('project')
                       .doc(indexed)

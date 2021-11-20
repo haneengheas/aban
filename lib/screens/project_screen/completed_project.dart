@@ -1,3 +1,5 @@
+// ignore_for_file: use_key_in_widget_constructors, avoid_print
+
 import 'package:aban/constant/style.dart';
 import 'package:aban/provider/profile_provider.dart';
 import 'package:aban/screens/project_screen/proj_model.dart';
@@ -35,6 +37,12 @@ class _CompletedProjectState extends State<CompletedProject> {
                         .toLowerCase()
                         .contains(widget.filter!.toLowerCase()) ||
                     widget.projects[index].memberProjectName!
+                        .toLowerCase()
+                        .contains(widget.filter!.toLowerCase())||
+                    widget.projects[index].college!
+                        .toLowerCase()
+                        .contains(widget.filter!.toLowerCase())||
+                    widget.projects[index].department!
                         .toLowerCase()
                         .contains(widget.filter!.toLowerCase())
                 ? _buildProjBox(

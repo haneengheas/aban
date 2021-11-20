@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:aban/constant/alert_methods.dart';
 import 'package:aban/constant/style.dart';
 import 'package:aban/widgets/buttons/buttonsuser.dart';
@@ -6,7 +8,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 class ProjectList extends StatefulWidget {
-  const ProjectList({Key? key}) : super(key: key);
+  String ?college ;
+  String ?department;
+   ProjectList({
+     this.college,
+     this.department,
+    Key? key}) : super(key: key);
 
   @override
   _ProjectListState createState() => _ProjectListState();
@@ -129,6 +136,8 @@ class _ProjectListState extends State<ProjectList> {
             onTap: () {
               showDialogProject(
                 context,
+                department: widget.department!,
+                college: widget.college!,
                 text: 'إضافة مشروع',
               );
             }),

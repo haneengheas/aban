@@ -26,7 +26,7 @@ import 'package:path/path.dart' as path;
 import 'package:provider/provider.dart';
 
 class EditProfile extends StatefulWidget {
-  EditProfile({Key? key}) : super(key: key);
+  const EditProfile({Key? key}) : super(key: key);
 
   @override
   _EditProfileState createState() => _EditProfileState();
@@ -581,7 +581,7 @@ class _EditProfileState extends State<EditProfile> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => ProfileScreen()));
+                                        builder: (context) => const ProfileScreen()));
                               });
                             } else {
                               await FirebaseFirestore.instance
@@ -611,7 +611,7 @@ class _EditProfileState extends State<EditProfile> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => ProfileScreen()));
+                                        builder: (context) => const ProfileScreen()));
                               });
                             }
                           }
