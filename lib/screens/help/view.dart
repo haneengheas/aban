@@ -61,8 +61,6 @@ class _HelpScreenState extends State<HelpScreen> {
               child: Column(
                 children: [
                   //  TextFieldItem(
-                  /// انا حزفتة لان الميل بيدخل بصاحب الاميل
-                  ///
                   //    validator: (val){
                   //      if(val.isEmpty){
                   //        return 'يجب ادخال البريد الالكتروني' ;
@@ -116,6 +114,7 @@ class _HelpScreenState extends State<HelpScreen> {
                               body: const Text("تم الارسال بنجاح"),
                               dialogType: DialogType.SUCCES)
                             .show();
+                          Navigator.pop(context);
 
                         }
 

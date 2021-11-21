@@ -305,7 +305,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   onTap: () async {
                                     print(snapshot.data!.docs[0]['link']);
                                     await launch(
-                                        snapshot.data!.docs[0]['link']);
+                                        'https://'+snapshot.data!.docs[0]['link']);
                                   },
                                   child: Text(
                                     "الذهاب الى ابحاثى",
