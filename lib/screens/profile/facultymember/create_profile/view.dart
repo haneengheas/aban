@@ -514,7 +514,17 @@ showBottomSheet(context) {
                 onTap: () async {
                   var picked = await ImagePicker()
                       .pickImage(source: ImageSource.gallery);
-                  if (picked != null) {
+
+
+                  // if(prov.file == null){
+                  //   prov.ref =
+                  //       FirebaseStorage.instance.ref("images").child('user.png');
+                  //   Navigator.of(context).pop();
+                  // }
+                  //  else
+
+
+                     if (picked != null) {
                     prov.file = File(picked.path);
                     var rang = Random().nextInt(100000);
                     var imageName = "$rang" + path.basename(picked.path);
