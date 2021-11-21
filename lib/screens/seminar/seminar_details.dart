@@ -50,18 +50,12 @@ class SeminarDetails extends StatefulWidget {
 }
 
 class _SeminarDetailsState extends State<SeminarDetails> {
-  // date() {
-  //   if (widget.selectday! > DateTime.now()) {
-  //     print("=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/");
-  //   } else {
-  //     print("kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
-  //   }
-  // }
+
 
   @override
   Widget build(BuildContext context) {
-    // DateTime x = DateTime.fromMicrosecondsSinceEpoch(
-    //     widget.selectday!.toDate().year);
+
+
     DateTime myDateTime = DateTime.parse(widget.selectday!.toDate().toString());
     print(myDateTime);
 
@@ -107,8 +101,8 @@ class _SeminarDetailsState extends State<SeminarDetails> {
                                 Row(
                                   children: [
                                     Text(
-                                      // snapshot.data!.docs[index]
-                                      // ['selectedDay'].toString(),
+
+
                                       '${widget.selectday!.toDate().year }-${widget.selectday!.toDate().month }-${widget.selectday!.toDate().day}',
                                       style: hintStyle3,
                                     ),
@@ -185,9 +179,9 @@ class _SeminarDetailsState extends State<SeminarDetails> {
                   const SizedBox(
                     height: 20,
                   ),
-                  // myDateTime.month  > DateTime.now().day
 
-                  myDateTime.isBefore(DateTime.now()) ? Container(height: 40,
+
+                  myDateTime.isBefore(DateTime.now()) ? SizedBox(height: 40,
 
                      child: Column(children: [
                        Text(
@@ -207,7 +201,7 @@ class _SeminarDetailsState extends State<SeminarDetails> {
                     child: InkWell(
                       onTap: () async {
 
-                        print("=/=/=/=/=/////////////////////////");
+
                         await launch(widget.link!);
                       },
                       child: Text(
