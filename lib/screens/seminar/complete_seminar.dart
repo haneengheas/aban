@@ -139,7 +139,7 @@ class _UnCompletedProjectState extends State<CompleteSeminar> {
                             Text(
                               // snapshot.data!.docs[index]
                               // ['selectedDay'].toString(),
-                              '29/5/2021',
+                              '${seminar.selectday!.toDate().year }-${seminar.selectday!.toDate().month }-${seminar.selectday!.toDate().day}',
                               style: hintStyle3,
                             ),
                             const Icon(

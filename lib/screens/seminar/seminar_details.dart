@@ -4,11 +4,14 @@ import 'package:aban/constant/style.dart';
 import 'package:aban/provider/profile_provider.dart';
 import 'package:aban/screens/seminar/edit_seminar.dart';
 import 'package:aban/widgets/customAppBar.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-class SeminarDetails extends StatelessWidget {
+class SeminarDetails extends StatefulWidget {
   String? seminarname,
       username,
       location,
@@ -17,10 +20,11 @@ class SeminarDetails extends StatelessWidget {
       to,
       link,
       userid,
-  dropdown,
-  dropdown2,
+      dropdown,
+      dropdown2,
       docid;
-  var type, selectday;
+  var type;
+  Timestamp? selectday;
   bool? isFav;
 
   SeminarDetails(
@@ -32,8 +36,8 @@ class SeminarDetails extends StatelessWidget {
       this.to,
       this.link,
       this.docid,
-        this.dropdown,
-        this.dropdown2,
+      this.dropdown,
+      this.dropdown2,
       this.isFav,
       this.description,
       this.location,
@@ -42,7 +46,27 @@ class SeminarDetails extends StatelessWidget {
       : super(key: key);
 
   @override
+  State<SeminarDetails> createState() => _SeminarDetailsState();
+}
+
+class _SeminarDetailsState extends State<SeminarDetails> {
+  // date() {
+  //   if (widget.selectday! > DateTime.now()) {
+  //     print("=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/");
+  //   } else {
+  //     print("kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
+  //   }
+  // }
+
+  @override
   Widget build(BuildContext context) {
+    // DateTime x = DateTime.fromMicrosecondsSinceEpoch(
+    //     widget.selectday!.toDate().year);
+    DateTime myDateTime = DateTime.parse(widget.selectday!.toDate().toString());
+    print(myDateTime);
+
+
+
     var prov = Provider.of<ProfileProvider>(context);
     return Scaffold(
       appBar: PreferredSize(
@@ -77,7 +101,7 @@ class SeminarDetails extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  '$seminarname',
+                                  '${widget.seminarname}',
                                   style: labelStyle3,
                                 ),
                                 Row(
@@ -85,7 +109,7 @@ class SeminarDetails extends StatelessWidget {
                                     Text(
                                       // snapshot.data!.docs[index]
                                       // ['selectedDay'].toString(),
-                                      '29/5/2021',
+                                      '${widget.selectday!.toDate().year }-${widget.selectday!.toDate().month }-${widget.selectday!.toDate().day}',
                                       style: hintStyle3,
                                     ),
                                     const Icon(
@@ -100,21 +124,21 @@ class SeminarDetails extends StatelessWidget {
                             Row(
                               children: [
                                 Text(
-                                  '$to'+ '$dropdown2',
+                                  '${widget.to}' + '${widget.dropdown2}',
                                   style: hintStyle3,
                                 ),
                                 Text(
-                                  ':' + '$from' + '$dropdown',
+                                  ':' + '${widget.from}' + '${widget.dropdown}',
                                   style: hintStyle3,
                                 ),
                               ],
                             ),
                             Text(
-                              '$username',
+                              '${widget.username}',
                               style: hintStyle3,
                             ),
                             Text(
-                              '$location',
+                              '${widget.location}',
                               style: hintStyle3,
                             ),
                           ],
@@ -131,7 +155,7 @@ class SeminarDetails extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(
-                              type == 1 ? 'عامة' : 'خاصة',
+                              widget.type == 1 ? 'عامة' : 'خاصة',
                               style: labelStyle3,
                             ),
                             Container(
@@ -139,7 +163,7 @@ class SeminarDetails extends StatelessWidget {
                               width: 25,
                               margin: const EdgeInsets.symmetric(
                                   vertical: 10, horizontal: 10),
-                              child: isFav == true
+                              child: widget.isFav == true
                                   ? const ImageIcon(
                                       AssetImage(
                                         'assets/bookmark (2).png',
@@ -161,51 +185,83 @@ class SeminarDetails extends StatelessWidget {
                   const SizedBox(
                     height: 20,
                   ),
-                  Text(
-                    'وصف الندوة',
-                    style: labelStyle3,
-                  ),
-                  Expanded(
-                    child: Text(
-                      '$description',
-                      style: hintStyle3,
-                    ),
-                  ),
-                  prov.counter == 2? const SizedBox():TextButton(
-                    onPressed: () {
-                      print(docid);
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => EditSeminar(
-                                    docId: docid,
-                                    username: username,
-                                    isFav: isFav,
-                                    userid: userid,
-                                    description: description,
-                                    from: from,
-                                    link: link,
-                                    location: location,
-                                    selectday: selectday,
-                                    seminarname: seminarname,
-                                    to: to,
-                                    type: type,
-                                  )));
-                    },
-                    child: Row(
-                      children: [
-                        const Icon(
-                          Icons.edit,
-                          color: blue,
-                          size: 15,
+                  // myDateTime.month  > DateTime.now().day
+
+                  myDateTime.isBefore(DateTime.now()) ? Container(height: 40,
+
+                     child: Column(children: [
+                       Text(
+                         'وصف الندوة',
+                         style: labelStyle3,
+                       ),
+                       Expanded(
+                         child: Text(
+                           '${widget.description}',
+                           style: hintStyle3,
+                         ),
+                       ),
+                     ],),
+                   ):
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    child: InkWell(
+                      onTap: () async {
+
+                        print("=/=/=/=/=/////////////////////////");
+                        await launch(widget.link!);
+                      },
+                      child: Text(
+                        "الدخول إلى الندوة",
+                        style: GoogleFonts.cairo(
+                          textStyle: const TextStyle(
+                              decoration: TextDecoration.underline,
+                              decorationThickness: 2,
+                              decorationColor: blue,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w400,
+                              color: blue),
                         ),
-                        Text(
-                          'تعديل ندوة',
-                          style: hintStyle3,
-                        )
-                      ],
+                      ),
                     ),
-                  )
+                  ),
+                  prov.counter == 2
+                      ? const SizedBox()
+                      : TextButton(
+                          onPressed: () {
+                            print(widget.docid);
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => EditSeminar(
+                                          docId: widget.docid,
+                                          username: widget.username,
+                                          isFav: widget.isFav,
+                                          userid: widget.userid,
+                                          description: widget.description,
+                                          from: widget.from,
+                                          link: widget.link,
+                                          location: widget.location,
+                                          selectday: widget.selectday,
+                                          seminarname: widget.seminarname,
+                                          to: widget.to,
+                                          type: widget.type,
+                                        ))
+                            );
+                          },
+                          child: Row(
+                            children: [
+                              const Icon(
+                                Icons.edit,
+                                color: blue,
+                                size: 15,
+                              ),
+                              Text(
+                                'تعديل ندوة',
+                                style: hintStyle3,
+                              )
+                            ],
+                          ),
+                        )
                 ],
               ),
             ),

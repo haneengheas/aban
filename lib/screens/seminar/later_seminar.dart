@@ -84,6 +84,8 @@ class _UnCompletedProjectState extends State<LaterSeminar> {
     var prov = Provider.of<ProfileProvider>(context);
     return InkWell(
       onTap: () {
+        print("=/=/=/=/=/=/=//=/=//==/=/=/=/");
+        print(seminar.selectday);
         Navigator.push(
             context,
             MaterialPageRoute(
@@ -144,7 +146,8 @@ class _UnCompletedProjectState extends State<LaterSeminar> {
                             Text(
                               // snapshot.data!.docs[index]
                               // ['selectedDay'].toString(),
-                              '29/5/2021',
+                              // '29/5/2021',
+                              '${seminar.selectday!.toDate().year }-${seminar.selectday!.toDate().month }-${seminar.selectday!.toDate().day}',
                               style: hintStyle3,
                             ),
                             const Icon(
