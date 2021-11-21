@@ -163,7 +163,19 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   String? id = FirebaseAuth.instance.currentUser!.uid;
   late ChatItem messageWidget;
-
+ lastmassage ()async{
+   await FirebaseFirestore.instance
+       .collection("message").orderBy('timeDate', descending: true)
+       .limit(1).get().then((value){
+         print(value);
+   }) ;
+ }
+ @override
+  void initState() {
+   lastmassage();
+   // TODO: implement initState
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -194,7 +206,6 @@ class _ChatScreenState extends State<ChatScreen> {
             StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance
                     .collection('message')
-                    .orderBy('timeDate',descending: true).limit(1)
                     .snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
@@ -228,21 +239,21 @@ class _ChatScreenState extends State<ChatScreen> {
                                         name: name,
                                       )));
                         },
-                        ontapicon: () async  {
-                          await  showDialogWarning(
+                        ontapicon: () async {
+                          await showDialogWarning(
                             context,
                             text: 'هل انت متاكد من حذف المحادثة؟',
-                            ontap: () async{
+                            ontap: () async {
                               await FirebaseFirestore.instance
                                   .collection('message')
                                   .get()
                                   .then((snapshot) {
-                                message.reference.delete();
+                                for (DocumentSnapshot ds in snapshot.docs) {}
+                                // message.reference.delete();
                               });
                               Navigator.pop(context);
                             },
                           );
-
                         },
                         lastmassage: lastmassage,
                       );
