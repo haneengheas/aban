@@ -163,19 +163,7 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   String? id = FirebaseAuth.instance.currentUser!.uid;
   late ChatItem messageWidget;
- lastmassage ()async{
-   await FirebaseFirestore.instance
-       .collection("message").orderBy('timeDate', descending: true)
-       .limit(1).get().then((value){
-         print(value);
-   }) ;
- }
- @override
-  void initState() {
-   lastmassage();
-   // TODO: implement initState
-    super.initState();
-  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -206,6 +194,8 @@ class _ChatScreenState extends State<ChatScreen> {
             StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance
                     .collection('message')
+                    // .orderBy('timeDate', descending: true)
+                    // .limit(1)
                     .snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
@@ -248,8 +238,16 @@ class _ChatScreenState extends State<ChatScreen> {
                                   .collection('message')
                                   .get()
                                   .then((snapshot) {
-                                for (DocumentSnapshot ds in snapshot.docs) {}
-                                // message.reference.delete();
+                                for (DocumentSnapshot ds in snapshot.docs) {
+                                  if ((ds["sent"] == id ||
+                                      ds["sent"] == userId) &&
+                                      (ds["userId"] == id ||
+                                          ds["userId"] == userId)) {
+                                    ds.reference.delete();
+                                  } else {
+                                    print('errrrrrrrrrrrrrrrrrrrrrrrrrrrrrro');
+                                  }
+                                }
                               });
                               Navigator.pop(context);
                             },

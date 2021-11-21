@@ -53,7 +53,9 @@ class _ChatItemState extends State<ChatItem> {
                         widget.image,
                       ),
                     )),
+
               ),
+              const SizedBox(width: 10,),
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 5),
