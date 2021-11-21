@@ -140,57 +140,57 @@ class _CompletedProjectState extends State<CompletedProject> {
               width: 20,
               thickness: 2,
             ),
-            InkWell(
-              onTap: () async {
-                FirebaseFirestore.instance
-                    .collection('projectBookmark')
-                    .doc(projectModel.id)
-                    .set({
-                  'projectName': projectModel.projectName,
-                  'leaderName': projectModel.leaderName,
-                  'descriptionProject': projectModel.descriptionProject,
-                  'memberProjectName': projectModel.memberProjectName,
-                  'projectStatus': projectModel.projectStatus,
-                  'userId': FirebaseAuth.instance.currentUser!.uid,
-                  'isFav': projectModel.isFav! ? false : true
-                });
-
-                projectModel.isFav = !projectModel.isFav!;
-
-                await FirebaseFirestore.instance
-                    .collection('project')
-                    .doc(projectModel.id)
-                    .update({'isFav': projectModel.isFav!});
-                if (projectModel.isFav == false) {
-                  FirebaseFirestore.instance
-                      .collection('projectBookmark')
-                      .doc(projectModel.id)
-                      .delete();
-                }
-                setState(() {});
-              },
-              child: Container(
-                height: 40,
-                width: 25,
-                margin:
-                    const EdgeInsets.symmetric(vertical: 30, horizontal: 10),
-                child: !projectModel.isFav!
-                    ? const ImageIcon(
-                        AssetImage(
-                          'assets/bookmark (1).png',
-                        ),
-                        color: blue,
-                        size: 50,
-                      )
-                    : const ImageIcon(
-                        AssetImage(
-                          'assets/bookmark (2).png',
-                        ),
-                        color: blue,
-                        size: 50,
-                      ),
-              ),
-            ),
+            // InkWell(
+            //   onTap: () async {
+            //     FirebaseFirestore.instance
+            //         .collection('projectBookmark')
+            //         .doc(projectModel.id)
+            //         .set({
+            //       'projectName': projectModel.projectName,
+            //       'leaderName': projectModel.leaderName,
+            //       'descriptionProject': projectModel.descriptionProject,
+            //       'memberProjectName': projectModel.memberProjectName,
+            //       'projectStatus': projectModel.projectStatus,
+            //       'userId': FirebaseAuth.instance.currentUser!.uid,
+            //       'isFav': projectModel.isFav! ? false : true
+            //     });
+            //
+            //     projectModel.isFav = !projectModel.isFav!;
+            //
+            //     await FirebaseFirestore.instance
+            //         .collection('project')
+            //         .doc(projectModel.id)
+            //         .update({'isFav': projectModel.isFav!});
+            //     if (projectModel.isFav == false) {
+            //       FirebaseFirestore.instance
+            //           .collection('projectBookmark')
+            //           .doc(projectModel.id)
+            //           .delete();
+            //     }
+            //     setState(() {});
+            //   },
+            //   // child: Container(
+            //   //   height: 40,
+            //   //   width: 25,
+            //   //   margin:
+            //   //       const EdgeInsets.symmetric(vertical: 30, horizontal: 10),
+            //   //   child: !projectModel.isFav!
+            //   //       ? const ImageIcon(
+            //   //           AssetImage(
+            //   //             'assets/bookmark (1).png',
+            //   //           ),
+            //   //           color: blue,
+            //   //           size: 50,
+            //   //         )
+            //   //       : const ImageIcon(
+            //   //           AssetImage(
+            //   //             'assets/bookmark (2).png',
+            //   //           ),
+            //   //           color: blue,
+            //   //           size: 50,
+            //   //         ),
+            //   // ),
+            // ),
           ],
         ),
       ),

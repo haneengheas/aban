@@ -8,7 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 
 class HelpScreen extends StatefulWidget {
-   HelpScreen({Key? key}) : super(key: key);
+   const HelpScreen({Key? key}) : super(key: key);
 
   @override
   State<HelpScreen> createState() => _HelpScreenState();
@@ -104,7 +104,7 @@ class _HelpScreenState extends State<HelpScreen> {
                           final Email email = Email(
                             body: descriptionController.text,
                             // subject: 'abanproject202 0000000000000000001@gmail.com',
-                            recipients: ['haneengheas@gmail.com'],
+                            recipients: ['abanproject2021@gmail.com'],
                             subject: problemTitleController.text,
                           );
                           await FlutterEmailSender.send(email);

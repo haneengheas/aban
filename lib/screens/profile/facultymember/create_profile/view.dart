@@ -2,6 +2,7 @@
 
 import 'dart:io';
 import 'dart:math';
+
 import 'package:aban/constant/style.dart';
 import 'package:aban/provider/model.dart';
 import 'package:aban/provider/profile_provider.dart';
@@ -188,8 +189,7 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                         width: sizeFromWidth(context, 2.3),
                         height: 70,
                         child: CollegeDropDown(
-                          strValue:
-                              department == '' ? null : department,
+                          strValue: department == '' ? null : department,
                           onTap: (v) {
                             department = v;
                             setState(() {});
@@ -429,13 +429,19 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                 thickness: 1,
                 color: lightGray,
               ),
-               ThesesList(department: department,college: college,),
+              ThesesList(
+                department: department,
+                college: college,
+              ),
               const Divider(
                 height: 20,
                 thickness: 1,
                 color: lightGray,
               ),
-               ProjectList(department: department,college: college,),
+              ProjectList(
+                department: department,
+                college: college,
+              ),
               Center(
                 child: SubmitButton(
                   onTap: () async {
@@ -444,19 +450,14 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                     print(prov.department);
                     print(prov.college);
                     print(prov.file!.path);
-
                     if (formKey.currentState!.validate()) {
                       formKey.currentState!.save();
                       print('=================');
                       List<String> fieldsStr = <String>[];
-
                       for (var element in prov.fields) {
                         fieldsStr.add(element.text);
                       }
                       print('Str list is => $fieldsStr');
-                      // if(prov.file!.path==null){
-                      //   prov.file!.path=
-                      // }
                       if (fieldsStr.isEmpty) {
                         return AwesomeDialog(
                             context: context,
@@ -464,7 +465,16 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                             body: const Text("يجب إدخال مجال"),
                             dialogType: DialogType.ERROR)
                           ..show();
-                      } else {
+
+                      }else if (prov.file!.path == '') {
+                        return AwesomeDialog(
+                            context: context,
+                            title: "هام",
+                            body: const Text("يجب إدخال الصورة"),
+                            dialogType: DialogType.ERROR)
+                          ..show();
+                      }
+                      else {
                         await prov.createMemberProfile(
                           context: context,
                           faculty: college,

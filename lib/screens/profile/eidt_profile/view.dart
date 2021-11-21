@@ -72,14 +72,14 @@ class _EditProfileState extends State<EditProfile> {
     setState(() {});
   }
   deleteData()async{
-    // await FirebaseFirestore.instance
-    //     .collection('member')
-    //     .doc(FirebaseAuth.instance.currentUser!.uid)
-    //     .delete();
-    // await FirebaseFirestore.instance
-    //     .collection('user')
-    //     .doc(FirebaseAuth.instance.currentUser!.uid)
-    //     .delete();
+    await FirebaseFirestore.instance
+        .collection('member')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .delete();
+    await FirebaseFirestore.instance
+        .collection('user')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .delete();
     // await FirebaseAuth.instance.currentUser!.delete();
     await FirebaseFirestore.instance
         .collection('theses')
@@ -146,7 +146,7 @@ class _EditProfileState extends State<EditProfile> {
         ds.reference.delete();
       }
     });
-    await AwesomeDialog(
+     AwesomeDialog(
         context: context,
         title: "هام",
         body: const Text(

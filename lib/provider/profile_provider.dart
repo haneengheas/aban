@@ -25,13 +25,20 @@ class ProfileProvider with ChangeNotifier {
   late String link;
   var accept;
   String? degree;
-  int ? counter ;
-  late String seminaraddress, location, description, seminarlink,from, dropdownValue ='pm',dropdownValue2='pm', to;
+  int ? counter;
+
+  late String seminaraddress,
+      location,
+      description,
+      seminarlink,
+      from,
+      dropdownValue = 'pm',
+      dropdownValue2 = 'pm',
+      to;
   int? type;
   DateTime? selectedDay;
   DateTime? focusedDay;
   CalendarFormat calendarFormat = CalendarFormat.month;
-
 
 
   List<TextEditingController> fields = <TextEditingController>[];
@@ -52,8 +59,9 @@ class ProfileProvider with ChangeNotifier {
 
   String? projectStatus;
   bool isFav = false;
+  List ? isFavorite = [];
+  String ?college;
 
-  String ?college ;
   String ?department;
 
 // methods to add and create member profile in fire base
@@ -81,6 +89,7 @@ class ProfileProvider with ChangeNotifier {
     showLoading(context);
     await ref.putFile(file!);
     var imageUrl = await ref.getDownloadURL();
+
     await FirebaseFirestore.instance
         .collection('member')
         .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -99,12 +108,13 @@ class ProfileProvider with ChangeNotifier {
       'department': department,
     });
     showLoading(context);
-    counter=1;
+    counter = 1;
     Navigator.of(context).popUntil((route) => route.isFirst);
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-            builder: (context) => NavigationFile(
+            builder: (context) =>
+                NavigationFile(
                   d: studentDrawer(context),
                   title: '   مرحبا $name ',
                   counter: counter!,
@@ -135,7 +145,7 @@ class ProfileProvider with ChangeNotifier {
       'isFav': false,
       'userId': FirebaseAuth.instance.currentUser!.uid,
       'college': college,
-      'department':department,
+      'department': department,
     });
     Navigator.pop(context);
     notifyListeners();
@@ -161,7 +171,7 @@ class ProfileProvider with ChangeNotifier {
       'projectStatus': projectStatus,
       'memberProjectName': memberProjectName,
       'college': college,
-      'department':department,
+      'department': department,
       // 'projectDegree':projectDegree,
       'isFav': false,
       'userId': FirebaseAuth.instance.currentUser!.uid,
@@ -170,55 +180,55 @@ class ProfileProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  addGraduatedTheses({
-    required BuildContext context,
-    required String nameTheses,
-    required String linkTheses,
-    required String assistantSupervisors,
-    required String nameSupervisors,
-    required String degreeTheses,
-    required String? thesesStatus,
-  }) async {
-    showLoading(context);
-    await FirebaseFirestore.instance.collection('theses').add({
-      'nameTheses': nameTheses,
-      'linkTheses': linkTheses,
-      'assistantSupervisors': assistantSupervisors,
-      'nameSupervisors': nameSupervisors,
-      'degreeTheses': degreeTheses,
-      'thesesStatus': thesesStatus,
-      'isFav': false,
-      'userId': FirebaseAuth.instance.currentUser!.uid,
-    });
-    Navigator.pop(context);
-    notifyListeners();
-  }
+  // addGraduatedTheses({
+  //   required BuildContext context,
+  //   required String nameTheses,
+  //   required String linkTheses,
+  //   required String assistantSupervisors,
+  //   required String nameSupervisors,
+  //   required String degreeTheses,
+  //   required String? thesesStatus,
+  // }) async {
+  //   showLoading(context);
+  //   await FirebaseFirestore.instance.collection('theses').add({
+  //     'nameTheses': nameTheses,
+  //     'linkTheses': linkTheses,
+  //     'assistantSupervisors': assistantSupervisors,
+  //     'nameSupervisors': nameSupervisors,
+  //     'degreeTheses': degreeTheses,
+  //     'thesesStatus': thesesStatus,
+  //     'isFav':isFavorite,
+  //     'userId': FirebaseAuth.instance.currentUser!.uid,
+  //   });
+  //   Navigator.pop(context);
+  //   notifyListeners();
+  // }
 
 // methods to add project for member in fire base
-  addGraduatedProject({
-    required BuildContext context,
-    required String projectName,
-    required String descriptionProject,
-    required String leaderName,
-    required String? projectStatus,
-    // required String ? projectDegree,
-
-    required String memberProjectName,
-  }) async {
-    showLoading(context);
-    await FirebaseFirestore.instance.collection('project').add({
-      'projectName': projectName,
-      'descriptionProject': descriptionProject,
-      'leaderName': leaderName,
-      'projectStatus': projectStatus,
-      // 'projectDegree':projectDegree,
-      'isFav': false,
-      'memberProjectName': memberProjectName,
-      'userId': FirebaseAuth.instance.currentUser!.uid,
-    });
-    Navigator.pop(context);
-    notifyListeners();
-  }
+//   addGraduatedProject({
+//     required BuildContext context,
+//     required String projectName,
+//     required String descriptionProject,
+//     required String leaderName,
+//     required String? projectStatus,
+//     // required String ? projectDegree,
+//
+//     required String memberProjectName,
+//   }) async {
+//     showLoading(context);
+//     await FirebaseFirestore.instance.collection('project').add({
+//       'projectName': projectName,
+//       'descriptionProject': descriptionProject,
+//       'leaderName': leaderName,
+//       'projectStatus': projectStatus,
+//       // 'projectDegree':projectDegree,
+//       'isFav': false,
+//       'memberProjectName': memberProjectName,
+//       'userId': FirebaseAuth.instance.currentUser!.uid,
+//     });
+//     Navigator.pop(context);
+//     notifyListeners();
+//   }
 
   getData() async {
     DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
@@ -251,32 +261,29 @@ class ProfileProvider with ChangeNotifier {
     required int? type,
     required DateTime? selectedDay,
   }) async {
-    
     await FirebaseFirestore.instance.collection('seminar').add({
       'seminarAddress': seminaraddress,
       'location': location,
-      'description':description,
+      'description': description,
       'link': seminarlink,
-      'timedrop' : timedrop,
-      'timedrop2' : timedrop2,
+      'timedrop': timedrop,
+      'timedrop2': timedrop2,
       'selectedDay': selectedDay,
       //'username': auth.userName,
       'from': from,
       'to': to,
       'type': type,
-      'username' : name,
-      'isFav':false,
+      'username': name,
+      'isFav': false,
       'userId': FirebaseAuth.instance.currentUser!.uid,
-    }).then((value) async{
+    }).then((value) async {
       Navigator.pop(context);
-      await  AwesomeDialog(
-      context: context,
-      title: "هام",
-      body: const Text("تم الاضافة بنجاح"),
-      dialogType: DialogType.SUCCES)
-      .show();
-
-
+      await AwesomeDialog(
+          context: context,
+          title: "هام",
+          body: const Text("تم الاضافة بنجاح"),
+          dialogType: DialogType.SUCCES)
+          .show();
     });
     showLoading(context);
     Navigator.pop(context);
