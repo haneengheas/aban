@@ -142,9 +142,9 @@
 //     );
 //   }
 // }
+import 'package:aban/constant/alert_methods.dart';
 import 'package:aban/constant/style.dart';
 import 'package:aban/screens/chat/chat_item.dart';
-import 'package:aban/widgets/search_textfield.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -193,7 +193,7 @@ class _ChatScreenState extends State<ChatScreen> {
             StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance
                     .collection('message')
-                    // .where('sent', isEqualTo: id)
+                    .orderBy('timeDate',descending: true).limit(1)
                     .snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
@@ -209,6 +209,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     String image = message["image"];
                     String name = message["name"];
                     String userId = message["userId"];
+                    String lastmassage = message["Text"];
 
                     if (!messageList.contains(name) &&
                         (message['sent'] == id || message['userId'] == id)) {
@@ -226,8 +227,25 @@ class _ChatScreenState extends State<ChatScreen> {
                                         name: name,
                                       )));
                         },
-                        ontapicon: () {},
-                        lastmassage: message["Text"],
+                        ontapicon: () async  {
+                          await  showDialogWarning(
+                            context,
+                            text: 'هل انت متاكد من حذف المحادثة؟',
+                            ontap: () async{
+                              await FirebaseFirestore.instance
+                                  .collection('message')
+                                  .get()
+                                  .then((snapshot) {
+                                for (DocumentSnapshot ds in data) {
+                                  ds.reference.delete();
+                                }
+                              });
+                              Navigator.pop(context);
+                            },
+                          );
+
+                        },
+                        lastmassage: lastmassage,
                       );
 
                       messageWidgets.add(messageWidget);

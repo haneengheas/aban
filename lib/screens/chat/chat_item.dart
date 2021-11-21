@@ -3,6 +3,7 @@
 import 'package:aban/constant/style.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart' as intl;
 
 class ChatItem extends StatefulWidget {
@@ -37,7 +38,7 @@ class _ChatItemState extends State<ChatItem> {
           height: sizeFromHeight(context, 6),
           width: sizeFromWidth(context, 1),
           margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-          // padding: EdgeInsets.symmetric(horizontal: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -53,23 +54,37 @@ class _ChatItemState extends State<ChatItem> {
                       ),
                     )),
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    widget.name,
-                    style: labelStyle2,
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 5),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        widget.name,
+                        style: labelStyle2,
+                      ),
+                      Text(
+                      widget.lastmassage,
+                        maxLines: 2,
+                        style: GoogleFonts.cairo(
+                          textStyle: const TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w400,
+                            height: 1.5,
+                            color: gray,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        )
+                      ),
+                      Text(
+                        intl.DateFormat('kk:mm a').format(widget.dateTime.toDate()),
+                        style: hintStyle3,
+                      ),
+                    ],
                   ),
-                  Text(
-                  widget.lastmassage,
-                    style: hintStyle3,
-                  ),
-                  Text(
-                    intl.DateFormat('kk:mm a').format(widget.dateTime.toDate()),
-                    style: hintStyle3,
-                  ),
-                ],
+                ),
               ),
               const SizedBox(
                 width: 50,

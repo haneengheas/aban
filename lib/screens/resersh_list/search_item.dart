@@ -97,6 +97,7 @@ class _SearchItemState extends State<SearchItem> {
                 MemberProfile(userid: project.userId!,
                     accept: project.accept,
                     name: project.name!,
+                    link: project.link!,
                     image: project.imageUrl!,
                     faculty: project.faculty!,
                     email: project.email!,
