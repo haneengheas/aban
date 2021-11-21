@@ -108,9 +108,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       showLoading(context);
                         var login = await provider.login(email, password,context);
                         if (login != null) {
-                          // provider.getUserStatus();
-                          print(provider.userName);
-                          print('===================');
+
+                          Navigator.of(context).popUntil((route) => route.isFirst);
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
@@ -127,6 +126,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                 child: InkWell(
                   onTap: () {
+
                     Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
@@ -146,6 +146,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   onTap: () {
                     prov.counter=2;
                     print(prov.counter);
+                    Navigator.of(context).popUntil((route) => route.isFirst);
                     Navigator.push(
                         context,
                         MaterialPageRoute(

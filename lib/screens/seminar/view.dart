@@ -85,7 +85,7 @@ class _ProjectScreenState extends State<SeminarScreen> {
           dropdown: doc['timedrop'],
           dropdown2: doc['timedrop2'],
           location: doc['location'],
-          // selectday: doc['selectedDay'],
+           selectday: doc['selectedDay'],
           seminartitle: doc['seminarAddress'],
           to: doc['to'],
           userid:  doc['userId'],
@@ -138,29 +138,6 @@ class _ProjectScreenState extends State<SeminarScreen> {
             color: blue,
           ),
 
-          // leading: IconButton(
-          //   onPressed: () {
-          //     if (widget.counter == 1) {
-          //       Navigator.push(
-          //           context,
-          //           MaterialPageRoute(
-          //               builder: (context) => NavigationFile(
-          //                   d: studentDrawer(context),
-          //                   title: 'مرحبا"اسم الباحث"',
-          //                   counter: 1)));
-          //     } else if (widget.counter == 2) {
-          //       Navigator.push(
-          //           context,
-          //           MaterialPageRoute(
-          //               builder: (context) => NavigationFile(
-          //                   d: guestDrawer(context),
-          //                   title: 'مرحبا',
-          //                   counter: 2)));
-          //     }
-          //   },
-          //   icon: const Icon(Icons.arrow_back),
-          //   color: blue,
-          // ),
         ),
         body: SingleChildScrollView(
           child: Column(

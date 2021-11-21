@@ -443,16 +443,20 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                     prov.department = department;
                     print(prov.department);
                     print(prov.college);
+                    print(prov.file!.path);
+
                     if (formKey.currentState!.validate()) {
                       formKey.currentState!.save();
                       print('=================');
-                      print(prov.file!.path);
                       List<String> fieldsStr = <String>[];
 
                       for (var element in prov.fields) {
                         fieldsStr.add(element.text);
                       }
                       print('Str list is => $fieldsStr');
+                      // if(prov.file!.path==null){
+                      //   prov.file!.path=
+                      // }
                       if (fieldsStr.isEmpty) {
                         return AwesomeDialog(
                             context: context,

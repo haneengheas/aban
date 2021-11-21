@@ -100,6 +100,7 @@ class ProfileProvider with ChangeNotifier {
     });
     showLoading(context);
     counter=1;
+    Navigator.of(context).popUntil((route) => route.isFirst);
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(

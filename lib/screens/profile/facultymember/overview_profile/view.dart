@@ -11,9 +11,10 @@ import 'package:aban/screens/supervision_request/view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MemberProfile extends StatefulWidget {
-  String name, image, faculty, email, phone, degree, id, userid, token;
+  String name, image, faculty, email, phone, degree, id, userid, token,link;
   int accept;
 
   MemberProfile(
@@ -26,6 +27,7 @@ class MemberProfile extends StatefulWidget {
       required this.email,
       required this.degree,
       required this.id,
+      required this.link,
       required this.token,
       required this.phone})
       : super(key: key);
@@ -207,9 +209,17 @@ class _MemberProfileState extends State<MemberProfile> {
                                   ],
                                 ),
                                 Text(
-                                  widget.id,
-                                  style: hintStyle,
-                                ),
+                                  "Orcid id:${widget.id}",
+                                  style: GoogleFonts.cairo(
+                                    textStyle: const TextStyle(
+                                        fontSize: 15,
+                                        fontWeight:
+                                        FontWeight.w400,
+                                        height: 1.5,
+                                        decoration: TextDecoration.underline,
+                                        decorationThickness: 2,
+                                        color: gray),
+                                  ),)
                               ],
                             ),
                           ]),
@@ -236,9 +246,29 @@ class _MemberProfileState extends State<MemberProfile> {
                             )
                           : const Text(''),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15),
-                        child: Text("الذهاب الى ابحاثى", style: hintStyle),
+                        padding:
+                        const EdgeInsets.symmetric(horizontal: 15),
+                        child: InkWell(
+                          onTap: () async {
+                            print(widget.link);
+                            await launch(
+                                'https://'+widget.link);
+                          },
+                          child: Text(
+                            "الذهاب الى ابحاثى",
+                            style: GoogleFonts.cairo(
+                              textStyle: const TextStyle(
+                                  decoration: TextDecoration.underline,
+                                  decorationThickness: 2,
+                                  decorationColor: blue,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w400,
+                                  color: blue),
+                            ),
+                          ),
+                        ),
                       ),
+
                       SizedBox(
                         height: MediaQuery.of(context).size.height / 2.3,
                         child: Column(

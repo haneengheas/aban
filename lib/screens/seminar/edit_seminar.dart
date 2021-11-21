@@ -30,8 +30,8 @@ class EditSeminar extends StatefulWidget {
 
   EditSeminar(
       {this.from,
-        this.dropdown,
-        this.dropdown2,
+      this.dropdown,
+      this.dropdown2,
       this.isFav,
       this.userid,
       this.type,
@@ -62,7 +62,6 @@ class _EditSeminarState extends State<EditSeminar> {
   TextEditingController discription = TextEditingController();
   TextEditingController link = TextEditingController();
   DateTime? _selectedDay;
-  DateTime? _focusedDay;
   CalendarFormat _calendarFormat = CalendarFormat.month;
 
   void getData() async {
@@ -81,9 +80,7 @@ class _EditSeminarState extends State<EditSeminar> {
     location.text = documentSnapshot2.get('location');
     // _selectedDay = documentSnapshot2.get('selectedDay');
     widget.type = documentSnapshot2.get('type');
-    print(name);
-    print(link);
-    print("=/=/=/=//==/=//==/=/=//=//=/==/=/=/");
+
 
     setState(() {});
   }
@@ -91,12 +88,7 @@ class _EditSeminarState extends State<EditSeminar> {
   @override
   void initState() {
     Future.delayed(Duration.zero, () {
-      var prov = Provider.of<ProfileProvider>(
-        context,
-        listen: false,
-      );
-      // prov.fields.clear();
-      // prov.file = File('');
+
       setState(() {});
     });
     getData();
@@ -182,8 +174,7 @@ class _EditSeminarState extends State<EditSeminar> {
                     onDaySelected: (selectedDay, focusedDay) {
                       setState(() {
                         _selectedDay = selectedDay;
-                        _focusedDay =
-                            focusedDay; // update `_focusedDay` here as well
+// update `_focusedDay` here as well
                       });
                     },
                     calendarFormat: _calendarFormat,
@@ -193,7 +184,6 @@ class _EditSeminarState extends State<EditSeminar> {
                       });
                     },
                     onPageChanged: (focusedDay) {
-                      _focusedDay = focusedDay;
                     },
                   ),
                 ),
@@ -215,7 +205,8 @@ class _EditSeminarState extends State<EditSeminar> {
                           'من',
                           style: hintStyle,
                         ),
-                        SizedBox(width: 90,
+                        SizedBox(
+                          width: 90,
                           child: TimeTextField(
                             onChanged: (val) {
                               prov.from = val;
@@ -231,23 +222,22 @@ class _EditSeminarState extends State<EditSeminar> {
                         ),
                         DropdownButton<String>(
                             value: widget.dropdown,
-                            onChanged: ( newValue) {
+                            onChanged: (newValue) {
                               setState(() {
                                 prov.dropdownValue = newValue!;
                               });
                             },
-
-                            items: <String>[ 'pm', 'am'].map<DropdownMenuItem<String>>
-                              ((String? value ){
+                            items: <String>['pm', 'am']
+                                .map<DropdownMenuItem<String>>((String? value) {
                               return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(value!));
+                                  value: value, child: Text(value!));
                             }).toList()),
                         Text(
                           'إلى',
                           style: hintStyle,
                         ),
-                        SizedBox(width: 90,
+                        SizedBox(
+                          width: 90,
                           child: TimeTextField(
                             onChanged: (val) {
                               prov.to = val;
@@ -263,17 +253,15 @@ class _EditSeminarState extends State<EditSeminar> {
                         ),
                         DropdownButton<String>(
                             value: widget.dropdown2,
-                            onChanged: ( newValue) {
+                            onChanged: (newValue) {
                               setState(() {
                                 prov.dropdownValue2 = newValue!;
                               });
                             },
-
-                            items: <String>[ 'pm', 'am'].map<DropdownMenuItem<String>>
-                              ((String? value ){
+                            items: <String>['pm', 'am']
+                                .map<DropdownMenuItem<String>>((String? value) {
                               return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(value!));
+                                  value: value, child: Text(value!));
                             }).toList()),
                       ],
                     ),
@@ -407,10 +395,7 @@ class _EditSeminarState extends State<EditSeminar> {
                                           dialogType: DialogType.SUCCES)
                                       .show();
                                   Navigator.pop(context);
-                                  // Navigator.push(
-                                  //     context,
-                                  //     MaterialPageRoute(
-                                  //         builder: (context) =>
+
                                   //             const SeminarScreen()));
                                 });
                               }
