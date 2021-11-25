@@ -59,6 +59,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
           projectName: doc['projectName'],
           department: doc['department'],
           college: doc['college'],
+          projectLink: doc['projectLink'],
           id: doc.id),
       );
     }
@@ -83,6 +84,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
           projectName: doc['projectName'],
           department: doc['department'],
           college: doc['college'],
+          projectLink: doc['projectLink'],
           id: doc.id));
     }
 

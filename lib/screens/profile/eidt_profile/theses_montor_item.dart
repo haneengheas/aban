@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, must_be_immutable
 
 import 'package:aban/constant/alert_methods.dart';
 import 'package:aban/constant/style.dart';
@@ -15,7 +15,12 @@ import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 class ThesesGraduatedMontorItem extends StatefulWidget {
-  const ThesesGraduatedMontorItem({Key? key}) : super(key: key);
+  String ?college ;
+  String ?department;
+  ThesesGraduatedMontorItem({
+    this.department,
+    this.college,
+    Key? key}) : super(key: key);
 
   @override
   _ThesesGraduatedMontorItemState createState() =>
@@ -111,7 +116,6 @@ class _ThesesGraduatedMontorItemState extends State<ThesesGraduatedMontorItem> {
                                           color: gray,
                                           endIndent: 10,
                                           indent: 10,
-// width: 1,
                                           thickness: 2,
                                         ),
                                         Padding(
@@ -198,11 +202,13 @@ class _ThesesGraduatedMontorItemState extends State<ThesesGraduatedMontorItem> {
             text: "اضافة اطروحة",
             color: blueGradient,
             onTap: () {
+              print(prov.college);
+              print(prov.department);
               showDialogTheses(
                 context,
                 text: 'إضافة اطروحة',
-                department:prov.department!,
-               college: prov.college!);
+                department:widget.department!,
+               college: widget.college!);
             }),
       ],
     );

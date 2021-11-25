@@ -322,7 +322,7 @@ class _EditProfileState extends State<EditProfile> {
                                 degree ?? "",
                                 style: hintStyle,
                               ),
-                              value: prov.degree,
+                              value: prov.degreeMember,
                               underline: Container(
                                 width: 20,
                                 height: 1,
@@ -335,7 +335,7 @@ class _EditProfileState extends State<EditProfile> {
                                     ]),
                               ),
                               onChanged: (newValue) {
-                                prov.degree = newValue!;
+                                provAuth.usertype == 0?  prov.degreeMember = newValue!:prov.degreeGraduated = newValue!;
                               },
                               items:provAuth.usertype == 0? <String>[
                                 'دكتوراه',
@@ -527,16 +527,19 @@ class _EditProfileState extends State<EditProfile> {
                 thickness: 1,
                 color: lightGray,
               ),
-              const ThesesGraduatedMontorItem(),
+               ThesesGraduatedMontorItem( department: department,
+                 college: college,),
               const Divider(
                 height: 20,
                 thickness: 1,
                 color: lightGray,
               ),
-              ProjectItem(),
+              ProjectItem(  department: department,
+                college: college,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  // add button
                   ButtonUser(
                       text: 'حفظ التغيرات',
                       color: blueGradient,
@@ -619,6 +622,7 @@ class _EditProfileState extends State<EditProfile> {
                           print(name);
                         }, text: 'هل انت متاكد من حفظ التغييرات ؟');
                       }),
+                  // cancel button
                   ButtonUser(
                       text: 'الغاء',
                       color: redGradient,
@@ -628,6 +632,7 @@ class _EditProfileState extends State<EditProfile> {
                       }),
                 ],
               ),
+              // delete button
               Center(
                   child: ButtonUser(
                       text: 'حذف الحساب',

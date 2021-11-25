@@ -9,9 +9,8 @@ import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CompeletedTheses extends StatefulWidget {
-  final String text;
 
-  const CompeletedTheses( {required this.text});
+  const CompeletedTheses();
 
   @override
   State<CompeletedTheses> createState() => _CompeletedThesesState();
@@ -85,13 +84,6 @@ class _CompeletedThesesState extends State<CompeletedTheses> {
   @override
   Widget build(BuildContext context) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-        child: Text(
-          widget.text,
-          style: hintStyle,
-        ),
-      ),
       Expanded(
         child: SizedBox(
           child: ListView.builder(

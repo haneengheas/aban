@@ -9,9 +9,9 @@ import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CompletedProject extends StatefulWidget {
-  final String text;
 
-  const CompletedProject({required this.text});
+
+  const CompletedProject();
 
   @override
   State<CompletedProject> createState() => _CompletedProjectState();
@@ -67,13 +67,6 @@ class _CompletedProjectState extends State<CompletedProject> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-          child: Text(
-            widget.text,
-            style: hintStyle,
-          ),
-        ),
         Expanded(
           child: SizedBox(
             child: ListView.builder(

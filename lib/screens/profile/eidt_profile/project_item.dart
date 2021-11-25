@@ -2,17 +2,20 @@
 
 import 'package:aban/constant/alert_methods.dart';
 import 'package:aban/constant/style.dart';
-import 'package:aban/provider/profile_provider.dart';
 import 'package:aban/widgets/buttons/buttonsuser.dart';
 import 'package:aban/widgets/eidt_text_field.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class ProjectItem extends StatelessWidget {
-  ProjectItem({Key? key}) : super(key: key);
+  String ?college ;
+  String ?department;
+  ProjectItem({
+    this.department,
+    this.college,
+    Key? key}) : super(key: key);
   TextEditingController projectName = TextEditingController();
   TextEditingController descriptionProject = TextEditingController();
   TextEditingController leaderName = TextEditingController();
@@ -25,8 +28,6 @@ class ProjectItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var prov = Provider.of<ProfileProvider>(context);
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -106,6 +107,8 @@ class ProjectItem extends StatelessWidget {
                                       editProject(
                                         context,
                                         text: 'تعديل مشروع',
+                                        projectLink:   snapshot.data!.docs[index]
+                                        ['projectLink'],
                                         descriptionProject:
                                         snapshot.data!.docs[index]
                                         ['descriptionProject'],
@@ -170,8 +173,8 @@ class ProjectItem extends StatelessWidget {
             onTap: () {
               showDialogProject(
                 context,
-                department:prov.department!,
-                college: prov.college!,
+                department:department!,
+                college: college!,
                 text: 'إضافة مشروع',
               );
             }),
@@ -188,15 +191,16 @@ void editProject(BuildContext context,
     required String leaderName,
     required String? projectStatus,
     required String memberProjectName,
+    required String projectLink,
     required GlobalKey<FormState> keys}) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
-      var prov = Provider.of<ProfileProvider>(context);
       TextEditingController? projectName1= TextEditingController(text: projectName);
       TextEditingController? descriptionProject1= TextEditingController(text: descriptionProject);
       TextEditingController? leaderName1= TextEditingController(text: leaderName);
       TextEditingController? memberProjectName1= TextEditingController(text: memberProjectName);
+      TextEditingController? projectLink1= TextEditingController(text: projectLink);
 
       return AlertDialog(
         title: Center(child: Text(text)),
@@ -265,6 +269,20 @@ void editProject(BuildContext context,
                     scure: false,
 
                   ),
+                  EidtTextFieldUser(
+                     controller: projectLink1,
+
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'برجاءادخال رابط المشروع ';
+                      }
+                    },
+                    hintText: 'ادخل رابط المشروع',
+                    labelText: "رابط المشروع",
+                    scure: false,
+
+                  ),
+
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 7.5),
                     child: Column(
@@ -297,7 +315,7 @@ void editProject(BuildContext context,
                                     ]),
                               ),
                               onChanged: (newValue) {
-                                prov.projectStatus = newValue!;
+                                projectStatus = newValue!;
                               },
                               items: <String>[
                                 'غير مكتملة',
@@ -344,8 +362,9 @@ void editProject(BuildContext context,
                     'projectName':projectName1.text,
                     'descriptionProject': descriptionProject1.text,
                     'leaderName':leaderName1.text,
-                    'projectStatus': prov.projectStatus,
+                    'projectStatus': projectStatus,
                     'memberProjectName':memberProjectName1.text,
+                    'projectLink': projectLink1.text,
                   });
                   Navigator.pop(context);
                   AwesomeDialog(

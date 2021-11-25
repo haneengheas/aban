@@ -26,6 +26,9 @@ class SupervisionScreen extends StatefulWidget {
 class _SupervisionScreenState extends State<SupervisionScreen> {
   TextEditingController nameController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
+  TextEditingController cvController = TextEditingController();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
 
 
   var serverToken =
@@ -98,44 +101,69 @@ class _SupervisionScreenState extends State<SupervisionScreen> {
                 color: lightgray,
                 borderRadius: BorderRadius.circular(15),
               ),
-              child: Column(
-                children: [
-                  TextFieldItem(
-                      controller: nameController,
-                      hintText: 'العنوان',
-                      labelText: "عنوان الاطروحة",
-                      scure: false),
-                  TextFieldItem(
-                      controller: descriptionController,
-                      hintText: 'الوصف',
-                      labelText: "وصف الاطروحة",
-                      scure: false),
-                  const Expanded(
-                    child: SizedBox(),
-                  ),
-                  SubmitButton(
-                      gradient: blueGradient,
-                      text: 'ارسال',
-                      onTap: () async {
-                        await FirebaseFirestore.instance
-                            .collection('super')
-                            .add({
-                          'name': nameController.text,
-                          'description': descriptionController.text,
-                          'reciveid': widget.userid,
-                          'sendid': FirebaseAuth.instance.currentUser!.uid,
-                        }).then((value) {
-                          Navigator.pop(context);
-                          return AwesomeDialog(
-                              context: context,
-                              title: "هام",
-                              body: const Text("تم الارسال بنجاح"),
-                              dialogType: DialogType.SUCCES)
-                            ..show();
-                        });
-                        await sendNotification(body:nameController.text ,title: 'إطروحة جديدة');
-                      })
-                ],
+              child: Form(
+                key:formKey,
+                child: Column(
+                  children: [
+                    TextFieldItem(
+                        controller: nameController,
+                        hintText: 'العنوان',
+                        labelText: "عنوان الاطروحة",
+                        validator: (val){
+                          if(val.isEmpty){
+                            return 'يجب ادخال عنوان الاطروحة' ;
+                          }
+                        },
+                        scure: false),
+                    TextFieldItem(
+                        controller: descriptionController,
+                        hintText: 'الوصف',
+                        labelText: "وصف الاطروحة",
+                        validator: (val){
+                          if(val.isEmpty){
+                            return 'يجب ادخال وصف الاطروحة' ;
+                          }
+                        },
+                        scure: false),
+                    TextFieldItem(
+                        controller: cvController,
+                        hintText: 'ادخل سيرتك الذاتية',
+                        labelText: "السيرة الذاتية",
+                        scure: false),
+                    const Expanded(
+                      child: SizedBox(),
+                    ),
+                    SubmitButton(
+                        gradient: blueGradient,
+                        text: 'ارسال',
+                        onTap: () async {
+                          if(formKey.currentState!.validate()){
+                            formKey.currentState!.save();
+                            await FirebaseFirestore.instance
+                                .collection('super')
+                                .add({
+                              'name': nameController.text,
+                              'description': descriptionController.text,
+                              'receiveId': widget.userid,
+                              'Cv':cvController.text,
+                              'sendId': FirebaseAuth.instance.currentUser!.uid,
+                            }).then((value) {
+                              Navigator.pop(context);
+                              return AwesomeDialog(
+                                  context: context,
+                                  title: "هام",
+                                  body: const Text("تم الارسال بنجاح"),
+                                  dialogType: DialogType.SUCCES)
+                                ..show();
+
+                            });
+                            await sendNotification(body:nameController.text ,title: 'إطروحة جديدة');
+
+                          }
+
+                        })
+                  ],
+                ),
               ),
             )
           ],

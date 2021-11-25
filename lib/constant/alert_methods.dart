@@ -348,6 +348,18 @@ void showDialogProject(
                       hintText: 'اسم الاعضاء',
                       labelText: "الاعضاء",
                       scure: false),
+                  TextFieldUser(
+                      onChanged: (val) {
+                        prov.linkProject = val;
+                      },
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'الرجاءادخال رابط المشروع ';
+                        }
+                      },
+                      hintText: 'ادخل رابط المشروع',
+                      labelText: "رابط المشروع",
+                      scure: false),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 7.5),
                     child: Column(
@@ -427,6 +439,7 @@ void showDialogProject(
                     leaderName: prov.leaderName,
                     memberProjectName: prov.memberProjectName,
                     projectStatus: prov.projectStatus,
+                    linkProject: prov.linkProject,
                     college: college,
                     department: department,
                     // projectDegree: prov.projectDegree

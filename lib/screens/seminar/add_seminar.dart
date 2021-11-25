@@ -24,11 +24,7 @@ class AddSeminar extends StatefulWidget {
 
 class _AddSeminarState extends State<AddSeminar> {
   var val;
-
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-
-  // var user = FirebaseFirestore.instance.collection('user').doc(
-  //     FirebaseAuth.instance.currentUser!.uid).get();
 
   @override
   Widget build(BuildContext context) {
@@ -58,10 +54,6 @@ class _AddSeminarState extends State<AddSeminar> {
           child: Container(
             width: sizeFromWidth(context, 1),
             padding: const EdgeInsets.symmetric(horizontal: 10),
-            // height: MediaQuery
-            //     .of(context)
-            //     .size
-            //     .height,
             margin: const EdgeInsets.symmetric(
               horizontal: 20,
             ),
@@ -337,7 +329,6 @@ class _AddSeminarState extends State<AddSeminar> {
 
                           if (formKey.currentState!.validate()) {
                             formKey.currentState!.save();
-
                             await prov.addSeminar(
                                 context: context,
                                 seminaraddress: prov.seminaraddress,

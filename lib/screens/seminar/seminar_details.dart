@@ -5,6 +5,7 @@ import 'package:aban/provider/profile_provider.dart';
 import 'package:aban/screens/seminar/edit_seminar.dart';
 import 'package:aban/widgets/customAppBar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -50,16 +51,10 @@ class SeminarDetails extends StatefulWidget {
 }
 
 class _SeminarDetailsState extends State<SeminarDetails> {
-
-
   @override
   Widget build(BuildContext context) {
-
-
     DateTime myDateTime = DateTime.parse(widget.selectday!.toDate().toString());
     print(myDateTime);
-
-
 
     var prov = Provider.of<ProfileProvider>(context);
     return Scaffold(
@@ -101,9 +96,7 @@ class _SeminarDetailsState extends State<SeminarDetails> {
                                 Row(
                                   children: [
                                     Text(
-
-
-                                      '${widget.selectday!.toDate().year }-${widget.selectday!.toDate().month }-${widget.selectday!.toDate().day}',
+                                      '${widget.selectday!.toDate().year}-${widget.selectday!.toDate().month}-${widget.selectday!.toDate().day}',
                                       style: hintStyle3,
                                     ),
                                     const Icon(
@@ -179,83 +172,83 @@ class _SeminarDetailsState extends State<SeminarDetails> {
                   const SizedBox(
                     height: 20,
                   ),
-
-
-                  myDateTime.isBefore(DateTime.now()) ? SizedBox(height: 40,
-
-                     child: Column(children: [
-                       Text(
-                         'وصف الندوة',
-                         style: labelStyle3,
-                       ),
-                       Expanded(
-                         child: Text(
-                           '${widget.description}',
-                           style: hintStyle3,
-                         ),
-                       ),
-                     ],),
-                   ):
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15),
-                    child: InkWell(
-                      onTap: () async {
-
-
-                        await launch(widget.link!);
-                      },
-                      child: Text(
-                        "الدخول إلى الندوة",
-                        style: GoogleFonts.cairo(
-                          textStyle: const TextStyle(
-                              decoration: TextDecoration.underline,
-                              decorationThickness: 2,
-                              decorationColor: blue,
-                              fontSize: 15,
-                              fontWeight: FontWeight.w400,
-                              color: blue),
-                        ),
-                      ),
-                    ),
-                  ),
-                  prov.counter == 2
-                      ? const SizedBox()
-                      : TextButton(
-                          onPressed: () {
-                            print(widget.docid);
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => EditSeminar(
-                                          docId: widget.docid,
-                                          username: widget.username,
-                                          isFav: widget.isFav,
-                                          userid: widget.userid,
-                                          description: widget.description,
-                                          from: widget.from,
-                                          link: widget.link,
-                                          location: widget.location,
-                                          selectday: widget.selectday,
-                                          seminarname: widget.seminarname,
-                                          to: widget.to,
-                                          type: widget.type,
-                                        ))
-                            );
-                          },
-                          child: Row(
+                  myDateTime.isBefore(DateTime.now())
+                      ? SizedBox(
+                          height: 40,
+                          child: Column(
                             children: [
-                              const Icon(
-                                Icons.edit,
-                                color: blue,
-                                size: 15,
-                              ),
                               Text(
-                                'تعديل ندوة',
-                                style: hintStyle3,
-                              )
+                                'وصف الندوة',
+                                style: labelStyle3,
+                              ),
+                              Expanded(
+                                child: Text(
+                                  '${widget.description}',
+                                  style: hintStyle3,
+                                ),
+                              ),
                             ],
                           ),
                         )
+                      : Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 15),
+                          child: InkWell(
+                            onTap: () async {
+                              await launch(widget.link!);
+                            },
+                            child: Text(
+                              "الدخول إلى الندوة",
+                              style: GoogleFonts.cairo(
+                                textStyle: const TextStyle(
+                                    decoration: TextDecoration.underline,
+                                    decorationThickness: 2,
+                                    decorationColor: blue,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w400,
+                                    color: blue),
+                              ),
+                            ),
+                          ),
+                        ),
+                  prov.counter == 2
+                      ? const SizedBox()
+                      : widget.userid == FirebaseAuth.instance.currentUser!.uid
+                          ? TextButton(
+                              onPressed: () {
+                                print(widget.docid);
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => EditSeminar(
+                                              docId: widget.docid,
+                                              username: widget.username,
+                                              isFav: widget.isFav,
+                                              userid: widget.userid,
+                                              description: widget.description,
+                                              from: widget.from,
+                                              link: widget.link,
+                                              location: widget.location,
+                                              selectday: widget.selectday,
+                                              seminarname: widget.seminarname,
+                                              to: widget.to,
+                                              type: widget.type,
+                                            )));
+                              },
+                              child: Row(
+                                children: [
+                                  const Icon(
+                                    Icons.edit,
+                                    color: blue,
+                                    size: 15,
+                                  ),
+                                  Text(
+                                    'تعديل ندوة',
+                                    style: hintStyle3,
+                                  )
+                                ],
+                              ),
+                            )
+                          : const SizedBox()
                 ],
               ),
             ),

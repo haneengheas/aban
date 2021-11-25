@@ -24,7 +24,8 @@ class ProfileProvider with ChangeNotifier {
   late String id;
   late String link;
   var accept;
-  String? degree;
+  String? degreeMember;
+  String? degreeGraduated;
   int ? counter;
 
   late String seminaraddress,
@@ -56,7 +57,7 @@ class ProfileProvider with ChangeNotifier {
   late String memberProjectName;
   final GlobalKey<FormState> formkey = GlobalKey<FormState>();
   String? projectDegree;
-
+ String ?linkProject;
   String? projectStatus;
   bool isFav = false;
   List ? isFavorite = [];
@@ -79,17 +80,47 @@ class ProfileProvider with ChangeNotifier {
     File ?file,
     required String email,
   }) async {
-    // if (file == null)
-    //   return AwesomeDialog(
-    //       context: context,
-    //       title: "هام",
-    //       body: Text("please choose Image"),
-    //       dialogType: DialogType.ERROR)
-    //     ..show();
+  //   if (file!.path=='')
+  //     {
+  //       showLoading(context);
+  //       await FirebaseFirestore.instance
+  //           .collection('member')
+  //           .doc(FirebaseAuth.instance.currentUser!.uid)
+  //           .set({
+  //         'faculty': faculty,
+  //         'phone': phone,
+  //         'name': name,
+  //         'email': email,
+  //         'imageUrl': 'https://imgv3.fotor.com/images/homepage-feature-card/Fotor-AI-photo-enhancement-tool.jpg',
+  //         'id': id,
+  //         'fields': fields,
+  //         'degree': degree,
+  //         'link': link,
+  //         'accept': accept,
+  //         'userId': FirebaseAuth.instance.currentUser!.uid,
+  //         'department': department,
+  //       });
+  //       showLoading(context);
+  //       counter = 1;
+  //       Navigator.of(context).popUntil((route) => route.isFirst);
+  //       Navigator.pushReplacement(
+  //           context,
+  //           MaterialPageRoute(
+  //               builder: (context) =>
+  //                   NavigationFile(
+  //                     d: studentDrawer(context),
+  //                     title: '   مرحبا $name ',
+  //                     counter: counter!,
+  //                   )));
+  //       notifyListeners();
+  //     }
+  //   else{
+  //
+  //
+  // }
     showLoading(context);
     await ref.putFile(file!);
     var imageUrl = await ref.getDownloadURL();
-
     await FirebaseFirestore.instance
         .collection('member')
         .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -161,6 +192,7 @@ class ProfileProvider with ChangeNotifier {
     required String memberProjectName,
     required String ? college,
     required String ?department,
+    required String ?linkProject,
     // required String ? projectDegree,
   }) async {
     showLoading(context);
@@ -172,6 +204,7 @@ class ProfileProvider with ChangeNotifier {
       'memberProjectName': memberProjectName,
       'college': college,
       'department': department,
+      'projectLink': linkProject,
       // 'projectDegree':projectDegree,
       'isFav': false,
       'userId': FirebaseAuth.instance.currentUser!.uid,
@@ -180,55 +213,7 @@ class ProfileProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  // addGraduatedTheses({
-  //   required BuildContext context,
-  //   required String nameTheses,
-  //   required String linkTheses,
-  //   required String assistantSupervisors,
-  //   required String nameSupervisors,
-  //   required String degreeTheses,
-  //   required String? thesesStatus,
-  // }) async {
-  //   showLoading(context);
-  //   await FirebaseFirestore.instance.collection('theses').add({
-  //     'nameTheses': nameTheses,
-  //     'linkTheses': linkTheses,
-  //     'assistantSupervisors': assistantSupervisors,
-  //     'nameSupervisors': nameSupervisors,
-  //     'degreeTheses': degreeTheses,
-  //     'thesesStatus': thesesStatus,
-  //     'isFav':isFavorite,
-  //     'userId': FirebaseAuth.instance.currentUser!.uid,
-  //   });
-  //   Navigator.pop(context);
-  //   notifyListeners();
-  // }
 
-// methods to add project for member in fire base
-//   addGraduatedProject({
-//     required BuildContext context,
-//     required String projectName,
-//     required String descriptionProject,
-//     required String leaderName,
-//     required String? projectStatus,
-//     // required String ? projectDegree,
-//
-//     required String memberProjectName,
-//   }) async {
-//     showLoading(context);
-//     await FirebaseFirestore.instance.collection('project').add({
-//       'projectName': projectName,
-//       'descriptionProject': descriptionProject,
-//       'leaderName': leaderName,
-//       'projectStatus': projectStatus,
-//       // 'projectDegree':projectDegree,
-//       'isFav': false,
-//       'memberProjectName': memberProjectName,
-//       'userId': FirebaseAuth.instance.currentUser!.uid,
-//     });
-//     Navigator.pop(context);
-//     notifyListeners();
-//   }
 
   getData() async {
     DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
@@ -241,7 +226,7 @@ class ProfileProvider with ChangeNotifier {
     email = documentSnapshot.get('email');
     link = documentSnapshot.get('link');
     phone = documentSnapshot.get('phone');
-    degree = documentSnapshot.get('degree');
+    degreeMember = documentSnapshot.get('degree');
     id = documentSnapshot.get('id');
 
     notifyListeners();

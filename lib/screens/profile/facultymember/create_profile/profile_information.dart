@@ -129,7 +129,7 @@ class _ProfileInformationState extends State<ProfileInformation> {
                   textDirection: TextDirection.rtl,
                   child: TextFieldUser(
                     onChanged: (value) {
-                      prov.degree = value;
+                      prov.degreeMember = value;
                     },
                     validator: (value) {
                       if (value.isEmpty) {

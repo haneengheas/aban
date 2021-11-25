@@ -205,7 +205,7 @@ class _CreateGraduatedProfileState extends State<CreateGraduatedProfile> {
                                       'ادخل الدرجة العلمية',
                                       style: hintStyle,
                                     ),
-                                    value: prov.degree,
+                                    value: prov.degreeGraduated,
                                     underline: Container(
                                       width: 20,
                                       height: 1,
@@ -218,7 +218,7 @@ class _CreateGraduatedProfileState extends State<CreateGraduatedProfile> {
                                           ]),
                                     ),
                                     onChanged: (newValue) {
-                                      prov.degree = newValue!;
+                                      prov.degreeGraduated = newValue!;
                                     },
                                     items: <String>[
                                       'طالب دكتوراه',
@@ -442,7 +442,7 @@ class _CreateGraduatedProfileState extends State<CreateGraduatedProfile> {
                                 phone: prov.phone,
                                 id: prov.id,
                                 department: department,
-                                degree: prov.degree!,
+                                degree: prov.degreeGraduated!,
                                 fields: fieldsStr,
                                 link: prov.link,
                                 accept: 2,

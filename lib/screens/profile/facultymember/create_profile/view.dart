@@ -235,7 +235,7 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                                     'ادخل الدرجة العلمية',
                                     style: hintStyle,
                                   ),
-                                  value: prov.degree,
+                                  value: prov.degreeMember,
                                   underline: Container(
                                     width: 20,
                                     height: 1,
@@ -248,7 +248,7 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                                         ]),
                                   ),
                                   onChanged: (newValue) {
-                                    prov.degree = newValue!;
+                                    prov.degreeMember = newValue!;
                                   },
                                   items: <String>[
                                     'دكتوراه',
@@ -466,20 +466,13 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                             dialogType: DialogType.ERROR)
                           ..show();
 
-                      }else if (prov.file!.path == '') {
-                        return AwesomeDialog(
-                            context: context,
-                            title: "هام",
-                            body: const Text("يجب إدخال الصورة"),
-                            dialogType: DialogType.ERROR)
-                          ..show();
                       }
                       else {
                         await prov.createMemberProfile(
                           context: context,
                           faculty: college,
                           department: department,
-                          degree: prov.degree!,
+                          degree: prov.degreeMember!,
                           file: prov.file!,
                           id: prov.id,
                           fields: fieldsStr,

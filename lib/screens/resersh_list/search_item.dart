@@ -2,7 +2,7 @@
 
 import 'package:aban/constant/style.dart';
 import 'package:aban/screens/profile/facultymember/overview_profile/view.dart';
-import 'package:aban/screens/resersh_list/reasher_list.dart';
+import 'package:aban/screens/resersh_list/reasher_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

@@ -133,6 +133,7 @@ Widget studentDrawer(BuildContext context) {
                   'تسجيل خروج',
                 )),
             onPressed: () {
+              Navigator.of(context).popUntil((route) => route.isFirst);
               Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
@@ -146,76 +147,3 @@ Widget studentDrawer(BuildContext context) {
       ));
 }
 
-// List<QudsPopupMenuBase> getMenuItems(BuildContext context) {
-//   return [
-//     QudsPopupMenuItem(
-//         leading: Icon(Icons.info_outline),
-//         title: Text('Give Feedback'),
-//         subTitle: Text('Help us improve our new app'),
-//         onPressed: () {
-//           Navigator.push(
-//               context, MaterialPageRoute(builder: (context) => LoginScreen()));
-//         }),
-//     QudsPopupMenuDivider(color: black, thickness: 2),
-//     QudsPopupMenuSection(
-//         leading: Icon(Icons.place),
-//         titleText: 'Settings & Privacy',
-//         subItems: [
-//           QudsPopupMenuItem(
-//               leading: Icon(Icons.settings),
-//               title: Text('Settings'),
-//               onPressed: () {}),
-//           QudsPopupMenuItem(
-//               leading: Icon(Icons.lock),
-//               title: Text('Privacy Checkup'),
-//               onPressed: () {}),
-//           QudsPopupMenuItem(
-//               leading: Icon(Icons.lock_clock),
-//               title: Text('Privacy Shortcuts'),
-//               onPressed: () {}),
-//           QudsPopupMenuItem(
-//               leading: Icon(Icons.list),
-//               title: Text('Activity Log'),
-//               onPressed: () {}),
-//           QudsPopupMenuItem(
-//               leading: Icon(Icons.card_membership),
-//               title: Text('News Feed Preferences'),
-//               onPressed: () {}),
-//           QudsPopupMenuItem(
-//               leading: Icon(Icons.language),
-//               title: Text('Language'),
-//               onPressed: () {}),
-//         ]),
-//     QudsPopupMenuDivider(),
-//     QudsPopupMenuWidget(
-//         builder: (c) => Container(
-//             padding: EdgeInsets.all(10),
-//             child: IntrinsicHeight(
-//               child: Row(
-//                 mainAxisAlignment: MainAxisAlignment.center,
-//                 children: [
-//                   IconButton(
-//                       onPressed: () {},
-//                       icon: Icon(
-//                         Icons.favorite,
-//                         color: Colors.red,
-//                       )),
-//                   VerticalDivider(),
-//                   IconButton(
-//                       onPressed: () {},
-//                       icon: Icon(
-//                         Icons.music_note,
-//                         color: Colors.blue,
-//                       )),
-//                   VerticalDivider(),
-//                   IconButton(
-//                       onPressed: () {},
-//                       icon: Icon(
-//                         Icons.umbrella,
-//                         color: Colors.green,
-//                       ))
-//                 ],
-//               ),
-//             )))
-//   ];
-// }

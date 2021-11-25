@@ -1,5 +1,5 @@
 import 'package:aban/constant/style.dart';
-import 'package:aban/screens/resersh_list/reasher_list.dart';
+import 'package:aban/screens/resersh_list/reasher_model.dart';
 import 'package:aban/screens/resersh_list/search_item.dart';
 import 'package:aban/widgets/search_textfield.dart';
 import 'package:flutter/cupertino.dart';

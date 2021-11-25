@@ -38,10 +38,10 @@ class _UnCompletedProjectState extends State<UnCompletedProject> {
                 .contains(widget.filter!.toLowerCase()) ||
             widget.projects[index].memberProjectName!
                 .toLowerCase()
-                .contains(widget.filter!.toLowerCase())||
+                .contains(widget.filter!.toLowerCase()) ||
             widget.projects[index].college!
                 .toLowerCase()
-                .contains(widget.filter!.toLowerCase())||
+                .contains(widget.filter!.toLowerCase()) ||
             widget.projects[index].department!
                 .toLowerCase()
                 .contains(widget.filter!.toLowerCase())
@@ -61,15 +61,18 @@ class _UnCompletedProjectState extends State<UnCompletedProject> {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => ProJectDetailsScreen(
-                  description: project.descriptionProject!,
-                  leader: project.leaderName!,
-                  members: project.memberProjectName!,
-                  nameProject: project.projectName!,
-                  status: project.projectStatus!,
-                  isFav: project.isFav!,
-                  id: project.id!,
-                )));
+                builder: (context) =>
+                    ProjectDetailsScreen(
+                      description: project.descriptionProject!,
+                      leader: project.leaderName!,
+                      projectLink:project.projectLink!,
+                      members: project.memberProjectName!,
+                      nameProject: project.projectName!,
+                      status: project.projectStatus!,
+                      isFav: project.isFav!,
+                      userid: project.userId!,
+                      id: project.id!,
+                    )));
       },
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),

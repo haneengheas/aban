@@ -72,7 +72,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 .contains('student.ksu.edu.sa') &&
                             !value.toString().contains('ksu.edu.sa') &&
                             !value.toString().contains('@gmail.com')) {
-                          return ' يجب ان يحتوي البريد الالكتروني علي  ksu.edu.sa او student.ksu.edu.sa ';
+                          return ' يجب ان يحتوي البريد الالكتروني علي\n  ksu.edu.sa او student.ksu.edu.sa ';
                         }
                       }),
                   TextFieldRegistation(
@@ -86,9 +86,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         if (value!.isEmpty) {
                           return 'الرجاء ادخال كلمة المرور ';
                         } else if (value.length < 5) {
-                          return 'يجب ان تتكون كلمة المرور علي الاقل من ستة حروف وارقام';
+                          return 'يجب ان تتكون كلمة المرور علي الاقل من ثمانيه خانات';
                         } else if (!validateStructure(value)) {
-                          return 'يجب ان تحتوى كلمة المرور على رقم واحد على الأقل من \nالأرقام والأحرف الكبيرة والأحرف الصغيرة و الرموز @#%&* ';
+                          return 'يجب ان تحتوى كلمة المرور على ثمانيه خانات رقم واحد على الأقل  \n وأحرف الكبيرة وأحرف الصغيرة ورموز @#%&* ';
                         }
                       }),
                   TextFieldRegistation(

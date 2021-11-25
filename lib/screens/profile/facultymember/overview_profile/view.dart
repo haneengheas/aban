@@ -3,12 +3,13 @@
 import 'package:aban/constant/style.dart';
 import 'package:aban/screens/chat/chat_room.dart';
 import 'package:aban/screens/resersh_list/field.dart';
-import 'package:aban/screens/resersh_list/project_all_user.dart';
+import 'package:aban/screens/resersh_list/compeleted_project.dart';
 import 'package:aban/screens/resersh_list/project_uncomplered.dart';
 import 'package:aban/screens/resersh_list/theses_completed.dart';
-import 'package:aban/screens/resersh_list/theses_uncomplered.dart';
+import 'package:aban/screens/resersh_list/theses_uncompleted.dart';
 import 'package:aban/screens/supervision_request/view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -96,7 +97,7 @@ class _MemberProfileState extends State<MemberProfile> {
                     children: [
                       Container(
                         margin: const EdgeInsets.symmetric(horizontal: 15),
-                        child: Row(
+                        child: widget.userid!= FirebaseAuth.instance.currentUser!.uid ? Row(
                           children: [
                             TextButton.icon(
                               onPressed: () {
@@ -146,7 +147,7 @@ class _MemberProfileState extends State<MemberProfile> {
                                   )
                                 : const Text(''),
                           ],
-                        ),
+                        ):const SizedBox(),
                       ),
                     ],
                   ),

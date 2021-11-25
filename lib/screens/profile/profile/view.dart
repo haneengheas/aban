@@ -366,16 +366,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           children: [
                                             FieldList(),
                                             CompeletedTheses(
-                                              text: 'اطروحة مكتملة تحت اشرافي',
                                             ),
                                             UnComletedThesesList(
-                                              text: 'اطروحة جارية تحت اشرافي',
                                             ),
                                             CompletedProject(
-                                              text: 'مشاريع مكتملة تحت اشرافي',
                                             ),
                                             UnCompletedProject(
-                                              text: 'مشاريع جارية تحت اشرافي',
                                             ),
                                           ],
                                         ),

@@ -38,10 +38,10 @@ class _CompletedProjectState extends State<CompletedProject> {
                         .contains(widget.filter!.toLowerCase()) ||
                     widget.projects[index].memberProjectName!
                         .toLowerCase()
-                        .contains(widget.filter!.toLowerCase())||
+                        .contains(widget.filter!.toLowerCase()) ||
                     widget.projects[index].college!
                         .toLowerCase()
-                        .contains(widget.filter!.toLowerCase())||
+                        .contains(widget.filter!.toLowerCase()) ||
                     widget.projects[index].department!
                         .toLowerCase()
                         .contains(widget.filter!.toLowerCase())
@@ -60,13 +60,15 @@ class _CompletedProjectState extends State<CompletedProject> {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => ProJectDetailsScreen(
+                builder: (context) => ProjectDetailsScreen(
                       description: project.descriptionProject!,
                       leader: project.leaderName!,
                       members: project.memberProjectName!,
-                      nameProject: project.memberProjectName!,
+                      projectLink: project.projectLink!,
+                      nameProject: project.projectName!,
                       status: project.projectStatus!,
                       isFav: project.isFav!,
+                      userid: project.userId!,
                       id: project.id!,
                     )));
       },

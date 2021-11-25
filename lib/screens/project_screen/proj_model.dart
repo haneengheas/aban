@@ -4,6 +4,7 @@ class ProjectModel {
       memberProjectName,
       projectStatus,
       projectName,
+      projectLink,
       college,
       department,
       userId,
@@ -19,6 +20,7 @@ class ProjectModel {
       this.projectStatus,
       this.college,
       this.department,
+      this.projectLink,
       this.userId,
       this.id});
 }

@@ -8,9 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class UnComletedThesesList extends StatefulWidget {
-  final String text;
 
-  const UnComletedThesesList({required this.text});
+
+  const UnComletedThesesList();
 
   @override
   State<UnComletedThesesList> createState() => _UnComletedThesesListState();
@@ -56,13 +56,6 @@ class _UnComletedThesesListState extends State<UnComletedThesesList> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-          child: Text(
-            widget.text,
-            style: hintStyle,
-          ),
-        ),
         Expanded(
           child: SizedBox(
             child: ListView.builder(
