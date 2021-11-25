@@ -80,7 +80,7 @@ class _ChatRoomState extends State<ChatRoom> {
           children: <Widget>[
             StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance
-                    .collection('message')
+                    .collection('member').doc(id).collection('message')
                     .orderBy(
                       'timeDate'
                     )
@@ -138,7 +138,22 @@ class _ChatRoomState extends State<ChatRoom> {
                        print(DateTime.now().toLocal()) ;
                        print('//=/=/=/=/===/=/') ;
                         if (_controller.text.isNotEmpty) {
-                          FirebaseFirestore.instance.collection('message').add(
+                          FirebaseFirestore.instance.collection('member').doc(id).collection(
+                              'message').add(
+                            {
+                              "Text": message,
+                              "image": widget.image,
+                              'userId': widget.userId,
+                              'sent': id,
+                              'name': widget.name,
+                              'timeDate': DateTime.now().toUtc()
+                            },
+                          );
+
+
+                          FirebaseFirestore.instance.collection('member').doc(
+                              widget.userId).collection(
+                              'message').add(
                             {
                               "Text": message,
                               "image": widget.image,

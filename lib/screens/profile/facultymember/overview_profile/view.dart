@@ -60,7 +60,7 @@ class _MemberProfileState extends State<MemberProfile> {
 
     setState(() {});
   }
-
+String myid =FirebaseAuth.instance.currentUser!.uid;
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -99,7 +99,7 @@ class _MemberProfileState extends State<MemberProfile> {
                         margin: const EdgeInsets.symmetric(horizontal: 15),
                         child: widget.userid!= FirebaseAuth.instance.currentUser!.uid ? Row(
                           children: [
-                            TextButton.icon(
+                       TextButton.icon(
                               onPressed: () {
                                 Navigator.push(
                                     context,
@@ -122,8 +122,9 @@ class _MemberProfileState extends State<MemberProfile> {
                             ),
                             const SizedBox(
                               width: 10,
-                            ),
-                            widget.accept == 0
+      ),
+      widget.accept == 0
+
                                 ? TextButton.icon(
                                     onPressed: () {
                                       Navigator.push(
