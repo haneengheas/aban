@@ -104,7 +104,7 @@ class _HelpScreenState extends State<HelpScreen> {
                           final Email email = Email(
                             body: descriptionController.text,
                             // subject: 'abanproject202 0000000000000000001@gmail.com',
-                            recipients: ['haneengheas@gmail.com'],
+                            recipients: ['abanproject2021@gmail.com'],
                             subject: problemTitleController.text,
                           );
                           await FlutterEmailSender.send(email);
