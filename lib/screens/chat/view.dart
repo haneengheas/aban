@@ -154,9 +154,8 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'chat_room.dart';
 
-class ChatScreen extends StatefulWidget {
+class ChatScreen extends StatefulWidget{
   const ChatScreen({Key? key}) : super(key: key);
-
   @override
   State<ChatScreen> createState() => _ChatScreenState();
 }
@@ -189,13 +188,10 @@ class _ChatScreenState extends State<ChatScreen> {
             )),
         body: Column(
           children: [
-            // const SearchTextField(
-            //   text: 'ابحث باسم باحث',
-            // ),
             StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance.collection('member').doc(id)
                     .collection('message')
-                    // .orderBy('timeDate', descending: true)
+             .orderBy('timeDate', descending: true)
                     // .limit(1)
                     .snapshots(),
                 builder: (context, snapshot) {
