@@ -310,17 +310,61 @@ void editTheses(
                     scure: false,
 
                   ),
-                  EidtTextFieldUser(
-                     controller: degreeTheses1,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 7.5),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text(
+                          'الدرجة العلمية',
+                          style: labelStyle3,
+                        ),
+                        Directionality(
+                          textDirection: TextDirection.rtl,
+                          child: SizedBox(
+                            child: DropdownButton<String>(
+                              hint: Text(
+                                'اخترالدرجة العلمية',
+                                style: hintStyle,
+                              ),
+                              value: degreeTheses,
+                              underline: Container(
+                                width: 30,
+                                padding:
+                                const EdgeInsets.symmetric(horizontal: 10),
+                                height: .5,
+                                decoration: const BoxDecoration(
+                                    color: gray,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: blue,
+                                      )
+                                    ]),
+                              ),
+                              onChanged: (newValue) {
+                                degreeTheses = newValue!;
+                              },
+                              items: <String>[
+                                'Master',
+                                'Phd'
+                              ].map<DropdownMenuItem<String>>((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: SizedBox(
+                                    width: sizeFromWidth(context, 2.3),
+                                    // for example
+                                    child:
+                                    Text(value, textAlign: TextAlign.right),
+                                  ),
+                                );
+                              }).toList(),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
 
-                    validator: (value) {
-                      if (value.isEmpty) {
-                        return 'برجاءادخال الدرجة العلمية ';
-                      }
-                    },
-                    hintText: 'اختر الدرجة العمليه',
-                    labelText: "الدرجة العلميه",
-                    scure: false,),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 7.5),
                     child: Column(
@@ -353,7 +397,7 @@ void editTheses(
                                     ]),
                               ),
                               onChanged: (newValue) {
-                                prov.thesesStatus = newValue!;
+                                thesesStatus = newValue!;
                               },
                               items: <String>[
                                 'غير مكتملة',
@@ -402,8 +446,8 @@ void editTheses(
                     'linkTheses': linkTheses1.text,
                     'assistantSupervisors': assistantSupervisors1.text,
                     'nameSupervisors': nameSupervisors1.text,
-                    'degreeTheses': degreeTheses1.text,
-                    'thesesStatus': prov.thesesStatus,
+                    'degreeTheses': degreeTheses,
+                    'thesesStatus': thesesStatus,
                   });
                   Navigator.pop(context);
                   AwesomeDialog(

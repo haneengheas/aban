@@ -1,6 +1,5 @@
 // ignore_for_file: must_be_immutable
 import 'package:aban/constant/style.dart';
-import 'package:aban/provider/profile_provider.dart';
 import 'package:aban/widgets/buttons/buttonsuser.dart';
 import 'package:aban/widgets/eidt_text_field.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
@@ -8,7 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ProjectDetailsScreen extends StatefulWidget {
   String nameProject;
@@ -66,7 +65,7 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
       body: Column(
         children: [
           Container(
-            height: 300,
+            height: 270,
             width: sizeFromWidth(context, 1),
             margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
@@ -91,32 +90,20 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
                               style: labelStyle3,
                             ),
                             const SizedBox(
-                              height: 10,
+                              height: 5,
                             ),
-                            // Text(
-                            //
-                            //   style: labelStyle3,
-                            // ),
                             Text(
                               ' القائد:  ' + widget.leader,
-                              style: hintStyle3,
+                              style: hintStyle,
                             ),
                             const SizedBox(
-                              height: 10,
+                              height: 5,
                             ),
-
-                            // Text(
-                            // widget.leader,
-                            //   style: hintStyle3,
-                            // ),
                             Text(
                               'االاعضاء:  ' + widget.members,
-                              style: hintStyle3,
+                              style: hintStyle,
                             ),
-                            // Text(
-                            //  widget.members,
-                            //   style: hintStyle3,
-                            // ),
+
                           ],
                         ),
                       ),
@@ -164,11 +151,21 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
                     widget.description,
                     style: hintStyle3,
                   ),
-                 SizedBox(
-                   height: 20,
-                     child: TextButton(onPressed: (){}, child: Text('رابط المشروع'))),
-                 widget.userid == FirebaseAuth.instance.currentUser!.uid? TextButton(
-                      onPressed: () {
+                  InkWell(
+                      onTap: () async {
+                        debugPrint(widget.projectLink);
+                        await launch(
+                            'https://'+ widget.projectLink);
+                      },
+                      child: const Text('رابط المشروع',style:  TextStyle(
+                          decoration: TextDecoration.underline,
+                          decorationThickness: 2,
+                          decorationColor: blue,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                          color: blue),)),
+                 widget.userid == FirebaseAuth.instance.currentUser!.uid?InkWell (
+                      onTap: () {
                         editProject(
                           context,
                           text: 'تعديل مشروع',
@@ -183,7 +180,22 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
                         );
                         setState(() {});
                       },
-                      child:const  Text('تعديل المشروع')):const SizedBox()
+                      child: Row(
+                        children:const [
+                           Icon(
+                            Icons.edit,
+                            color: blue,
+                            size: 15,
+                          ),
+                          Text('تعديل المشروع',style:  TextStyle(
+                            // decoration: TextDecoration.underline,
+                            // decorationThickness: 2,
+                              decorationColor: blue,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w400,
+                              color: blue))
+                        ],
+                      ),  ):const SizedBox()
                 ],
               ),
             ),

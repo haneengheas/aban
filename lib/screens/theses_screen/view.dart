@@ -58,8 +58,7 @@ class _ThesesScreenState extends State<ThesesScreen> {
           isFav: doc['isFav'],
           department: doc['department'],
           college: doc['college'],
-
-
+          userId: doc['userId'],
           id: doc.id));
     }
 
@@ -83,7 +82,7 @@ class _ThesesScreenState extends State<ThesesScreen> {
           isFav: doc['isFav'],
           department: doc['department'],
           college: doc['college'],
-
+          userId: doc['userId'],
           id: doc.id));
     }
 

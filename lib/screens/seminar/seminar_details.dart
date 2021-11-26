@@ -64,7 +64,7 @@ class _SeminarDetailsState extends State<SeminarDetails> {
       body: Column(
         children: [
           Container(
-            height: 240,
+            height: 260,
             width: sizeFromWidth(context, 1),
             margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
@@ -90,21 +90,24 @@ class _SeminarDetailsState extends State<SeminarDetails> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  '${widget.seminarname}',
+                                  'اسم الندوة: ${widget.seminarname}',
                                   style: labelStyle3,
                                 ),
-                                Row(
-                                  children: [
-                                    Text(
-                                      '${widget.selectday!.toDate().year}-${widget.selectday!.toDate().month}-${widget.selectday!.toDate().day}',
-                                      style: hintStyle3,
-                                    ),
-                                    const Icon(
-                                      Icons.date_range,
-                                      color: blue,
-                                      size: 20,
-                                    )
-                                  ],
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 5),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        '${widget.selectday!.toDate().year}-${widget.selectday!.toDate().month}-${widget.selectday!.toDate().day}',
+                                        style: hintStyle3,
+                                      ),
+                                      const Icon(
+                                        Icons.date_range,
+                                        color: blue,
+                                        size: 20,
+                                      )
+                                    ],
+                                  ),
                                 )
                               ],
                             ),
@@ -121,7 +124,7 @@ class _SeminarDetailsState extends State<SeminarDetails> {
                               ],
                             ),
                             Text(
-                              '${widget.username}',
+                              'اسم الباحث:  ${widget.username}',
                               style: hintStyle3,
                             ),
                             Text(
@@ -131,13 +134,13 @@ class _SeminarDetailsState extends State<SeminarDetails> {
                           ],
                         ),
                       ),
-                      const VerticalDivider(
-                        color: gray,
-                        endIndent: 10,
-                        indent: 20,
-                        width: 20,
-                        thickness: 5,
-                      ),
+                      // const VerticalDivider(
+                      //   color: gray,
+                      //   endIndent: 10,
+                      //   indent: 20,
+                      //   width: 20,
+                      //   thickness: 5,
+                      // ),
                       Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
@@ -172,44 +175,36 @@ class _SeminarDetailsState extends State<SeminarDetails> {
                   const SizedBox(
                     height: 20,
                   ),
-                  myDateTime.isBefore(DateTime.now())
-                      ? SizedBox(
-                          height: 40,
-                          child: Column(
-                            children: [
-                              Text(
-                                'وصف الندوة',
-                                style: labelStyle3,
-                              ),
-                              Expanded(
-                                child: Text(
-                                  '${widget.description}',
-                                  style: hintStyle3,
-                                ),
-                              ),
-                            ],
-                          ),
-                        )
-                      : Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 15),
-                          child: InkWell(
-                            onTap: () async {
-                              await launch(widget.link!);
-                            },
-                            child: Text(
-                              "الدخول إلى الندوة",
-                              style: GoogleFonts.cairo(
-                                textStyle: const TextStyle(
-                                    decoration: TextDecoration.underline,
-                                    decorationThickness: 2,
-                                    decorationColor: blue,
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w400,
-                                    color: blue),
-                              ),
-                            ),
-                          ),
-                        ),
+                       Text(
+                         'وصف الندوة: ',
+                         style: labelStyle3,
+                       ),
+                       Expanded(
+                         child: Text(
+                           '${widget.description}',
+                           style: hintStyle3,
+                         ),
+                       ),
+                  myDateTime.isAfter(DateTime.now())?
+                  InkWell(
+                    onTap: () async {
+                      debugPrint(widget.link);
+                      await launch(
+                          'https://'+ widget.link!);
+                    },
+                    child: Text(
+                      "الدخول إلى الندوة",
+                      style: GoogleFonts.cairo(
+                        textStyle: const TextStyle(
+                            decoration: TextDecoration.underline,
+                            decorationThickness: 2,
+                            decorationColor: blue,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w400,
+                            color: blue),
+                      ),
+                    ),
+                  ):const SizedBox(),
                   prov.counter == 2
                       ? const SizedBox()
                       : widget.userid == FirebaseAuth.instance.currentUser!.uid
