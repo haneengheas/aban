@@ -146,6 +146,7 @@ class _SupervisionScreenState extends State<SupervisionScreen> {
                               'description': descriptionController.text,
                               'receiveId': widget.userid,
                               'Cv':cvController.text,
+                              'status': 'قيد المعالجة',
                               'sendId': FirebaseAuth.instance.currentUser!.uid,
                             }).then((value) {
                               Navigator.pop(context);

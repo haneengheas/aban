@@ -30,7 +30,7 @@ showDialogWarning(
             child: Center(
               child: Text(
                 text,
-                style: labelStyle2,
+                style: labelStyle3,
               ),
             )),
         actions: <Widget>[

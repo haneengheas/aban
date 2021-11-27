@@ -1,15 +1,19 @@
 import 'package:aban/constant/style.dart';
-import 'package:aban/screens/Home/supervision_list.dart';
+import 'package:aban/provider/auth_provider.dart';
 import 'package:aban/screens/bookmark/view.dart';
 import 'package:aban/screens/chat/view.dart';
 import 'package:aban/screens/help/view.dart';
 import 'package:aban/screens/profile/eidt_profile/view.dart';
 import 'package:aban/screens/profile/profile/view.dart';
 import 'package:aban/screens/registration/regist_screen/view.dart';
+import 'package:aban/screens/supervision/graduated/view.dart';
+import 'package:aban/screens/supervision/member/view.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import "package:quds_ui_kit/quds_ui_kit.dart";
 
 Widget studentDrawer(BuildContext context) {
+  var prov = Provider.of<AuthProvider>(context);
   return QudsPopupButton(
       tooltip: 'T',
       items: [
@@ -114,10 +118,19 @@ Widget studentDrawer(BuildContext context) {
                       'طلبات الاشراف',
                     )),
                 onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>const SupervisionList()));
+                  if(prov.usertype == 0){
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>const SupervisionMember()));
+                  }
+                  else{
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>const SuperGraduated()));
+                  }
+
                 }),
 
         QudsPopupMenuDivider(color: gray, thickness: .5),
