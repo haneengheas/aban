@@ -20,7 +20,9 @@ class LaterSeminar extends StatefulWidget {
   final String? filter;
 
   @override
+
   _UnCompletedProjectState createState() => _UnCompletedProjectState();
+
 }
 
 class _UnCompletedProjectState extends State<LaterSeminar> {
@@ -31,7 +33,10 @@ class _UnCompletedProjectState extends State<LaterSeminar> {
   Widget build(BuildContext context) {
     var prov = Provider.of<ProfileProvider>(context);
     return Column(
+      
       children: [
+
+
         TextButton(
           onPressed: () {
             Navigator.push(

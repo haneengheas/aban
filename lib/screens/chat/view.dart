@@ -206,9 +206,9 @@ class _ChatScreenState extends State<ChatScreen> {
 
                   for (var message in data) {
                     String image = message["image"];
-                    String name = message["name"];
+                    String name = message["otherName"];
                     String userId = message["userId"];
-                    String lastmassage = message["Text"];
+                    String lastMessage = message["Text"];
 
                     if (!messageList.contains(name) &&
                         (message['sent'] == id || message['userId'] == id)) {
@@ -251,12 +251,12 @@ class _ChatScreenState extends State<ChatScreen> {
                             },
                           );
                         },
-                        lastmassage: lastmassage,
+                        lastmassage: lastMessage,
                       );
 
                       messageWidgets.add(messageWidget);
 
-                      messageList.add(message["name"]);
+                      messageList.add(message["otherName"]);
                     }
                   }
                   return Expanded(

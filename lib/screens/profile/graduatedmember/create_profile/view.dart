@@ -15,6 +15,7 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:path/path.dart' as path;
 import 'package:provider/provider.dart';
 
@@ -42,6 +43,20 @@ class _CreateGraduatedProfileState extends State<CreateGraduatedProfile> {
   List<String> selectedDegree = <String>['دكتوراة'];
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> formKy = GlobalKey<FormState>();
+
+  final TextEditingController controller = TextEditingController();
+  String initialCountry = 'NG';
+  PhoneNumber number = PhoneNumber(isoCode: 'NG');
+
+  void getPhoneNumber(String phoneNumber) async {
+    PhoneNumber number =
+    await PhoneNumber.getRegionInfoFromPhoneNumber(phoneNumber, 'US');
+
+    setState(() {
+      this.number = number;
+    });
+  }
 
   @override
   void initState() {
@@ -243,23 +258,46 @@ class _CreateGraduatedProfileState extends State<CreateGraduatedProfile> {
                             ],
                           ),
                           SizedBox(
-                            width: sizeFromWidth(context, 2),
-                            child: Directionality(
-                                textDirection: TextDirection.rtl,
-                                child: TextFieldUser(
-                                  labelText: 'رقم الهاتف',
-                                  hintText: 'الهاتف ',
-                                  onChanged: (value) {
-                                    prov.phone = value;
-                                  },
-                                  validator: (value) {
-                                    if (value.isEmpty) {
-                                      return 'برجاءادخال رقم الهاتف ';
-                                    }
-                                  },
-                                  scure: false,
-                                )),
-                          ),
+                            width: MediaQuery.of(context).size.width / 1.2,
+                            child: Form(
+                              key: formKy,
+                              child: Container(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    InternationalPhoneNumberInput(
+                                      hintText: 'رقم الهاتف',
+                                      textStyle: labelStyle2,
+                                      onInputChanged: (PhoneNumber number) {
+                                        print(number.phoneNumber);
+                                      },
+                                      onInputValidated: (bool value) {
+                                        print(value);
+                                      },
+                                      selectorConfig: const SelectorConfig(
+                                        selectorType:
+                                        PhoneInputSelectorType.BOTTOM_SHEET,
+                                      ),
+                                      ignoreBlank: false,
+                                      inputDecoration: const InputDecoration(
+                                          enabled: false, hintText: 'رقم الهاتف'),
+                                      autoValidateMode: AutovalidateMode.disabled,
+                                      selectorTextStyle: TextStyle(color: Colors.black),
+                                      initialValue: number,
+                                      textFieldController: controller,
+                                      formatInput: false,
+                                      keyboardType: TextInputType.numberWithOptions(
+                                          signed: true, decimal: true),
+                                      inputBorder: OutlineInputBorder(),
+                                      onSaved: (PhoneNumber number) {
+                                        print('On Saved: $number');
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          )
                         ],
                       ),
                       Row(
