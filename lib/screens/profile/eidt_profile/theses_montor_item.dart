@@ -231,7 +231,6 @@ void editTheses(
   showDialog(
     context: context,
     builder: (BuildContext context) {
-      var prov = Provider.of<ProfileProvider>(context);
       TextEditingController? nameTheses1= TextEditingController(text: nameTheses);
       TextEditingController? linkTheses1= TextEditingController(text: linkTheses);
       TextEditingController? nameSupervisors1= TextEditingController(text: nameSupervisors);

@@ -4,7 +4,6 @@ import 'dart:io';
 
 import 'package:aban/constant/style.dart';
 import 'package:aban/provider/auth_provider.dart';
-import 'package:aban/provider/profile_provider.dart';
 import 'package:aban/screens/chat/mesage_item.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -159,7 +158,6 @@ class _ChatRoomState extends State<ChatRoom> {
                               "image": widget.image,
                               'userId': widget.userId,
                               'sent': id,
-                              // 'name': prov.userName,
                               'name': prov.userName,
                               'otherName': widget.name,
                               'timeDate': DateTime.now().toUtc()

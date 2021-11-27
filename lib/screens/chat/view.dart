@@ -8,7 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'chat_room.dart';
 
-class ChatScreen extends StatefulWidget{
+class ChatScreen extends StatefulWidget {
   const ChatScreen({Key? key}) : super(key: key);
   @override
   State<ChatScreen> createState() => _ChatScreenState();
@@ -43,9 +43,11 @@ class _ChatScreenState extends State<ChatScreen> {
         body: Column(
           children: [
             StreamBuilder<QuerySnapshot>(
-                stream: FirebaseFirestore.instance.collection('member').doc(id)
+                stream: FirebaseFirestore.instance
+                    .collection('member')
+                    .doc(id)
                     .collection('message')
-           .orderBy('timeDate')
+                    .orderBy('timeDate')
                     // .limit(1)
                     .snapshots(),
                 builder: (context, snapshot) {
@@ -71,12 +73,17 @@ class _ChatScreenState extends State<ChatScreen> {
                         name: name,
                         dateTime: message["timeDate"],
                         ontap: () {
+                          // print("User Id $");
+                          print(FirebaseAuth.instance.currentUser!.uid !=
+                                  message["userId"]
+                              ? message["userId"]
+                              : message["sent"]);
                           Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => ChatRoom(
                                         image: image,
-                                        userId: userId,
+                                        userId: "niMblIzFDffvMnxj1BDAhpsvFfv2",
                                         name: name,
                                       )));
                         },
@@ -86,13 +93,14 @@ class _ChatScreenState extends State<ChatScreen> {
                             text: 'هل انت متاكد من حذف المحادثة؟',
                             ontap: () async {
                               await FirebaseFirestore.instance
-                                  .collection('member').doc(id)
+                                  .collection('member')
+                                  .doc(id)
                                   .collection('message')
                                   .get()
                                   .then((snapshot) {
                                 for (DocumentSnapshot ds in snapshot.docs) {
                                   if ((ds["sent"] == id ||
-                                      ds["sent"] == userId) &&
+                                          ds["sent"] == userId) &&
                                       (ds["userId"] == id ||
                                           ds["userId"] == userId)) {
                                     ds.reference.delete();
@@ -114,7 +122,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     }
                   }
                   return Expanded(
-                      child:  ListView(
+                      child: ListView(
                     padding: const EdgeInsets.all(20),
                     children: messageWidgets,
                   ));

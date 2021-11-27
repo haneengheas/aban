@@ -1,6 +1,10 @@
+// ignore_for_file: must_be_immutable, avoid_print
 import 'package:aban/constant/alert_methods.dart';
 import 'package:aban/constant/style.dart';
+import 'package:aban/provider/auth_provider.dart';
 import 'package:aban/provider/profile_provider.dart';
+import 'package:aban/screens/Home/navigation.dart';
+import 'package:aban/screens/Home/studentdrawer.dart';
 import 'package:aban/widgets/buttons/buttonsuser.dart';
 import 'package:aban/widgets/eidt_text_field.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
@@ -22,17 +26,16 @@ class ThesesDetails extends StatefulWidget {
       userId;
   bool? isFav;
 
-  ThesesDetails(
-      {required this.degreeTheses,
-      required this.isFav,
-      required this.assistantSupervisors,
-      required this.linkTheses,
-      required this.nameSupervisors,
-      required this.nameTheses,
-      required this.thesesStatus,
-      required this.docid,
-      required this.userId,
-      Key? key})
+  ThesesDetails({required this.degreeTheses,
+    required this.isFav,
+    required this.assistantSupervisors,
+    required this.linkTheses,
+    required this.nameSupervisors,
+    required this.nameTheses,
+    required this.thesesStatus,
+    required this.docid,
+    required this.userId,
+    Key? key})
       : super(key: key);
 
   @override
@@ -44,6 +47,8 @@ class _ThesesDetailsState extends State<ThesesDetails> {
 
   @override
   Widget build(BuildContext context) {
+    var prov = Provider.of<ProfileProvider>(context);
+    var provider = Provider.of<AuthProvider>(context);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: white,
@@ -132,19 +137,19 @@ class _ThesesDetailsState extends State<ThesesDetails> {
                                     vertical: 10, horizontal: 10),
                                 child: widget.isFav == true
                                     ? const ImageIcon(
-                                        AssetImage(
-                                          'assets/bookmark (2).png',
-                                        ),
-                                        color: blue,
-                                        size: 50,
-                                      )
+                                  AssetImage(
+                                    'assets/bookmark (2).png',
+                                  ),
+                                  color: blue,
+                                  size: 50,
+                                )
                                     : const ImageIcon(
-                                        AssetImage(
-                                          'assets/bookmark (1).png',
-                                        ),
-                                        color: blue,
-                                        size: 50,
-                                      ),
+                                  AssetImage(
+                                    'assets/bookmark (1).png',
+                                  ),
+                                  color: blue,
+                                  size: 50,
+                                ),
                               )
                             ]),
                       ),
@@ -168,81 +173,85 @@ class _ThesesDetailsState extends State<ThesesDetails> {
 
                   widget.userId == FirebaseAuth.instance.currentUser!.uid
                       ? InkWell(
-                          onTap: () {
-                            editTheses(context,
-                                text: 'تعديل اطروحة',
-                                indexed: widget.docid,
-                                nameTheses: widget.nameTheses,
-                                linkTheses: widget.linkTheses,
-                                nameSupervisors: widget.nameSupervisors,
-                                assistantSupervisors:
-                                    widget.assistantSupervisors,
-                                degreeTheses: widget.degreeTheses,
-                                thesesStatus: widget.thesesStatus,
-                                key: formKeys);
-                            setState(() {});
-                          },
-                          child: Row(
-                            children: const [
-                              Icon(
-                                Icons.edit,
-                                color: blue,
-                                size: 15,
-                              ),
-                              Text('تعديل الاطروحة',
-                                  style: TextStyle(
-                                      // decoration: TextDecoration.underline,
-                                      // decorationThickness: 2,
-                                      decorationColor: blue,
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w400,
-                                      color: blue))
-                            ],
-                          ),
-                        )
+                    onTap: () {
+                      editTheses(context,
+                          text: 'تعديل اطروحة',
+                          indexed: widget.docid,
+                          nameTheses: widget.nameTheses,
+                          linkTheses: widget.linkTheses,
+                          nameSupervisors: widget.nameSupervisors,
+                          assistantSupervisors:
+                          widget.assistantSupervisors,
+                          degreeTheses: widget.degreeTheses,
+                          thesesStatus: widget.thesesStatus,
+                          key: formKeys);
+                      setState(() {});
+                    },
+                    child: Row(
+                      children: const [
+                        Icon(
+                          Icons.edit,
+                          color: blue,
+                          size: 15,
+                        ),
+                        Text('تعديل الاطروحة',
+                            style: TextStyle(
+                              // decoration: TextDecoration.underline,
+                              // decorationThickness: 2,
+                                decorationColor: blue,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w400,
+                                color: blue))
+                      ],
+                    ),
+                  )
                       : const SizedBox(),
                   widget.userId == FirebaseAuth.instance.currentUser!.uid
                       ? InkWell(
-                          onTap: () async{
-                            await showDialogWarning(context,
-                                text: 'هل انت متأكد من حذف الاطروحة',
-                                ontap: () async {
-                              await FirebaseFirestore.instance
-                                  .collection('theses')
-                                  .doc(widget.docid)
-                                  .delete().then((value){
-                                AwesomeDialog(
-                                    context: context,
-                                    title: "هام",
-                                    body:
-                                    const Text("تمت عملية الحذف بنجاح"),
-                                    dialogType: DialogType.SUCCES)
-                                    .show();
-                              });
+                    onTap: () async {
+                      await showDialogWarning(context,
+                          text: 'هل انت متأكد من حذف الاطروحة',
+                          ontap: () async {
 
-                              Navigator.pop(context);
-                              Navigator.pop(context);
-
+                            await FirebaseFirestore.instance
+                                .collection('theses')
+                                .doc(widget.docid)
+                                .delete().then((value) async{
+                             await  AwesomeDialog(
+                                  context: context,
+                                  title: "هام",
+                                  body:
+                                  const Text("تمت عملية الحذف بنجاح"),
+                                  dialogType: DialogType.SUCCES)
+                                  .show();
+                             Navigator.push(context, MaterialPageRoute(
+                                 builder: (context) =>
+                                     NavigationFile( d: studentDrawer(context),
+                                         title: ' مرحبا${provider.userName} ',
+                                         counter: prov.counter!)));
                             });
-                          },
-                          child: Row(
-                            children: const [
-                              Icon(
-                                Icons.delete,
-                                color: red,
-                                size: 15,
-                              ),
-                              Text('حذف الاطروحة',
-                                  style: TextStyle(
-                                      // decoration: TextDecoration.underline,
-                                      // decorationThickness: 2,
-                                      decorationColor: red,
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w400,
-                                      color: red))
-                            ],
-                          ),
-                        )
+
+                                                     });
+
+                    },
+                    child: Row(
+                      children: const [
+                        Icon(
+                          Icons.delete,
+                          color: red,
+                          size: 15,
+                        ),
+                        Text('حذف الاطروحة',
+                            style: TextStyle(
+                              // decoration: TextDecoration.underline,
+                              // decorationThickness: 2,
+                                decorationColor: red,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w400,
+                                color: red))
+                      ],
+                    ),
+                  )
                       : const SizedBox(),
                 ],
               ),
@@ -254,8 +263,7 @@ class _ThesesDetailsState extends State<ThesesDetails> {
   }
 }
 
-void editTheses(
-  BuildContext context, {
+void editTheses(BuildContext context, {
   required String text,
   required indexed,
   required String? nameTheses,
@@ -269,17 +277,15 @@ void editTheses(
   showDialog(
     context: context,
     builder: (BuildContext context) {
-      var prov = Provider.of<ProfileProvider>(context);
       TextEditingController? nameTheses1 =
-          TextEditingController(text: nameTheses);
+      TextEditingController(text: nameTheses);
       TextEditingController? linkTheses1 =
-          TextEditingController(text: linkTheses);
+      TextEditingController(text: linkTheses);
       TextEditingController? nameSupervisors1 =
-          TextEditingController(text: nameSupervisors);
-      // TextEditingController? degreeTheses1 =
-      //     TextEditingController(text: degreeTheses);
+      TextEditingController(text: nameSupervisors);
+
       TextEditingController? assistantSupervisors1 =
-          TextEditingController(text: assistantSupervisors);
+      TextEditingController(text: assistantSupervisors);
 
       return AlertDialog(
         title: Center(child: Text(text)),
@@ -291,7 +297,10 @@ void editTheses(
             borderRadius: BorderRadius.all(Radius.circular(15))),
         content: SingleChildScrollView(
           child: SizedBox(
-            height: MediaQuery.of(context).size.height / 1.2,
+            height: MediaQuery
+                .of(context)
+                .size
+                .height / 1.2,
             child: Form(
               key: key,
               child: Column(
@@ -361,7 +370,7 @@ void editTheses(
                               underline: Container(
                                 width: 30,
                                 padding:
-                                    const EdgeInsets.symmetric(horizontal: 10),
+                                const EdgeInsets.symmetric(horizontal: 10),
                                 height: .5,
                                 decoration: const BoxDecoration(
                                     color: gray,
@@ -384,7 +393,7 @@ void editTheses(
                                     width: sizeFromWidth(context, 2.3),
                                     // for example
                                     child:
-                                        Text(value, textAlign: TextAlign.right),
+                                    Text(value, textAlign: TextAlign.right),
                                   ),
                                 );
                               }).toList(),
@@ -415,7 +424,7 @@ void editTheses(
                               underline: Container(
                                 width: 30,
                                 padding:
-                                    const EdgeInsets.symmetric(horizontal: 10),
+                                const EdgeInsets.symmetric(horizontal: 10),
                                 height: .5,
                                 decoration: const BoxDecoration(
                                     color: gray,
@@ -437,7 +446,7 @@ void editTheses(
                                   child: SizedBox(
                                     width: sizeFromWidth(context, 2.3),
                                     child:
-                                        Text(value, textAlign: TextAlign.left),
+                                    Text(value, textAlign: TextAlign.left),
                                   ),
                                 );
                               }).toList(),
@@ -480,10 +489,10 @@ void editTheses(
                   });
                   Navigator.pop(context);
                   AwesomeDialog(
-                          context: context,
-                          title: "هام",
-                          body: const Text("تمت عملية التعديل  بنجاح"),
-                          dialogType: DialogType.SUCCES)
+                      context: context,
+                      title: "هام",
+                      body: const Text("تمت عملية التعديل  بنجاح"),
+                      dialogType: DialogType.SUCCES)
                       .show();
                 }
               }),
