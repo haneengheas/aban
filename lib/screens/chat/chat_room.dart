@@ -17,7 +17,8 @@ class ChatRoom extends StatefulWidget {
   final String image, name;
   final String userId;
 
-  const ChatRoom({required this.image, required this.name, required this.userId});
+  const ChatRoom(
+      {required this.image, required this.name, required this.userId});
 
   @override
   State<ChatRoom> createState() => _ChatRoomState();
@@ -51,7 +52,6 @@ class _ChatRoomState extends State<ChatRoom> {
 
   @override
   void initState() {
-
     print(id);
     print(widget.userId);
     super.initState();
@@ -60,8 +60,9 @@ class _ChatRoomState extends State<ChatRoom> {
   @override
   Widget build(BuildContext context) {
     var prov = Provider.of<AuthProvider>(context);
-print(prov.userName);
-print('000000000000000000000000000000000000000000000000000000000000000000000');
+    print(prov.userName);
+    print(
+        '000000000000000000000000000000000000000000000000000000000000000000000');
     return Scaffold(
         backgroundColor: clearblue,
         appBar: AppBar(
@@ -87,10 +88,10 @@ print('000000000000000000000000000000000000000000000000000000000000000000000');
           children: <Widget>[
             StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance
-                    .collection('member').doc(id).collection('message')
-                    .orderBy(
-                      'timeDate'
-                    )
+                    .collection('member')
+                    .doc(id)
+                    .collection('message')
+                    .orderBy('timeDate')
                     .snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
@@ -107,15 +108,19 @@ print('000000000000000000000000000000000000000000000000000000000000000000000');
                     String messageText = message["Text"];
                     String sent = message["sent"];
                     if ((message["sent"] == id ||
-                            message["sent"] == widget.userId)&&
+                            message["sent"] == widget.userId) &&
                         (message["userId"] == id ||
                             message["userId"] == widget.userId)) {
                       messageWidget = MessageItem(
-                          text: messageText,
-                          isMe: sent == id,
-                          image: widget.image, time: message['timeDate'],);
+                        text: messageText,
+                        isMe: sent == id,
+                        image: widget.image,
+                        time: message['timeDate'],
+                      );
                       messageWidgets.add(messageWidget);
-                    }else {print('object');}
+                    } else {
+                      print('object');
+                    }
                   }
                   return Expanded(
                       child: ListView(
@@ -142,31 +147,36 @@ print('000000000000000000000000000000000000000000000000000000000000000000000');
                         color: blue,
                       ),
                       onPressed: () {
-                       print(DateTime.now().toLocal()) ;
+                        print(DateTime.now().toLocal());
                         if (_controller.text.isNotEmpty) {
-                          FirebaseFirestore.instance.collection('member').doc(id).collection(
-                              'message').add(
+                          FirebaseFirestore.instance
+                              .collection('member')
+                              .doc(id)
+                              .collection('message')
+                              .add(
+                            {
+                              "Text": message,
+                              "image": widget.image,
+                              'userId': widget.userId,
+                              'sent': id,
+                              // 'name': prov.userName,
+                              'name': widget.name,
+
+                              'timeDate': DateTime.now().toUtc()
+                            },
+                          );
+
+                          FirebaseFirestore.instance
+                              .collection('member')
+                              .doc(widget.userId)
+                              .collection('message')
+                              .add(
                             {
                               "Text": message,
                               "image": widget.image,
                               'userId': widget.userId,
                               'sent': id,
                               'name': widget.name,
-                              'timeDate': DateTime.now().toUtc()
-                            },
-                          );
-
-
-                          FirebaseFirestore.instance.collection('member').doc(
-                              widget.userId).collection(
-                              'message').add(
-                            {
-                              "Text": message,
-                              "image": widget.image,
-                              'userId': widget.userId,
-                              'sent': id,
-                    // 'name': widget.name,
-                               'name': prov.userName,
                               'timeDate': DateTime.now().toUtc()
                             },
                           );

@@ -191,7 +191,7 @@ class _ChatScreenState extends State<ChatScreen> {
             StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance.collection('member').doc(id)
                     .collection('message')
-             .orderBy('timeDate', descending:true)
+           .orderBy('timeDate')
                     // .limit(1)
                     .snapshots(),
                 builder: (context, snapshot) {
