@@ -52,8 +52,8 @@ class _ChatRoomState extends State<ChatRoom> {
 
   @override
   void initState() {
-    print(id);
-    print(widget.userId);
+    print("My d $id");
+    print("User Id ${widget.userId}");
     super.initState();
   }
 

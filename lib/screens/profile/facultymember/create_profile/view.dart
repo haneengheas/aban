@@ -18,6 +18,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:path/path.dart' as path;
 import 'package:provider/provider.dart';
 
@@ -46,6 +47,20 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
   List<String> selectedDepartment = <String>[];
   List<String> selectedDegree = <String>['دكتوراة'];
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> formKy = GlobalKey<FormState>();
+
+  final TextEditingController controller = TextEditingController();
+  String initialCountry = 'NG';
+  PhoneNumber number = PhoneNumber(isoCode: 'NG');
+
+  void getPhoneNumber(String phoneNumber) async {
+    PhoneNumber number =
+        await PhoneNumber.getRegionInfoFromPhoneNumber(phoneNumber, 'US');
+
+    setState(() {
+      this.number = number;
+    });
+  }
 
   getData() async {
     DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
@@ -260,6 +275,7 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                                       child: SizedBox(
                                         width: sizeFromWidth(context, 6),
                                         height: 50,
+
                                         // for example
                                         child: Text(value,
                                             textAlign: TextAlign.right),
@@ -272,24 +288,45 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                           ],
                         ),
                       ),
-                      SizedBox(
-                        width: sizeFromWidth(context, 2),
-                        child: Directionality(
-                            textDirection: TextDirection.rtl,
-                            child: TextFieldUser(
-                              labelText: 'رقم الهاتف',
-                              hintText: 'الهاتف ',
-                              onChanged: (value) {
-                                prov.phone = value;
-                              },
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'الرجاءادخال رقم الهاتف ';
-                                }
-                              },
-                              scure: false,
-                            )),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: SizedBox(
+                          width: sizeFromWidth(context, 2),
+                          child: Directionality(
+                              textDirection: TextDirection.rtl,
+                              child: TextFieldUser(
+                                hintText: "المعرف الخاص بك",
+                                labelText: "orcid iD",
+                                onChanged: (value) {
+                                  prov.id = value;
+                                },
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'الرجاءادخال المعرف الخاص بك ';
+                                  }
+                                },
+                                scure: false,
+                              )),
+                        ),
                       ),
+                      // SizedBox(
+                      //   width: sizeFromWidth(context, 2),
+                      //   child: Directionality(
+                      //       textDirection: TextDirection.rtl,
+                      //       child: TextFieldUser(
+                      //         labelText: 'رقم الهاتف',
+                      //         hintText: 'الهاتف ',
+                      //         onChanged: (value) {
+                      //           prov.phone = value;
+                      //         },
+                      //         validator: (value) {
+                      //           if (value.isEmpty) {
+                      //             return 'الرجاءادخال رقم الهاتف ';
+                      //           }
+                      //         },
+                      //         scure: false,
+                      //       )),
+                      // ),
                     ],
                   ),
                   Row(
@@ -305,6 +342,7 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                               onChanged: (value) {
                                 prov.email = value;
                               },
+
                               controller: email,
                               validator: (value) {
                                 if (value.isEmpty) {
@@ -335,27 +373,50 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                       ),
                     ],
                   ),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: SizedBox(
-                      width: sizeFromWidth(context, 2),
-                      child: Directionality(
-                          textDirection: TextDirection.rtl,
-                          child: TextFieldUser(
-                            hintText: "المعرف الخاص بك",
-                            labelText: "orcid iD",
-                            onChanged: (value) {
-                              prov.id = value;
-                            },
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'الرجاءادخال المعرف الخاص بك ';
-                              }
-                            },
-                            scure: false,
-                          )),
-                    ),
+                  const SizedBox(
+                    height: 20,
                   ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width / 1.2,
+                    child: Form(
+                      key: formKy,
+                      child: Container(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            InternationalPhoneNumberInput(
+                              hintText: 'رقم الهاتف',
+                              textStyle: labelStyle2,
+                              onInputChanged: (PhoneNumber number) {
+                                print(number.phoneNumber);
+                              },
+                              onInputValidated: (bool value) {
+                                print(value);
+                              },
+                              selectorConfig: const SelectorConfig(
+                                selectorType:
+                                    PhoneInputSelectorType.BOTTOM_SHEET,
+                              ),
+                              ignoreBlank: false,
+                              inputDecoration: const InputDecoration(
+                                  enabled: false, hintText: 'رقم الهاتف'),
+                              autoValidateMode: AutovalidateMode.disabled,
+                              selectorTextStyle: TextStyle(color: Colors.black),
+                              initialValue: number,
+                              textFieldController: controller,
+                              formatInput: false,
+                              keyboardType: TextInputType.numberWithOptions(
+                                  signed: true, decimal: true),
+                              inputBorder: OutlineInputBorder(),
+                              onSaved: (PhoneNumber number) {
+                                print('On Saved: $number');
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  )
                 ],
               ),
               // widget for accept supervision
@@ -465,9 +526,7 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                             body: const Text("يجب إدخال مجال"),
                             dialogType: DialogType.ERROR)
                           ..show();
-
-                      }
-                      else {
+                      } else {
                         await prov.createMemberProfile(
                           context: context,
                           faculty: college,
@@ -478,7 +537,7 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                           fields: fieldsStr,
                           accept: prov.accept,
                           name: nameuser.text,
-                          phone: prov.phone,
+                          phone: controller.text,
                           link: prov.link,
                           email: email.text,
                         );
@@ -518,7 +577,6 @@ showBottomSheet(context) {
                   var picked = await ImagePicker()
                       .pickImage(source: ImageSource.gallery);
 
-
                   // if(prov.file == null){
                   //   prov.ref =
                   //       FirebaseStorage.instance.ref("images").child('user.png');
@@ -526,8 +584,7 @@ showBottomSheet(context) {
                   // }
                   //  else
 
-
-                     if (picked != null) {
+                  if (picked != null) {
                     prov.file = File(picked.path);
                     var rang = Random().nextInt(100000);
                     var imageName = "$rang" + path.basename(picked.path);

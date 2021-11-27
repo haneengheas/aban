@@ -44,6 +44,7 @@ dependencies:
   firebase_storage:
   firebase_messaging:
   intl:
+  intl_phone_number_input: ^0.7.0+2
 
 
 
