@@ -68,6 +68,12 @@ class _ChatScreenState extends State<ChatScreen> {
                         ? message["sent"]
                         : message["userId"];
                     String lastMessage = message["Text"];
+                    print(lastMessage);
+
+                    messageList.removeWhere(
+                        (element) => element == message["otherName"]);
+                    messageWidgets.removeWhere(
+                        (element) => element.name == message["otherName"]);
 
                     if (!messageList.contains(name) &&
                         (message['sent'] == id || message['userId'] == id)) {
@@ -76,7 +82,6 @@ class _ChatScreenState extends State<ChatScreen> {
                         name: name,
                         dateTime: message["timeDate"],
                         ontap: () {
-                          // print("User Id $");
                           print(FirebaseAuth.instance.currentUser!.uid ==
                                   message["userId"]
                               ? message["sent"]
@@ -120,8 +125,11 @@ class _ChatScreenState extends State<ChatScreen> {
                       );
 
                       messageWidgets.add(messageWidget);
+                      messageList.removeWhere(
+                          (element) => element == message["otherName"]);
 
                       messageList.add(message["otherName"]);
+                      print(messageList);
                     }
                   }
                   return Expanded(
