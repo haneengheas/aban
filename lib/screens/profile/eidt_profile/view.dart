@@ -22,6 +22,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:path/path.dart' as path;
 import 'package:provider/provider.dart';
 
@@ -48,8 +49,24 @@ class _EditProfileState extends State<EditProfile> {
   String? college;
   String? department;
 
-  List<String> selectedDepartment = <String>[];
 
+  final GlobalKey<FormState> formKy = GlobalKey<FormState>();
+
+  final TextEditingController controller = TextEditingController();
+  String initialCountry = 'NG';
+  PhoneNumber number = PhoneNumber(isoCode: 'NG');
+
+  void getPhoneNumber(String phoneNumber) async {
+    PhoneNumber number =
+    await PhoneNumber.getRegionInfoFromPhoneNumber(phoneNumber, 'US');
+
+    setState(() {
+      this.number = number;
+    });
+  }
+
+
+  List<String> selectedDepartment = <String>[];
   getData() async {
     DocumentSnapshot documentSnapshot2 = await FirebaseFirestore.instance
         .collection("member")
@@ -374,24 +391,44 @@ class _EditProfileState extends State<EditProfile> {
                       ],
                     ),
                     // widget of number
-                    SizedBox(
-                      width: sizeFromWidth(context, 2),
-                      child: TextFieldUser(
-                        onChanged: (val) {
-                          prov.phone = val;
-                        },
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return 'برجاءادخال رقم الهاتف ';
-                          }
-                        },
-                        controller: phone,
-                        hintText: "+96655...",
-                        labelText: "رقم الهاتف",
-                        scure: false,
-                        // initialValue: phone,
-                      ),
-                    ),
+
+                        SizedBox(
+                          width: sizeFromWidth(context, 2),
+                          child: TextFieldUser(
+                            onChanged: (val) {
+                              prov.id = val;
+                            },
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'برجاءادخال المعرف الخاص بك ';
+                              }
+                            },
+                            controller: id,
+                            hintText: "المعرف الخاص بك",
+                            labelText: "orcid iD",
+                            scure: false,
+                            // initialValue: id,
+                          ),
+                        ),
+
+                    // SizedBox(
+                    //   width: sizeFromWidth(context, 2),
+                    //   child: TextFieldUser(
+                    //     onChanged: (val) {
+                    //       prov.phone = val;
+                    //     },
+                    //     validator: (value) {
+                    //       if (value.isEmpty) {
+                    //         return 'برجاءادخال رقم الهاتف ';
+                    //       }
+                    //     },
+                    //     controller: phone,
+                    //     hintText: "+96655...",
+                    //     labelText: "رقم الهاتف",
+                    //     scure: false,
+                    //     // initialValue: phone,
+                    //   ),
+                    // ),
                   ],
                 ),
                 // widget of email and link
@@ -435,28 +472,47 @@ class _EditProfileState extends State<EditProfile> {
                   ],
                 ),
                 // widget of oricd id
-                Row(
-                  children: [
-                    SizedBox(
-                      width: sizeFromWidth(context, 2),
-                      child: TextFieldUser(
-                        onChanged: (val) {
-                          prov.id = val;
-                        },
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return 'برجاءادخال المعرف الخاص بك ';
-                          }
-                        },
-                        controller: id,
-                        hintText: "المعرف الخاص بك",
-                        labelText: "orcid iD",
-                        scure: false,
-                        // initialValue: id,
+                SizedBox(
+                  width: MediaQuery.of(context).size.width / 1.2,
+                  child: Form(
+                    key: formKy,
+                    child: Container(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          InternationalPhoneNumberInput(
+                            hintText: 'رقم الهاتف',
+                            textStyle: labelStyle2,
+                            onInputChanged: (PhoneNumber number) {
+                              print(number.phoneNumber);
+                            },
+                            onInputValidated: (bool value) {
+                              print(value);
+                            },
+                            selectorConfig: const SelectorConfig(
+                              selectorType:
+                              PhoneInputSelectorType.BOTTOM_SHEET,
+                            ),
+                            ignoreBlank: false,
+                            inputDecoration: const InputDecoration(
+                                enabled: false, hintText: 'رقم الهاتف'),
+                            autoValidateMode: AutovalidateMode.disabled,
+                            selectorTextStyle: TextStyle(color: Colors.black),
+                            initialValue: number,
+                            textFieldController: controller,
+                            formatInput: false,
+                            keyboardType: TextInputType.numberWithOptions(
+                                signed: true, decimal: true),
+                            inputBorder: OutlineInputBorder(),
+                            onSaved: (PhoneNumber number) {
+                              print('On Saved: $number');
+                            },
+                          ),
+                        ],
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                )
               ]),
               // accept theses montor
               provAuth.usertype == 0

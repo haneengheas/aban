@@ -405,8 +405,14 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                               initialValue: number,
                               textFieldController: controller,
                               formatInput: false,
-                              keyboardType: TextInputType.numberWithOptions(
-                                  signed: true, decimal: true),
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'الرجاء ادخال رقم الهاتف';
+                                }
+                              },
+                              keyboardType:
+                                  const TextInputType.numberWithOptions(
+                                      signed: true, decimal: true),
                               inputBorder: OutlineInputBorder(),
                               onSaved: (PhoneNumber number) {
                                 print('On Saved: $number');

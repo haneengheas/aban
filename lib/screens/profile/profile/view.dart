@@ -36,6 +36,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void initState() {
     getCompletedTheses();
     getUnCompletedTheses();
+
     searchController.addListener(() {
       filter = searchController.text;
       setState(() {});
