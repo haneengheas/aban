@@ -158,7 +158,6 @@ class _ChatRoomState extends State<ChatRoom> {
                               "image": widget.image,
                               'userId': widget.userId,
                               'sent': id,
-                              // 'name': prov.userName,
                               'name': prov.userName,
                               'otherName': widget.name,
                               'timeDate': DateTime.now().toUtc()
