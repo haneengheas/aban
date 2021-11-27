@@ -41,28 +41,31 @@ class _FieldListresershState extends State<FieldListresersh> {
             .snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasData) {
-            return ListView.builder(
-              itemCount: snapshot.data!.docs[0]['fields'].length,
-              itemBuilder: (context, index) {
-                return snapshot.data!.docs[0]['fields'].isEmpty
-                    ? const SizedBox()
-                    : Row(
-                  children: [
-                    const Icon(
-                      Icons.circle,
-                      size: 10,
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Text(
-                      snapshot.data!.docs[0]['fields'][index],
-                      style: hintStyle,
-                    )
-                  ],
-                );
-              },
-            );
+            return snapshot.data!.docs.isEmpty
+                ? const SizedBox()
+            //TODO: show loading
+                : ListView.builder(
+                    itemCount: snapshot.data!.docs[0]['fields'].length,
+                    itemBuilder: (context, index) {
+                      return snapshot.data!.docs[0]['fields'].isEmpty
+                          ? const SizedBox()
+                          : Row(
+                              children: [
+                                const Icon(
+                                  Icons.circle,
+                                  size: 10,
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  snapshot.data!.docs[0]['fields'][index],
+                                  style: hintStyle,
+                                )
+                              ],
+                            );
+                    },
+                  );
           }
           return const SizedBox();
         });

@@ -7,6 +7,7 @@ import 'package:aban/screens/profile/eidt_profile/view.dart';
 import 'package:aban/screens/profile/profile/view.dart';
 import 'package:aban/screens/registration/regist_screen/view.dart';
 import 'package:aban/screens/supervision/graduated/view.dart';
+import 'package:aban/screens/supervision/member/incoming.dart';
 import 'package:aban/screens/supervision/member/view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

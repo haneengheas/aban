@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:aban/constant/style.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -43,6 +45,7 @@ class _SuperGraduatedState extends State<SuperGraduated> {
               return  ListView.builder(
                   itemCount: snapshot.data!.docs.length,
                   itemBuilder: (context, index) {
+                    String status = snapshot.data!.docs[index]['status'];
                     return Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       textDirection: TextDirection.rtl,
@@ -99,7 +102,7 @@ class _SuperGraduatedState extends State<SuperGraduated> {
                           alignment: Alignment.center,
                           decoration:  BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
-                              color: Colors.red, ),
+                              color: status== 'قيد المعالجة' ?blue: status== 'مقبول'?Colors.green: Colors.red ),
                           child: Center(
                               child: Text(snapshot.data!.docs[index]['status'],style: submitButtonStyle2,)),
                         )
