@@ -158,7 +158,7 @@ class _SupervisionScreenState extends State<SupervisionScreen> {
                                 ..show();
 
                             });
-                            await sendNotification(body:nameController.text ,title: 'إطروحة جديدة');
+                            await sendNotification(body:nameController.text ,title: 'طلب أشراف جديد');
 
                           }
 

@@ -191,7 +191,7 @@ class _ChatScreenState extends State<ChatScreen> {
             StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance.collection('member').doc(id)
                     .collection('message')
-             .orderBy('timeDate', descending: true)
+           .orderBy('timeDate')
                     // .limit(1)
                     .snapshots(),
                 builder: (context, snapshot) {
@@ -232,7 +232,8 @@ class _ChatScreenState extends State<ChatScreen> {
                             text: 'هل انت متاكد من حذف المحادثة؟',
                             ontap: () async {
                               await FirebaseFirestore.instance
-                                  .collection('member').doc(id).collection('message')
+                                  .collection('member').doc(id)
+                                  .collection('message')
                                   .get()
                                   .then((snapshot) {
                                 for (DocumentSnapshot ds in snapshot.docs) {
@@ -259,7 +260,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     }
                   }
                   return Expanded(
-                      child: ListView(
+                      child:  ListView(
                     padding: const EdgeInsets.all(20),
                     children: messageWidgets,
                   ));
