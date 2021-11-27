@@ -122,6 +122,8 @@ class _CompletedProjectState extends State<CompletedProject> {
                       children: [
                           InkWell(
                             onTap: () async {
+
+                              //copy from heree
                               DocumentSnapshot docRef = await FirebaseFirestore
                                   .instance
                                   .collection('project')
@@ -143,6 +145,9 @@ class _CompletedProjectState extends State<CompletedProject> {
                                       project.isFav! ? false : true
                                 });
                               }
+                              //to here :D
+
+
 
                               FirebaseFirestore.instance
                                   .collection('projectBookmark')
