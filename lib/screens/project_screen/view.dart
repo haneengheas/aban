@@ -9,14 +9,16 @@ import 'package:aban/screens/project_screen/proj_model.dart';
 import 'package:aban/screens/project_screen/uncompleted_project.dart';
 import 'package:aban/widgets/search_textfield.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class ProjectScreen extends StatefulWidget {
-
-  const ProjectScreen({Key? key,}) : super(key: key);
+  const ProjectScreen({
+    Key? key,
+  }) : super(key: key);
 
   @override
   _ProjectScreenState createState() => _ProjectScreenState();
@@ -34,9 +36,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
     getUnCompletedProjects();
     searchController.addListener(() {
       filter = searchController.text;
-      setState(() {
-
-      });
+      setState(() {});
     });
 
     super.initState();
@@ -49,18 +49,19 @@ class _ProjectScreenState extends State<ProjectScreen> {
         .get();
 
     for (var doc in querySnapshot.docs) {
-      completedProjects.add(ProjectModel(
-          descriptionProject: doc['descriptionProject'],
-          leaderName: doc['leaderName'],
-          isFav: doc['isFav'],
-          userId: doc['userId'],
-          projectStatus: doc['projectStatus'],
-          memberProjectName: doc['memberProjectName'],
-          projectName: doc['projectName'],
-          department: doc['department'],
-          college: doc['college'],
-          projectLink: doc['projectLink'],
-          id: doc.id),
+      completedProjects.add(
+        ProjectModel(
+            descriptionProject: doc['descriptionProject'],
+            leaderName: doc['leaderName'],
+            isFav: doc['isFav'],
+            userId: doc['userId'],
+            projectStatus: doc['projectStatus'],
+            memberProjectName: doc['memberProjectName'],
+            projectName: doc['projectName'],
+            department: doc['department'],
+            college: doc['college'],
+            projectLink: doc['projectLink'],
+            id: doc.id),
       );
     }
 
@@ -74,10 +75,21 @@ class _ProjectScreenState extends State<ProjectScreen> {
         .get();
 
     for (var doc in querySnapshot.docs) {
+      Map<String, dynamic> docIsFav = doc['isFav'];
+      bool isFav = false;
+      if(docIsFav.containsKey(FirebaseAuth.instance.currentUser!.uid.toString()))
+        {
+          isFav = docIsFav[FirebaseAuth.instance.currentUser!.uid.toString()];
+        }else{
+        isFav = false;
+      }
+      print(isFav);
+      print("=============================");
+
       unCompletedProjects.add(ProjectModel(
           descriptionProject: doc['descriptionProject'],
           leaderName: doc['leaderName'],
-           isFav: doc['isFav'],
+          isFav: isFav,
           userId: doc['userId'],
           projectStatus: doc['projectStatus'],
           memberProjectName: doc['memberProjectName'],
@@ -178,8 +190,8 @@ class _ProjectScreenState extends State<ProjectScreen> {
                     child: SizedBox(
                       child: TabBarView(
                         children: [
-                          UnCompletedProject(unCompletedProjects,filter),
-                          CompletedProject(completedProjects,filter)
+                          UnCompletedProject(unCompletedProjects, filter),
+                          CompletedProject(completedProjects, filter)
                         ],
                       ),
                     ),

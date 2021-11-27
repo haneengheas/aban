@@ -26,7 +26,7 @@ class ProfileProvider with ChangeNotifier {
   var accept;
   String? degreeMember;
   String? degreeGraduated;
-  int ? counter;
+  int? counter;
 
   late String seminaraddress,
       location,
@@ -40,7 +40,6 @@ class ProfileProvider with ChangeNotifier {
   DateTime? selectedDay;
   DateTime? focusedDay;
   CalendarFormat calendarFormat = CalendarFormat.month;
-
 
   List<TextEditingController> fields = <TextEditingController>[];
   late String nameTheses;
@@ -57,13 +56,13 @@ class ProfileProvider with ChangeNotifier {
   late String memberProjectName;
   final GlobalKey<FormState> formkey = GlobalKey<FormState>();
   String? projectDegree;
- String ?linkProject;
+  String? linkProject;
   String? projectStatus;
   bool isFav = false;
-  List ? isFavorite = [];
-  String ?college;
+  List? isFavorite = [];
+  String? college;
 
-  String ?department;
+  String? department;
 
 // methods to add and create member profile in fire base
   createMemberProfile({
@@ -77,50 +76,53 @@ class ProfileProvider with ChangeNotifier {
     required String degree,
     required String link,
     required var accept,
-    File ?file,
+    File? file,
     required String email,
   }) async {
-  //   if (file!.path=='')
-  //     {
-  //       showLoading(context);
-  //       await FirebaseFirestore.instance
-  //           .collection('member')
-  //           .doc(FirebaseAuth.instance.currentUser!.uid)
-  //           .set({
-  //         'faculty': faculty,
-  //         'phone': phone,
-  //         'name': name,
-  //         'email': email,
-  //         'imageUrl': 'https://imgv3.fotor.com/images/homepage-feature-card/Fotor-AI-photo-enhancement-tool.jpg',
-  //         'id': id,
-  //         'fields': fields,
-  //         'degree': degree,
-  //         'link': link,
-  //         'accept': accept,
-  //         'userId': FirebaseAuth.instance.currentUser!.uid,
-  //         'department': department,
-  //       });
-  //       showLoading(context);
-  //       counter = 1;
-  //       Navigator.of(context).popUntil((route) => route.isFirst);
-  //       Navigator.pushReplacement(
-  //           context,
-  //           MaterialPageRoute(
-  //               builder: (context) =>
-  //                   NavigationFile(
-  //                     d: studentDrawer(context),
-  //                     title: '   مرحبا $name ',
-  //                     counter: counter!,
-  //                   )));
-  //       notifyListeners();
-  //     }
-  //   else{
-  //
-  //
-  // }
+    //   if (file!.path=='')
+    //     {
+    //       showLoading(context);
+    //       await FirebaseFirestore.instance
+    //           .collection('member')
+    //           .doc(FirebaseAuth.instance.currentUser!.uid)
+    //           .set({
+    //         'faculty': faculty,
+    //         'phone': phone,
+    //         'name': name,
+    //         'email': email,
+    //         'imageUrl': 'https://imgv3.fotor.com/images/homepage-feature-card/Fotor-AI-photo-enhancement-tool.jpg',
+    //         'id': id,
+    //         'fields': fields,
+    //         'degree': degree,
+    //         'link': link,
+    //         'accept': accept,
+    //         'userId': FirebaseAuth.instance.currentUser!.uid,
+    //         'department': department,
+    //       });
+    //       showLoading(context);
+    //       counter = 1;
+    //       Navigator.of(context).popUntil((route) => route.isFirst);
+    //       Navigator.pushReplacement(
+    //           context,
+    //           MaterialPageRoute(
+    //               builder: (context) =>
+    //                   NavigationFile(
+    //                     d: studentDrawer(context),
+    //                     title: '   مرحبا $name ',
+    //                     counter: counter!,
+    //                   )));
+    //       notifyListeners();
+    //     }
+    //   else{
+    //
+    //
+    // }
     showLoading(context);
-    await ref.putFile(file!);
-    var imageUrl = await ref.getDownloadURL();
+    var imageUrl;
+    if (file!.path != "") {
+      await ref.putFile(file);
+      imageUrl = await ref.getDownloadURL();
+    }
     await FirebaseFirestore.instance
         .collection('member')
         .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -129,7 +131,7 @@ class ProfileProvider with ChangeNotifier {
       'phone': phone,
       'name': name,
       'email': email,
-      'imageUrl': imageUrl,
+      'imageUrl': file.path == "" ? "placeholder text" : imageUrl,
       'id': id,
       'fields': fields,
       'degree': degree,
@@ -144,8 +146,7 @@ class ProfileProvider with ChangeNotifier {
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-            builder: (context) =>
-                NavigationFile(
+            builder: (context) => NavigationFile(
                   d: studentDrawer(context),
                   title: '   مرحبا $name ',
                   counter: counter!,
@@ -162,8 +163,8 @@ class ProfileProvider with ChangeNotifier {
     required String nameSupervisors,
     required String? degreeTheses,
     required String? thesesStatus,
-    required String ? college,
-    required String ?department,
+    required String? college,
+    required String? department,
   }) async {
     showLoading(context);
     await FirebaseFirestore.instance.collection('theses').add({
@@ -190,9 +191,9 @@ class ProfileProvider with ChangeNotifier {
     required String leaderName,
     required String? projectStatus,
     required String memberProjectName,
-    required String ? college,
-    required String ?department,
-    required String ?linkProject,
+    required String? college,
+    required String? department,
+    required String? linkProject,
     // required String ? projectDegree,
   }) async {
     showLoading(context);
@@ -212,8 +213,6 @@ class ProfileProvider with ChangeNotifier {
     Navigator.pop(context);
     notifyListeners();
   }
-
-
 
   getData() async {
     DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
@@ -259,15 +258,15 @@ class ProfileProvider with ChangeNotifier {
       'to': to,
       'type': type,
       'username': name,
-      'isFav': false,
+      'isFav': {},
       'userId': FirebaseAuth.instance.currentUser!.uid,
     }).then((value) async {
       Navigator.pop(context);
       await AwesomeDialog(
-          context: context,
-          title: "هام",
-          body: const Text("تم الاضافة بنجاح"),
-          dialogType: DialogType.SUCCES)
+              context: context,
+              title: "هام",
+              body: const Text("تم الاضافة بنجاح"),
+              dialogType: DialogType.SUCCES)
           .show();
     });
     showLoading(context);
