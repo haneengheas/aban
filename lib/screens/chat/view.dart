@@ -48,7 +48,6 @@ class _ChatScreenState extends State<ChatScreen> {
                     .doc(id)
                     .collection('message')
                     .orderBy('timeDate')
-                    // .limit(1)
                     .snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
@@ -81,7 +80,9 @@ class _ChatScreenState extends State<ChatScreen> {
                         image: image,
                         name: name,
                         dateTime: message["timeDate"],
+
                         ontap: () {
+
                           print(FirebaseAuth.instance.currentUser!.uid ==
                                   message["userId"]
                               ? message["sent"]
