@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SupervisionMember extends StatefulWidget {
   const SupervisionMember({Key? key}) : super(key: key);
@@ -48,44 +49,51 @@ class _SupervisionMemberState extends State<SupervisionMember> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       textDirection: TextDirection.rtl,
                       children: [
-                        Container(
-                          margin: const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 10),
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 10),
-                          width: sizeFromWidth(context, 1.5),
-                          height: 120,
-                          decoration: BoxDecoration(
-                            color: clearblue,
-                            borderRadius: BorderRadius.circular(25),
-                          ),
-                          child: Directionality(
-                            textDirection: TextDirection.rtl,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      Text(
-                                        'اسم الاطروحة: ' +
-                                            snapshot.data!.docs[index]['name'],
-                                        style: labelStyle3,
-                                      ),
-                                      Text(
-                                        'تفاصيل الاطروحة:' +
-                                            snapshot.data!.docs[index]
-                                                ['description'],
-                                        style: hintStyle3,
-                                      ),
-                                    ],
+                        InkWell(
+                          onTap: () async {
+                            print(snapshot.data!.docs[index]['Cv']);
+                            await launch(
+                                'https://'+snapshot.data!.docs[index]['Cv']);
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 10),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 10),
+                            width: sizeFromWidth(context, 1.5),
+                            height: 120,
+                            decoration: BoxDecoration(
+                              color: clearblue,
+                              borderRadius: BorderRadius.circular(25),
+                            ),
+                            child: Directionality(
+                              textDirection: TextDirection.rtl,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        Text(
+                                          'اسم الاطروحة: ' +
+                                              snapshot.data!.docs[index]['name'],
+                                          style: labelStyle3,
+                                        ),
+                                        Text(
+                                          'تفاصيل الاطروحة:' +
+                                              snapshot.data!.docs[index]
+                                                  ['description'],
+                                          style: hintStyle3,
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
                         ),
