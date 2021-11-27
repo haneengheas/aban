@@ -122,6 +122,28 @@ class _CompletedProjectState extends State<CompletedProject> {
                       children: [
                           InkWell(
                             onTap: () async {
+                              DocumentSnapshot docRef = await FirebaseFirestore
+                                  .instance
+                                  .collection('project')
+                                  .doc(project.id)
+                                  .get();
+
+                              Map<String, dynamic> docIsFav =
+                                  docRef.get("isFav");
+
+                              if (docIsFav.containsKey(
+                                  FirebaseAuth.instance.currentUser!.uid)) {
+                                docIsFav.addAll({
+                                  FirebaseAuth.instance.currentUser!.uid
+                                      .toString(): project.isFav! ? false : true
+                                });
+                              } else {
+                                docIsFav.addAll({
+                                  FirebaseAuth.instance.currentUser!.uid:
+                                      project.isFav! ? false : true
+                                });
+                              }
+
                               FirebaseFirestore.instance
                                   .collection('projectBookmark')
                                   .doc(project.id)
@@ -141,7 +163,7 @@ class _CompletedProjectState extends State<CompletedProject> {
                               await FirebaseFirestore.instance
                                   .collection('project')
                                   .doc(project.id)
-                                  .update({'isFav': project.isFav!});
+                                  .update({'isFav': docIsFav});
                               if (project.isFav == false) {
                                 FirebaseFirestore.instance
                                     .collection('projectBookmark')

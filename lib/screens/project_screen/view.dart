@@ -49,11 +49,22 @@ class _ProjectScreenState extends State<ProjectScreen> {
         .get();
 
     for (var doc in querySnapshot.docs) {
+      Map<String, dynamic> docIsFav = doc['isFav'];
+      bool isFav = false;
+      if (docIsFav.containsKey(
+          FirebaseAuth.instance.currentUser!.uid.toString())) {
+        isFav = docIsFav[FirebaseAuth.instance.currentUser!.uid.toString()];
+      } else {
+        isFav = false;
+      }
+      print(isFav);
+      print("=============================");
+
       completedProjects.add(
         ProjectModel(
             descriptionProject: doc['descriptionProject'],
             leaderName: doc['leaderName'],
-            isFav: doc['isFav'],
+            isFav: isFav,
             userId: doc['userId'],
             projectStatus: doc['projectStatus'],
             memberProjectName: doc['memberProjectName'],
