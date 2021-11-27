@@ -3,12 +3,15 @@
 import 'dart:io';
 
 import 'package:aban/constant/style.dart';
+import 'package:aban/provider/auth_provider.dart';
+import 'package:aban/provider/profile_provider.dart';
 import 'package:aban/screens/chat/mesage_item.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
+import 'package:provider/provider.dart';
 
 class ChatRoom extends StatefulWidget {
   final String image, name;
@@ -48,6 +51,7 @@ class _ChatRoomState extends State<ChatRoom> {
 
   @override
   void initState() {
+
     print(id);
     print(widget.userId);
     super.initState();
@@ -55,6 +59,9 @@ class _ChatRoomState extends State<ChatRoom> {
 
   @override
   Widget build(BuildContext context) {
+    var prov = Provider.of<AuthProvider>(context);
+print(prov.userName);
+print('000000000000000000000000000000000000000000000000000000000000000000000');
     return Scaffold(
         backgroundColor: clearblue,
         appBar: AppBar(
@@ -158,7 +165,8 @@ class _ChatRoomState extends State<ChatRoom> {
                               "image": widget.image,
                               'userId': widget.userId,
                               'sent': id,
-                              'name': widget.name,
+                    // 'name': widget.name,
+                               'name': prov.userName,
                               'timeDate': DateTime.now().toUtc()
                             },
                           );
