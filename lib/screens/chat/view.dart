@@ -223,16 +223,16 @@ class _ChatScreenState extends State<ChatScreen> {
                         dateTime: message["timeDate"],
                         ontap: () {
                           // print("User Id $");
-                          print(FirebaseAuth.instance.currentUser!.uid !=
+                          print(FirebaseAuth.instance.currentUser!.uid ==
                                   message["userId"]
-                              ? message["userId"]
-                              : message["sent"]);
+                              ? message["sent"]
+                              : message["userId"]);
                           Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => ChatRoom(
                                         image: image,
-                                        userId: "niMblIzFDffvMnxj1BDAhpsvFfv2",
+                                        userId: userId,
                                         name: name,
                                       )));
                         },
