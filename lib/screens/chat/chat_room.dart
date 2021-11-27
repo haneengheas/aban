@@ -160,8 +160,8 @@ class _ChatRoomState extends State<ChatRoom> {
                               'userId': widget.userId,
                               'sent': id,
                               // 'name': prov.userName,
-                              'name': widget.name,
-
+                              'name': prov.userName,
+                              'otherName': widget.name,
                               'timeDate': DateTime.now().toUtc()
                             },
                           );
@@ -177,6 +177,7 @@ class _ChatRoomState extends State<ChatRoom> {
                               'userId': widget.userId,
                               'sent': id,
                               'name': widget.name,
+                              'otherName': prov.userName,
                               'timeDate': DateTime.now().toUtc()
                             },
                           );

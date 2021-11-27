@@ -206,7 +206,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
                   for (var message in data) {
                     String image = message["image"];
-                    String name = message["name"];
+                    String name = message["otherName"];
                     String userId = message["userId"];
                     String lastmassage = message["Text"];
 
