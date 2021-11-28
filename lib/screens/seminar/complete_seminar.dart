@@ -23,8 +23,12 @@ class CompleteSeminar extends StatefulWidget {
 
 class _UnCompletedProjectState extends State<CompleteSeminar> {
 
+@override
+void initState() {
 
-
+  // TODO: implement initState
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     var prov = Provider.of<ProfileProvider>(context);
@@ -199,36 +203,57 @@ class _UnCompletedProjectState extends State<CompleteSeminar> {
                     ),
                     prov.counter == 2? const SizedBox(): InkWell(
                       onTap: () async {
-                        FirebaseFirestore.instance
-                            .collection('seminarBookmark')
+                        DocumentSnapshot docRef = await FirebaseFirestore
+                            .instance
+                            .collection('seminar')
                             .doc(seminar.docId)
-                            .set({
-                          'description': seminar.discription,
-                          'from': seminar.from,
-                          'to': seminar.to,
-                          'link': seminar.link,
-                          'location': seminar.location,
-                          'selectedDay': seminar.selectday,
-                          'userId': FirebaseAuth.instance.currentUser!.uid,
-                          'type': seminar.type,
-                          'seminarAddress': seminar.seminartitle,
-                          'username': seminar.username,
-                          'isFav': seminar.isFav! ? false : true
+                            .get();
 
-                        });
+                        Map<String, dynamic> docIsFav =
+                        docRef.get("isFav");
+
+                        if (docIsFav.containsKey(
+                            FirebaseAuth.instance.currentUser!.uid)) {
+                          docIsFav.addAll({
+                            FirebaseAuth.instance.currentUser!.uid
+                                .toString(): seminar.isFav! ? false : true
+                          });
+                        } else {
+                          docIsFav.addAll({
+                            FirebaseAuth.instance.currentUser!.uid:
+                            seminar.isFav! ? false : true
+                          });
+                        }
+                        // FirebaseFirestore.instance
+                        //     .collection('seminarBookmark')
+                        //     .doc(seminar.docId)
+                        //     .set({
+                        //   'description': seminar.discription,
+                        //   'from': seminar.from,
+                        //   'to': seminar.to,
+                        //   'link': seminar.link,
+                        //   'location': seminar.location,
+                        //   'selectedDay': seminar.selectday,
+                        //   'userId': FirebaseAuth.instance.currentUser!.uid,
+                        //   'type': seminar.type,
+                        //   'seminarAddress': seminar.seminartitle,
+                        //   'username': seminar.username,
+                        //   'isFav': seminar.isFav! ? false : true
+                        //
+                        // });
 
                         seminar.isFav = !seminar.isFav!;
                         await FirebaseFirestore.instance
                             .collection('seminar')
                             .doc(seminar.docId)
                             .update(
-                            {'isFav': seminar.isFav! });
-                        if (seminar.isFav== false) {
-                          FirebaseFirestore.instance
-                              .collection('seminarBookmark')
-                              .doc(seminar.docId)
-                              .delete();
-                        }
+                            {'isFav': docIsFav });
+                        // if (seminar.isFav== false) {
+                        //   FirebaseFirestore.instance
+                        //       .collection('seminarBookmark')
+                        //       .doc(seminar.docId)
+                        //       .delete();
+                        // }
                         setState(() {});
 
                       },

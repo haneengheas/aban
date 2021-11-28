@@ -8,8 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class UnCompletedProject extends StatefulWidget {
-
-
   const UnCompletedProject();
 
   @override
@@ -29,22 +27,33 @@ class _UnCompletedProjectState extends State<UnCompletedProject> {
   getUnCompletedProjects() async {
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('project')
-        .where(
-          'userId',
-          isEqualTo: FirebaseAuth.instance.currentUser!.uid,
-        )
         .where('projectStatus', isEqualTo: 'غير مكتملة')
+        .where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
         .get();
 
     for (var doc in querySnapshot.docs) {
+      Map<String, dynamic> docIsFav = doc['isFav'];
+      bool isFav = false;
+      if (docIsFav
+          .containsKey(FirebaseAuth.instance.currentUser!.uid.toString())) {
+        isFav = docIsFav[FirebaseAuth.instance.currentUser!.uid.toString()];
+      } else {
+        isFav = false;
+      }
+      print(isFav);
+      print("=============================");
+
       unCompletedProjects.add(ProjectModel(
           descriptionProject: doc['descriptionProject'],
           leaderName: doc['leaderName'],
-          isFav: doc['isFav'],
+          isFav: isFav,
           userId: doc['userId'],
           projectStatus: doc['projectStatus'],
           memberProjectName: doc['memberProjectName'],
           projectName: doc['projectName'],
+          department: doc['department'],
+          college: doc['college'],
+          projectLink: doc['projectLink'],
           id: doc.id));
     }
 
@@ -56,7 +65,6 @@ class _UnCompletedProjectState extends State<UnCompletedProject> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-
         Expanded(
           child: SizedBox(
             child: ListView.builder(
@@ -117,55 +125,57 @@ class _UnCompletedProjectState extends State<UnCompletedProject> {
             ),
             InkWell(
               onTap: () async {
-                FirebaseFirestore.instance
-                    .collection('projectBookmark')
+                DocumentSnapshot docRef = await FirebaseFirestore
+                    .instance
+                    .collection('project')
                     .doc(project.id)
-                    .set({
-                  'projectName': project.projectName,
-                  'leaderName': project.leaderName,
-                  'descriptionProject': project.descriptionProject,
-                  'memberProjectName': project.memberProjectName,
-                  'projectStatus': project.projectStatus,
-                  'userId': FirebaseAuth.instance.currentUser!.uid,
-                  'isFav': project.isFav! ? false : true
-                });
+                    .get();
 
+                Map<String, dynamic> docIsFav =
+                docRef.get("isFav");
+
+                if (docIsFav.containsKey(
+                    FirebaseAuth.instance.currentUser!.uid)) {
+                  docIsFav.addAll({
+                    FirebaseAuth.instance.currentUser!.uid
+                        .toString(): project.isFav! ? false : true
+                  });
+                } else {
+                  docIsFav.addAll({
+                    FirebaseAuth.instance.currentUser!.uid:
+                    project.isFav! ? false : true
+                  });
+                }
                 project.isFav = !project.isFav!;
-
                 await FirebaseFirestore.instance
                     .collection('project')
                     .doc(project.id)
-                    .update({'isFav': project.isFav!});
-                if (project.isFav == false) {
-                  FirebaseFirestore.instance
-                      .collection('projectBookmark')
-                      .doc(project.id)
-                      .delete();
-                }
+                    .update({'isFav': docIsFav});
+
                 setState(() {});
               },
               child: Container(
                 height: 40,
                 width: 25,
-                margin:
-                    const EdgeInsets.symmetric(vertical: 30, horizontal: 10),
+                margin: const EdgeInsets.symmetric(
+                    vertical: 30, horizontal: 10),
                 child: !project.isFav!
                     ? const ImageIcon(
-                        AssetImage(
-                          'assets/bookmark (1).png',
-                        ),
-                        color: blue,
-                        size: 50,
-                      )
+                  AssetImage(
+                    'assets/bookmark (1).png',
+                  ),
+                  color: blue,
+                  size: 50,
+                )
                     : const ImageIcon(
-                        AssetImage(
-                          'assets/bookmark (2).png',
-                        ),
-                        color: blue,
-                        size: 50,
-                      ),
+                  AssetImage(
+                    'assets/bookmark (2).png',
+                  ),
+                  color: blue,
+                  size: 50,
+                ),
               ),
-            ),
+            )
           ],
         ),
       ),
@@ -173,9 +183,3 @@ class _UnCompletedProjectState extends State<UnCompletedProject> {
   }
 }
 
-List<List> completed = [
-  ['دكتوراه', 'bookmark (1).png', true, 'bookmark (2).png'],
-  ['ماجستير', 'bookmark (1).png', false, 'bookmark (2).png'],
-  ['دكتوراه', 'bookmark (1).png', true, 'bookmark (2).png'],
-  ['ماجستير', 'bookmark (1).png', true, 'bookmark (2).png'],
-];

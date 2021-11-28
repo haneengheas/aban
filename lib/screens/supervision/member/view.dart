@@ -1,13 +1,10 @@
 // ignore_for_file: avoid_print
 
-import 'package:aban/constant/alert_methods.dart';
 import 'package:aban/constant/style.dart';
 import 'package:aban/screens/supervision/member/incoming.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:aban/screens/supervision/member/outcoming.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class SupervisionMember extends StatefulWidget {
   const SupervisionMember({Key? key}) : super(key: key);
@@ -44,7 +41,7 @@ class _SupervisionMemberState extends State<SupervisionMember> {
               parent: NeverScrollableScrollPhysics()),
           child: Column(
             children: [
-              SizedBox(height: 10,),
+              const SizedBox(height: 10,),
               Container(
                 height: MediaQuery.of(context).size.height / 1.1,
                 decoration: const BoxDecoration(
@@ -78,12 +75,13 @@ class _SupervisionMemberState extends State<SupervisionMember> {
                       ],
                     )),
                   ),
-                  Expanded(
+                  const Expanded(
                     child: SizedBox(
                       child:  TabBarView(
                         children:   [
+                          OutCominingSuperMember(),
                           IncomingSuperMember(),
-                          IncomingSuperMember()
+
                         ],
                       ),
                     ),

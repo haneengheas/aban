@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_if_null_operators
+
 import 'package:aban/constant/style.dart';
 import 'package:flutter/material.dart';
 

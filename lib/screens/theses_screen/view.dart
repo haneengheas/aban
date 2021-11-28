@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:aban/constant/style.dart';
 import 'package:aban/provider/auth_provider.dart';
 import 'package:aban/provider/profile_provider.dart';
@@ -9,6 +11,7 @@ import 'package:aban/screens/theses_screen/theses_model.dart';
 import 'package:aban/screens/theses_screen/uncompleted_theses.dart';
 import 'package:aban/widgets/search_textfield.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -46,22 +49,33 @@ class _ThesesScreenState extends State<ThesesScreen> {
         .collection('theses')
         .where('thesesStatus', isEqualTo: 'مكتملة')
         .get();
-
     for (var doc in querySnapshot.docs) {
-      completedTheses.add(ModelTheses(
-          nameTheses: doc['nameTheses'],
-          assistantSupervisors: doc['assistantSupervisors'],
-          degreeTheses: doc['degreeTheses'],
-          nameSupervisors: doc['nameSupervisors'],
-          linkTheses: doc['linkTheses'],
-          thesesStatus: doc['thesesStatus'],
-          isFav: doc['isFav'],
-          department: doc['department'],
-          college: doc['college'],
-          userId: doc['userId'],
-          id: doc.id));
-    }
+      Map<String, dynamic> docIsFav = doc['isFav'];
+      bool isFav = false;
+      if (docIsFav.containsKey(
+          FirebaseAuth.instance.currentUser!.uid.toString())) {
+        isFav = docIsFav[FirebaseAuth.instance.currentUser!.uid.toString()];
+      } else {
+        isFav = false;
+      }
+      print(isFav);
+      print("=============================");
 
+
+        completedTheses.add(ModelTheses(
+            nameTheses: doc['nameTheses'],
+            assistantSupervisors: doc['assistantSupervisors'],
+            degreeTheses: doc['degreeTheses'],
+            nameSupervisors: doc['nameSupervisors'],
+            linkTheses: doc['linkTheses'],
+            thesesStatus: doc['thesesStatus'],
+            isFav: isFav,
+            department: doc['department'],
+            college: doc['college'],
+            userId: doc['userId'],
+            id: doc.id));
+
+    }
     setState(() {});
   }
 
@@ -70,8 +84,19 @@ class _ThesesScreenState extends State<ThesesScreen> {
         .collection('theses')
         .where('thesesStatus', isEqualTo: 'غير مكتملة')
         .get();
-
     for (var doc in querySnapshot.docs) {
+      Map<String, dynamic> docIsFav = doc['isFav'];
+      bool isFav = false;
+      if (docIsFav.containsKey(
+          FirebaseAuth.instance.currentUser!.uid.toString())) {
+        isFav = docIsFav[FirebaseAuth.instance.currentUser!.uid.toString()];
+      } else {
+        isFav = false;
+      }
+      print(isFav);
+      print("=============================");
+
+
       unCompletedTheses.add(ModelTheses(
           nameTheses: doc['nameTheses'],
           assistantSupervisors: doc['assistantSupervisors'],
@@ -79,7 +104,7 @@ class _ThesesScreenState extends State<ThesesScreen> {
           nameSupervisors: doc['nameSupervisors'],
           linkTheses: doc['linkTheses'],
           thesesStatus: doc['thesesStatus'],
-          isFav: doc['isFav'],
+          isFav: isFav,
           department: doc['department'],
           college: doc['college'],
           userId: doc['userId'],

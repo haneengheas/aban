@@ -11,9 +11,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class CompletedProjectResersh extends StatefulWidget {
-  final String text;
 
-  const CompletedProjectResersh({required this.text, this.userId});
+  const CompletedProjectResersh({ this.userId});
 
   final String? userId;
 
@@ -43,20 +42,33 @@ class _CompletedProjectResershState extends State<CompletedProjectResersh> {
   getCompletedProjects() async {
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('project')
-        .where('projectStatus', isEqualTo: 'مكتملة')
-        .where('userId', isEqualTo: widget.userId)
+        .where('projectStatus', isEqualTo: 'مكتملة').where('userId',isEqualTo: widget.userId)
         .get();
 
     for (var doc in querySnapshot.docs) {
+      Map<String, dynamic> docIsFav = doc['isFav'];
+      bool isFav = false;
+      if (docIsFav.containsKey(
+          FirebaseAuth.instance.currentUser!.uid.toString())) {
+        isFav = docIsFav[FirebaseAuth.instance.currentUser!.uid.toString()];
+      } else {
+        isFav = false;
+      }
+      print(isFav);
+      print("=============================");
+
       completedProjects.add(
         ProjectModel(
             descriptionProject: doc['descriptionProject'],
             leaderName: doc['leaderName'],
-            isFav: doc['isFav'],
+            isFav: isFav,
             userId: doc['userId'],
             projectStatus: doc['projectStatus'],
             memberProjectName: doc['memberProjectName'],
             projectName: doc['projectName'],
+            department: doc['department'],
+            college: doc['college'],
+            projectLink: doc['projectLink'],
             id: doc.id),
       );
     }
@@ -69,13 +81,7 @@ class _CompletedProjectResershState extends State<CompletedProjectResersh> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-          child: Text(
-            widget.text,
-            style: hintStyle,
-          ),
-        ),
+
         Expanded(
           child: SizedBox(
             child: ListView.builder(
@@ -154,26 +160,53 @@ class _CompletedProjectResershState extends State<CompletedProjectResersh> {
             ),
             prov.counter == 2? const SizedBox(): InkWell(
               onTap: () async {
+
+                //copy from heree
+                DocumentSnapshot docRef = await FirebaseFirestore
+                    .instance
+                    .collection('project')
+                    .doc(projectModel.id)
+                    .get();
+
+                Map<String, dynamic> docIsFav =
+                docRef.get("isFav");
+
+                if (docIsFav.containsKey(
+                    FirebaseAuth.instance.currentUser!.uid)) {
+                  docIsFav.addAll({
+                    FirebaseAuth.instance.currentUser!.uid
+                        .toString(): projectModel.isFav! ? false : true
+                  });
+                } else {
+                  docIsFav.addAll({
+                    FirebaseAuth.instance.currentUser!.uid:
+                    projectModel.isFav! ? false : true
+                  });
+                }
+                //to here :D
+
+
+
                 FirebaseFirestore.instance
                     .collection('projectBookmark')
                     .doc(projectModel.id)
                     .set({
                   'projectName': projectModel.projectName,
                   'leaderName': projectModel.leaderName,
-                  'descriptionProject': projectModel.descriptionProject,
+                  'descriptionProject':
+                  projectModel.descriptionProject,
                   'memberProjectName': projectModel.memberProjectName,
                   'projectStatus': projectModel.projectStatus,
-                  'userId': FirebaseAuth.instance.currentUser!.uid,
-                  'isFav': projectModel.isFav! ? false : true
+                  'userId':
+                  FirebaseAuth.instance.currentUser!.uid,
+                  'isFav':docIsFav
                 });
 
                 projectModel.isFav = !projectModel.isFav!;
-
                 await FirebaseFirestore.instance
                     .collection('project')
                     .doc(projectModel.id)
-                    .update(
-                    {'isFav': projectModel.isFav! });
+                    .update({'isFav': docIsFav});
                 if (projectModel.isFav == false) {
                   FirebaseFirestore.instance
                       .collection('projectBookmark')
@@ -181,12 +214,13 @@ class _CompletedProjectResershState extends State<CompletedProjectResersh> {
                       .delete();
                 }
                 setState(() {});
+                print(projectModel.id);
               },
               child: Container(
-
                 height: 40,
                 width: 25,
-                margin: const EdgeInsets.symmetric(vertical: 30,horizontal: 10),
+                margin: const EdgeInsets.symmetric(
+                    vertical: 30, horizontal: 10),
                 child: !projectModel.isFav!
                     ? const ImageIcon(
                   AssetImage(
@@ -204,6 +238,7 @@ class _CompletedProjectResershState extends State<CompletedProjectResersh> {
                 ),
               ),
             ),
+
           ],
         ),
       ),

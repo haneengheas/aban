@@ -1,11 +1,9 @@
 // ignore_for_file: avoid_print
-
 import 'package:aban/constant/alert_methods.dart';
 import 'package:aban/constant/style.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class IncomingSuperMember extends StatefulWidget {
@@ -23,14 +21,14 @@ class _IncomingSuperMemberState extends State<IncomingSuperMember> {
           stream: FirebaseFirestore.instance
               .collection('super')
               .where('receiveId',
-              isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+                  isEqualTo: FirebaseAuth.instance.currentUser!.uid)
               .snapshots(),
           builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (snapshot.hasData) {
               return ListView.builder(
                   itemCount: snapshot.data!.docs.length,
                   itemBuilder: (context, index) {
-                    String status =  snapshot.data!.docs[index]['status'];
+                    String status = snapshot.data!.docs[index]['status'];
                     print(status);
                     return Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -40,7 +38,7 @@ class _IncomingSuperMemberState extends State<IncomingSuperMember> {
                           onTap: () async {
                             print(snapshot.data!.docs[index]['Cv']);
                             await launch(
-                                'https://'+snapshot.data!.docs[index]['Cv']);
+                                'https://' + snapshot.data!.docs[index]['Cv']);
                           },
                           child: Container(
                             margin: const EdgeInsets.symmetric(
@@ -56,24 +54,26 @@ class _IncomingSuperMemberState extends State<IncomingSuperMember> {
                             child: Directionality(
                               textDirection: TextDirection.rtl,
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
                                 children: [
                                   Expanded(
                                     child: Column(
                                       crossAxisAlignment:
-                                      CrossAxisAlignment.start,
+                                          CrossAxisAlignment.start,
                                       mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
+                                          MainAxisAlignment.spaceEvenly,
                                       children: [
                                         Text(
                                           'اسم الاطروحة: ' +
-                                              snapshot.data!.docs[index]['name'],
+                                              snapshot.data!.docs[index]
+                                                  ['name'],
                                           style: labelStyle3,
                                         ),
                                         Text(
                                           'تفاصيل الاطروحة:' +
                                               snapshot.data!.docs[index]
-                                              ['description'],
+                                                  ['description'],
                                           style: hintStyle3,
                                         ),
                                       ],
@@ -84,77 +84,87 @@ class _IncomingSuperMemberState extends State<IncomingSuperMember> {
                             ),
                           ),
                         ),
-                        snapshot.data!.docs[index]
-                        ['status']=='قيد المعالجة'? Row(
-                          children: [
-                            Container(
-                              width: 40,
-                              height: 40,
-                              margin:const EdgeInsets.symmetric(horizontal: 5),
-                              alignment: Alignment.center,
-                              decoration: const BoxDecoration(
-                                  color: Colors.green, shape: BoxShape.circle),
-                              child: Center(
-                                  child: IconButton(
-                                      onPressed: () async {
-                                        showDialogWarning(context,
-                                            text:
-                                            'هل تقبل الاشراف علي هذه علي الاطروحة',
-                                            ontap: () async {
-                                              await FirebaseFirestore.instance
-                                                  .collection('super')
-                                                  .doc(
-                                                  snapshot.data!.docs[index].id)
-                                                  .update({'status': 'مقبول'});
-                                            });
-                                      },
-                                      icon: const Icon(
-                                        Icons.check,
-                                        size: 18,
-                                        color: white,
-                                      ))),
-                            ),
-                            Container(
-                              width: 40,
-                              height: 40,
-                              margin:const EdgeInsets.symmetric(horizontal: 5),
-
-                              alignment: Alignment.center,
-                              decoration: const BoxDecoration(
-                                  color: Colors.red, shape: BoxShape.circle),
-                              child: Center(
-                                  child: IconButton(
-                                      onPressed: () async {
-                                        showDialogWarning(context,
-                                            text:
-                                            'هل ترفض الاشراف علي هذه علي الاطروحة',
-                                            ontap: () async {
-                                              await FirebaseFirestore.instance
-                                                  .collection('super')
-                                                  .doc(
-                                                  snapshot.data!.docs[index].id)
-                                                  .update({'status': 'مرفوض'});
-                                              Navigator.pop(context);
-                                            });
-                                      },
-                                      icon: const Icon(
-                                        Icons.close,
-                                        size: 18,
-                                        color: white,
-                                      ))),
-                            )
-                          ],
-                        ):Container(
-                          width: 100,
-                          height: 40,
-                          alignment: Alignment.center,
-                          decoration:  BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: status == 'مقبول'?Colors.green:Colors.red, ),
-                          child: Center(
-                              child: Text(snapshot.data!.docs[index]['status'],style: submitButtonStyle2,)),
-                        )
-
+                        snapshot.data!.docs[index]['status'] == 'قيد المعالجة'
+                            ? Row(
+                                children: [
+                                  Container(
+                                    width: 40,
+                                    height: 40,
+                                    margin: const EdgeInsets.symmetric(
+                                        horizontal: 5),
+                                    alignment: Alignment.center,
+                                    decoration: const BoxDecoration(
+                                        color: Colors.green,
+                                        shape: BoxShape.circle),
+                                    child: Center(
+                                        child: IconButton(
+                                            onPressed: () async {
+                                              showDialogWarning(context,
+                                                  text:
+                                                      'هل تقبل الاشراف علي هذه علي الاطروحة',
+                                                  ontap: () async {
+                                                await FirebaseFirestore.instance
+                                                    .collection('super')
+                                                    .doc(snapshot
+                                                        .data!.docs[index].id)
+                                                    .update(
+                                                        {'status': 'مقبول'});
+                                              });
+                                            },
+                                            icon: const Icon(
+                                              Icons.check,
+                                              size: 18,
+                                              color: white,
+                                            ))),
+                                  ),
+                                  Container(
+                                    width: 40,
+                                    height: 40,
+                                    margin: const EdgeInsets.symmetric(
+                                        horizontal: 5),
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                        color: Colors.red[700],
+                                        shape: BoxShape.circle),
+                                    child: Center(
+                                        child: IconButton(
+                                            onPressed: () async {
+                                              showDialogWarning(context,
+                                                  text:
+                                                      'هل ترفض الاشراف علي هذه علي الاطروحة',
+                                                  ontap: () async {
+                                                await FirebaseFirestore.instance
+                                                    .collection('super')
+                                                    .doc(snapshot
+                                                        .data!.docs[index].id)
+                                                    .update(
+                                                        {'status': 'مرفوض'});
+                                                Navigator.pop(context);
+                                              });
+                                            },
+                                            icon: const Icon(
+                                              Icons.close,
+                                              size: 18,
+                                              color: white,
+                                            ))),
+                                  )
+                                ],
+                              )
+                            : Container(
+                                width: 100,
+                                height: 40,
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: status == 'مقبول'
+                                        ? Colors.green[600]
+                                        : Colors.red[700]),
+                                child: Center(
+                                    child: Text(
+                                  snapshot.data!.docs[index]['status'],
+                                  style: submitButtonStyle3,
+                                )),
+                              )
                       ],
                     );
                   });

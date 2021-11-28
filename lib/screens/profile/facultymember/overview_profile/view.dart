@@ -272,7 +272,7 @@ String myid =FirebaseAuth.instance.currentUser!.uid;
                       ),
 
                       SizedBox(
-                        height: MediaQuery.of(context).size.height / 2.3,
+                        height: MediaQuery.of(context).size.height / 2.1,
                         child: Column(
                           children: [
                             const Divider(
@@ -317,19 +317,16 @@ String myid =FirebaseAuth.instance.currentUser!.uid;
                                       userId: userId,
                                     ),
                                     CompeletedThesesresersh(
-                                      text: '',
+
                                       userId: userId,
                                     ),
                                     UnComletedThesesListresersh(
-                                      text: '',
                                       userId: userId,
                                     ),
                                     CompletedProjectResersh(
-                                      text: '',
                                       userId: userId,
                                     ),
                                     UnCompletedProjectresersh(
-                                      text: '',
                                       userId: userId,
                                     ),
                                   ],

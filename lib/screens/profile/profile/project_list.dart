@@ -9,8 +9,6 @@ import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CompletedProject extends StatefulWidget {
-
-
   const CompletedProject();
 
   @override
@@ -38,23 +36,34 @@ class _CompletedProjectState extends State<CompletedProject> {
   getCompletedProjects() async {
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('project')
-        .where(
-          'userId',
-          isEqualTo: FirebaseAuth.instance.currentUser!.uid,
-        )
         .where('projectStatus', isEqualTo: 'مكتملة')
+        .where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
         .get();
 
     for (var doc in querySnapshot.docs) {
+      Map<String, dynamic> docIsFav = doc['isFav'];
+      bool isFav = false;
+      if (docIsFav
+          .containsKey(FirebaseAuth.instance.currentUser!.uid.toString())) {
+        isFav = docIsFav[FirebaseAuth.instance.currentUser!.uid.toString()];
+      } else {
+        isFav = false;
+      }
+      print(isFav);
+      print("=============================");
+
       completedProjects.add(
         ProjectModel(
             descriptionProject: doc['descriptionProject'],
             leaderName: doc['leaderName'],
-            isFav: doc['isFav'],
+            isFav: isFav,
             userId: doc['userId'],
             projectStatus: doc['projectStatus'],
             memberProjectName: doc['memberProjectName'],
             projectName: doc['projectName'],
+            department: doc['department'],
+            college: doc['college'],
+            projectLink: doc['projectLink'],
             id: doc.id),
       );
     }
@@ -133,57 +142,62 @@ class _CompletedProjectState extends State<CompletedProject> {
               width: 20,
               thickness: 2,
             ),
-            // InkWell(
-            //   onTap: () async {
-            //     FirebaseFirestore.instance
-            //         .collection('projectBookmark')
-            //         .doc(projectModel.id)
-            //         .set({
-            //       'projectName': projectModel.projectName,
-            //       'leaderName': projectModel.leaderName,
-            //       'descriptionProject': projectModel.descriptionProject,
-            //       'memberProjectName': projectModel.memberProjectName,
-            //       'projectStatus': projectModel.projectStatus,
-            //       'userId': FirebaseAuth.instance.currentUser!.uid,
-            //       'isFav': projectModel.isFav! ? false : true
-            //     });
-            //
-            //     projectModel.isFav = !projectModel.isFav!;
-            //
-            //     await FirebaseFirestore.instance
-            //         .collection('project')
-            //         .doc(projectModel.id)
-            //         .update({'isFav': projectModel.isFav!});
-            //     if (projectModel.isFav == false) {
-            //       FirebaseFirestore.instance
-            //           .collection('projectBookmark')
-            //           .doc(projectModel.id)
-            //           .delete();
-            //     }
-            //     setState(() {});
-            //   },
-            //   // child: Container(
-            //   //   height: 40,
-            //   //   width: 25,
-            //   //   margin:
-            //   //       const EdgeInsets.symmetric(vertical: 30, horizontal: 10),
-            //   //   child: !projectModel.isFav!
-            //   //       ? const ImageIcon(
-            //   //           AssetImage(
-            //   //             'assets/bookmark (1).png',
-            //   //           ),
-            //   //           color: blue,
-            //   //           size: 50,
-            //   //         )
-            //   //       : const ImageIcon(
-            //   //           AssetImage(
-            //   //             'assets/bookmark (2).png',
-            //   //           ),
-            //   //           color: blue,
-            //   //           size: 50,
-            //   //         ),
-            //   // ),
-            // ),
+            InkWell(
+              onTap: () async {
+
+                //copy from heree
+                DocumentSnapshot docRef = await FirebaseFirestore
+                    .instance
+                    .collection('project')
+                    .doc(projectModel.id)
+                    .get();
+
+                Map<String, dynamic> docIsFav =
+                docRef.get("isFav");
+
+                if (docIsFav.containsKey(
+                    FirebaseAuth.instance.currentUser!.uid)) {
+                  docIsFav.addAll({
+                    FirebaseAuth.instance.currentUser!.uid
+                        .toString(): projectModel.isFav! ? false : true
+                  });
+                } else {
+                  docIsFav.addAll({
+                    FirebaseAuth.instance.currentUser!.uid:
+                    projectModel.isFav! ? false : true
+                  });
+                }
+                //to here :D
+                projectModel.isFav = !projectModel.isFav!;
+                await FirebaseFirestore.instance
+                    .collection('project')
+                    .doc(projectModel.id)
+                    .update({'isFav': docIsFav});
+                setState(() {});
+                print(projectModel.id);
+              },
+              child: Container(
+                height: 40,
+                width: 25,
+                margin: const EdgeInsets.symmetric(
+                    vertical: 30, horizontal: 10),
+                child: !projectModel.isFav!
+                    ? const ImageIcon(
+                  AssetImage(
+                    'assets/bookmark (1).png',
+                  ),
+                  color: blue,
+                  size: 50,
+                )
+                    : const ImageIcon(
+                  AssetImage(
+                    'assets/bookmark (2).png',
+                  ),
+                  color: blue,
+                  size: 50,
+                ),
+              ),
+            ),
           ],
         ),
       ),
@@ -191,9 +205,4 @@ class _CompletedProjectState extends State<CompletedProject> {
   }
 }
 
-List<List> completed = [
-  ['دكتوراه', 'bookmark (1).png', true, 'bookmark (2).png'],
-  ['ماجستير', 'bookmark (1).png', false, 'bookmark (2).png'],
-  ['دكتوراه', 'bookmark (1).png', true, 'bookmark (2).png'],
-  ['ماجستير', 'bookmark (1).png', true, 'bookmark (2).png'],
-];
+

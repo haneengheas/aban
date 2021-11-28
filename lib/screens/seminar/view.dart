@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:aban/constant/style.dart';
 import 'package:aban/provider/auth_provider.dart';
 import 'package:aban/provider/profile_provider.dart';
@@ -9,6 +11,7 @@ import 'package:aban/screens/seminar/later_seminar.dart';
 import 'package:aban/screens/seminar/seminar_model.dart';
 import 'package:aban/widgets/search_textfield.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -45,8 +48,18 @@ class _ProjectScreenState extends State<SeminarScreen> {
         .collection('seminar')
         .where('selectedDay', isLessThanOrEqualTo: DateTime.now())
         .get();
-
     for (var doc in querySnapshot.docs) {
+      Map<String, dynamic> docIsFav = doc['isFav'];
+      bool isFav = false;
+      if (docIsFav.containsKey(
+          FirebaseAuth.instance.currentUser!.uid.toString())) {
+        isFav = docIsFav[FirebaseAuth.instance.currentUser!.uid.toString()];
+      } else {
+        isFav = false;
+      }
+      print(isFav);
+      print("=============================");
+
       completedSeminar.add(SeminarModel(
 
           type: doc['type'],
@@ -61,7 +74,7 @@ class _ProjectScreenState extends State<SeminarScreen> {
           dropdown: doc['timedrop'],
           dropdown2: doc['timedrop2'],
           docId: doc.id,
-          isFav: doc['isFav'],
+          isFav: isFav,
           username: doc['username']
       )
       );
@@ -75,8 +88,17 @@ class _ProjectScreenState extends State<SeminarScreen> {
         .collection('seminar')
         .where('selectedDay', isGreaterThan: DateTime.now())
         .get();
-
     for (var doc in querySnapshot.docs) {
+      Map<String, dynamic> docIsFav = doc['isFav'];
+      bool isFav = false;
+      if (docIsFav.containsKey(
+          FirebaseAuth.instance.currentUser!.uid.toString())) {
+        isFav = docIsFav[FirebaseAuth.instance.currentUser!.uid.toString()];
+      } else {
+        isFav = false;
+      }
+      print(isFav);
+      print("=============================");
       unCompletedSeminar.add(SeminarModel(
           type: doc['type'],
           discription: doc['description'],
@@ -90,7 +112,7 @@ class _ProjectScreenState extends State<SeminarScreen> {
           to: doc['to'],
           userid:  doc['userId'],
           docId: doc.id,
-          isFav: doc['isFav'],
+          isFav: isFav,
           username: doc['username']));
     }
 

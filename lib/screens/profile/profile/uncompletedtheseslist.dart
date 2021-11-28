@@ -29,14 +29,23 @@ class _UnComletedThesesListState extends State<UnComletedThesesList> {
   getUnCompletedTheses() async {
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('theses')
-        .where(
-          'userId',
-          isEqualTo: FirebaseAuth.instance.currentUser!.uid,
-        )
         .where('thesesStatus', isEqualTo: 'غير مكتملة')
-        .get();
+        .where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
 
+        .get();
     for (var doc in querySnapshot.docs) {
+      Map<String, dynamic> docIsFav = doc['isFav'];
+      bool isFav = false;
+      if (docIsFav.containsKey(
+          FirebaseAuth.instance.currentUser!.uid.toString())) {
+        isFav = docIsFav[FirebaseAuth.instance.currentUser!.uid.toString()];
+      } else {
+        isFav = false;
+      }
+      print(isFav);
+      print("=============================");
+
+
       unCompletedTheses.add(ModelTheses(
           nameTheses: doc['nameTheses'],
           assistantSupervisors: doc['assistantSupervisors'],
@@ -44,7 +53,10 @@ class _UnComletedThesesListState extends State<UnComletedThesesList> {
           nameSupervisors: doc['nameSupervisors'],
           linkTheses: doc['linkTheses'],
           thesesStatus: doc['thesesStatus'],
-          isFav: doc['isFav'],
+          isFav: isFav,
+          department: doc['department'],
+          college: doc['college'],
+          userId: doc['userId'],
           id: doc.id));
     }
 
@@ -121,54 +133,55 @@ class _UnComletedThesesListState extends State<UnComletedThesesList> {
                   ),
                   InkWell(
                     onTap: () async {
-                      FirebaseFirestore.instance
-                          .collection('thesesBookmark')
+                      DocumentSnapshot docRef = await FirebaseFirestore
+                          .instance
+                          .collection('theses')
                           .doc(theses.id)
-                          .set({
-                        'nameTheses': theses.nameTheses,
-                        'nameSupervisors': theses.nameSupervisors,
-                        'assistantSupervisors': theses.assistantSupervisors,
-                        'degreeTheses': theses.degreeTheses,
-                        'linkTheses': theses.linkTheses,
-                        'thesesStatus': theses.thesesStatus,
-                        'userId': FirebaseAuth.instance.currentUser!.uid,
-                        'isFav': theses.isFav! ? false : true
-                      });
+                          .get();
 
+                      Map<String, dynamic> docIsFav =
+                      docRef.get("isFav");
+
+                      if (docIsFav.containsKey(
+                          FirebaseAuth.instance.currentUser!.uid)) {
+                        docIsFav.addAll({
+                          FirebaseAuth.instance.currentUser!.uid
+                              .toString(): theses.isFav! ? false : true
+                        });
+                      } else {
+                        docIsFav.addAll({
+                          FirebaseAuth.instance.currentUser!.uid:
+                          theses.isFav! ? false : true
+                        });
+                      }
                       theses.isFav = !theses.isFav!;
                       await FirebaseFirestore.instance
                           .collection('theses')
                           .doc(theses.id)
-                          .update({'isFav': theses.isFav!});
-
-                      if (theses.isFav == false) {
-                        await FirebaseFirestore.instance
-                            .collection('thesesBookmark')
-                            .doc(theses.id)
-                            .delete();
-                      }
+                          .update(
+                          {'isFav':docIsFav});
                       setState(() {});
                     },
                     child: Container(
                       height: 40,
                       width: 25,
                       margin: const EdgeInsets.symmetric(
-                          vertical: 5, horizontal: 10),
+                          vertical: 10, horizontal: 10),
                       child: !theses.isFav!
                           ? const ImageIcon(
-                              AssetImage(
-                                'assets/bookmark (1).png',
-                              ),
-                              color: blue,
-                              size: 50,
-                            )
+                        AssetImage(
+                          'assets/bookmark (1).png',
+                        ),
+                        color: blue,
+                        size: 50,
+                      )
                           : const ImageIcon(
-                              AssetImage(
-                                'assets/bookmark (2).png',
-                              ),
-                              color: blue,
-                              size: 50,
-                            ),
+                        AssetImage(
+                          'assets/bookmark (2).png',
+                        ),
+                        color: blue,
+                        size: 50,
+                      ),
                     ),
                   ),
                 ]),

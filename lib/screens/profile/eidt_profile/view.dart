@@ -476,40 +476,38 @@ class _EditProfileState extends State<EditProfile> {
                   width: MediaQuery.of(context).size.width / 1.2,
                   child: Form(
                     key: formKy,
-                    child: Container(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          InternationalPhoneNumberInput(
-                            hintText: 'رقم الهاتف',
-                            textStyle: labelStyle2,
-                            onInputChanged: (PhoneNumber number) {
-                              print(number.phoneNumber);
-                            },
-                            onInputValidated: (bool value) {
-                              print(value);
-                            },
-                            selectorConfig: const SelectorConfig(
-                              selectorType:
-                              PhoneInputSelectorType.BOTTOM_SHEET,
-                            ),
-                            ignoreBlank: false,
-                            inputDecoration: const InputDecoration(
-                                enabled: false, hintText: 'رقم الهاتف'),
-                            autoValidateMode: AutovalidateMode.disabled,
-                            selectorTextStyle: TextStyle(color: Colors.black),
-                            initialValue: number,
-                            textFieldController: controller,
-                            formatInput: false,
-                            keyboardType: TextInputType.numberWithOptions(
-                                signed: true, decimal: true),
-                            inputBorder: OutlineInputBorder(),
-                            onSaved: (PhoneNumber number) {
-                              print('On Saved: $number');
-                            },
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        InternationalPhoneNumberInput(
+                          hintText: 'رقم الهاتف',
+                          textStyle: labelStyle2,
+                          onInputChanged: (PhoneNumber number) {
+                            print(number.phoneNumber);
+                          },
+                          onInputValidated: (bool value) {
+                            print(value);
+                          },
+                          selectorConfig: const SelectorConfig(
+                            selectorType:
+                            PhoneInputSelectorType.BOTTOM_SHEET,
                           ),
-                        ],
-                      ),
+                          ignoreBlank: false,
+                          inputDecoration: const InputDecoration(
+                              enabled: false, hintText: 'رقم الهاتف'),
+                          autoValidateMode: AutovalidateMode.disabled,
+                          selectorTextStyle: const TextStyle(color: Colors.black),
+                          initialValue: number,
+                          textFieldController: phone,
+                          formatInput: false,
+                          keyboardType: const TextInputType.numberWithOptions(
+                              signed: true, decimal: true),
+                          inputBorder: const OutlineInputBorder(),
+                          onSaved: (PhoneNumber number) {
+                            print('On Saved: $number');
+                          },
+                        ),
+                      ],
                     ),
                   ),
                 )
@@ -600,6 +598,7 @@ class _EditProfileState extends State<EditProfile> {
                       text: 'حفظ التغيرات',
                       color: blueGradient,
                       onTap: () async {
+
                         showDialogWarning(context, ontap: () async {
                           print('hhhhhhhh');
                           if (formkey.currentState!.validate()) {
@@ -683,6 +682,7 @@ class _EditProfileState extends State<EditProfile> {
                       text: 'الغاء',
                       color: redGradient,
                       onTap: () {
+
                         print(provAuth.usertype);
                         Navigator.pop(context);
                       }),

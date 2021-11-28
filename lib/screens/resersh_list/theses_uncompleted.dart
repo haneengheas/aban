@@ -10,10 +10,9 @@ import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 class UnComletedThesesListresersh extends StatefulWidget {
-  final String text;
   final String? userId;
 
-  const UnComletedThesesListresersh({required this.text, required this.userId});
+  const UnComletedThesesListresersh({ required this.userId});
 
   @override
   State<UnComletedThesesListresersh> createState() =>
@@ -34,11 +33,21 @@ class _UnComletedThesesListresershState
   getUnCompletedTheses() async {
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('theses')
-        .where('thesesStatus', isEqualTo: 'غير مكتملة')
-        .where('userId', isEqualTo: widget.userId)
+        .where('thesesStatus', isEqualTo: 'غير مكتملة').where('userId',isEqualTo: widget.userId)
         .get();
-
     for (var doc in querySnapshot.docs) {
+      Map<String, dynamic> docIsFav = doc['isFav'];
+      bool isFav = false;
+      if (docIsFav.containsKey(
+          FirebaseAuth.instance.currentUser!.uid.toString())) {
+        isFav = docIsFav[FirebaseAuth.instance.currentUser!.uid.toString()];
+      } else {
+        isFav = false;
+      }
+      print(isFav);
+      print("=============================");
+
+
       unCompletedTheses.add(ModelTheses(
           nameTheses: doc['nameTheses'],
           assistantSupervisors: doc['assistantSupervisors'],
@@ -46,7 +55,10 @@ class _UnComletedThesesListresershState
           nameSupervisors: doc['nameSupervisors'],
           linkTheses: doc['linkTheses'],
           thesesStatus: doc['thesesStatus'],
-          isFav: doc['isFav'],
+          isFav: isFav,
+          department: doc['department'],
+          college: doc['college'],
+          userId: doc['userId'],
           id: doc.id));
     }
 
@@ -58,13 +70,7 @@ class _UnComletedThesesListresershState
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-          child: Text(
-            widget.text,
-            style: hintStyle,
-          ),
-        ),
+
         Expanded(
           child: SizedBox(
             child: ListView.builder(
@@ -138,6 +144,27 @@ class _UnComletedThesesListresershState
                   ),
                   InkWell(
                     onTap: () async {
+                      DocumentSnapshot docRef = await FirebaseFirestore
+                          .instance
+                          .collection('theses')
+                          .doc(theses.id)
+                          .get();
+
+                      Map<String, dynamic> docIsFav =
+                      docRef.get("isFav");
+
+                      if (docIsFav.containsKey(
+                          FirebaseAuth.instance.currentUser!.uid)) {
+                        docIsFav.addAll({
+                          FirebaseAuth.instance.currentUser!.uid
+                              .toString(): theses.isFav! ? false : true
+                        });
+                      } else {
+                        docIsFav.addAll({
+                          FirebaseAuth.instance.currentUser!.uid:
+                          theses.isFav! ? false : true
+                        });
+                      }
                       FirebaseFirestore.instance
                           .collection('thesesBookmark')
                           .doc(theses.id)
@@ -149,18 +176,17 @@ class _UnComletedThesesListresershState
                         'linkTheses': theses.linkTheses,
                         'thesesStatus': theses.thesesStatus,
                         'userId': FirebaseAuth.instance.currentUser!.uid,
-                        'isFav':theses.isFav! ? false : true
+                        'isFav': docIsFav
                       });
 
-                      theses.isFav= !theses.isFav!;
+                      theses.isFav = !theses.isFav!;
                       await FirebaseFirestore.instance
                           .collection('theses')
                           .doc(theses.id)
                           .update(
-                          {'isFav': theses.isFav! });
-
+                          {'isFav':docIsFav});
                       if (theses.isFav == false) {
-                        await FirebaseFirestore.instance
+                        FirebaseFirestore.instance
                             .collection('thesesBookmark')
                             .doc(theses.id)
                             .delete();
@@ -170,8 +196,10 @@ class _UnComletedThesesListresershState
                     child: Container(
                       height: 40,
                       width: 25,
-                      margin: const EdgeInsets.symmetric(vertical: 5,horizontal: 10),
-                      child: !theses.isFav!? const ImageIcon(
+                      margin: const EdgeInsets.symmetric(
+                          vertical: 10, horizontal: 10),
+                      child: !theses.isFav!
+                          ? const ImageIcon(
                         AssetImage(
                           'assets/bookmark (1).png',
                         ),
@@ -195,9 +223,3 @@ class _UnComletedThesesListresershState
   }
 }
 
-List<List> completed = [
-  ['دكتوراه', 'bookmark (1).png', 'bookmark (2).png', true],
-  ['ماجستير', 'bookmark (1).png', 'bookmark (2).png', true],
-  ['دكتوراه', 'bookmark (1).png', 'bookmark (2).png', true],
-  ['ماجستير', 'bookmark (1).png', 'bookmark (2).png', true],
-];

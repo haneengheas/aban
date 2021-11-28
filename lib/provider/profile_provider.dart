@@ -63,6 +63,7 @@ class ProfileProvider with ChangeNotifier {
   String? college;
 
   String? department;
+  Map<String, dynamic>? docIsFav={};
 
 // methods to add and create member profile in fire base
   createMemberProfile({
@@ -79,44 +80,6 @@ class ProfileProvider with ChangeNotifier {
     File? file,
     required String email,
   }) async {
-    //   if (file!.path=='')
-    //     {
-    //       showLoading(context);
-    //       await FirebaseFirestore.instance
-    //           .collection('member')
-    //           .doc(FirebaseAuth.instance.currentUser!.uid)
-    //           .set({
-    //         'faculty': faculty,
-    //         'phone': phone,
-    //         'name': name,
-    //         'email': email,
-    //         'imageUrl': 'https://imgv3.fotor.com/images/homepage-feature-card/Fotor-AI-photo-enhancement-tool.jpg',
-    //         'id': id,
-    //         'fields': fields,
-    //         'degree': degree,
-    //         'link': link,
-    //         'accept': accept,
-    //         'userId': FirebaseAuth.instance.currentUser!.uid,
-    //         'department': department,
-    //       });
-    //       showLoading(context);
-    //       counter = 1;
-    //       Navigator.of(context).popUntil((route) => route.isFirst);
-    //       Navigator.pushReplacement(
-    //           context,
-    //           MaterialPageRoute(
-    //               builder: (context) =>
-    //                   NavigationFile(
-    //                     d: studentDrawer(context),
-    //                     title: '   مرحبا $name ',
-    //                     counter: counter!,
-    //                   )));
-    //       notifyListeners();
-    //     }
-    //   else{
-    //
-    //
-    // }
     showLoading(context);
     var imageUrl;
     if (file!.path != "") {
@@ -131,7 +94,7 @@ class ProfileProvider with ChangeNotifier {
       'phone': phone,
       'name': name,
       'email': email,
-      'imageUrl': file.path == "" ? "placeholder text" : imageUrl,
+      'imageUrl': file.path == "" ? "https://firebasestorage.googleapis.com/v0/b/aban-9b0ba.appspot.com/o/user.png?alt=media&token=9d9b6b7d-f436-4fd3-99a2-e5b8bdf6f8d1" : imageUrl,
       'id': id,
       'fields': fields,
       'degree': degree,
@@ -174,7 +137,7 @@ class ProfileProvider with ChangeNotifier {
       'nameSupervisors': nameSupervisors,
       'degreeTheses': degreeTheses,
       'thesesStatus': thesesStatus,
-      'isFav': false,
+      'isFav': docIsFav,
       'userId': FirebaseAuth.instance.currentUser!.uid,
       'college': college,
       'department': department,
@@ -207,7 +170,7 @@ class ProfileProvider with ChangeNotifier {
       'department': department,
       'projectLink': linkProject,
       // 'projectDegree':projectDegree,
-      'isFav': false,
+      'isFav': docIsFav,
       'userId': FirebaseAuth.instance.currentUser!.uid,
     });
     Navigator.pop(context);
@@ -258,7 +221,7 @@ class ProfileProvider with ChangeNotifier {
       'to': to,
       'type': type,
       'username': name,
-      'isFav': {},
+      'isFav': docIsFav,
       'userId': FirebaseAuth.instance.currentUser!.uid,
     }).then((value) async {
       Navigator.pop(context);

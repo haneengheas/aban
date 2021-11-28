@@ -10,10 +10,9 @@ import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 class CompeletedThesesresersh extends StatefulWidget {
-  final String text;
   final String? userId;
 
-  const CompeletedThesesresersh({required this.text, required this.userId});
+  const CompeletedThesesresersh({ required this.userId});
 
   @override
   State<CompeletedThesesresersh> createState() =>
@@ -30,11 +29,21 @@ class _CompeletedThesesresershState extends State<CompeletedThesesresersh> {
   getCompletedTheses() async {
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('theses')
-        .where('thesesStatus', isEqualTo: 'مكتملة')
-        .where('userId', isEqualTo: widget.userId)
+        .where('thesesStatus', isEqualTo: 'مكتملة').where('userId',isEqualTo: widget.userId)
         .get();
-
     for (var doc in querySnapshot.docs) {
+      Map<String, dynamic> docIsFav = doc['isFav'];
+      bool isFav = false;
+      if (docIsFav.containsKey(
+          FirebaseAuth.instance.currentUser!.uid.toString())) {
+        isFav = docIsFav[FirebaseAuth.instance.currentUser!.uid.toString()];
+      } else {
+        isFav = false;
+      }
+      print(isFav);
+      print("=============================");
+
+
       completedTheses.add(ModelTheses(
           nameTheses: doc['nameTheses'],
           assistantSupervisors: doc['assistantSupervisors'],
@@ -42,10 +51,13 @@ class _CompeletedThesesresershState extends State<CompeletedThesesresersh> {
           nameSupervisors: doc['nameSupervisors'],
           linkTheses: doc['linkTheses'],
           thesesStatus: doc['thesesStatus'],
-          isFav: doc['isFav'],
+          isFav: isFav,
+          department: doc['department'],
+          college: doc['college'],
+          userId: doc['userId'],
           id: doc.id));
-    }
 
+    }
     setState(() {});
   }
 
@@ -54,13 +66,7 @@ class _CompeletedThesesresershState extends State<CompeletedThesesresersh> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-          child: Text(
-            widget.text,
-            style: hintStyle,
-          ),
-        ),
+
         Expanded(
           child: SizedBox(
             child: ListView.builder(
@@ -131,26 +137,47 @@ class _CompeletedThesesresershState extends State<CompeletedThesesresersh> {
                   ),
                   InkWell(
                     onTap: () async {
+                      DocumentSnapshot docRef = await FirebaseFirestore
+                          .instance
+                          .collection('theses')
+                          .doc(theses.id)
+                          .get();
+
+                      Map<String, dynamic> docIsFav =
+                      docRef.get("isFav");
+
+                      if (docIsFav.containsKey(
+                          FirebaseAuth.instance.currentUser!.uid)) {
+                        docIsFav.addAll({
+                          FirebaseAuth.instance.currentUser!.uid
+                              .toString(): theses.isFav! ? false : true
+                        });
+                      } else {
+                        docIsFav.addAll({
+                          FirebaseAuth.instance.currentUser!.uid:
+                          theses.isFav! ? false : true
+                        });
+                      }
                       FirebaseFirestore.instance
                           .collection('thesesBookmark')
                           .doc(theses.id)
                           .set({
                         'nameTheses': theses.nameTheses,
                         'nameSupervisors': theses.nameSupervisors,
-                        'assistantSupervisors': theses.assistantSupervisors,
+                        'assistantSupervisors':
+                        theses.assistantSupervisors,
                         'degreeTheses': theses.degreeTheses,
                         'linkTheses': theses.linkTheses,
                         'thesesStatus': theses.thesesStatus,
                         'userId': FirebaseAuth.instance.currentUser!.uid,
-                        'isFav':theses.isFav! ? false : true
+                        'isFav': docIsFav
                       });
 
-                      theses.isFav= !theses.isFav!;
+                      theses.isFav = !theses.isFav!;
                       await FirebaseFirestore.instance
                           .collection('theses')
                           .doc(theses.id)
-                          .update(
-                          {'isFav': theses.isFav! });
+                          .update({'isFav': docIsFav});
 
                       if (theses.isFav == false) {
                         await FirebaseFirestore.instance
@@ -163,8 +190,10 @@ class _CompeletedThesesresershState extends State<CompeletedThesesresersh> {
                     child: Container(
                       height: 40,
                       width: 25,
-                      margin: const EdgeInsets.symmetric(vertical: 5,horizontal: 10),
-                      child: !theses.isFav!? const ImageIcon(
+                      margin: const EdgeInsets.symmetric(
+                          vertical: 10, horizontal: 10),
+                      child: !theses.isFav!
+                          ? const ImageIcon(
                         AssetImage(
                           'assets/bookmark (1).png',
                         ),

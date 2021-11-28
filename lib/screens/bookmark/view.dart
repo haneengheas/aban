@@ -51,6 +51,10 @@ class _BookmarkScreenState extends State<BookmarkScreen> {
                   ),
                 ),
                const SeminarBookmark(),
+               const Divider(
+                  thickness: 1,
+                  color: gray,
+                ),
                 Padding(
                   padding:
                   const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
@@ -60,6 +64,10 @@ class _BookmarkScreenState extends State<BookmarkScreen> {
                   ),
                 ),
                 const ThesesBookMark(),
+                const Divider(
+                  thickness: 1,
+                  color: gray,
+                ),
                 Padding(
                   padding:
                   const EdgeInsets.symmetric(horizontal: 10, vertical: 15),

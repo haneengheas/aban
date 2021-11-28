@@ -1,8 +1,9 @@
+// ignore_for_file: avoid_print
+
 import 'package:aban/constant/style.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 class OutCominingSuperMember extends StatefulWidget {
   const OutCominingSuperMember({Key? key}) : super(key: key);
@@ -15,23 +16,6 @@ class _OutCominingSuperMemberState extends State<OutCominingSuperMember> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: white,
-        title: Text('طلبات الاشراف',
-            style: GoogleFonts.cairo(
-              textStyle: const TextStyle(
-                  color: blue, fontWeight: FontWeight.bold, fontSize: 28),
-            )),
-        centerTitle: true,
-        elevation: 0,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: const Icon(Icons.arrow_back),
-          color: blue,
-        ),
-      ),
       body: StreamBuilder(
           stream: FirebaseFirestore.instance
               .collection('super')
@@ -100,7 +84,7 @@ class _OutCominingSuperMemberState extends State<OutCominingSuperMember> {
                           alignment: Alignment.center,
                           decoration:  BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
-                              color: status== 'قيد المعالجة' ?blue: status== 'مقبول'?Colors.green: Colors.red ),
+                              color: status== 'قيد المعالجة' ?blue: status== 'مقبول'?Colors.green[600]: Colors.red[100] ),
                           child: Center(
                               child: Text(snapshot.data!.docs[index]['status'],style: submitButtonStyle2,)),
                         )

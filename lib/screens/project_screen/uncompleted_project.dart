@@ -145,33 +145,11 @@ class _UnCompletedProjectState extends State<UnCompletedProject> {
                                 });
                               }
 
-                              FirebaseFirestore.instance
-                                  .collection('projectBookmark')
-                                  .doc(project.id)
-                                  .set({
-                                'projectName': project.projectName,
-                                'leaderName': project.leaderName,
-                                'descriptionProject':
-                                    project.descriptionProject,
-                                'memberProjectName': project.memberProjectName,
-                                'projectStatus': project.projectStatus,
-                                'userId':
-                                    FirebaseAuth.instance.currentUser!.uid,
-                                'isFav': project.isFav! ? false : true
-                              });
-
                               project.isFav = !project.isFav!;
                               await FirebaseFirestore.instance
                                   .collection('project')
                                   .doc(project.id)
                                   .update({'isFav': docIsFav});
-
-                              if (project.isFav == false) {
-                                FirebaseFirestore.instance
-                                    .collection('projectBookmark')
-                                    .doc(project.id)
-                                    .delete();
-                              }
                               setState(() {});
                             },
                             child: Container(

@@ -127,33 +127,36 @@ class _CompletedThesesState extends State<CompletedTheses> {
                           ),
                           InkWell(
                             onTap: () async {
-                              FirebaseFirestore.instance
-                                  .collection('thesesBookmark')
+                              DocumentSnapshot docRef = await FirebaseFirestore
+                                  .instance
+                                  .collection('theses')
                                   .doc(theses.id)
-                                  .set({
-                                'nameTheses': theses.nameTheses,
-                                'nameSupervisors': theses.nameSupervisors,
-                                'assistantSupervisors':
-                                    theses.assistantSupervisors,
-                                'degreeTheses': theses.degreeTheses,
-                                'linkTheses': theses.linkTheses,
-                                'thesesStatus': theses.thesesStatus,
-                                'userId': FirebaseAuth.instance.currentUser!.uid,
-                                'isFav': theses.isFav! ? false : true
-                              });
+                                  .get();
+
+                              Map<String, dynamic> docIsFav =
+                              docRef.get("isFav");
+
+                              if (docIsFav.containsKey(
+                                  FirebaseAuth.instance.currentUser!.uid)) {
+                                docIsFav.addAll({
+                                  FirebaseAuth.instance.currentUser!.uid
+                                      .toString(): theses.isFav! ? false : true
+                                });
+                              } else {
+                                docIsFav.addAll({
+                                  FirebaseAuth.instance.currentUser!.uid:
+                                  theses.isFav! ? false : true
+                                });
+                              }
+
 
                               theses.isFav = !theses.isFav!;
                               await FirebaseFirestore.instance
                                   .collection('theses')
                                   .doc(theses.id)
-                                  .update({'isFav': theses.isFav!});
+                                  .update({'isFav': docIsFav});
 
-                              if (theses.isFav == false) {
-                                await FirebaseFirestore.instance
-                                    .collection('thesesBookmark')
-                                    .doc(theses.id)
-                                    .delete();
-                              }
+
                               setState(() {});
                             },
                             child: Container(

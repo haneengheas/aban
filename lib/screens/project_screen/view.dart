@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:aban/constant/style.dart';
 import 'package:aban/provider/auth_provider.dart';
 import 'package:aban/provider/profile_provider.dart';

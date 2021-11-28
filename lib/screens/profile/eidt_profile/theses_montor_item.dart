@@ -234,7 +234,6 @@ void editTheses(
       TextEditingController? nameTheses1= TextEditingController(text: nameTheses);
       TextEditingController? linkTheses1= TextEditingController(text: linkTheses);
       TextEditingController? nameSupervisors1= TextEditingController(text: nameSupervisors);
-      TextEditingController? degreeTheses1= TextEditingController(text: degreeTheses);
       TextEditingController? assistantSupervisors1= TextEditingController(text: assistantSupervisors);
 
 

@@ -210,23 +210,44 @@ class _UnCompletedProjectState extends State<LaterSeminar> {
                     ),
                     prov.counter == 2? const SizedBox():InkWell(
                       onTap: () async {
-                        await FirebaseFirestore.instance
-                            .collection('seminarBookmark')
-                            .doc(
-                            seminar.docId)
-                            .set({
-                          'description': seminar.discription,
-                          'from': seminar.from,
-                          'to': seminar.to,
-                          'link': seminar.link,
-                          'location': seminar.location,
-                          'selectedDay': seminar.selectday,
-                          'userId': FirebaseAuth.instance.currentUser!.uid,
-                          'type': seminar.type,
-                          'seminarAddress': seminar.seminartitle,
-                          'username': seminar.username,
-                          'isFav': seminar.isFav! ? false : true
-                        });
+                        DocumentSnapshot docRef = await FirebaseFirestore
+                            .instance
+                            .collection('seminar')
+                            .doc(seminar.docId)
+                            .get();
+
+                        Map<String, dynamic> docIsFav =
+                        docRef.get("isFav");
+
+                        if (docIsFav.containsKey(
+                            FirebaseAuth.instance.currentUser!.uid)) {
+                          docIsFav.addAll({
+                            FirebaseAuth.instance.currentUser!.uid
+                                .toString(): seminar.isFav! ? false : true
+                          });
+                        } else {
+                          docIsFav.addAll({
+                            FirebaseAuth.instance.currentUser!.uid:
+                            seminar.isFav! ? false : true
+                          });
+                        }
+                        // await FirebaseFirestore.instance
+                        //     .collection('seminarBookmark')
+                        //     .doc(
+                        //     seminar.docId)
+                        //     .set({
+                        //   'description': seminar.discription,
+                        //   'from': seminar.from,
+                        //   'to': seminar.to,
+                        //   'link': seminar.link,
+                        //   'location': seminar.location,
+                        //   'selectedDay': seminar.selectday,
+                        //   'userId': FirebaseAuth.instance.currentUser!.uid,
+                        //   'type': seminar.type,
+                        //   'seminarAddress': seminar.seminartitle,
+                        //   'username': seminar.username,
+                        //   'isFav': docIsFav
+                        // });
 
                         seminar.isFav = !seminar.isFav!;
                         await FirebaseFirestore.instance
@@ -234,14 +255,8 @@ class _UnCompletedProjectState extends State<LaterSeminar> {
                             .doc(
                             seminar.docId)
                             .update(
-                            {'isFav': seminar.isFav});
-                        if (seminar.isFav == false) {
-                          FirebaseFirestore.instance
-                              .collection('seminarBookmark')
-                              .doc(
-                              seminar.docId)
-                              .delete();
-                        }
+                            {'isFav': docIsFav});
+
                         setState(() {});
                       },
                       child: Container(

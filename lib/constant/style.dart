@@ -13,6 +13,7 @@ const Color lightGray = Color(0xffc7c7c7);
 const Color clearblue = Color(0xfff5f6fc);
 const Color red = Color(0xffaf2e2e);
 const Color red2 = Color(0xffcc6b6b);
+const Color green = Color(0xff32CD32);
 
 const LinearGradient blueGradient = LinearGradient(
     begin: Alignment.centerLeft,
@@ -98,6 +99,8 @@ TextStyle submitButtonStyle =
     GoogleFonts.cairo(fontSize: 18, color: white, fontWeight: FontWeight.w600);
 TextStyle submitButtonStyle2 =
     GoogleFonts.cairo(fontSize: 15, color: white, fontWeight: FontWeight.w600);
+TextStyle submitButtonStyle3 =
+    GoogleFonts.cairo(fontSize: 15, color: white, fontWeight: FontWeight.bold);
 TextStyle appBarStyle = GoogleFonts.cairo(
   textStyle:
       const TextStyle(color: blue, fontWeight: FontWeight.bold, fontSize: 28),
