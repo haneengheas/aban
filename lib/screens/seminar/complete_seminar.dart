@@ -243,6 +243,9 @@ void initState() {
                         // });
 
                         seminar.isFav = !seminar.isFav!;
+                        setState(() {
+
+                        });
                         await FirebaseFirestore.instance
                             .collection('seminar')
                             .doc(seminar.docId)

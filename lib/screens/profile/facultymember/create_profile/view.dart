@@ -55,6 +55,7 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
   String initialCountry = 'NG';
   PhoneNumber number = PhoneNumber(isoCode: 'NG');
   late String phoneview;
+  late String key;
   void getPhoneNumber(String phoneNumber) async {
     PhoneNumber number =
         await PhoneNumber.getRegionInfoFromPhoneNumber(phoneNumber, 'US');
@@ -392,6 +393,10 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                             onInputChanged: (PhoneNumber number) {
                               phoneview = number.phoneNumber.toString();
                               print(number.phoneNumber);
+                              print(number.dialCode);
+                              print(number.isoCode);
+                              key =number.isoCode!;
+
                             },
                             // onInputValidated: (bool value) {
                             //   print(value);
@@ -539,6 +544,7 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                           ..show();
                       } else {
                         await prov.createMemberProfile(
+                          key: key,
                           phoneview: phoneview,
                           context: context,
                           faculty: college,

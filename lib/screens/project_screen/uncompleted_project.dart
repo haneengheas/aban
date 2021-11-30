@@ -146,10 +146,15 @@ class _UnCompletedProjectState extends State<UnCompletedProject> {
                               }
 
                               project.isFav = !project.isFav!;
+
+                              setState(() {
+                              });
+
                               await FirebaseFirestore.instance
                                   .collection('project')
                                   .doc(project.id)
                                   .update({'isFav': docIsFav});
+
                               setState(() {});
                             },
                             child: Container(

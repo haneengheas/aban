@@ -49,6 +49,7 @@ class _EditProfileState extends State<EditProfile> {
   String? college;
   String? department;
   late String phoneview;
+  late String key;
 
   final GlobalKey<FormState> formKy = GlobalKey<FormState>();
 
@@ -167,14 +168,18 @@ class _EditProfileState extends State<EditProfile> {
 
   @override
   void initState() {
+
+
     var prov;
     Future.delayed(Duration.zero, () async {
       prov = Provider.of<ProfileProvider>(
         context,
         listen: false,
       );
+      ///fiebase to go get key
       prov.fields.clear();
       prov.file = File('');
+      getPhoneNumber(key);
 
       await getData();
       for (var f in field!) {

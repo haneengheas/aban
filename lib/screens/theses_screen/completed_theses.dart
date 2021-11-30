@@ -151,6 +151,9 @@ class _CompletedThesesState extends State<CompletedTheses> {
 
 
                               theses.isFav = !theses.isFav!;
+                              setState(() {
+
+                              });
                               await FirebaseFirestore.instance
                                   .collection('theses')
                                   .doc(theses.id)

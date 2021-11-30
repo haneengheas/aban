@@ -62,12 +62,14 @@ class ProfileProvider with ChangeNotifier {
   bool isFav = false;
   List? isFavorite = [];
   String? college;
+  late String key;
 
   String? department;
   Map<String, dynamic>? docIsFav={};
 
 // methods to add and create member profile in fire base
   createMemberProfile({
+    required String key,
     required BuildContext context,
     required String name,
     required String phoneview ,
@@ -94,6 +96,7 @@ class ProfileProvider with ChangeNotifier {
         .set({
       'faculty': faculty,
       'phone': phone,
+      'key': key,
       'phoneview': phoneview,
       'name': name,
       'email': email,

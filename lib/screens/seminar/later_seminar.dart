@@ -250,6 +250,9 @@ class _UnCompletedProjectState extends State<LaterSeminar> {
                         // });
 
                         seminar.isFav = !seminar.isFav!;
+                        setState(() {
+
+                        });
                         await FirebaseFirestore.instance
                             .collection('seminar')
                             .doc(
