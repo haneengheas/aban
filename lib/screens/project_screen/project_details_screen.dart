@@ -40,6 +40,7 @@ class ProjectDetailsScreen extends StatefulWidget {
 class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
   GlobalKey<FormState> formKeys = GlobalKey<FormState>();
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,6 +56,7 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);
+
             // Navigator.push(context,
             //     MaterialPageRoute(builder: (context) => ProjectScreen()));
           },
@@ -103,7 +105,6 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
                               'االاعضاء:  ' + widget.members,
                               style: hintStyle,
                             ),
-
                           ],
                         ),
                       ),
@@ -118,27 +119,58 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
                                 style: labelStyle3,
                               ),
                               Text(widget.status),
-                              Container(
-                                height: 40,
-                                width: 25,
-                                margin: const EdgeInsets.symmetric(
-                                    vertical: 10, horizontal: 10),
-                                child: widget.isFav == true
-                                    ? const ImageIcon(
-                                        AssetImage(
-                                          'assets/bookmark (2).png',
-                                        ),
-                                        color: blue,
-                                        size: 50,
-                                      )
-                                    : const ImageIcon(
-                                        AssetImage(
-                                          'assets/bookmark (1).png',
-                                        ),
-                                        color: blue,
-                                        size: 50,
-                                      ),
-                              )
+                              InkWell(
+                                onTap: () async {
+                                  DocumentSnapshot docRef = await FirebaseFirestore
+                                      .instance
+                                      .collection('project')
+                                      .doc(widget.id)
+                                      .get();
+
+                                  Map<String, dynamic> docIsFav =
+                                  docRef.get("isFav");
+
+                                  if (docIsFav.containsKey(
+                                      FirebaseAuth.instance.currentUser!.uid)) {
+                                    docIsFav.addAll({
+                                      FirebaseAuth.instance.currentUser!.uid
+                                          .toString(): widget.isFav? false : true
+                                    });
+                                  } else {
+                                    docIsFav.addAll({
+                                      FirebaseAuth.instance.currentUser!.uid:
+                                      widget.isFav? false : true
+                                    });
+                                  }
+
+                                  widget.isFav = !widget.isFav;
+                                  await FirebaseFirestore.instance
+                                      .collection('project')
+                                      .doc(widget.id)
+                                      .update({'isFav': docIsFav});
+                                  setState(() {});
+                                },
+                                child: Container(
+                                  height: 35,
+                                  width: 25,
+                                  margin: const EdgeInsets.symmetric(
+                                      vertical: 10, horizontal: 10),
+                                  child: !widget.isFav? const ImageIcon(
+                                    AssetImage(
+                                      'assets/bookmark (1).png',
+                                    ),
+                                    color: blue,
+                                    size: 50,
+                                  )
+                                      : const ImageIcon(
+                                    AssetImage(
+                                      'assets/bookmark (2).png',
+                                    ),
+                                    color: blue,
+                                    size: 50,
+                                  ),
+                                ),
+                              ),
                             ]),
                       ),
                     ],
@@ -154,48 +186,54 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
                   InkWell(
                       onTap: () async {
                         debugPrint(widget.projectLink);
-                        await launch(
-                            'https://'+ widget.projectLink);
+                        await launch('https://' + widget.projectLink);
                       },
-                      child: const Text('رابط المشروع',style:  TextStyle(
-                          decoration: TextDecoration.underline,
-                          decorationThickness: 2,
-                          decorationColor: blue,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                          color: blue),)),
-                 widget.userid == FirebaseAuth.instance.currentUser!.uid?InkWell (
-                      onTap: () {
-                        editProject(
-                          context,
-                          text: 'تعديل مشروع',
-                          indexed: widget.id,
-                          projectLink: widget.projectLink,
-                          projectStatus: widget.status,
-                          projectName: widget.nameProject,
-                          memberProjectName: widget.members,
-                          leaderName: widget.leader,
-                          descriptionProject: widget.description,
-                          keys: formKeys,
-                        );
-                        setState(() {});
-                      },
-                      child: Row(
-                        children:const [
-                           Icon(
-                            Icons.edit,
-                            color: blue,
-                            size: 15,
+                      child: const Text(
+                        'رابط المشروع',
+                        style: TextStyle(
+                            decoration: TextDecoration.underline,
+                            decorationThickness: 2,
+                            decorationColor: blue,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                            color: blue),
+                      )),
+                  widget.userid == FirebaseAuth.instance.currentUser!.uid
+                      ? InkWell(
+                          onTap: () {
+                            editProject(
+                              context,
+                              text: 'تعديل مشروع',
+                              indexed: widget.id,
+                              projectLink: widget.projectLink,
+                              projectStatus: widget.status,
+                              projectName: widget.nameProject,
+                              memberProjectName: widget.members,
+                              leaderName: widget.leader,
+                              descriptionProject: widget.description,
+                              keys: formKeys,
+                            );
+                            setState(() {});
+                          },
+                          child: Row(
+                            children: const [
+                              Icon(
+                                Icons.edit,
+                                color: blue,
+                                size: 15,
+                              ),
+                              Text('تعديل المشروع',
+                                  style: TextStyle(
+                                      // decoration: TextDecoration.underline,
+                                      // decorationThickness: 2,
+                                      decorationColor: blue,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w400,
+                                      color: blue))
+                            ],
                           ),
-                          Text('تعديل المشروع',style:  TextStyle(
-                            // decoration: TextDecoration.underline,
-                            // decorationThickness: 2,
-                              decorationColor: blue,
-                              fontSize: 15,
-                              fontWeight: FontWeight.w400,
-                              color: blue))
-                        ],
-                      ),  ):const SizedBox()
+                        )
+                      : const SizedBox()
                 ],
               ),
             ),
@@ -291,7 +329,6 @@ void editProject(BuildContext context,
                   ),
                   EidtTextFieldUser(
                     controller: projectLink1,
-
                     validator: (value) {
                       if (value.isEmpty) {
                         return 'برجاءادخال رابط المشروع ';
@@ -300,9 +337,7 @@ void editProject(BuildContext context,
                     hintText: 'ادخل رابط المشروع',
                     labelText: "رابط المشروع",
                     scure: false,
-
                   ),
-
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 7.5),
                     child: Column(

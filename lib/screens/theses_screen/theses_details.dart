@@ -130,27 +130,62 @@ class _ThesesDetailsState extends State<ThesesDetails> {
                                 style: labelStyle3,
                               ),
                               Text(widget.thesesStatus!),
-                              Container(
-                                height: 40,
-                                width: 25,
-                                margin: const EdgeInsets.symmetric(
-                                    vertical: 10, horizontal: 10),
-                                child: widget.isFav == true
-                                    ? const ImageIcon(
-                                  AssetImage(
-                                    'assets/bookmark (2).png',
+                              InkWell(
+                                onTap: () async {
+                                  DocumentSnapshot docRef = await FirebaseFirestore
+                                      .instance
+                                      .collection('theses')
+                                      .doc(widget.docid)
+                                      .get();
+
+                                  Map<String, dynamic> docIsFav =
+                                  docRef.get("isFav");
+
+                                  if (docIsFav.containsKey(
+                                      FirebaseAuth.instance.currentUser!.uid)) {
+                                    docIsFav.addAll({
+                                      FirebaseAuth.instance.currentUser!.uid
+                                          .toString(): widget.isFav! ? false : true
+                                    });
+                                  } else {
+                                    docIsFav.addAll({
+                                      FirebaseAuth.instance.currentUser!.uid:
+                                      widget.isFav! ? false : true
+                                    });
+                                  }
+
+
+                                  widget.isFav = !widget.isFav!;
+                                  await FirebaseFirestore.instance
+                                      .collection('theses')
+                                      .doc(widget.docid)
+                                      .update({'isFav': docIsFav});
+
+
+                                  setState(() {});
+                                },
+                                child: Container(
+                                  height: 40,
+                                  width: 25,
+                                  margin: const EdgeInsets.symmetric(
+                                      vertical: 10, horizontal: 10),
+                                  child: !widget.isFav!
+                                      ? const ImageIcon(
+                                    AssetImage(
+                                      'assets/bookmark (1).png',
+                                    ),
+                                    color: blue,
+                                    size: 50,
+                                  )
+                                      : const ImageIcon(
+                                    AssetImage(
+                                      'assets/bookmark (2).png',
+                                    ),
+                                    color: blue,
+                                    size: 50,
                                   ),
-                                  color: blue,
-                                  size: 50,
-                                )
-                                    : const ImageIcon(
-                                  AssetImage(
-                                    'assets/bookmark (1).png',
-                                  ),
-                                  color: blue,
-                                  size: 50,
                                 ),
-                              )
+                              ),
                             ]),
                       ),
                     ],

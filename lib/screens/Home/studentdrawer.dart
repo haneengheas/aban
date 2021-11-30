@@ -56,7 +56,7 @@ Widget studentDrawer(BuildContext context) {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const BookmarkScreen()));
+                      builder: (context) =>  BookmarkScreen()));
             }),
         QudsPopupMenuDivider(color: gray, thickness: .5),
         QudsPopupMenuItem(
