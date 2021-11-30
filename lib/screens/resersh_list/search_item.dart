@@ -38,6 +38,7 @@ class _SearchItemState extends State<SearchItem> {
         email: doc['email'],
         imageUrl: doc['imageUrl'],
         phone: doc['phone'],
+        phoneview: doc['phoneview'],
         id: doc['id'],
         faculty: doc['faculty'],
         accept: doc['accept'],
@@ -91,10 +92,13 @@ class _SearchItemState extends State<SearchItem> {
 
   Widget _buildProjBox(ResearchModel project) {
     return GestureDetector(
-      onTap: () {
+      onTap: () {  print(project.phoneview!);
         Navigator.push(context,
             MaterialPageRoute(builder: (context) =>
-                MemberProfile(userid: project.userId!,
+
+                MemberProfile(
+                  phoneview: project.phoneview!,
+                    userid: project.userId!,
                     accept: project.accept,
                     name: project.name!,
                     link: project.link!,

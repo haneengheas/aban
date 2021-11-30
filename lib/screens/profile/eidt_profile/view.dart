@@ -53,12 +53,13 @@ class _EditProfileState extends State<EditProfile> {
   final GlobalKey<FormState> formKy = GlobalKey<FormState>();
 
   final TextEditingController controller = TextEditingController();
-  String initialCountry = 'NG';
+   String initialCountry = 'NG';
   PhoneNumber number = PhoneNumber(isoCode: 'SA',);
 
   void getPhoneNumber(String phoneNumber) async {
 
     PhoneNumber number =
+
         await PhoneNumber.getRegionInfoFromPhoneNumber(phoneNumber, 'US');
 
     setState(() {
@@ -538,6 +539,7 @@ class _EditProfileState extends State<EditProfile> {
                             style: labelStyle3,
                           ),
                         ),
+
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 20),
                           child: SizedBox(

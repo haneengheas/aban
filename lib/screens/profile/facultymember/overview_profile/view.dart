@@ -15,11 +15,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MemberProfile extends StatefulWidget {
-  String name, image, faculty, email, phone, degree, id, userid, token,link;
+  String name, image, faculty, email, phone,phoneview, degree, id, userid, token, link;
   int accept;
 
   MemberProfile(
       {Key? key,
+        required this.phoneview,
       required this.userid,
       required this.accept,
       required this.name,
@@ -60,7 +61,9 @@ class _MemberProfileState extends State<MemberProfile> {
 
     setState(() {});
   }
-String myid =FirebaseAuth.instance.currentUser!.uid;
+
+  String myid = FirebaseAuth.instance.currentUser!.uid;
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -97,58 +100,60 @@ String myid =FirebaseAuth.instance.currentUser!.uid;
                     children: [
                       Container(
                         margin: const EdgeInsets.symmetric(horizontal: 15),
-                        child: widget.userid!= FirebaseAuth.instance.currentUser!.uid ? Row(
-                          children: [
-                       TextButton.icon(
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => ChatRoom(
-                                              image: widget.image,
-                                              name: widget.name,
-                                              userId: widget.userid,
-                                            )));
-                              },
-                              icon: const Icon(
-                                Icons.chat_rounded,
-                                color: blue,
-                                size: 20,
-                              ),
-                              label: Text(
-                                "محادثة",
-                                style: hintStyle,
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 10,
-      ),
-      widget.accept == 0
-
-                                ? TextButton.icon(
+                        child: widget.userid !=
+                                FirebaseAuth.instance.currentUser!.uid
+                            ? Row(
+                                children: [
+                                  TextButton.icon(
                                     onPressed: () {
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                              builder: (context) =>
-                                                  SupervisionScreen(
-                                                    userid: userId,
-                                                    token: widget.token,
+                                              builder: (context) => ChatRoom(
+                                                    image: widget.image,
+                                                    name: widget.name,
+                                                    userId: widget.userid,
                                                   )));
                                     },
                                     icon: const Icon(
-                                      Icons.cast_for_education,
+                                      Icons.chat_rounded,
                                       color: blue,
                                       size: 20,
                                     ),
                                     label: Text(
-                                      "طلب اشراف",
+                                      "محادثة",
                                       style: hintStyle,
                                     ),
-                                  )
-                                : const Text(''),
-                          ],
-                        ):const SizedBox(),
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  widget.accept == 0
+                                      ? TextButton.icon(
+                                          onPressed: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        SupervisionScreen(
+                                                          userid: userId,
+                                                          token: widget.token,
+                                                        )));
+                                          },
+                                          icon: const Icon(
+                                            Icons.cast_for_education,
+                                            color: blue,
+                                            size: 20,
+                                          ),
+                                          label: Text(
+                                            "طلب اشراف",
+                                            style: hintStyle,
+                                          ),
+                                        )
+                                      : const Text(''),
+                                ],
+                              )
+                            : const SizedBox(),
                       ),
                     ],
                   ),
@@ -215,13 +220,13 @@ String myid =FirebaseAuth.instance.currentUser!.uid;
                                   style: GoogleFonts.cairo(
                                     textStyle: const TextStyle(
                                         fontSize: 15,
-                                        fontWeight:
-                                        FontWeight.w400,
+                                        fontWeight: FontWeight.w400,
                                         height: 1.5,
                                         decoration: TextDecoration.underline,
                                         decorationThickness: 2,
                                         color: gray),
-                                  ),)
+                                  ),
+                                )
                               ],
                             ),
                           ]),
@@ -248,13 +253,11 @@ String myid =FirebaseAuth.instance.currentUser!.uid;
                             )
                           : const Text(''),
                       Padding(
-                        padding:
-                        const EdgeInsets.symmetric(horizontal: 15),
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
                         child: InkWell(
                           onTap: () async {
                             print(widget.link);
-                            await launch(
-                                'https://'+widget.link);
+                            await launch('https://' + widget.link);
                           },
                           child: Text(
                             "الذهاب الى ابحاثى",
@@ -270,7 +273,6 @@ String myid =FirebaseAuth.instance.currentUser!.uid;
                           ),
                         ),
                       ),
-
                       SizedBox(
                         height: MediaQuery.of(context).size.height / 2.1,
                         child: Column(
@@ -317,7 +319,6 @@ String myid =FirebaseAuth.instance.currentUser!.uid;
                                       userId: userId,
                                     ),
                                     CompeletedThesesresersh(
-
                                       userId: userId,
                                     ),
                                     UnComletedThesesListresersh(
