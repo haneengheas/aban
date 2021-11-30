@@ -48,7 +48,7 @@ class _CreateGraduatedProfileState extends State<CreateGraduatedProfile> {
   final TextEditingController controller = TextEditingController();
   String initialCountry = 'NG';
   PhoneNumber number = PhoneNumber(isoCode: 'NG');
-
+  late String phoneview;
   void getPhoneNumber(String phoneNumber) async {
     PhoneNumber number =
     await PhoneNumber.getRegionInfoFromPhoneNumber(phoneNumber, 'US');
@@ -265,29 +265,40 @@ class _CreateGraduatedProfileState extends State<CreateGraduatedProfile> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
                                   InternationalPhoneNumberInput(
+
                                     hintText: 'رقم الهاتف',
                                     textStyle: labelStyle2,
                                     onInputChanged: (PhoneNumber number) {
+                                      phoneview = number.phoneNumber.toString();
                                       print(number.phoneNumber);
                                     },
-                                    onInputValidated: (bool value) {
-                                      print(value);
-                                    },
+                                    // onInputValidated: (bool value) {
+                                    //   print(value);
+                                    // },
                                     selectorConfig: const SelectorConfig(
-                                      selectorType:
-                                      PhoneInputSelectorType.BOTTOM_SHEET,
+                                      selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
                                     ),
                                     ignoreBlank: false,
                                     inputDecoration: const InputDecoration(
-                                        enabled: false, hintText: 'رقم الهاتف'),
+                                        enabled: false,
+                                        hintText: 'رقم الهاتف'
+                                    ),
                                     autoValidateMode: AutovalidateMode.disabled,
-                                    selectorTextStyle: const TextStyle(color: Colors.black),
+                                    selectorTextStyle:
+                                    const TextStyle(color: Colors.black),
                                     initialValue: number,
                                     textFieldController: controller,
-                                    formatInput: false,
+                                    formatInput: true,
+                                    validator: (value) {
+                                      if (value!.isEmpty) {
+                                        return 'الرجاء ادخال رقم الهاتف';
+                                      }
+                                    },
                                     keyboardType: const TextInputType.numberWithOptions(
-                                        signed: true, decimal: true),
-                                    inputBorder: const OutlineInputBorder(),
+                                      signed: true,
+                                      decimal: true,
+                                    ),
+
                                     onSaved: (PhoneNumber number) {
                                       print('On Saved: $number');
                                     },
@@ -472,6 +483,7 @@ class _CreateGraduatedProfileState extends State<CreateGraduatedProfile> {
                             print('Str list is => $fieldsStr');
 
                             await prov.createMemberProfile(
+                              phoneview: phoneview,
                                 context: context,
                                 name: nameuser.text,
                                 faculty: college,

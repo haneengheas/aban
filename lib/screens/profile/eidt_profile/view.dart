@@ -48,25 +48,27 @@ class _EditProfileState extends State<EditProfile> {
   Reference? ref;
   String? college;
   String? department;
-
+  late String phoneview;
 
   final GlobalKey<FormState> formKy = GlobalKey<FormState>();
 
   final TextEditingController controller = TextEditingController();
   String initialCountry = 'NG';
-  PhoneNumber number = PhoneNumber(isoCode: 'NG');
+  PhoneNumber number = PhoneNumber(isoCode: 'SA',);
 
   void getPhoneNumber(String phoneNumber) async {
+
     PhoneNumber number =
-    await PhoneNumber.getRegionInfoFromPhoneNumber(phoneNumber, 'US');
+        await PhoneNumber.getRegionInfoFromPhoneNumber(phoneNumber, 'US');
 
     setState(() {
       this.number = number;
     });
+
   }
 
-
   List<String> selectedDepartment = <String>[];
+
   getData() async {
     DocumentSnapshot documentSnapshot2 = await FirebaseFirestore.instance
         .collection("member")
@@ -87,8 +89,10 @@ class _EditProfileState extends State<EditProfile> {
     print(accepted);
 
     setState(() {});
+
   }
-  deleteData()async{
+
+  deleteData() async {
     await FirebaseFirestore.instance
         .collection('member')
         .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -100,9 +104,7 @@ class _EditProfileState extends State<EditProfile> {
     // await FirebaseAuth.instance.currentUser!.delete();
     await FirebaseFirestore.instance
         .collection('theses')
-        .where('userId',
-        isEqualTo:
-        FirebaseAuth.instance.currentUser!.uid)
+        .where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
         .get()
         .then((snapshot) {
       for (DocumentSnapshot ds in snapshot.docs) {
@@ -111,9 +113,7 @@ class _EditProfileState extends State<EditProfile> {
     });
     await FirebaseFirestore.instance
         .collection('project')
-        .where('userId',
-        isEqualTo:
-        FirebaseAuth.instance.currentUser!.uid)
+        .where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
         .get()
         .then((snapshot) {
       for (DocumentSnapshot ds in snapshot.docs) {
@@ -122,9 +122,7 @@ class _EditProfileState extends State<EditProfile> {
     });
     await FirebaseFirestore.instance
         .collection('projectBookmark')
-        .where('userId',
-        isEqualTo:
-        FirebaseAuth.instance.currentUser!.uid)
+        .where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
         .get()
         .then((snapshot) {
       for (DocumentSnapshot ds in snapshot.docs) {
@@ -133,9 +131,7 @@ class _EditProfileState extends State<EditProfile> {
     });
     await FirebaseFirestore.instance
         .collection('thesesBookmark')
-        .where('userId',
-        isEqualTo:
-        FirebaseAuth.instance.currentUser!.uid)
+        .where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
         .get()
         .then((snapshot) {
       for (DocumentSnapshot ds in snapshot.docs) {
@@ -144,33 +140,28 @@ class _EditProfileState extends State<EditProfile> {
     });
     await FirebaseFirestore.instance
         .collection('seminar')
-        .where('userId',
-        isEqualTo:
-        FirebaseAuth.instance.currentUser!.uid)
-        .get()
-        .then((snapshot) {
-      for (DocumentSnapshot ds in snapshot.docs) {
-        ds.reference.delete();
-      }
-    });   await FirebaseFirestore.instance
-        .collection('seminarBookmark')
-        .where('userId',
-        isEqualTo:
-        FirebaseAuth.instance.currentUser!.uid)
+        .where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
         .get()
         .then((snapshot) {
       for (DocumentSnapshot ds in snapshot.docs) {
         ds.reference.delete();
       }
     });
-     AwesomeDialog(
-        context: context,
-        title: "هام",
-        body: const Text(
-            "تمت عملية الحذف بنجاح"),
-        dialogType: DialogType.SUCCES)
+    await FirebaseFirestore.instance
+        .collection('seminarBookmark')
+        .where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+        .get()
+        .then((snapshot) {
+      for (DocumentSnapshot ds in snapshot.docs) {
+        ds.reference.delete();
+      }
+    });
+    AwesomeDialog(
+            context: context,
+            title: "هام",
+            body: const Text("تمت عملية الحذف بنجاح"),
+            dialogType: DialogType.SUCCES)
         .show();
-
   }
 
   @override
@@ -352,39 +343,43 @@ class _EditProfileState extends State<EditProfile> {
                                     ]),
                               ),
                               onChanged: (newValue) {
-                                provAuth.usertype == 0?  prov.degreeMember = newValue!:prov.degreeGraduated = newValue!;
+                                provAuth.usertype == 0
+                                    ? prov.degreeMember = newValue!
+                                    : prov.degreeGraduated = newValue!;
                               },
-                              items:provAuth.usertype == 0? <String>[
-                                'دكتوراه',
-                                'ماجستير',
-
-                              ].map<DropdownMenuItem<String>>((String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: SizedBox(
-                                    width: sizeFromWidth(context, 8),
-                                    height: 50,
-                                    // for example
-                                    child:
-                                        Text(value, textAlign: TextAlign.right),
-                                  ),
-                                );
-                              }).toList():<String>[
-                                'طالب دكتوراه',
-                                'طالب ماجستير',
-
-                              ].map<DropdownMenuItem<String>>((String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: SizedBox(
-                                    width: sizeFromWidth(context, 8),
-                                    height: 50,
-                                    // for example
-                                    child:
-                                    Text(value, textAlign: TextAlign.right),
-                                  ),
-                                );
-                              }).toList(),
+                              items: provAuth.usertype == 0
+                                  ? <String>[
+                                      'دكتوراه',
+                                      'ماجستير',
+                                    ].map<DropdownMenuItem<String>>(
+                                      (String value) {
+                                      return DropdownMenuItem<String>(
+                                        value: value,
+                                        child: SizedBox(
+                                          width: sizeFromWidth(context, 8),
+                                          height: 50,
+                                          // for example
+                                          child: Text(value,
+                                              textAlign: TextAlign.right),
+                                        ),
+                                      );
+                                    }).toList()
+                                  : <String>[
+                                      'طالب دكتوراه',
+                                      'طالب ماجستير',
+                                    ].map<DropdownMenuItem<String>>(
+                                      (String value) {
+                                      return DropdownMenuItem<String>(
+                                        value: value,
+                                        child: SizedBox(
+                                          width: sizeFromWidth(context, 8),
+                                          height: 50,
+                                          // for example
+                                          child: Text(value,
+                                              textAlign: TextAlign.right),
+                                        ),
+                                      );
+                                    }).toList(),
                             ),
                           ),
                         ),
@@ -392,24 +387,24 @@ class _EditProfileState extends State<EditProfile> {
                     ),
                     // widget of number
 
-                        SizedBox(
-                          width: sizeFromWidth(context, 2),
-                          child: TextFieldUser(
-                            onChanged: (val) {
-                              prov.id = val;
-                            },
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'برجاءادخال المعرف الخاص بك ';
-                              }
-                            },
-                            controller: id,
-                            hintText: "المعرف الخاص بك",
-                            labelText: "orcid iD",
-                            scure: false,
-                            // initialValue: id,
-                          ),
-                        ),
+                    SizedBox(
+                      width: sizeFromWidth(context, 2),
+                      child: TextFieldUser(
+                        onChanged: (val) {
+                          prov.id = val;
+                        },
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return 'برجاءادخال المعرف الخاص بك ';
+                          }
+                        },
+                        controller: id,
+                        hintText: "المعرف الخاص بك",
+                        labelText: "orcid iD",
+                        scure: false,
+                        // initialValue: id,
+                      ),
+                    ),
 
                     // SizedBox(
                     //   width: sizeFromWidth(context, 2),
@@ -480,23 +475,42 @@ class _EditProfileState extends State<EditProfile> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         InternationalPhoneNumberInput(
+
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'الرجاء ادخال رقم الهاتف';
+                            }
+                          },
+
                           hintText: 'رقم الهاتف',
                           textStyle: labelStyle2,
                           onInputChanged: (PhoneNumber number) {
+                            phoneview = number.phoneNumber.toString();
+                            // phone.text = number.phoneNumber as String  ;
+
                             print(number.phoneNumber);
                           },
                           onInputValidated: (bool value) {
+                            if (value == false){
+                               const Text('الرقم غير صالح');
+                            }
                             print(value);
+                            print('الرقم غير صالح');
                           },
                           selectorConfig: const SelectorConfig(
-                            selectorType:
-                            PhoneInputSelectorType.BOTTOM_SHEET,
+
+                             selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
+
                           ),
                           ignoreBlank: false,
                           inputDecoration: const InputDecoration(
-                              enabled: false, hintText: 'رقم الهاتف'),
+                              enabled: false,
+
+                             // hintText: phone.text,
+                          ),
                           autoValidateMode: AutovalidateMode.disabled,
-                          selectorTextStyle: const TextStyle(color: Colors.black),
+                          selectorTextStyle:
+                              const TextStyle(color: Colors.black),
                           initialValue: number,
                           textFieldController: phone,
                           formatInput: false,
@@ -581,15 +595,19 @@ class _EditProfileState extends State<EditProfile> {
                 thickness: 1,
                 color: lightGray,
               ),
-               ThesesGraduatedMontorItem( department: department,
-                 college: college,),
+              ThesesGraduatedMontorItem(
+                department: department,
+                college: college,
+              ),
               const Divider(
                 height: 20,
                 thickness: 1,
                 color: lightGray,
               ),
-              ProjectItem(  department: department,
-                college: college,),
+              ProjectItem(
+                department: department,
+                college: college,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -598,9 +616,11 @@ class _EditProfileState extends State<EditProfile> {
                       text: 'حفظ التغيرات',
                       color: blueGradient,
                       onTap: () async {
-
                         showDialogWarning(context, ontap: () async {
+
                           print('hhhhhhhh');
+                          print( phoneview);
+                          print( "0000000000000000000000000000000000000000000101010101010");
                           if (formkey.currentState!.validate()) {
                             formkey.currentState!.save();
                             List<String> fieldsStr = <String>[];
@@ -624,6 +644,7 @@ class _EditProfileState extends State<EditProfile> {
                                 'id': id.text,
                                 'link': link.text,
                                 'phone': phone.text,
+                                'phoneview': phoneview,
                                 'email': emailuser.text,
                                 // 'imageUrl': imageUrl,
                                 'fields': fieldsStr
@@ -639,7 +660,8 @@ class _EditProfileState extends State<EditProfile> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => const ProfileScreen()));
+                                        builder: (context) =>
+                                            const ProfileScreen()));
                               });
                             } else {
                               await FirebaseFirestore.instance
@@ -654,6 +676,7 @@ class _EditProfileState extends State<EditProfile> {
                                 'id': id.text,
                                 'link': link.text,
                                 'phone': phone.text,
+                                'phoneview': phoneview,
                                 'email': emailuser.text,
                                 // 'imageUrl': imageUrl,
                                 'fields': fieldsStr
@@ -669,7 +692,8 @@ class _EditProfileState extends State<EditProfile> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => const ProfileScreen()));
+                                        builder: (context) =>
+                                            const ProfileScreen()));
                               });
                             }
                           }
@@ -682,7 +706,6 @@ class _EditProfileState extends State<EditProfile> {
                       text: 'الغاء',
                       color: redGradient,
                       onTap: () {
-
                         print(provAuth.usertype);
                         Navigator.pop(context);
                       }),
