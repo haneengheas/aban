@@ -225,6 +225,9 @@ class _SeminarBookmarkState extends State<SeminarBookmark> {
                       // });
 
                       seminar.isFav = !seminar.isFav!;
+                      setState(() {
+
+                      });
                       await FirebaseFirestore.instance
                           .collection('seminar')
                           .doc(seminar.docId)

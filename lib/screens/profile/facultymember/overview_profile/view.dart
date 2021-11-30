@@ -15,12 +15,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MemberProfile extends StatefulWidget {
-  String name, image, faculty, email, phone,phoneview, degree, id, userid, token, link;
+  String name, image, faculty, email, phone, degree, id, userid, token, link;
   int accept;
 
   MemberProfile(
       {Key? key,
-        required this.phoneview,
+       // required this.phoneview,
       required this.userid,
       required this.accept,
       required this.name,

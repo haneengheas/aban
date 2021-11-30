@@ -54,7 +54,7 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
   final TextEditingController controller = TextEditingController();
   String initialCountry = 'NG';
   PhoneNumber number = PhoneNumber(isoCode: 'NG');
-  late String phoneview;
+  //late String phoneview;
   late String key;
   void getPhoneNumber(String phoneNumber) async {
     PhoneNumber number =
@@ -391,7 +391,7 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                             hintText: 'رقم الهاتف',
                             textStyle: labelStyle2,
                             onInputChanged: (PhoneNumber number) {
-                              phoneview = number.phoneNumber.toString();
+                             // phoneview = number.phoneNumber.toString();
                               print(number.phoneNumber);
                               print(number.dialCode);
                               print(number.isoCode);
@@ -544,8 +544,8 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                           ..show();
                       } else {
                         await prov.createMemberProfile(
-                          key: key,
-                          phoneview: phoneview,
+                         // key: key,
+                         // phoneview: phoneview,
                           context: context,
                           faculty: college,
                           department: department,

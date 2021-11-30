@@ -1,9 +1,9 @@
 class ResearchModel {
-  String ?userId,phone,name,link,imageUrl, token,faculty,email,degree,id,phoneview;
+  String ?userId,phone,name,link,imageUrl, token,faculty,email,degree,id;
   int accept;
   List fields;
   ResearchModel({
-    this.phoneview,
+    //this.phoneview,
     this.degree,
     this.name,
     this.email,
