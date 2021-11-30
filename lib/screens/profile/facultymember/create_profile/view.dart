@@ -44,6 +44,8 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
   String college = '';
   String department = '';
 
+
+
   List<String> selectedDepartment = <String>[];
   List<String> selectedDegree = <String>['دكتوراة'];
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -52,7 +54,7 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
   final TextEditingController controller = TextEditingController();
   String initialCountry = 'NG';
   PhoneNumber number = PhoneNumber(isoCode: 'NG');
-
+  late String phoneview;
   void getPhoneNumber(String phoneNumber) async {
     PhoneNumber number =
         await PhoneNumber.getRegionInfoFromPhoneNumber(phoneNumber, 'US');
@@ -388,6 +390,7 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                             hintText: 'رقم الهاتف',
                             textStyle: labelStyle2,
                             onInputChanged: (PhoneNumber number) {
+                              phoneview = number.phoneNumber.toString();
                               print(number.phoneNumber);
                             },
                             // onInputValidated: (bool value) {
@@ -536,6 +539,7 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                           ..show();
                       } else {
                         await prov.createMemberProfile(
+                          phoneview: phoneview,
                           context: context,
                           faculty: college,
                           department: department,

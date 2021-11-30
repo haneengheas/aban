@@ -51,6 +51,7 @@ class ProfileProvider with ChangeNotifier {
   String? thesesStatus;
 
   late String projectName;
+  late String phoneview;
   late String descriptionProject;
   late String leaderName;
   late String memberProjectName;
@@ -69,6 +70,7 @@ class ProfileProvider with ChangeNotifier {
   createMemberProfile({
     required BuildContext context,
     required String name,
+    required String phoneview ,
     required String department,
     required String faculty,
     required String phone,
@@ -92,6 +94,7 @@ class ProfileProvider with ChangeNotifier {
         .set({
       'faculty': faculty,
       'phone': phone,
+      'phoneview': phoneview,
       'name': name,
       'email': email,
       'imageUrl': file.path == "" ? "https://firebasestorage.googleapis.com/v0/b/aban-9b0ba.appspot.com/o/user.png?alt=media&token=9d9b6b7d-f436-4fd3-99a2-e5b8bdf6f8d1" : imageUrl,

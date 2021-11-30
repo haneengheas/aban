@@ -48,12 +48,13 @@ class _EditProfileState extends State<EditProfile> {
   Reference? ref;
   String? college;
   String? department;
+  late String phoneview;
 
   final GlobalKey<FormState> formKy = GlobalKey<FormState>();
 
   final TextEditingController controller = TextEditingController();
-  //String initialCountry = 'NG';
-  PhoneNumber number = PhoneNumber(isoCode: 'NG');
+  String initialCountry = 'NG';
+  PhoneNumber number = PhoneNumber(isoCode: 'SA',);
 
   void getPhoneNumber(String phoneNumber) async {
 
@@ -484,11 +485,17 @@ class _EditProfileState extends State<EditProfile> {
                           hintText: 'رقم الهاتف',
                           textStyle: labelStyle2,
                           onInputChanged: (PhoneNumber number) {
+                            phoneview = number.phoneNumber.toString();
+                            // phone.text = number.phoneNumber as String  ;
 
                             print(number.phoneNumber);
                           },
                           onInputValidated: (bool value) {
+                            if (value == false){
+                               const Text('الرقم غير صالح');
+                            }
                             print(value);
+                            print('الرقم غير صالح');
                           },
                           selectorConfig: const SelectorConfig(
 
@@ -496,10 +503,10 @@ class _EditProfileState extends State<EditProfile> {
 
                           ),
                           ignoreBlank: false,
-                          inputDecoration: InputDecoration(
+                          inputDecoration: const InputDecoration(
                               enabled: false,
 
-                              hintText: phone.text,
+                             // hintText: phone.text,
                           ),
                           autoValidateMode: AutovalidateMode.disabled,
                           selectorTextStyle:
@@ -610,7 +617,10 @@ class _EditProfileState extends State<EditProfile> {
                       color: blueGradient,
                       onTap: () async {
                         showDialogWarning(context, ontap: () async {
+
                           print('hhhhhhhh');
+                          print( phoneview);
+                          print( "0000000000000000000000000000000000000000000101010101010");
                           if (formkey.currentState!.validate()) {
                             formkey.currentState!.save();
                             List<String> fieldsStr = <String>[];
@@ -634,6 +644,7 @@ class _EditProfileState extends State<EditProfile> {
                                 'id': id.text,
                                 'link': link.text,
                                 'phone': phone.text,
+                                'phoneview': phoneview,
                                 'email': emailuser.text,
                                 // 'imageUrl': imageUrl,
                                 'fields': fieldsStr
@@ -665,6 +676,7 @@ class _EditProfileState extends State<EditProfile> {
                                 'id': id.text,
                                 'link': link.text,
                                 'phone': phone.text,
+                                'phoneview': phoneview,
                                 'email': emailuser.text,
                                 // 'imageUrl': imageUrl,
                                 'fields': fieldsStr
