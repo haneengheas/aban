@@ -490,6 +490,10 @@ class _EditProfileState extends State<EditProfile> {
                             // phone.text = number.phoneNumber as String  ;
 
                             print(number.phoneNumber);
+                            print(number.dialCode);
+                             //TODO : save country key as string not original key
+                            // dial code is print country key >>>but i want print the key as string as this ('SA')- ('EG')>>>not +966 , +20
+                            print(number.isoCode);
                           },
                           onInputValidated: (bool value) {
                             if (value == false){
