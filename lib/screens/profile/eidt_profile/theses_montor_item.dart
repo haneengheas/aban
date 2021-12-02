@@ -202,8 +202,8 @@ class _ThesesGraduatedMontorItemState extends State<ThesesGraduatedMontorItem> {
             text: "اضافة اطروحة",
             color: blueGradient,
             onTap: () {
-              print(prov.college);
-              print(prov.department);
+              print(widget.college);
+              print(widget.department);
               showDialogTheses(
                 context,
                 text: 'إضافة اطروحة',

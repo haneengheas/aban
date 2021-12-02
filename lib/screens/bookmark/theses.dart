@@ -113,14 +113,14 @@ class _ThesesBookMarkState extends State<ThesesBookMark> {
                 ],
               ),
             ),
-            prov.counter == 2? const SizedBox():const VerticalDivider(
+           const VerticalDivider(
               color: gray,
               endIndent: 10,
               indent: 10,
               width: 10,
               thickness: 2,
             ),
-            prov.counter == 2? const SizedBox():Column(
+        Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -151,14 +151,10 @@ class _ThesesBookMarkState extends State<ThesesBookMark> {
                           theses.isFav! ? false : true
                         });
                       }
-
                       theses.isFav = !theses.isFav!;
+
                       if (theses.isFav == false) {
                         docIsFav.remove(FirebaseAuth.instance.currentUser!.uid);
-                        await FirebaseFirestore.instance
-                            .collection('thesesBookmark')
-                            .doc(theses.id)
-                            .update({'isFav': docIsFav});
                         await FirebaseFirestore.instance
                             .collection('theses')
                             .doc(theses.id)

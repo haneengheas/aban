@@ -17,18 +17,11 @@ class ProjectBookMark extends StatefulWidget {
 }
 
 class _ProjectBookMarkState extends State<ProjectBookMark> {
-  List<ProjectModel> unCompletedProjects = <ProjectModel>[];
   List<ProjectModel> completedProjects = <ProjectModel>[];
-  TextEditingController searchController = TextEditingController();
-  String filter = '';
 
   @override
   void initState() {
     getUnCompletedProjects();
-    searchController.addListener(() {
-      filter = searchController.text;
-      setState(() {});
-    });
 
     super.initState();
   }
@@ -179,19 +172,19 @@ class _ProjectBookMarkState extends State<ProjectBookMark> {
                 //to here :D
                 projectModel.isFav = !projectModel.isFav!;
 
-                if (projectModel.isFav == false) {
+                if (projectModel.isFav == false)  {
                   docIsFav.remove(FirebaseAuth.instance.currentUser!.uid);
-                  await FirebaseFirestore.instance
-                      .collection('projectBookmark')
-                      .doc(projectModel.id)
-                      .update({'isFav': docIsFav});
+                  // await FirebaseFirestore.instance
+                  //     .collection('projectBookmark')
+                  //     .doc(projectModel.id)
+                  //     .update({'isFav': docIsFav});
                   await FirebaseFirestore.instance
                       .collection('project')
                       .doc(projectModel.id)
                       .update({'isFav': docIsFav});
                 }
                 setState(() {
-                  getUnCompletedProjects();
+                  // getUnCompletedProjects();
                 });
                 print(projectModel.id);
               },

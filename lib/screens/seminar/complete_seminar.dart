@@ -82,7 +82,7 @@ void initState() {
   }
   Widget buildSeminarBox(SeminarModel seminar){
     var prov = Provider.of<ProfileProvider>(context);
-    return InkWell(
+    return prov.counter ==2 && seminar.type == 2 ? const SizedBox():InkWell(
       onTap: () {
         Navigator.push(
             context,
@@ -224,27 +224,8 @@ void initState() {
                             seminar.isFav! ? false : true
                           });
                         }
-                        // FirebaseFirestore.instance
-                        //     .collection('seminarBookmark')
-                        //     .doc(seminar.docId)
-                        //     .set({
-                        //   'description': seminar.discription,
-                        //   'from': seminar.from,
-                        //   'to': seminar.to,
-                        //   'link': seminar.link,
-                        //   'location': seminar.location,
-                        //   'selectedDay': seminar.selectday,
-                        //   'userId': FirebaseAuth.instance.currentUser!.uid,
-                        //   'type': seminar.type,
-                        //   'seminarAddress': seminar.seminartitle,
-                        //   'username': seminar.username,
-                        //   'isFav': seminar.isFav! ? false : true
-                        //
-                        // });
-
                         seminar.isFav = !seminar.isFav!;
                         setState(() {
-
                         });
                         await FirebaseFirestore.instance
                             .collection('seminar')

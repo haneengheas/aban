@@ -473,14 +473,7 @@ class _CreateGraduatedProfileState extends State<CreateGraduatedProfile> {
                                 dialogType: DialogType.ERROR)
                               ..show();
                           }
-                          else if (prov.file!.path == '') {
-                            return AwesomeDialog(
-                                context: context,
-                                title: "هام",
-                                body: const Text("يجب إدخال الصورة"),
-                                dialogType: DialogType.ERROR)
-                              ..show();
-                          }
+
                           else {
                             print('Str list is => $fieldsStr');
 

@@ -26,16 +26,17 @@ class ThesesDetails extends StatefulWidget {
       userId;
   bool? isFav;
 
-  ThesesDetails({required this.degreeTheses,
-    required this.isFav,
-    required this.assistantSupervisors,
-    required this.linkTheses,
-    required this.nameSupervisors,
-    required this.nameTheses,
-    required this.thesesStatus,
-    required this.docid,
-    required this.userId,
-    Key? key})
+  ThesesDetails(
+      {required this.degreeTheses,
+      required this.isFav,
+      required this.assistantSupervisors,
+      required this.linkTheses,
+      required this.nameSupervisors,
+      required this.nameTheses,
+      required this.thesesStatus,
+      required this.docid,
+      required this.userId,
+      Key? key})
       : super(key: key);
 
   @override
@@ -130,62 +131,65 @@ class _ThesesDetailsState extends State<ThesesDetails> {
                                 style: labelStyle3,
                               ),
                               Text(widget.thesesStatus!),
-                              InkWell(
-                                onTap: () async {
-                                  DocumentSnapshot docRef = await FirebaseFirestore
-                                      .instance
-                                      .collection('theses')
-                                      .doc(widget.docid)
-                                      .get();
+                              prov.counter == 2
+                                  ? const SizedBox()
+                                  : InkWell(
+                                      onTap: () async {
+                                        DocumentSnapshot docRef =
+                                            await FirebaseFirestore.instance
+                                                .collection('theses')
+                                                .doc(widget.docid)
+                                                .get();
 
-                                  Map<String, dynamic> docIsFav =
-                                  docRef.get("isFav");
+                                        Map<String, dynamic> docIsFav =
+                                            docRef.get("isFav");
 
-                                  if (docIsFav.containsKey(
-                                      FirebaseAuth.instance.currentUser!.uid)) {
-                                    docIsFav.addAll({
-                                      FirebaseAuth.instance.currentUser!.uid
-                                          .toString(): widget.isFav! ? false : true
-                                    });
-                                  } else {
-                                    docIsFav.addAll({
-                                      FirebaseAuth.instance.currentUser!.uid:
-                                      widget.isFav! ? false : true
-                                    });
-                                  }
+                                        if (docIsFav.containsKey(FirebaseAuth
+                                            .instance.currentUser!.uid)) {
+                                          docIsFav.addAll({
+                                            FirebaseAuth
+                                                    .instance.currentUser!.uid
+                                                    .toString():
+                                                widget.isFav! ? false : true
+                                          });
+                                        } else {
+                                          docIsFav.addAll({
+                                            FirebaseAuth
+                                                    .instance.currentUser!.uid:
+                                                widget.isFav! ? false : true
+                                          });
+                                        }
 
+                                        widget.isFav = !widget.isFav!;
+                                        await FirebaseFirestore.instance
+                                            .collection('theses')
+                                            .doc(widget.docid)
+                                            .update({'isFav': docIsFav});
 
-                                  widget.isFav = !widget.isFav!;
-                                  await FirebaseFirestore.instance
-                                      .collection('theses')
-                                      .doc(widget.docid)
-                                      .update({'isFav': docIsFav});
-
-
-                                  setState(() {});
-                                },
-                                child: Container(
-                                  height: 40,
-                                  width: 25,
-                                  margin: const EdgeInsets.symmetric(
-                                      vertical: 10, horizontal: 10),
-                                  child: !widget.isFav!
-                                      ? const ImageIcon(
-                                    AssetImage(
-                                      'assets/bookmark (1).png',
+                                        setState(() {});
+                                      },
+                                      child: Container(
+                                        height: 40,
+                                        width: 25,
+                                        margin: const EdgeInsets.symmetric(
+                                            vertical: 10, horizontal: 10),
+                                        child: !widget.isFav!
+                                            ? const ImageIcon(
+                                                AssetImage(
+                                                  'assets/bookmark (1).png',
+                                                ),
+                                                color: blue,
+                                                size: 50,
+                                              )
+                                            : const ImageIcon(
+                                                AssetImage(
+                                                  'assets/bookmark (2).png',
+                                                ),
+                                                color: blue,
+                                                size: 50,
+                                              ),
+                                      ),
                                     ),
-                                    color: blue,
-                                    size: 50,
-                                  )
-                                      : const ImageIcon(
-                                    AssetImage(
-                                      'assets/bookmark (2).png',
-                                    ),
-                                    color: blue,
-                                    size: 50,
-                                  ),
-                                ),
-                              ),
                             ]),
                       ),
                     ],
@@ -205,88 +209,89 @@ class _ThesesDetailsState extends State<ThesesDetails> {
                             fontWeight: FontWeight.w400,
                             color: blue),
                       )),
-
-                  widget.userId == FirebaseAuth.instance.currentUser!.uid
+                  widget.userId == FirebaseAuth.instance.currentUser!.uid && prov.counter !=2
                       ? InkWell(
-                    onTap: () {
-                      editTheses(context,
-                          text: 'تعديل اطروحة',
-                          indexed: widget.docid,
-                          nameTheses: widget.nameTheses,
-                          linkTheses: widget.linkTheses,
-                          nameSupervisors: widget.nameSupervisors,
-                          assistantSupervisors:
-                          widget.assistantSupervisors,
-                          degreeTheses: widget.degreeTheses,
-                          thesesStatus: widget.thesesStatus,
-                          key: formKeys);
-                      setState(() {});
-                    },
-                    child: Row(
-                      children: const [
-                        Icon(
-                          Icons.edit,
-                          color: blue,
-                          size: 15,
-                        ),
-                        Text('تعديل الاطروحة',
-                            style: TextStyle(
-                              // decoration: TextDecoration.underline,
-                              // decorationThickness: 2,
-                                decorationColor: blue,
-                                fontSize: 15,
-                                fontWeight: FontWeight.w400,
-                                color: blue))
-                      ],
-                    ),
-                  )
+                          onTap: () {
+                            editTheses(context,
+                                text: 'تعديل اطروحة',
+                                indexed: widget.docid,
+                                nameTheses: widget.nameTheses,
+                                linkTheses: widget.linkTheses,
+                                nameSupervisors: widget.nameSupervisors,
+                                assistantSupervisors:
+                                    widget.assistantSupervisors,
+                                degreeTheses: widget.degreeTheses,
+                                thesesStatus: widget.thesesStatus,
+                                key: formKeys);
+                            setState(() {});
+                          },
+                          child: Row(
+                            children: const [
+                              Icon(
+                                Icons.edit,
+                                color: blue,
+                                size: 15,
+                              ),
+                              Text('تعديل الاطروحة',
+                                  style: TextStyle(
+                                      // decoration: TextDecoration.underline,
+                                      // decorationThickness: 2,
+                                      decorationColor: blue,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w400,
+                                      color: blue))
+                            ],
+                          ),
+                        )
                       : const SizedBox(),
-                  widget.userId == FirebaseAuth.instance.currentUser!.uid
+                  widget.userId == FirebaseAuth.instance.currentUser!.uid && prov.counter !=2
                       ? InkWell(
-                    onTap: () async {
-                      await showDialogWarning(context,
-                          text: 'هل انت متأكد من حذف الاطروحة',
-                          ontap: () async {
-
-                            await FirebaseFirestore.instance
-                                .collection('theses')
-                                .doc(widget.docid)
-                                .delete().then((value) async{
-                             await  AwesomeDialog(
-                                  context: context,
-                                  title: "هام",
-                                  body:
-                                  const Text("تمت عملية الحذف بنجاح"),
-                                  dialogType: DialogType.SUCCES)
-                                  .show();
-                             Navigator.push(context, MaterialPageRoute(
-                                 builder: (context) =>
-                                     NavigationFile( d: studentDrawer(context),
-                                         title: ' مرحبا${provider.userName} ',
-                                         counter: prov.counter!)));
+                          onTap: () async {
+                            print(FirebaseAuth.instance.currentUser!.uid);
+                            await showDialogWarning(context,
+                                text: 'هل انت متأكد من حذف الاطروحة',
+                                ontap: () async {
+                              await FirebaseFirestore.instance
+                                  .collection('theses')
+                                  .doc(widget.docid)
+                                  .delete()
+                                  .then((value) async {
+                                await AwesomeDialog(
+                                        context: context,
+                                        title: "هام",
+                                        body:
+                                            const Text("تمت عملية الحذف بنجاح"),
+                                        dialogType: DialogType.SUCCES)
+                                    .show();
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => NavigationFile(
+                                            d: studentDrawer(context),
+                                            title:
+                                                ' مرحبا${provider.userName} ',
+                                            counter: prov.counter!)));
+                              });
                             });
-
-                                                     });
-
-                    },
-                    child: Row(
-                      children: const [
-                        Icon(
-                          Icons.delete,
-                          color: red,
-                          size: 15,
-                        ),
-                        Text('حذف الاطروحة',
-                            style: TextStyle(
-                              // decoration: TextDecoration.underline,
-                              // decorationThickness: 2,
-                                decorationColor: red,
-                                fontSize: 15,
-                                fontWeight: FontWeight.w400,
-                                color: red))
-                      ],
-                    ),
-                  )
+                          },
+                          child: Row(
+                            children: const [
+                              Icon(
+                                Icons.delete,
+                                color: red,
+                                size: 15,
+                              ),
+                              Text('حذف الاطروحة',
+                                  style: TextStyle(
+                                      // decoration: TextDecoration.underline,
+                                      // decorationThickness: 2,
+                                      decorationColor: red,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w400,
+                                      color: red))
+                            ],
+                          ),
+                        )
                       : const SizedBox(),
                 ],
               ),
@@ -298,7 +303,8 @@ class _ThesesDetailsState extends State<ThesesDetails> {
   }
 }
 
-void editTheses(BuildContext context, {
+void editTheses(
+  BuildContext context, {
   required String text,
   required indexed,
   required String? nameTheses,
@@ -313,14 +319,14 @@ void editTheses(BuildContext context, {
     context: context,
     builder: (BuildContext context) {
       TextEditingController? nameTheses1 =
-      TextEditingController(text: nameTheses);
+          TextEditingController(text: nameTheses);
       TextEditingController? linkTheses1 =
-      TextEditingController(text: linkTheses);
+          TextEditingController(text: linkTheses);
       TextEditingController? nameSupervisors1 =
-      TextEditingController(text: nameSupervisors);
+          TextEditingController(text: nameSupervisors);
 
       TextEditingController? assistantSupervisors1 =
-      TextEditingController(text: assistantSupervisors);
+          TextEditingController(text: assistantSupervisors);
 
       return AlertDialog(
         title: Center(child: Text(text)),
@@ -332,10 +338,7 @@ void editTheses(BuildContext context, {
             borderRadius: BorderRadius.all(Radius.circular(15))),
         content: SingleChildScrollView(
           child: SizedBox(
-            height: MediaQuery
-                .of(context)
-                .size
-                .height / 1.2,
+            height: MediaQuery.of(context).size.height / 1.2,
             child: Form(
               key: key,
               child: Column(
@@ -405,7 +408,7 @@ void editTheses(BuildContext context, {
                               underline: Container(
                                 width: 30,
                                 padding:
-                                const EdgeInsets.symmetric(horizontal: 10),
+                                    const EdgeInsets.symmetric(horizontal: 10),
                                 height: .5,
                                 decoration: const BoxDecoration(
                                     color: gray,
@@ -428,7 +431,7 @@ void editTheses(BuildContext context, {
                                     width: sizeFromWidth(context, 2.3),
                                     // for example
                                     child:
-                                    Text(value, textAlign: TextAlign.right),
+                                        Text(value, textAlign: TextAlign.right),
                                   ),
                                 );
                               }).toList(),
@@ -459,7 +462,7 @@ void editTheses(BuildContext context, {
                               underline: Container(
                                 width: 30,
                                 padding:
-                                const EdgeInsets.symmetric(horizontal: 10),
+                                    const EdgeInsets.symmetric(horizontal: 10),
                                 height: .5,
                                 decoration: const BoxDecoration(
                                     color: gray,
@@ -481,7 +484,7 @@ void editTheses(BuildContext context, {
                                   child: SizedBox(
                                     width: sizeFromWidth(context, 2.3),
                                     child:
-                                    Text(value, textAlign: TextAlign.left),
+                                        Text(value, textAlign: TextAlign.left),
                                   ),
                                 );
                               }).toList(),
@@ -524,10 +527,10 @@ void editTheses(BuildContext context, {
                   });
                   Navigator.pop(context);
                   AwesomeDialog(
-                      context: context,
-                      title: "هام",
-                      body: const Text("تمت عملية التعديل  بنجاح"),
-                      dialogType: DialogType.SUCCES)
+                          context: context,
+                          title: "هام",
+                          body: const Text("تمت عملية التعديل  بنجاح"),
+                          dialogType: DialogType.SUCCES)
                       .show();
                 }
               }),

@@ -87,7 +87,7 @@ class _UnCompletedProjectState extends State<LaterSeminar> {
 
   Widget buildSeminarBox(SeminarModel seminar){
     var prov = Provider.of<ProfileProvider>(context);
-    return InkWell(
+    return prov.counter ==2 && seminar.type == 2 ? const SizedBox():InkWell(
       onTap: () {
         print("=/=/=/=/=/=/=//=/=//==/=/=/=/");
         print(seminar.selectday);

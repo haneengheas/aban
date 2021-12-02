@@ -1,9 +1,14 @@
 // ignore_for_file: avoid_print, prefer_typing_uninitialized_variables, must_be_immutable, prefer_adjacent_string_concatenation
 
+import 'package:aban/constant/alert_methods.dart';
 import 'package:aban/constant/style.dart';
+import 'package:aban/provider/auth_provider.dart';
 import 'package:aban/provider/profile_provider.dart';
+import 'package:aban/screens/Home/navigation.dart';
+import 'package:aban/screens/Home/studentdrawer.dart';
 import 'package:aban/screens/seminar/edit_seminar.dart';
 import 'package:aban/widgets/customAppBar.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -57,6 +62,7 @@ class _SeminarDetailsState extends State<SeminarDetails> {
     print(myDateTime);
 
     var prov = Provider.of<ProfileProvider>(context);
+    var provider = Provider.of<AuthProvider>(context);
     return Scaffold(
       appBar: PreferredSize(
           child: customAppBar(context, title: 'ندوة'),
@@ -94,7 +100,8 @@ class _SeminarDetailsState extends State<SeminarDetails> {
                                   style: labelStyle3,
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 5),
+                                  padding:
+                                      const EdgeInsets.symmetric(horizontal: 5),
                                   child: Row(
                                     children: [
                                       Text(
@@ -134,13 +141,6 @@ class _SeminarDetailsState extends State<SeminarDetails> {
                           ],
                         ),
                       ),
-                      // const VerticalDivider(
-                      //   color: gray,
-                      //   endIndent: 10,
-                      //   indent: 20,
-                      //   width: 20,
-                      //   thickness: 5,
-                      // ),
                       Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
@@ -148,97 +148,100 @@ class _SeminarDetailsState extends State<SeminarDetails> {
                               widget.type == 1 ? 'عامة' : 'خاصة',
                               style: labelStyle3,
                             ),
-                            InkWell(
-                              onTap: () async {
-                                DocumentSnapshot docRef = await FirebaseFirestore
-                                    .instance
-                                    .collection('seminar')
-                                    .doc(widget.docid)
-                                    .get();
+                            prov.counter == 2
+                                ? const SizedBox(
+                                    height: 50,
+                                  )
+                                : InkWell(
+                                    onTap: () async {
+                                      DocumentSnapshot docRef =
+                                          await FirebaseFirestore.instance
+                                              .collection('seminar')
+                                              .doc(widget.docid)
+                                              .get();
 
-                                Map<String, dynamic> docIsFav =
-                                docRef.get("isFav");
+                                      Map<String, dynamic> docIsFav =
+                                          docRef.get("isFav");
 
-                                if (docIsFav.containsKey(
-                                    FirebaseAuth.instance.currentUser!.uid)) {
-                                  docIsFav.addAll({
-                                    FirebaseAuth.instance.currentUser!.uid
-                                        .toString(): widget.isFav! ? false : true
-                                  });
-                                } else {
-                                  docIsFav.addAll({
-                                    FirebaseAuth.instance.currentUser!.uid:
-                                    widget.isFav! ? false : true
-                                  });
-                                }
+                                      if (docIsFav.containsKey(FirebaseAuth
+                                          .instance.currentUser!.uid)) {
+                                        docIsFav.addAll({
+                                          FirebaseAuth.instance.currentUser!.uid
+                                                  .toString():
+                                              widget.isFav! ? false : true
+                                        });
+                                      } else {
+                                        docIsFav.addAll({
+                                          FirebaseAuth.instance.currentUser!
+                                              .uid: widget.isFav! ? false : true
+                                        });
+                                      }
 
-
-                                widget.isFav = !widget.isFav!;
-                                await FirebaseFirestore.instance
-                                    .collection('seminar')
-                                    .doc(widget.docid)
-                                    .update(
-                                    {'isFav': docIsFav });
-
-                                setState(() {});
-
-                              },
-                              child: Container(
-                                height: 40,
-                                width: 25,
-                                margin: const EdgeInsets.symmetric(vertical: 10,horizontal: 10),
-                                child: !widget.isFav!
-                                    ? const ImageIcon(
-                                  AssetImage(
-                                    'assets/bookmark (1).png',
-                                  ),
-                                  color: blue,
-                                  size: 50,
-                                )
-                                    : const ImageIcon(
-                                  AssetImage(
-                                    'assets/bookmark (2).png',
-                                  ),
-                                  color: blue,
-                                  size: 50,
-                                ),
-                              ),
-                            )                          ]),
+                                      widget.isFav = !widget.isFav!;
+                                      await FirebaseFirestore.instance
+                                          .collection('seminar')
+                                          .doc(widget.docid)
+                                          .update({'isFav': docIsFav});
+                                      setState(() {});
+                                    },
+                                    child: Container(
+                                      height: 40,
+                                      width: 25,
+                                      margin: const EdgeInsets.symmetric(
+                                          vertical: 10, horizontal: 10),
+                                      child: !widget.isFav!
+                                          ? const ImageIcon(
+                                              AssetImage(
+                                                'assets/bookmark (1).png',
+                                              ),
+                                              color: blue,
+                                              size: 50,
+                                            )
+                                          : const ImageIcon(
+                                              AssetImage(
+                                                'assets/bookmark (2).png',
+                                              ),
+                                              color: blue,
+                                              size: 50,
+                                            ),
+                                    ),
+                                  )
+                          ]),
                     ],
                   ),
                   const SizedBox(
                     height: 20,
                   ),
-                       Text(
-                         'وصف الندوة: ',
-                         style: labelStyle3,
-                       ),
-                       Expanded(
-                         child: Text(
-                           '${widget.description}',
-                           style: hintStyle3,
-                         ),
-                       ),
-                  myDateTime.isAfter(DateTime.now())?
-                  InkWell(
-                    onTap: () async {
-                      debugPrint(widget.link);
-                      await launch(
-                          'https://'+ widget.link!);
-                    },
+                  Text(
+                    'وصف الندوة: ',
+                    style: labelStyle3,
+                  ),
+                  Expanded(
                     child: Text(
-                      "الدخول إلى الندوة",
-                      style: GoogleFonts.cairo(
-                        textStyle: const TextStyle(
-                            decoration: TextDecoration.underline,
-                            decorationThickness: 2,
-                            decorationColor: blue,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w400,
-                            color: blue),
-                      ),
+                      '${widget.description}',
+                      style: hintStyle3,
                     ),
-                  ):const SizedBox(),
+                  ),
+                  myDateTime.isAfter(DateTime.now())
+                      ? InkWell(
+                          onTap: () async {
+                            debugPrint(widget.link);
+                            await launch('https://' + widget.link!);
+                          },
+                          child: Text(
+                            "الدخول إلى الندوة",
+                            style: GoogleFonts.cairo(
+                              textStyle: const TextStyle(
+                                  decoration: TextDecoration.underline,
+                                  decorationThickness: 2,
+                                  decorationColor: blue,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w400,
+                                  color: blue),
+                            ),
+                          ),
+                        )
+                      : const SizedBox(),
                   prov.counter == 2
                       ? const SizedBox()
                       : widget.userid == FirebaseAuth.instance.currentUser!.uid
@@ -264,20 +267,76 @@ class _SeminarDetailsState extends State<SeminarDetails> {
                                             )));
                               },
                               child: Row(
-                                children: [
-                                  const Icon(
+                                children:const [
+                                   Icon(
                                     Icons.edit,
                                     color: blue,
                                     size: 15,
                                   ),
-                                  Text(
+                                   Text(
                                     'تعديل ندوة',
-                                    style: hintStyle3,
-                                  )
+                                    style:  TextStyle(
+                                      // decoration: TextDecoration.underline,
+                                      // decorationThickness: 2,
+                                        decorationColor: blue,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w400,
+                                        color: blue))
+
                                 ],
                               ),
                             )
-                          : const SizedBox()
+                          : const SizedBox(),
+                  widget.userid == FirebaseAuth.instance.currentUser!.uid &&
+                          prov.counter != 2
+                      ? InkWell(
+                          onTap: () async {
+                            print(FirebaseAuth.instance.currentUser!.uid);
+                            await showDialogWarning(context,
+                                text: 'هل انت متأكد من حذف الندوة',
+                                ontap: () async {
+                              await FirebaseFirestore.instance
+                                  .collection('seminar')
+                                  .doc(widget.docid)
+                                  .delete()
+                                  .then((value) async {
+                                await AwesomeDialog(
+                                        context: context,
+                                        title: "هام",
+                                        body:
+                                            const Text("تمت عملية الحذف بنجاح"),
+                                        dialogType: DialogType.SUCCES)
+                                    .show();
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => NavigationFile(
+                                            d: studentDrawer(context),
+                                            title:
+                                                ' مرحبا${provider.userName} ',
+                                            counter: prov.counter!)));
+                              });
+                            });
+                          },
+                          child: Row(
+                            children: const [
+                              Icon(
+                                Icons.delete,
+                                color: red,
+                                size: 15,
+                              ),
+                              Text('حذف الندوة',
+                                  style: TextStyle(
+                                      // decoration: TextDecoration.underline,
+                                      // decorationThickness: 2,
+                                      decorationColor: red,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w400,
+                                      color: red))
+                            ],
+                          ),
+                        )
+                      : const SizedBox(),
                 ],
               ),
             ),

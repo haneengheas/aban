@@ -1,5 +1,10 @@
 // ignore_for_file: must_be_immutable
+import 'package:aban/constant/alert_methods.dart';
 import 'package:aban/constant/style.dart';
+import 'package:aban/provider/auth_provider.dart';
+import 'package:aban/provider/profile_provider.dart';
+import 'package:aban/screens/Home/navigation.dart';
+import 'package:aban/screens/Home/studentdrawer.dart';
 import 'package:aban/widgets/buttons/buttonsuser.dart';
 import 'package:aban/widgets/eidt_text_field.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
@@ -7,6 +12,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ProjectDetailsScreen extends StatefulWidget {
@@ -40,9 +46,10 @@ class ProjectDetailsScreen extends StatefulWidget {
 class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
   GlobalKey<FormState> formKeys = GlobalKey<FormState>();
 
-
   @override
   Widget build(BuildContext context) {
+    var prov = Provider.of<ProfileProvider>(context);
+    var provider = Provider.of<AuthProvider>(context);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: white,
@@ -119,58 +126,65 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
                                 style: labelStyle3,
                               ),
                               Text(widget.status),
-                              InkWell(
-                                onTap: () async {
-                                  DocumentSnapshot docRef = await FirebaseFirestore
-                                      .instance
-                                      .collection('project')
-                                      .doc(widget.id)
-                                      .get();
+                              prov.counter == 2
+                                  ? const SizedBox()
+                                  : InkWell(
+                                      onTap: () async {
+                                        DocumentSnapshot docRef =
+                                            await FirebaseFirestore.instance
+                                                .collection('project')
+                                                .doc(widget.id)
+                                                .get();
 
-                                  Map<String, dynamic> docIsFav =
-                                  docRef.get("isFav");
+                                        Map<String, dynamic> docIsFav =
+                                            docRef.get("isFav");
 
-                                  if (docIsFav.containsKey(
-                                      FirebaseAuth.instance.currentUser!.uid)) {
-                                    docIsFav.addAll({
-                                      FirebaseAuth.instance.currentUser!.uid
-                                          .toString(): widget.isFav? false : true
-                                    });
-                                  } else {
-                                    docIsFav.addAll({
-                                      FirebaseAuth.instance.currentUser!.uid:
-                                      widget.isFav? false : true
-                                    });
-                                  }
+                                        if (docIsFav.containsKey(FirebaseAuth
+                                            .instance.currentUser!.uid)) {
+                                          docIsFav.addAll({
+                                            FirebaseAuth
+                                                    .instance.currentUser!.uid
+                                                    .toString():
+                                                widget.isFav ? false : true
+                                          });
+                                        } else {
+                                          docIsFav.addAll({
+                                            FirebaseAuth
+                                                    .instance.currentUser!.uid:
+                                                widget.isFav ? false : true
+                                          });
+                                        }
 
-                                  widget.isFav = !widget.isFav;
-                                  await FirebaseFirestore.instance
-                                      .collection('project')
-                                      .doc(widget.id)
-                                      .update({'isFav': docIsFav});
-                                  setState(() {});
-                                },
-                                child: Container(
-                                  height: 35,
-                                  width: 25,
-                                  margin: const EdgeInsets.symmetric(
-                                      vertical: 10, horizontal: 10),
-                                  child: !widget.isFav? const ImageIcon(
-                                    AssetImage(
-                                      'assets/bookmark (1).png',
+                                        widget.isFav = !widget.isFav;
+                                        setState(() {});
+
+                                        await FirebaseFirestore.instance
+                                            .collection('project')
+                                            .doc(widget.id)
+                                            .update({'isFav': docIsFav});
+                                      },
+                                      child: Container(
+                                        height: 35,
+                                        width: 25,
+                                        margin: const EdgeInsets.symmetric(
+                                            vertical: 10, horizontal: 10),
+                                        child: !widget.isFav
+                                            ? const ImageIcon(
+                                                AssetImage(
+                                                  'assets/bookmark (1).png',
+                                                ),
+                                                color: blue,
+                                                size: 50,
+                                              )
+                                            : const ImageIcon(
+                                                AssetImage(
+                                                  'assets/bookmark (2).png',
+                                                ),
+                                                color: blue,
+                                                size: 50,
+                                              ),
+                                      ),
                                     ),
-                                    color: blue,
-                                    size: 50,
-                                  )
-                                      : const ImageIcon(
-                                    AssetImage(
-                                      'assets/bookmark (2).png',
-                                    ),
-                                    color: blue,
-                                    size: 50,
-                                  ),
-                                ),
-                              ),
                             ]),
                       ),
                     ],
@@ -233,7 +247,57 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
                             ],
                           ),
                         )
-                      : const SizedBox()
+                      : const SizedBox(),
+                  widget.userid == FirebaseAuth.instance.currentUser!.uid &&
+                          prov.counter != 2
+                      ? InkWell(
+                          onTap: () async {
+                            print(FirebaseAuth.instance.currentUser!.uid);
+                            await showDialogWarning(context,
+                                text: 'هل انت متأكد من حذف المشروع',
+                                ontap: () async {
+                              await FirebaseFirestore.instance
+                                  .collection('project')
+                                  .doc(widget.id)
+                                  .delete()
+                                  .then((value) async {
+                                await AwesomeDialog(
+                                        context: context,
+                                        title: "هام",
+                                        body:
+                                            const Text("تمت عملية الحذف بنجاح"),
+                                        dialogType: DialogType.SUCCES)
+                                    .show();
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => NavigationFile(
+                                            d: studentDrawer(context),
+                                            title:
+                                                ' مرحبا${provider.userName} ',
+                                            counter: prov.counter!)));
+                              });
+                            });
+                          },
+                          child: Row(
+                            children: const [
+                              Icon(
+                                Icons.delete,
+                                color: red,
+                                size: 15,
+                              ),
+                              Text('حذف المشروع',
+                                  style: TextStyle(
+                                      // decoration: TextDecoration.underline,
+                                      // decorationThickness: 2,
+                                      decorationColor: red,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w400,
+                                      color: red))
+                            ],
+                          ),
+                        )
+                      : const SizedBox(),
                 ],
               ),
             ),
