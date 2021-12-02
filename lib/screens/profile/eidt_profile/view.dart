@@ -63,7 +63,7 @@ class _EditProfileState extends State<EditProfile> {
 
   void getPhoneNumber(String phoneNumber) async {
     PhoneNumber number =
-        await PhoneNumber.getRegionInfoFromPhoneNumber(phoneNumber, 'US');
+    await PhoneNumber.getRegionInfoFromPhoneNumber(phoneNumber, 'US');
 
     setState(() {
       this.number = number;
@@ -161,10 +161,10 @@ class _EditProfileState extends State<EditProfile> {
       }
     });
     AwesomeDialog(
-            context: context,
-            title: "هام",
-            body: const Text("تمت عملية الحذف بنجاح"),
-            dialogType: DialogType.SUCCES)
+        context: context,
+        title: "هام",
+        body: const Text("تمت عملية الحذف بنجاح"),
+        dialogType: DialogType.SUCCES)
         .show();
   }
 
@@ -188,8 +188,8 @@ class _EditProfileState extends State<EditProfile> {
       prov.fields.clear();
 
       prov.file = File('');
-     // PhoneNumber(isoCode: key);
-     // getPhoneNumber(key);
+      // PhoneNumber(isoCode: key);
+      // getPhoneNumber(key);
 
       await getData();
       for (var f in field!) {
@@ -230,522 +230,523 @@ class _EditProfileState extends State<EditProfile> {
         textDirection: TextDirection.rtl,
         child: SingleChildScrollView(
             child: Form(
-          key: formkey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // widgets for  profile information
-              Column(children: [
-                Padding(
-                  padding:
+              key: formkey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // widgets for  profile information
+                  Column(children: [
+                    Padding(
+                      padding:
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                  child: Row(
+                      child: Row(
+                        children: [
+                          // widget for image
+                          InkWell(
+                              onTap: () async {
+                                await showBottomSheet(context);
+                              },
+                              child: image == null
+                                  ? const SizedBox()
+                                  : CircleAvatar(
+                                radius: 35,
+                                backgroundImage: NetworkImage(image!),
+                              )),
+                          // widget for name user
+                          SizedBox(
+                            width: sizeFromWidth(context, 1.5),
+                            child: TextFieldUser(
+                              labelText: "اسم الباحث",
+                              hintText: "أسمك",
+                              scure: false,
+                              onChanged: (val) {},
+                              controller: name,
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return 'يجب ادخال اسم الباحث';
+                                } else if (value.length < 2) {
+                                  return 'يجب ان يحتوي الاسم علي ثلاث حروف علي الاقل';
+                                }
+                                return null;
+                              }, // initialValue: name,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    // college and department widget
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        SizedBox(
+                          width: sizeFromWidth(context, 2.3),
+                          height: 70,
+                          child: CollegeDropDown(
+                            strValue: college == '' ? null : college,
+                            onTap: (v) {
+                              college = v;
+                              department = '';
+                              selectedDepartment =
+                              providers.departments[college]!;
+                              setState(() {});
+                            },
+                            listData: providers.departments.keys
+                                .toList()
+                                .map((e) =>
+                                DropdownMenuItem(
+                                  child: Text(e),
+                                  value: e,
+                                ))
+                                .toList(),
+                            text: college ?? "",
+                          ),
+                        ),
+                        SizedBox(
+                          width: sizeFromWidth(context, 2.3),
+                          height: 70,
+                          child: CollegeDropDown(
+                            strValue: department == '' ? null : department,
+                            onTap: (v) {
+                              department = v;
+                              setState(() {});
+                            },
+                            listData: selectedDepartment
+                                .toList()
+                                .map((e) =>
+                                DropdownMenuItem(
+                                  child: Text(e),
+                                  value: e,
+                                ))
+                                .toList(),
+                            text: department ?? "",
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        // widget of degree
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 20, right: 15),
+                              child: Text(
+                                'الدرجة العلمية ',
+                                style: labelStyle3,
+                              ),
+                            ),
+                            Directionality(
+                              textDirection: TextDirection.rtl,
+                              child: Container(
+                                width: sizeFromWidth(context, 2.4),
+                                height: 50,
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10),
+                                child: DropdownButton<String>(
+                                  hint: Text(
+                                    degree ?? "",
+                                    style: hintStyle,
+                                  ),
+                                  value: prov.degreeMember,
+                                  underline: Container(
+                                    width: 20,
+                                    height: 1,
+                                    decoration: const BoxDecoration(
+                                        color: lightGray,
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: blue,
+                                          )
+                                        ]),
+                                  ),
+                                  onChanged: (newValue) {
+                                    provAuth.usertype == 0
+                                        ? prov.degreeMember = newValue!
+                                        : prov.degreeGraduated = newValue!;
+                                  },
+                                  items: provAuth.usertype == 0
+                                      ? <String>[
+                                    'دكتوراه',
+                                    'ماجستير',
+                                  ].map<DropdownMenuItem<String>>(
+                                          (String value) {
+                                        return DropdownMenuItem<String>(
+                                          value: value,
+                                          child: SizedBox(
+                                            width: sizeFromWidth(context, 8),
+                                            height: 50,
+                                            // for example
+                                            child: Text(value,
+                                                textAlign: TextAlign.right),
+                                          ),
+                                        );
+                                      }).toList()
+                                      : <String>[
+                                    'طالب دكتوراه',
+                                    'طالب ماجستير',
+                                  ].map<DropdownMenuItem<String>>(
+                                          (String value) {
+                                        return DropdownMenuItem<String>(
+                                          value: value,
+                                          child: SizedBox(
+                                            width: sizeFromWidth(context, 8),
+                                            height: 50,
+                                            // for example
+                                            child: Text(value,
+                                                textAlign: TextAlign.right),
+                                          ),
+                                        );
+                                      }).toList(),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        // widget of number
+
+                        SizedBox(
+                          width: sizeFromWidth(context, 2),
+                          child: TextFieldUser(
+                            onChanged: (val) {
+                              prov.id = val;
+                            },
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'برجاءادخال المعرف الخاص بك ';
+                              }
+                            },
+                            controller: id,
+                            hintText: "المعرف الخاص بك",
+                            labelText: "orcid iD",
+                            scure: false,
+                            // initialValue: id,
+                          ),
+                        ),
+                      ],
+                    ),
+                    // widget of email and link
+                    Row(
+                      children: [
+                        SizedBox(
+                          width: sizeFromWidth(context, 2),
+                          child: TextFieldUser(
+                            onChanged: (val) {
+                              prov.email = val;
+                            },
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'برجاءادخال البريد الجامعي بشكل صحيح ';
+                              }
+                            },
+                            controller: emailuser,
+                            hintText: "Reasearsh@ksuedu.sa",
+                            labelText: "البريد الجامعى",
+                            scure: false,
+                          ),
+                        ),
+                        SizedBox(
+                          width: sizeFromWidth(context, 2),
+                          child: TextFieldUser(
+                            onChanged: (val) {
+                              prov.link = val;
+                            },
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'برجاءادخال ادخل رابط GooGel School ';
+                              }
+                            },
+                            controller: link,
+                            hintText: "ادخل رابط GooGel School",
+                            labelText: " ابحاثى",
+                            scure: false,
+                            // initialValue: link,
+                          ),
+                        ),
+                      ],
+                    ),
+                    // widget of oricd id
+                    SizedBox(
+                      width: MediaQuery
+                          .of(context)
+                          .size
+                          .width / 1.2,
+                      child: Form(
+                        key: formKy,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            InternationalPhoneNumberInput(
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'الرجاء ادخال رقم الهاتف';
+                                }
+                              },
+                              hintText: 'رقم الهاتف',
+                              textStyle: labelStyle2,
+                              onInputChanged: (PhoneNumber number) {
+                                phoneview = number.phoneNumber.toString();
+                                // phone.text = number.phoneNumber as String  ;
+
+                                print(number.phoneNumber);
+                                print(number.dialCode);
+                                //TODO : save country key as string not original key
+                                // dial code is print country key >>>but i want print the key as string as this ('SA')- ('EG')>>>not +966 , +20
+                                print(number.isoCode);
+                              },
+                              onInputValidated: (bool value) {
+                                if (value == false) {
+                                  const Text('الرقم غير صالح');
+                                }
+                                print(value);
+                                print('الرقم غير صالح');
+                              },
+                              selectorConfig: const SelectorConfig(
+                                selectorType: PhoneInputSelectorType
+                                    .BOTTOM_SHEET,
+                              ),
+                              ignoreBlank: false,
+                              inputDecoration: const InputDecoration(
+                                enabled: false,
+
+                                // hintText: phone.text,
+                              ),
+                              autoValidateMode: AutovalidateMode.disabled,
+                              selectorTextStyle:
+                              const TextStyle(color: Colors.black),
+                              initialValue: number,
+                              textFieldController: phone,
+                              formatInput: false,
+                              keyboardType: const TextInputType
+                                  .numberWithOptions(
+                                  signed: true, decimal: true),
+                              inputBorder: const OutlineInputBorder(),
+                              onSaved: (PhoneNumber number) {
+                                print('On Saved: $number');
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                  ]),
+                  // accept theses montor
+                  provAuth.usertype == 0
+                      ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // widget for image
-                      InkWell(
-                          onTap: () async {
-                            await showBottomSheet(context);
-                          },
-                          child: image == null
-                              ? const SizedBox()
-                              : CircleAvatar(
-                                  radius: 35,
-                                  backgroundImage: NetworkImage(image!),
-                                )),
-                      // widget for name user
-                      SizedBox(
-                        width: sizeFromWidth(context, 1.5),
-                        child: TextFieldUser(
-                          labelText: "اسم الباحث",
-                          hintText: "أسمك",
-                          scure: false,
-                          onChanged: (val) {},
-                          controller: name,
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return 'يجب ادخال اسم الباحث';
-                            } else if (value.length < 2) {
-                              return 'يجب ان يحتوي الاسم علي ثلاث حروف علي الاقل';
-                            }
-                            return null;
-                          }, // initialValue: name,
+                      Padding(
+                        padding: const EdgeInsets.only(right: 20, top: 20),
+                        child: Text(
+                          "هل تقبل الاشراف على الاطروحات؟",
+                          style: labelStyle3,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: SizedBox(
+                          height: 30,
+                          child: Row(
+                            children: [
+                              Radio(
+                                  value: 0,
+                                  groupValue: accepted,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      accepted = value as int?;
+                                    });
+                                  }),
+                              Text('نعم', style: hintStyle3),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: SizedBox(
+                          height: 25,
+                          child: Row(
+                            children: [
+                              Radio(
+                                  value: 1,
+                                  groupValue: accepted,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      accepted = value as int?;
+                                    });
+                                  }),
+                              Text(
+                                'لا',
+                                style: hintStyle3,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ],
+                  )
+                      : const SizedBox(),
+                  const Divider(
+                    height: 10,
+                    thickness: 1,
+                    color: lightGray,
                   ),
-                ),
-                // college and department widget
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    SizedBox(
-                      width: sizeFromWidth(context, 2.3),
-                      height: 70,
-                      child: CollegeDropDown(
-                        strValue: college == '' ? null : college,
-                        onTap: (v) {
-                          college = v;
-                          department = '';
-                          selectedDepartment = providers.departments[college]!;
-                          setState(() {});
-                        },
-                        listData: providers.departments.keys
-                            .toList()
-                            .map((e) => DropdownMenuItem(
-                                  child: Text(e),
-                                  value: e,
-                                ))
-                            .toList(),
-                        text: college ?? "",
-                      ),
-                    ),
-                    SizedBox(
-                      width: sizeFromWidth(context, 2.3),
-                      height: 70,
-                      child: CollegeDropDown(
-                        strValue: department == '' ? null : department,
-                        onTap: (v) {
-                          department = v;
-                          setState(() {});
-                        },
-                        listData: selectedDepartment
-                            .toList()
-                            .map((e) => DropdownMenuItem(
-                                  child: Text(e),
-                                  value: e,
-                                ))
-                            .toList(),
-                        text: department ?? "",
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    // widget of degree
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 20, right: 15),
-                          child: Text(
-                            'الدرجة العلمية ',
-                            style: labelStyle3,
-                          ),
-                        ),
-                        Directionality(
-                          textDirection: TextDirection.rtl,
-                          child: Container(
-                            width: sizeFromWidth(context, 2.4),
-                            height: 50,
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            child: DropdownButton<String>(
-                              hint: Text(
-                                degree ?? "",
-                                style: hintStyle,
-                              ),
-                              value: prov.degreeMember,
-                              underline: Container(
-                                width: 20,
-                                height: 1,
-                                decoration: const BoxDecoration(
-                                    color: lightGray,
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: blue,
-                                      )
-                                    ]),
-                              ),
-                              onChanged: (newValue) {
-                                provAuth.usertype == 0
-                                    ? prov.degreeMember = newValue!
-                                    : prov.degreeGraduated = newValue!;
-                              },
-                              items: provAuth.usertype == 0
-                                  ? <String>[
-                                      'دكتوراه',
-                                      'ماجستير',
-                                    ].map<DropdownMenuItem<String>>(
-                                      (String value) {
-                                      return DropdownMenuItem<String>(
-                                        value: value,
-                                        child: SizedBox(
-                                          width: sizeFromWidth(context, 8),
-                                          height: 50,
-                                          // for example
-                                          child: Text(value,
-                                              textAlign: TextAlign.right),
-                                        ),
-                                      );
-                                    }).toList()
-                                  : <String>[
-                                      'طالب دكتوراه',
-                                      'طالب ماجستير',
-                                    ].map<DropdownMenuItem<String>>(
-                                      (String value) {
-                                      return DropdownMenuItem<String>(
-                                        value: value,
-                                        child: SizedBox(
-                                          width: sizeFromWidth(context, 8),
-                                          height: 50,
-                                          // for example
-                                          child: Text(value,
-                                              textAlign: TextAlign.right),
-                                        ),
-                                      );
-                                    }).toList(),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    // widget of number
-
-                    SizedBox(
-                      width: sizeFromWidth(context, 2),
-                      child: TextFieldUser(
-                        onChanged: (val) {
-                          prov.id = val;
-                        },
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return 'برجاءادخال المعرف الخاص بك ';
-                          }
-                        },
-                        controller: id,
-                        hintText: "المعرف الخاص بك",
-                        labelText: "orcid iD",
-                        scure: false,
-                        // initialValue: id,
-                      ),
-                    ),
-
-                    // SizedBox(
-                    //   width: sizeFromWidth(context, 2),
-                    //   child: TextFieldUser(
-                    //     onChanged: (val) {
-                    //       prov.phone = val;
-                    //     },
-                    //     validator: (value) {
-                    //       if (value.isEmpty) {
-                    //         return 'برجاءادخال رقم الهاتف ';
-                    //       }
-                    //     },
-                    //     controller: phone,
-                    //     hintText: "+96655...",
-                    //     labelText: "رقم الهاتف",
-                    //     scure: false,
-                    //     // initialValue: phone,
-                    //   ),
-                    // ),
-                  ],
-                ),
-                // widget of email and link
-                Row(
-                  children: [
-                    SizedBox(
-                      width: sizeFromWidth(context, 2),
-                      child: TextFieldUser(
-                        onChanged: (val) {
-                          prov.email = val;
-                        },
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return 'برجاءادخال البريد الجامعي بشكل صحيح ';
-                          }
-                        },
-                        controller: emailuser,
-                        hintText: "Reasearsh@ksuedu.sa",
-                        labelText: "البريد الجامعى",
-                        scure: false,
-                      ),
-                    ),
-                    SizedBox(
-                      width: sizeFromWidth(context, 2),
-                      child: TextFieldUser(
-                        onChanged: (val) {
-                          prov.link = val;
-                        },
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return 'برجاءادخال ادخل رابط GooGel School ';
-                          }
-                        },
-                        controller: link,
-                        hintText: "ادخل رابط GooGel School",
-                        labelText: " ابحاثى",
-                        scure: false,
-                        // initialValue: link,
-                      ),
-                    ),
-                  ],
-                ),
-                // widget of oricd id
-                SizedBox(
-                  width: MediaQuery.of(context).size.width / 1.2,
-                  child: Form(
-                    key: formKy,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        InternationalPhoneNumberInput(
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'الرجاء ادخال رقم الهاتف';
-                            }
-                          },
-                          hintText: 'رقم الهاتف',
-                          textStyle: labelStyle2,
-                          onInputChanged: (PhoneNumber number) {
-                            phoneview = number.phoneNumber.toString();
-                            // phone.text = number.phoneNumber as String  ;
-
-                            print(number.phoneNumber);
-                            print(number.dialCode);
-                            //TODO : save country key as string not original key
-                            // dial code is print country key >>>but i want print the key as string as this ('SA')- ('EG')>>>not +966 , +20
-                            print(number.isoCode);
-                          },
-                          onInputValidated: (bool value) {
-                            if (value == false) {
-                              const Text('الرقم غير صالح');
-                            }
-                            print(value);
-                            print('الرقم غير صالح');
-                          },
-                          selectorConfig: const SelectorConfig(
-                            selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
-                          ),
-                          ignoreBlank: false,
-                          inputDecoration: const InputDecoration(
-                            enabled: false,
-
-                            // hintText: phone.text,
-                          ),
-                          autoValidateMode: AutovalidateMode.disabled,
-                          selectorTextStyle:
-                              const TextStyle(color: Colors.black),
-                          initialValue: number,
-                          textFieldController: phone,
-                          formatInput: false,
-                          keyboardType: const TextInputType.numberWithOptions(
-                              signed: true, decimal: true),
-                          inputBorder: const OutlineInputBorder(),
-                          onSaved: (PhoneNumber number) {
-                            print('On Saved: $number');
-                          },
-                        ),
-                      ],
-                    ),
+                  ListProjectItem(
+                    fields: field,
                   ),
-                )
-              ]),
-              // accept theses montor
-              provAuth.usertype == 0
-                  ? Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(right: 20, top: 20),
-                          child: Text(
-                            "هل تقبل الاشراف على الاطروحات؟",
-                            style: labelStyle3,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          child: SizedBox(
-                            height: 30,
-                            child: Row(
-                              children: [
-                                Radio(
-                                    value: 0,
-                                    groupValue: accepted,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        accepted = value as int?;
-                                      });
-                                    }),
-                                Text('نعم', style: hintStyle3),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          child: SizedBox(
-                            height: 25,
-                            child: Row(
-                              children: [
-                                Radio(
-                                    value: 1,
-                                    groupValue: accepted,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        accepted = value as int?;
-                                      });
-                                    }),
-                                Text(
-                                  'لا',
-                                  style: hintStyle3,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    )
-                  : const SizedBox(),
-              const Divider(
-                height: 10,
-                thickness: 1,
-                color: lightGray,
-              ),
-              ListProjectItem(
-                fields: field,
-              ),
-              const Divider(
-                height: 10,
-                thickness: 1,
-                color: lightGray,
-              ),
-              ThesesGraduatedMontorItem(
-                department: department,
-                college: college,
-              ),
-              const Divider(
-                height: 20,
-                thickness: 1,
-                color: lightGray,
-              ),
-              ProjectItem(
-                department: department,
-                college: college,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  // add button
-                  ButtonUser(
-                      text: 'حفظ التغيرات',
-                      color: blueGradient,
-                      onTap: () async {
-                        showDialogWarning(context, ontap: () async {
-                          print('hhhhhhhh');
-                          // print( phoneview);
-                          print(
-                              "0000000000000000000000000000000000000000000101010101010");
-                          if (formkey.currentState!.validate()) {
-                            formkey.currentState!.save();
-                            List<String> fieldsStr = <String>[];
+                  const Divider(
+                    height: 10,
+                    thickness: 1,
+                    color: lightGray,
+                  ),
+                  ThesesGraduatedMontorItem(
+                    department: department,
+                    college: college,
+                  ),
+                  const Divider(
+                    height: 20,
+                    thickness: 1,
+                    color: lightGray,
+                  ),
+                  ProjectItem(
+                    department: department,
+                    college: college,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      // add button
+                      ButtonUser(
+                          text: 'حفظ التغيرات',
+                          color: blueGradient,
+                          onTap: () async {
+                            showDialogWarning(context, ontap: () async {
+                              print('hhhhhhhh');
+                              // print( phoneview);
+                              print(
+                                  "0000000000000000000000000000000000000000000101010101010");
+                              if (formkey.currentState!.validate()) {
+                                formkey.currentState!.save();
+                                List<String> fieldsStr = <String>[];
 
-                            for (var element in prov.fields) {
-                              fieldsStr.add(element.text);
-                            }
+                                for (var element in prov.fields) {
+                                  fieldsStr.add(element.text);
+                                }
 
-                            print('Str list is => $fieldsStr');
+                                print('Str list is => $fieldsStr');
 
-                            if (provAuth.usertype == 0) {
-                              await FirebaseFirestore.instance
-                                  .collection('member')
-                                  .doc(FirebaseAuth.instance.currentUser!.uid)
-                                  .update({
-                                'name': name.text,
-                                'accept': accepted,
-                                'degree': degree,
-                                'faculty': college,
-                                'department': department,
-                                'id': id.text,
-                                'link': link.text,
-                                'phone': phone.text,
-                                'phoneview': phoneview,
-                                'email': emailuser.text,
-                                // 'imageUrl': imageUrl,
-                                'fields': fieldsStr
-                              }).then((value) async {
-                                Navigator.pop(context);
-                                await AwesomeDialog(
+                                if (provAuth.usertype == 0) {
+                                  await FirebaseFirestore.instance
+                                      .collection('member')
+                                      .doc(
+                                      FirebaseAuth.instance.currentUser!.uid)
+                                      .update({
+                                    'name': name.text,
+                                    'accept': accepted,
+                                    'degree': degree,
+                                    'faculty': college,
+                                    'department': department,
+                                    'id': id.text,
+                                    'link': link.text,
+                                    'phone': phone.text,
+                                    'phoneview': phoneview,
+                                    'email': emailuser.text,
+                                    // 'imageUrl': imageUrl,
+                                    'fields': fieldsStr
+                                  }).then((value) async {
+                                    Navigator.pop(context);
+                                    await AwesomeDialog(
                                         context: context,
                                         title: "هام",
                                         body: const Text(
                                             "تمت عملية التعديل بنجاح"),
                                         dialogType: DialogType.SUCCES)
-                                    .show();
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
+                                        .show();
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
                                             const ProfileScreen()));
-                              });
-                            } else {
-                              await FirebaseFirestore.instance
-                                  .collection('member')
-                                  .doc(FirebaseAuth.instance.currentUser!.uid)
-                                  .update({
-                                'name': name.text,
-                                'accept': 2,
-                                'degree': degree,
-                                'faculty': college,
-                                'department': department,
-                                'id': id.text,
-                                'link': link.text,
-                                'phone': phone.text,
-                                'phoneview': phoneview,
-                                'email': emailuser.text,
-                                // 'imageUrl': imageUrl,
-                                'fields': fieldsStr
-                              }).then((value) async {
-                                Navigator.pop(context);
-                                await AwesomeDialog(
+                                  });
+                                } else {
+                                  await FirebaseFirestore.instance
+                                      .collection('user')
+                                      .doc(
+                                      FirebaseAuth.instance.currentUser!.uid)
+                                      .update({
+                                    'username': name.text,
+                                  });
+                                  await FirebaseFirestore.instance
+                                      .collection('member')
+                                      .doc(
+                                      FirebaseAuth.instance.currentUser!.uid)
+                                      .update({
+                                    'name': name.text,
+                                    'accept': 2,
+                                    'degree': degree,
+                                    'faculty': college,
+                                    'department': department,
+                                    'id': id.text,
+                                    'link': link.text,
+                                    'phone': phone.text,
+                                    'phoneview': phoneview,
+                                    'email': emailuser.text,
+                                    // 'imageUrl': imageUrl,
+                                    'fields': fieldsStr
+                                  }).then((value) async {
+                                    Navigator.pop(context);
+                                    await AwesomeDialog(
                                         context: context,
                                         title: "هام",
                                         body: const Text(
                                             "تمت عملية التعديل بنجاح"),
                                         dialogType: DialogType.SUCCES)
-                                    .show();
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
+                                        .show();
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
                                             const ProfileScreen()));
-                              });
-                            }
-                          }
+                                  });
+                                }
+                              }
 
-                          print(name);
-                        }, text: 'هل انت متاكد من حفظ التغييرات ؟');
-                      }),
-                  // cancel button
-                  ButtonUser(
-                      text: 'الغاء',
-                      color: redGradient,
-                      onTap: () {
-                        print(provAuth.usertype);
-                        Navigator.pop(context);
-                      }),
+                              print(name);
+                            }, text: 'هل انت متاكد من حفظ التغييرات ؟');
+                          }),
+                      // cancel button
+                      ButtonUser(
+                          text: 'الغاء',
+                          color: redGradient,
+                          onTap: () {
+                            print(provAuth.usertype);
+                            Navigator.pop(context);
+                          }),
+                    ],
+                  ),
+                  // delete button
+                  Center(
+                      child: ButtonUser(
+                          text: 'حذف الحساب',
+                          color: grayGradient,
+                          onTap: () {
+                            showDialogWarning(context,
+                                text: 'هل انت متاكد من حذف الحساب ؟',
+                                ontap: () async {
+                                  await deleteData();
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (
+                                              context) => const RegistScreen()));
+                                });
+                          }))
                 ],
               ),
-              // delete button
-              Center(
-                  child: ButtonUser(
-                      text: 'حذف الحساب',
-                      color: grayGradient,
-                      onTap: () {
-                        showDialogWarning(context,
-                            text: 'هل انت متاكد من حذف الحساب ؟',
-                            ontap: () async {
-                          await deleteData();
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const RegistScreen()));
-                        });
-                      }))
-            ],
-          ),
-        )),
+            )),
       ),
     );
   }
@@ -799,7 +800,7 @@ showBottomSheet(ctx) {
               InkWell(
                 onTap: () async {
                   var picked =
-                      await ImagePicker().pickImage(source: ImageSource.camera);
+                  await ImagePicker().pickImage(source: ImageSource.camera);
                   if (picked != null) {
                     prov.file = File(picked.path);
                     var rang = Random().nextInt(100000);
