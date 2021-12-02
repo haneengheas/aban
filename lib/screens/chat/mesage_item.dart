@@ -72,6 +72,7 @@ class MessageItem extends StatelessWidget {
                 padding:
                     const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                 child: Expanded(
+
                   child: SizedBox(
                     width: 60,
                     child: Text(

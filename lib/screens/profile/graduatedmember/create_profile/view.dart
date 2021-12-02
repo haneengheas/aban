@@ -43,13 +43,15 @@ class _CreateGraduatedProfileState extends State<CreateGraduatedProfile> {
   List<String> selectedDegree = <String>['دكتوراة'];
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  final GlobalKey<FormState> formKy = GlobalKey<FormState>();
 
+  ///phonenumber varibles
+  final GlobalKey<FormState> formKy = GlobalKey<FormState>();
   final TextEditingController controller = TextEditingController();
   String initialCountry = 'NG';
-  late String key;
   PhoneNumber number = PhoneNumber(isoCode: 'NG');
-  //late String phoneview;
+
+  // late String phoneview;
+  // late String key;
   void getPhoneNumber(String phoneNumber) async {
     PhoneNumber number =
     await PhoneNumber.getRegionInfoFromPhoneNumber(phoneNumber, 'US');
@@ -258,57 +260,27 @@ class _CreateGraduatedProfileState extends State<CreateGraduatedProfile> {
                               ),
                             ],
                           ),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width / 1.2,
-                            child: Form(
-                              key: formKy,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  InternationalPhoneNumberInput(
-
-                                    hintText: 'رقم الهاتف',
-                                    textStyle: labelStyle2,
-                                    onInputChanged: (PhoneNumber number) {
-                                     // phoneview = number.phoneNumber.toString();
-                                      print(number.phoneNumber);
-                                      key =number.isoCode!;
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: SizedBox(
+                              width: sizeFromWidth(context, 2),
+                              child: Directionality(
+                                  textDirection: TextDirection.rtl,
+                                  child: TextFieldUser(
+                                    hintText: "المعرف الخاص بك",
+                                    labelText: "orcid iD",
+                                    onChanged: (value) {
+                                      prov.id = value;
                                     },
-                                    // onInputValidated: (bool value) {
-                                    //   print(value);
-                                    // },
-                                    selectorConfig: const SelectorConfig(
-                                      selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
-                                    ),
-                                    ignoreBlank: false,
-                                    inputDecoration: const InputDecoration(
-                                        enabled: false,
-                                        hintText: 'رقم الهاتف'
-                                    ),
-                                    autoValidateMode: AutovalidateMode.disabled,
-                                    selectorTextStyle:
-                                    const TextStyle(color: Colors.black),
-                                    initialValue: number,
-                                    textFieldController: controller,
-                                    formatInput: true,
                                     validator: (value) {
-                                      if (value!.isEmpty) {
-                                        return 'الرجاء ادخال رقم الهاتف';
+                                      if (value.isEmpty) {
+                                        return 'برجاءادخال المعرف الخاص بك ';
                                       }
                                     },
-                                    keyboardType: const TextInputType.numberWithOptions(
-                                      signed: true,
-                                      decimal: true,
-                                    ),
-
-                                    onSaved: (PhoneNumber number) {
-                                      print('On Saved: $number');
-                                    },
-                                  ),
-                                ],
-                              ),
+                                    scure: false,
+                                  )),
                             ),
-                          )
+                          ),
                         ],
                       ),
                       Row(
@@ -353,27 +325,64 @@ class _CreateGraduatedProfileState extends State<CreateGraduatedProfile> {
                           ),
                         ],
                       ),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: SizedBox(
-                          width: sizeFromWidth(context, 2),
-                          child: Directionality(
-                              textDirection: TextDirection.rtl,
-                              child: TextFieldUser(
-                                hintText: "المعرف الخاص بك",
-                                labelText: "orcid iD",
-                                onChanged: (value) {
-                                  prov.id = value;
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width / 1.2,
+                        child: Form(
+                          key: formKy,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              InternationalPhoneNumberInput(
+
+                                hintText: 'رقم الهاتف',
+                                textStyle: labelStyle2,
+                                onInputChanged: (PhoneNumber number) {
+                                  prov.phoneview = number.phoneNumber.toString();
+                                  print(number.phoneNumber);
+                                  print(number.dialCode);
+                                  print(number.isoCode);
+                                  prov.key =number.isoCode!;
+
+
                                 },
+                                // onInputValidated: (bool value) {
+                                //   print(value);
+                                // },
+                                selectorConfig: const SelectorConfig(
+                                  selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
+                                ),
+                                ignoreBlank: false,
+                                inputDecoration: const InputDecoration(
+                                    enabled: false,
+                                    hintText: 'رقم الهاتف'
+                                ),
+                                autoValidateMode: AutovalidateMode.disabled,
+                                selectorTextStyle:
+                                const TextStyle(color: Colors.black),
+                                initialValue: number,
+                                textFieldController: controller,
+                                formatInput: true,
                                 validator: (value) {
-                                  if (value.isEmpty) {
-                                    return 'برجاءادخال المعرف الخاص بك ';
+                                  if (value!.isEmpty) {
+                                    return 'الرجاء ادخال رقم الهاتف';
                                   }
                                 },
-                                scure: false,
-                              )),
+                                keyboardType: const TextInputType.numberWithOptions(
+                                  signed: true,
+                                  decimal: true,
+                                ),
+
+                                onSaved: (PhoneNumber number) {
+                                  print('On Saved: $number');
+                                },
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
+                      )
                     ],
                   ),
                   const SizedBox(
@@ -478,12 +487,12 @@ class _CreateGraduatedProfileState extends State<CreateGraduatedProfile> {
                             print('Str list is => $fieldsStr');
 
                             await prov.createMemberProfile(
-                              //key: key,
-                             // phoneview: phoneview,
+                                key: prov.key,
+                                phoneview: prov.phoneview,
                                 context: context,
                                 name: nameuser.text,
                                 faculty: college,
-                                phone: prov.phone,
+                                phone: controller.text,
                                 id: prov.id,
                                 department: department,
                                 degree: prov.degreeGraduated!,

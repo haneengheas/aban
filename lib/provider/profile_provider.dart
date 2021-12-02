@@ -49,7 +49,8 @@ class ProfileProvider with ChangeNotifier {
   String? degreeTheses;
 
   String? thesesStatus;
-
+  late String phoneview;
+  late String key;
   late String projectName;
   //late String phoneview;
   late String descriptionProject;
@@ -69,10 +70,10 @@ class ProfileProvider with ChangeNotifier {
 
 // methods to add and create member profile in fire base
   createMemberProfile({
-    //required String key,
+    required String key,
     required BuildContext context,
     required String name,
-   // required String phoneview ,
+    required String phoneview ,
     required String department,
     required String faculty,
     required String phone,
@@ -96,8 +97,8 @@ class ProfileProvider with ChangeNotifier {
         .set({
       'faculty': faculty,
       'phone': phone,
-     // 'key': key,
-     // 'phoneview': phoneview,
+      'key': key,
+      'phoneview': phoneview,
       'name': name,
       'email': email,
       'imageUrl': file.path == "" ? "https://firebasestorage.googleapis.com/v0/b/aban-9b0ba.appspot.com/o/user.png?alt=media&token=9d9b6b7d-f436-4fd3-99a2-e5b8bdf6f8d1" : imageUrl,

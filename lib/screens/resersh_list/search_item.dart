@@ -37,7 +37,7 @@ class _SearchItemState extends State<SearchItem> {
         degree: doc['degree'],
         email: doc['email'],
         imageUrl: doc['imageUrl'],
-        phone: doc['phone'],
+        phone:  doc['phoneview'],
        // phoneview: doc['phoneview'],
         id: doc['id'],
         faculty: doc['faculty'],
@@ -99,7 +99,6 @@ class _SearchItemState extends State<SearchItem> {
             MaterialPageRoute(builder: (context) =>
 
                 MemberProfile(
-                 // phoneview: project.phoneview!,
                     userid: project.userId!,
                     accept: project.accept,
                     name: project.name!,

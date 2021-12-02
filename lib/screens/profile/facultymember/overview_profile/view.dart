@@ -1,6 +1,8 @@
 // ignore_for_file: avoid_print, must_be_immutable
 
 import 'package:aban/constant/style.dart';
+import 'package:aban/provider/auth_provider.dart';
+import 'package:aban/provider/profile_provider.dart';
 import 'package:aban/screens/chat/chat_room.dart';
 import 'package:aban/screens/resersh_list/field.dart';
 import 'package:aban/screens/resersh_list/compeleted_project.dart';
@@ -12,6 +14,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MemberProfile extends StatefulWidget {
@@ -66,6 +69,8 @@ class _MemberProfileState extends State<MemberProfile> {
 
   @override
   Widget build(BuildContext context) {
+    var prov = Provider.of<ProfileProvider>(context);
+    var provider = Provider.of<AuthProvider>(context);
     return DefaultTabController(
       length: 5,
       child: Scaffold(
@@ -101,7 +106,7 @@ class _MemberProfileState extends State<MemberProfile> {
                       Container(
                         margin: const EdgeInsets.symmetric(horizontal: 15),
                         child: widget.userid !=
-                                FirebaseAuth.instance.currentUser!.uid
+                                FirebaseAuth.instance.currentUser!.uid && prov.counter !=2
                             ? Row(
                                 children: [
                                   TextButton.icon(
@@ -209,9 +214,11 @@ class _MemberProfileState extends State<MemberProfile> {
                                     SizedBox(
                                       width: sizeFromWidth(context, 8),
                                     ),
-                                    Text(
-                                      widget.phone,
-                                      style: hintStyle,
+                                    Directionality(textDirection: TextDirection.ltr,
+                                      child: Text(
+                                        widget.phone,
+                                        style: hintStyle,
+                                      ),
                                     ),
                                   ],
                                 ),

@@ -133,9 +133,12 @@ void initState() {
                       mainAxisAlignment:
                       MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          seminar.seminartitle!,
-                          style: labelStyle3,
+                        Expanded(
+                          child: Text(
+                            seminar.seminartitle!,
+                            maxLines: 1,
+                            style: labelStyle3,
+                          ),
                         ),
 
                         Row(

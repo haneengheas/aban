@@ -266,9 +266,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                 ),
                                               ),
                                               Expanded(
-                                                child: Text(
-                                                  "${snapshot.data!.docs[0]['phone']}",
-                                                  style: hintStyle,
+                                                child: Directionality(textDirection: TextDirection.ltr
+                                                  ,
+                                                  child: Text(
+                                                    "${snapshot.data!.docs[0]['phoneview']}",
+                                                    textAlign: TextAlign.right,
+                                                    style: hintStyle,
+                                                  ),
                                                 ),
                                               )
                                             ],

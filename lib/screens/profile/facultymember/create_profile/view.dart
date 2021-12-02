@@ -49,13 +49,15 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
   List<String> selectedDepartment = <String>[];
   List<String> selectedDegree = <String>['دكتوراة'];
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  final GlobalKey<FormState> formKy = GlobalKey<FormState>();
 
+  ///phonenumber varibles
+  final GlobalKey<FormState> formKy = GlobalKey<FormState>();
   final TextEditingController controller = TextEditingController();
   String initialCountry = 'NG';
   PhoneNumber number = PhoneNumber(isoCode: 'NG');
-  //late String phoneview;
-  late String key;
+
+  // late String phoneview;
+  // late String key;
   void getPhoneNumber(String phoneNumber) async {
     PhoneNumber number =
         await PhoneNumber.getRegionInfoFromPhoneNumber(phoneNumber, 'US');
@@ -391,11 +393,11 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                             hintText: 'رقم الهاتف',
                             textStyle: labelStyle2,
                             onInputChanged: (PhoneNumber number) {
-                             // phoneview = number.phoneNumber.toString();
+                              prov.phoneview = number.phoneNumber.toString();
                               print(number.phoneNumber);
                               print(number.dialCode);
                               print(number.isoCode);
-                              key =number.isoCode!;
+                              prov.key =number.isoCode!;
 
                             },
                             // onInputValidated: (bool value) {
@@ -544,8 +546,8 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                           ..show();
                       } else {
                         await prov.createMemberProfile(
-                         // key: key,
-                         // phoneview: phoneview,
+                          key: prov.key,
+                          phoneview: prov.phoneview,
                           context: context,
                           faculty: college,
                           department: department,

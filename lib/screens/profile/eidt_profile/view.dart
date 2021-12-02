@@ -48,25 +48,26 @@ class _EditProfileState extends State<EditProfile> {
   Reference? ref;
   String? college;
   String? department;
+  String? phoneview;
+
   //late String phoneview;
-  late String key;
+  //late String key;
 
   final GlobalKey<FormState> formKy = GlobalKey<FormState>();
 
   final TextEditingController controller = TextEditingController();
-   String initialCountry = 'NG';
-  PhoneNumber number = PhoneNumber(isoCode: 'SA',);
+  String initialCountry = 'NG';
+  PhoneNumber number = PhoneNumber(
+    isoCode: 'SA',
+  );
 
   void getPhoneNumber(String phoneNumber) async {
-
     PhoneNumber number =
-
         await PhoneNumber.getRegionInfoFromPhoneNumber(phoneNumber, 'US');
 
     setState(() {
       this.number = number;
     });
-
   }
 
   List<String> selectedDepartment = <String>[];
@@ -78,7 +79,9 @@ class _EditProfileState extends State<EditProfile> {
         .get();
     debugPrint('userType is ${documentSnapshot2.get('userId')}');
     name.text = documentSnapshot2.get('name');
+    //key = documentSnapshot2.get('key');
     college = documentSnapshot2.get('faculty');
+    phoneview = documentSnapshot2.get('phoneview');
     emailuser.text = FirebaseAuth.instance.currentUser!.email!;
     link.text = documentSnapshot2.get('link');
     phone.text = documentSnapshot2.get('phone');
@@ -91,7 +94,6 @@ class _EditProfileState extends State<EditProfile> {
     print(accepted);
 
     setState(() {});
-
   }
 
   deleteData() async {
@@ -167,19 +169,26 @@ class _EditProfileState extends State<EditProfile> {
   }
 
   @override
-
   void initState() {
-
-
     var prov;
     Future.delayed(Duration.zero, () async {
       prov = Provider.of<ProfileProvider>(
         context,
         listen: false,
       );
-      ///fiebase to go get key
+
+      // ///fiebase to go get key
+      // FirebaseFirestore.instance
+      //     .collection('member')
+      //     .doc(FirebaseAuth.instance.currentUser!.uid)
+      //     .get()
+      //     .then((DocumentSnapshot ff) {
+      //   key = ff['key'];
+      // });
       prov.fields.clear();
+
       prov.file = File('');
+     // PhoneNumber(isoCode: key);
      // getPhoneNumber(key);
 
       await getData();
@@ -482,42 +491,38 @@ class _EditProfileState extends State<EditProfile> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         InternationalPhoneNumberInput(
-
                           validator: (value) {
                             if (value!.isEmpty) {
                               return 'الرجاء ادخال رقم الهاتف';
                             }
                           },
-
                           hintText: 'رقم الهاتف',
                           textStyle: labelStyle2,
                           onInputChanged: (PhoneNumber number) {
-                          //  phoneview = number.phoneNumber.toString();
+                            phoneview = number.phoneNumber.toString();
                             // phone.text = number.phoneNumber as String  ;
 
                             print(number.phoneNumber);
                             print(number.dialCode);
-                             //TODO : save country key as string not original key
+                            //TODO : save country key as string not original key
                             // dial code is print country key >>>but i want print the key as string as this ('SA')- ('EG')>>>not +966 , +20
                             print(number.isoCode);
                           },
                           onInputValidated: (bool value) {
-                            if (value == false){
-                               const Text('الرقم غير صالح');
+                            if (value == false) {
+                              const Text('الرقم غير صالح');
                             }
                             print(value);
                             print('الرقم غير صالح');
                           },
                           selectorConfig: const SelectorConfig(
-
-                             selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
-
+                            selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
                           ),
                           ignoreBlank: false,
                           inputDecoration: const InputDecoration(
-                              enabled: false,
+                            enabled: false,
 
-                             // hintText: phone.text,
+                            // hintText: phone.text,
                           ),
                           autoValidateMode: AutovalidateMode.disabled,
                           selectorTextStyle:
@@ -549,7 +554,6 @@ class _EditProfileState extends State<EditProfile> {
                             style: labelStyle3,
                           ),
                         ),
-
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 20),
                           child: SizedBox(
@@ -629,10 +633,10 @@ class _EditProfileState extends State<EditProfile> {
                       color: blueGradient,
                       onTap: () async {
                         showDialogWarning(context, ontap: () async {
-
                           print('hhhhhhhh');
-                         // print( phoneview);
-                          print( "0000000000000000000000000000000000000000000101010101010");
+                          // print( phoneview);
+                          print(
+                              "0000000000000000000000000000000000000000000101010101010");
                           if (formkey.currentState!.validate()) {
                             formkey.currentState!.save();
                             List<String> fieldsStr = <String>[];
@@ -656,7 +660,7 @@ class _EditProfileState extends State<EditProfile> {
                                 'id': id.text,
                                 'link': link.text,
                                 'phone': phone.text,
-                               // 'phoneview': phoneview,
+                                'phoneview': phoneview,
                                 'email': emailuser.text,
                                 // 'imageUrl': imageUrl,
                                 'fields': fieldsStr
@@ -688,7 +692,7 @@ class _EditProfileState extends State<EditProfile> {
                                 'id': id.text,
                                 'link': link.text,
                                 'phone': phone.text,
-                                //'phoneview': phoneview,
+                                'phoneview': phoneview,
                                 'email': emailuser.text,
                                 // 'imageUrl': imageUrl,
                                 'fields': fieldsStr

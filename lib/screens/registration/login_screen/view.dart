@@ -115,7 +115,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               MaterialPageRoute(
                                   builder: (context) => NavigationFile(
                                         d: studentDrawer(context),
-                                        title: '   مرحبا${provider.userName} ',
+                                        title: '   مرحبا  ${provider.userName} ',
                                         counter: prov.counter!,
                                       )));
                         }

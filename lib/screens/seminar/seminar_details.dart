@@ -70,7 +70,7 @@ class _SeminarDetailsState extends State<SeminarDetails> {
       body: Column(
         children: [
           Container(
-            height: 260,
+            height: sizeFromHeight(context, 2.2),
             width: sizeFromWidth(context, 1),
             margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
@@ -95,9 +95,14 @@ class _SeminarDetailsState extends State<SeminarDetails> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(
-                                  'اسم الندوة: ${widget.seminarname}',
-                                  style: labelStyle3,
+                                Expanded(
+                                  flex: 1,
+                                  child: Text(
+                                    'اسم الندوة: ${widget.seminarname}',
+                                    // overflow: TextOverflow.clip,
+                                    maxLines: 2,
+                                    style: labelStyle3,
+                                  ),
                                 ),
                                 Padding(
                                   padding:
@@ -241,9 +246,9 @@ class _SeminarDetailsState extends State<SeminarDetails> {
                             ),
                           ),
                         )
-                      : const SizedBox(),
+                      : const SizedBox(height: 1,),
                   prov.counter == 2
-                      ? const SizedBox()
+                      ? const SizedBox(height: 1,)
                       : widget.userid == FirebaseAuth.instance.currentUser!.uid
                           ? TextButton(
                               onPressed: () {
@@ -267,26 +272,24 @@ class _SeminarDetailsState extends State<SeminarDetails> {
                                             )));
                               },
                               child: Row(
-                                children:const [
-                                   Icon(
+                                children: const [
+                                  Icon(
                                     Icons.edit,
                                     color: blue,
                                     size: 15,
                                   ),
-                                   Text(
-                                    'تعديل ندوة',
-                                    style:  TextStyle(
-                                      // decoration: TextDecoration.underline,
-                                      // decorationThickness: 2,
-                                        decorationColor: blue,
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w400,
-                                        color: blue))
-
+                                  Text('تعديل ندوة',
+                                      style: TextStyle(
+                                          // decoration: TextDecoration.underline,
+                                          // decorationThickness: 2,
+                                          decorationColor: blue,
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w400,
+                                          color: blue))
                                 ],
                               ),
                             )
-                          : const SizedBox(),
+                          : const SizedBox(height: 1,),
                   widget.userid == FirebaseAuth.instance.currentUser!.uid &&
                           prov.counter != 2
                       ? InkWell(
@@ -313,7 +316,7 @@ class _SeminarDetailsState extends State<SeminarDetails> {
                                         builder: (context) => NavigationFile(
                                             d: studentDrawer(context),
                                             title:
-                                                ' مرحبا${provider.userName} ',
+                                                ' مرحبا ${provider.userName} ',
                                             counter: prov.counter!)));
                               });
                             });
