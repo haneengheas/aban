@@ -212,7 +212,8 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
                             fontWeight: FontWeight.w400,
                             color: blue),
                       )),
-                  widget.userid == FirebaseAuth.instance.currentUser!.uid
+                  widget.userid == FirebaseAuth.instance.currentUser!.uid &&
+                          prov.counter != 2
                       ? InkWell(
                           onTap: () {
                             editProject(
