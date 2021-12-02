@@ -49,7 +49,7 @@ class _CreateGraduatedProfileState extends State<CreateGraduatedProfile> {
   String initialCountry = 'NG';
   late String key;
   PhoneNumber number = PhoneNumber(isoCode: 'NG');
-  late String phoneview;
+  //late String phoneview;
   void getPhoneNumber(String phoneNumber) async {
     PhoneNumber number =
     await PhoneNumber.getRegionInfoFromPhoneNumber(phoneNumber, 'US');
@@ -270,7 +270,7 @@ class _CreateGraduatedProfileState extends State<CreateGraduatedProfile> {
                                     hintText: 'رقم الهاتف',
                                     textStyle: labelStyle2,
                                     onInputChanged: (PhoneNumber number) {
-                                      phoneview = number.phoneNumber.toString();
+                                     // phoneview = number.phoneNumber.toString();
                                       print(number.phoneNumber);
                                       key =number.isoCode!;
                                     },
@@ -478,8 +478,8 @@ class _CreateGraduatedProfileState extends State<CreateGraduatedProfile> {
                             print('Str list is => $fieldsStr');
 
                             await prov.createMemberProfile(
-                              key: key,
-                              phoneview: phoneview,
+                              //key: key,
+                             // phoneview: phoneview,
                                 context: context,
                                 name: nameuser.text,
                                 faculty: college,

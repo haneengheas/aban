@@ -38,13 +38,14 @@ class _SearchItemState extends State<SearchItem> {
         email: doc['email'],
         imageUrl: doc['imageUrl'],
         phone: doc['phone'],
-        phoneview: doc['phoneview'],
+       // phoneview: doc['phoneview'],
         id: doc['id'],
         faculty: doc['faculty'],
         accept: doc['accept'],
         token: doc['token'],
         link: doc['link'],
-        userId: doc['userId'], fields: doc['fields'],
+        userId: doc['userId'],
+        fields: doc['fields'],
       ));
       print(doc['name']);
       print('444444444444444444444444444444444444444444444444');
@@ -92,12 +93,13 @@ class _SearchItemState extends State<SearchItem> {
 
   Widget _buildProjBox(ResearchModel project) {
     return GestureDetector(
-      onTap: () {  print(project.phoneview!);
+      onTap: () {
+
         Navigator.push(context,
             MaterialPageRoute(builder: (context) =>
 
                 MemberProfile(
-                  phoneview: project.phoneview!,
+                 // phoneview: project.phoneview!,
                     userid: project.userId!,
                     accept: project.accept,
                     name: project.name!,

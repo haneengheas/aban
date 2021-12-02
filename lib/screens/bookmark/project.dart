@@ -171,6 +171,9 @@ class _ProjectBookMarkState extends State<ProjectBookMark> {
                 }
                 //to here :D
                 projectModel.isFav = !projectModel.isFav!;
+                setState(() {
+
+                });
 
                 if (projectModel.isFav == false)  {
                   docIsFav.remove(FirebaseAuth.instance.currentUser!.uid);

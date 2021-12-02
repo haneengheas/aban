@@ -48,7 +48,7 @@ class _EditProfileState extends State<EditProfile> {
   Reference? ref;
   String? college;
   String? department;
-  late String phoneview;
+  //late String phoneview;
   late String key;
 
   final GlobalKey<FormState> formKy = GlobalKey<FormState>();
@@ -167,6 +167,7 @@ class _EditProfileState extends State<EditProfile> {
   }
 
   @override
+
   void initState() {
 
 
@@ -179,7 +180,7 @@ class _EditProfileState extends State<EditProfile> {
       ///fiebase to go get key
       prov.fields.clear();
       prov.file = File('');
-      getPhoneNumber(key);
+     // getPhoneNumber(key);
 
       await getData();
       for (var f in field!) {
@@ -491,7 +492,7 @@ class _EditProfileState extends State<EditProfile> {
                           hintText: 'رقم الهاتف',
                           textStyle: labelStyle2,
                           onInputChanged: (PhoneNumber number) {
-                            phoneview = number.phoneNumber.toString();
+                          //  phoneview = number.phoneNumber.toString();
                             // phone.text = number.phoneNumber as String  ;
 
                             print(number.phoneNumber);
@@ -630,7 +631,7 @@ class _EditProfileState extends State<EditProfile> {
                         showDialogWarning(context, ontap: () async {
 
                           print('hhhhhhhh');
-                          print( phoneview);
+                         // print( phoneview);
                           print( "0000000000000000000000000000000000000000000101010101010");
                           if (formkey.currentState!.validate()) {
                             formkey.currentState!.save();
@@ -655,7 +656,7 @@ class _EditProfileState extends State<EditProfile> {
                                 'id': id.text,
                                 'link': link.text,
                                 'phone': phone.text,
-                                'phoneview': phoneview,
+                               // 'phoneview': phoneview,
                                 'email': emailuser.text,
                                 // 'imageUrl': imageUrl,
                                 'fields': fieldsStr
@@ -687,7 +688,7 @@ class _EditProfileState extends State<EditProfile> {
                                 'id': id.text,
                                 'link': link.text,
                                 'phone': phone.text,
-                                'phoneview': phoneview,
+                                //'phoneview': phoneview,
                                 'email': emailuser.text,
                                 // 'imageUrl': imageUrl,
                                 'fields': fieldsStr
