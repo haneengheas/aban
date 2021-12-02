@@ -241,6 +241,7 @@ class _CreateGraduatedProfileState extends State<CreateGraduatedProfile> {
                                     items: <String>[
                                       'طالب دكتوراه',
                                       'طالب ماجستير',
+                                      'طالب بكالوريوس ',
                                     ].map<DropdownMenuItem<String>>((
                                         String value) {
                                       return DropdownMenuItem<String>(

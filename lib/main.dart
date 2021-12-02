@@ -62,9 +62,7 @@ void initState() {
       prov.getUserStatus();
       setState(() {});
     });
-    FirebaseMessaging.onMessage.listen((event) {
-      AwesomeDialog(context: context, title:'title',body: Text('${event.notification!.body}') );
-    });
+
     // TODO: implement initState
     super.initState();
   }

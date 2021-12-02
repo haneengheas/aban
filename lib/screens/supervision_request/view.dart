@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_print, must_be_immutable
 
 import 'dart:convert';
+
 import 'package:aban/constant/style.dart';
 import 'package:aban/widgets/buttons/submit_button.dart';
 import 'package:aban/widgets/customAppBar.dart';
@@ -15,9 +16,10 @@ import 'package:http/http.dart' as http;
 
 class SupervisionScreen extends StatefulWidget {
   String? userid;
-  String ? token;
+  String? token;
 
-  SupervisionScreen({required this.userid,required this.token, Key? key}) : super(key: key);
+  SupervisionScreen({required this.userid, required this.token, Key? key})
+      : super(key: key);
 
   @override
   State<SupervisionScreen> createState() => _SupervisionScreenState();
@@ -29,13 +31,10 @@ class _SupervisionScreenState extends State<SupervisionScreen> {
   TextEditingController cvController = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-
-
   var serverToken =
       'AAAAbeSU8yI:APA91bGd-C-K5jzv88l-BgOph56JG-jATdZGMwGWwa1hmHG1P_F7xuZu7C0poeb2Pf2upHDmJsT-Q0YRAPgZ9CyJLMr_29Oexf5_AfpmsJxRtE_tNbNZAPvsENC8GsTAwpMyADFM5Ozl';
 
-  sendNotification(
-      {required String body, required String title}) async {
+  sendNotification({required String body, required String title}) async {
     await http.post(
       Uri.parse('https://fcm.googleapis.com/fcm/send'),
       headers: <String, String>{
@@ -54,7 +53,8 @@ class _SupervisionScreenState extends State<SupervisionScreen> {
             'id': '1',
             'status': 'done'
           },
-          'to': widget.token,
+          'to':
+              'cWQqV5xUR_-ZdfoOLOh-XK:APA91bGK7gV604Cf2xk0BKbY5QQh8m2NWFDb6n2-tfzDMI5HiHKuiSqCkb1riu_h922hI7ZsorduJwq5Qib7GwHDmrazDCdRiQSwhr2r0Oc615WgOdzHmE251iRt-Mzb2ZpcWsbf083A',
         },
       ),
     );
@@ -75,10 +75,9 @@ class _SupervisionScreenState extends State<SupervisionScreen> {
     print('-------------------------------');
     print(widget.token);
     getMassege();
+
     super.initState();
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -102,16 +101,16 @@ class _SupervisionScreenState extends State<SupervisionScreen> {
                 borderRadius: BorderRadius.circular(15),
               ),
               child: Form(
-                key:formKey,
+                key: formKey,
                 child: Column(
                   children: [
                     TextFieldItem(
                         controller: nameController,
                         hintText: 'العنوان',
                         labelText: "عنوان الاطروحة",
-                        validator: (val){
-                          if(val.isEmpty){
-                            return 'يجب ادخال عنوان الاطروحة' ;
+                        validator: (val) {
+                          if (val.isEmpty) {
+                            return 'يجب ادخال عنوان الاطروحة';
                           }
                         },
                         scure: false),
@@ -119,9 +118,9 @@ class _SupervisionScreenState extends State<SupervisionScreen> {
                         controller: descriptionController,
                         hintText: 'الوصف',
                         labelText: "وصف الاطروحة",
-                        validator: (val){
-                          if(val.isEmpty){
-                            return 'يجب ادخال وصف الاطروحة' ;
+                        validator: (val) {
+                          if (val.isEmpty) {
+                            return 'يجب ادخال وصف الاطروحة';
                           }
                         },
                         scure: false),
@@ -137,7 +136,7 @@ class _SupervisionScreenState extends State<SupervisionScreen> {
                         gradient: blueGradient,
                         text: 'ارسال',
                         onTap: () async {
-                          if(formKey.currentState!.validate()){
+                          if (formKey.currentState!.validate()) {
                             formKey.currentState!.save();
                             await FirebaseFirestore.instance
                                 .collection('super')
@@ -145,7 +144,7 @@ class _SupervisionScreenState extends State<SupervisionScreen> {
                               'name': nameController.text,
                               'description': descriptionController.text,
                               'receiveId': widget.userid,
-                              'Cv':cvController.text,
+                              'Cv': cvController.text,
                               'status': 'قيد المعالجة',
                               'sendId': FirebaseAuth.instance.currentUser!.uid,
                             }).then((value) {
@@ -156,12 +155,11 @@ class _SupervisionScreenState extends State<SupervisionScreen> {
                                   body: const Text("تم الارسال بنجاح"),
                                   dialogType: DialogType.SUCCES)
                                 ..show();
-
                             });
-                            await sendNotification(body:nameController.text ,title: 'طلب أشراف جديد');
-
+                            await sendNotification(
+                                body: nameController.text,
+                                title: 'طلب أشراف جديد');
                           }
-
                         })
                   ],
                 ),

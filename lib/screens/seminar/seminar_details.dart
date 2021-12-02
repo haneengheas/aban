@@ -227,8 +227,7 @@ class _SeminarDetailsState extends State<SeminarDetails> {
                       style: hintStyle3,
                     ),
                   ),
-                  myDateTime.isAfter(DateTime.now())
-                      ? InkWell(
+                 InkWell(
                           onTap: () async {
                             debugPrint(widget.link);
                             await launch('https://' + widget.link!);
@@ -245,8 +244,8 @@ class _SeminarDetailsState extends State<SeminarDetails> {
                                   color: blue),
                             ),
                           ),
-                        )
-                      : const SizedBox(height: 1,),
+                        ),
+
                   prov.counter == 2
                       ? const SizedBox(height: 1,)
                       : widget.userid == FirebaseAuth.instance.currentUser!.uid
