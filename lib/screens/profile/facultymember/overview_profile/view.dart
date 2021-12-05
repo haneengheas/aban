@@ -222,16 +222,23 @@ class _MemberProfileState extends State<MemberProfile> {
                                     ),
                                   ],
                                 ),
-                                Text(
-                                  "Orcid id:${widget.id}",
-                                  style: GoogleFonts.cairo(
-                                    textStyle: const TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w400,
-                                        height: 1.5,
-                                        decoration: TextDecoration.underline,
-                                        decorationThickness: 2,
-                                        color: gray),
+                                InkWell(
+                                  onTap: () async {
+                                    print(widget.id);
+                                    await launch(
+                                        'https://'+widget.id);
+                                  },
+                                  child: Text(
+                                    "Orcid id:${widget.id}",
+                                    style: GoogleFonts.cairo(
+                                      textStyle: const TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w400,
+                                          height: 1.5,
+                                          decoration: TextDecoration.underline,
+                                          decorationThickness: 2,
+                                          color: blue),
+                                    ),
                                   ),
                                 )
                               ],

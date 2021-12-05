@@ -388,12 +388,13 @@ class _EditProfileState extends State<EditProfile> {
                                       : <String>[
                                     'طالب دكتوراه',
                                     'طالب ماجستير',
+                                    'طالب بكالوريوس',
                                   ].map<DropdownMenuItem<String>>(
                                           (String value) {
                                         return DropdownMenuItem<String>(
                                           value: value,
                                           child: SizedBox(
-                                            width: sizeFromWidth(context, 8),
+                                            width: sizeFromWidth(context, 4),
                                             height: 50,
                                             // for example
                                             child: Text(value,

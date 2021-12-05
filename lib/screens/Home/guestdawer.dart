@@ -24,7 +24,7 @@ import 'package:quds_ui_kit/screens/quds_popup_menu.dart';
                   child: Text('تسجيل جديد',)),
               onPressed: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) =>const LoginScreen()));
+                    MaterialPageRoute(builder: (context) =>const RegistScreen()));
               }),
           QudsPopupMenuDivider(color: gray, thickness: .5),
 

@@ -1,53 +1,104 @@
 // ignore_for_file: avoid_print
 
 import 'package:aban/constant/style.dart';
+import 'package:aban/provider/profile_provider.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+
 import 'college_views.dart';
 
 class HomeScreen extends StatefulWidget {
-  final  Widget c;
-  final  String title;
-  const HomeScreen({Key? key,
+  final Widget c;
+  String? title;
+
+  HomeScreen({
+    Key? key,
     required this.c,
-    required this.title,
-  }) : super(key: key) ;
+    this.title,
+  }) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  getToken(){
-     FirebaseMessaging.instance.getToken().then((value) async{
-       await FirebaseFirestore.instance.collection('user').doc(FirebaseAuth.instance.currentUser!.uid).update(
-           {
-             'token': value,
-           });
-       await FirebaseFirestore.instance.collection('member').doc(FirebaseAuth.instance.currentUser!.uid).update(
-           {
-             'token': value,
-           });
-       print(value);
-    } );
+  getToken() {
+    FirebaseMessaging.instance.getToken().then((value) async {
+      await FirebaseFirestore.instance
+          .collection('user')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .update({
+        'token': value,
+      });
+      await FirebaseFirestore.instance
+          .collection('member')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .update({
+        'token': value,
+      });
+      // DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
+      //     .collection("member")
+      //     .doc(FirebaseAuth.instance.currentUser!.uid)
+      //     .get();
+      //
+      // debugPrint('userType is ${documentSnapshot.get('userType')}');
+      // debugPrint('userName is ${documentSnapshot.get('name')}');
+      //
+      //
+      //
+      // provider.nameUser = documentSnapshot.get('name') ;
+      // print(provider.nameUser);
+      // print(value);
+    });
   }
+
   @override
   void initState() {
     getToken();
+    var prov;
+    Future.delayed(Duration.zero, () async {
+      prov = Provider.of<ProfileProvider>(
+        context,
+        listen: false,
+      );
+      DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
+          .collection("member")
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .get();
+      debugPrint('userName is ${documentSnapshot.get('name')}');
+      prov.nameUser = documentSnapshot.get('name');
+      print(prov.nameUser);
+      print('prov.nameUser');
+      setState(() {});
+    });
+
+    FirebaseMessaging.onMessage.listen((event) {
+      print(event.notification!.body);
+      print('+++++++++++++++++++++++++++');
+      AwesomeDialog(
+          context: context,
+          title: 'title',
+          body: Text('${event.notification!.body}'));
+    });
+    setState(() {});
     // TODO: implement initState
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
+    var provider = Provider.of<ProfileProvider>(context);
     return Scaffold(
       appBar: AppBar(
         leading: const SizedBox(),
         backgroundColor: blue,
         title: Text(
-          widget.title,
+          provider.counter == 2 ? 'مرحبا' : '  مرحبا ${provider.nameUser!}',
           textDirection: TextDirection.rtl,
           style: GoogleFonts.cairo(
             textStyle: const TextStyle(
@@ -71,7 +122,6 @@ class _HomeScreenState extends State<HomeScreen> {
             alignment: Alignment.topCenter,
             height: MediaQuery.of(context).size.height,
             width: sizeFromWidth(context, 1),
-
           ),
           Container(
               width: sizeFromWidth(context, 1),

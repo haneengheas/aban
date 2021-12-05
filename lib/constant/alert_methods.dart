@@ -156,8 +156,9 @@ void showDialogTheses(
                                 prov.degreeTheses = newValue!;
                               },
                               items: <String>[
+                                'Bachelor',
                                 'Master',
-                                'Phd'
+                                'PhD'
                               ].map<DropdownMenuItem<String>>((String value) {
                                 return DropdownMenuItem<String>(
                                   value: value,

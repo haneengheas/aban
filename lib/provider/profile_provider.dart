@@ -67,6 +67,7 @@ class ProfileProvider with ChangeNotifier {
 
   String? department;
   Map<String, dynamic>? docIsFav={};
+  String ? nameUser ;
 
 // methods to add and create member profile in fire base
   createMemberProfile({
@@ -112,13 +113,14 @@ class ProfileProvider with ChangeNotifier {
     });
     showLoading(context);
     counter = 1;
+    nameUser = name;
     Navigator.of(context).popUntil((route) => route.isFirst);
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(
             builder: (context) => NavigationFile(
                   d: studentDrawer(context),
-                  title: '   مرحبا $name ',
+                  title: '   مرحبا $nameUser ',
                   counter: counter!,
                 )));
     notifyListeners();
@@ -242,5 +244,18 @@ class ProfileProvider with ChangeNotifier {
     showLoading(context);
     Navigator.pop(context);
     notifyListeners();
+  }
+  getUserName() async {
+    DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
+        .collection("member")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get();
+
+    debugPrint('userName is +++++${documentSnapshot.get('name')}');
+
+
+    nameUser = documentSnapshot.get('name') ;
+    notifyListeners();
+
   }
 }

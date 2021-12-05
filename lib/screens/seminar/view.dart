@@ -144,7 +144,7 @@ class _ProjectScreenState extends State<SeminarScreen> {
                     MaterialPageRoute(
                         builder: (context) => NavigationFile(
                             d: studentDrawer(context),
-                            title: ' مرحبا${provider.userName} ',
+                            // title: ' مرحبا${provider.userName} ',
                             counter: prov.counter!)));
               } else if (prov.counter == 2) {
                 Navigator.push(
@@ -152,7 +152,7 @@ class _ProjectScreenState extends State<SeminarScreen> {
                     MaterialPageRoute(
                         builder: (context) => NavigationFile(
                             d: guestDrawer(context),
-                            title: 'مرحبا',
+                            // title: 'مرحبا',
                             counter: prov.counter!)));
               }
             },
