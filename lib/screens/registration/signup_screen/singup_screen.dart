@@ -26,6 +26,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
     RegExp regExp = RegExp(pattern);
     return regExp.hasMatch(value);
   }
+  bool validate(String value) {
+    String pattern =
+        r'^[a-zA-Z_][a-zA-Z0-9_]*';
+    RegExp regExp = RegExp(pattern);
+    return regExp.hasMatch(value);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,6 +73,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           return 'الرجاء كتابه البريد الالكتروني بشكل صحيح';
                         } else if (!value.toString().contains('@')) {
                           return ' @ يجب ان يحتوي البريد الالكتروني علي  ';
+                        } else if (!validate(value)) {
+                          return 'لا يجب ادخال رقم اولا';
                         } else if (!value
                                 .toString()
                                 .contains('student.ksu.edu.sa') &&
