@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, must_be_immutable, prefer_typing_uninitialized_variables
 
 import 'package:aban/constant/style.dart';
 import 'package:aban/provider/profile_provider.dart';

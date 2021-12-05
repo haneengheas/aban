@@ -2,7 +2,6 @@
 
 import 'package:aban/constant/alert_methods.dart';
 import 'package:aban/constant/style.dart';
-import 'package:aban/provider/profile_provider.dart';
 import 'package:aban/widgets/buttons/buttonsuser.dart';
 import 'package:aban/widgets/eidt_text_field.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
@@ -12,7 +11,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
-import 'package:provider/provider.dart';
 
 class ThesesGraduatedMontorItem extends StatefulWidget {
   String ?college ;

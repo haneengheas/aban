@@ -1,7 +1,6 @@
 // ignore_for_file: avoid_print, must_be_immutable
 
 import 'package:aban/constant/style.dart';
-import 'package:aban/provider/auth_provider.dart';
 import 'package:aban/provider/profile_provider.dart';
 import 'package:aban/screens/chat/chat_room.dart';
 import 'package:aban/screens/resersh_list/field.dart';
@@ -70,7 +69,6 @@ class _MemberProfileState extends State<MemberProfile> {
   @override
   Widget build(BuildContext context) {
     var prov = Provider.of<ProfileProvider>(context);
-    var provider = Provider.of<AuthProvider>(context);
     return DefaultTabController(
       length: 5,
       child: Scaffold(

@@ -69,9 +69,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       },
                       validator: (value) {
                         if (value!.isEmpty) {
-                          return 'الرجاء كتابه البريد الالكتروني ';
+                          return ' يجب ان يحتوي البريد الالكتروني علي\n  account@ksu.edu.sa او account@student.ksu.edu.sa ';
                         } else if (value.length < 5) {
-                          return 'الرجاء كتابه البريد الالكتروني بشكل صحيح';
+                          return ' يجب ان يحتوي البريد الالكتروني علي\n  account@ksu.edu.sa او account@student.ksu.edu.sa ';
                         } else if (!value.toString().contains('@')) {
                           return ' @ يجب ان يحتوي البريد الالكتروني علي  ';
                         } else if (!validate(value)) {
@@ -81,7 +81,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 .contains('student.ksu.edu.sa') &&
                             !value.toString().contains('ksu.edu.sa') &&
                             !value.toString().contains('@gmail.com')) {
-                          return ' يجب ان يحتوي البريد الالكتروني علي\n  ksu.edu.sa او student.ksu.edu.sa ';
+                          return ' يجب ان يحتوي البريد الالكتروني علي\n  account@ksu.edu.sa او account@student.ksu.edu.sa ';
                         }
                       }),
                   TextFieldRegistation(

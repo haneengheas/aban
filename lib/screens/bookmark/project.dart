@@ -177,17 +177,12 @@ class _ProjectBookMarkState extends State<ProjectBookMark> {
 
                 if (projectModel.isFav == false)  {
                   docIsFav.remove(FirebaseAuth.instance.currentUser!.uid);
-                  // await FirebaseFirestore.instance
-                  //     .collection('projectBookmark')
-                  //     .doc(projectModel.id)
-                  //     .update({'isFav': docIsFav});
                   await FirebaseFirestore.instance
                       .collection('project')
                       .doc(projectModel.id)
                       .update({'isFav': docIsFav});
                 }
                 setState(() {
-                  // getUnCompletedProjects();
                 });
                 print(projectModel.id);
               },

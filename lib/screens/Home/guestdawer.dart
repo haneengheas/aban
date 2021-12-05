@@ -1,6 +1,5 @@
 import 'package:aban/constant/style.dart';
 import 'package:aban/screens/help/view.dart';
-import 'package:aban/screens/registration/login_screen/view.dart';
 import 'package:aban/screens/registration/regist_screen/view.dart';
 import 'package:flutter/material.dart';
 import 'package:quds_ui_kit/screens/quds_popup_menu.dart';

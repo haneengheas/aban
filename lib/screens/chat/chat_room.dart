@@ -3,7 +3,7 @@
 import 'dart:io';
 
 import 'package:aban/constant/style.dart';
-import 'package:aban/provider/auth_provider.dart';
+import 'package:aban/provider/profile_provider.dart';
 import 'package:aban/screens/chat/mesage_item.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -53,13 +53,14 @@ class _ChatRoomState extends State<ChatRoom> {
   void initState() {
     print("My d $id");
     print("User Id ${widget.userId}");
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    var prov = Provider.of<AuthProvider>(context);
-    print(prov.userName);
+    var prov = Provider.of<ProfileProvider>(context);
+
     print(
         '000000000000000000000000000000000000000000000000000000000000000000000');
     return Scaffold(
@@ -158,7 +159,7 @@ class _ChatRoomState extends State<ChatRoom> {
                               "image": widget.image,
                               'userId': widget.userId,
                               'sent': id,
-                              'name': prov.userName,
+                              'name': prov.nameUser,
                               'otherName': widget.name,
                               'timeDate': DateTime.now().toUtc()
                             },
@@ -175,7 +176,7 @@ class _ChatRoomState extends State<ChatRoom> {
                               'userId': widget.userId,
                               'sent': id,
                               'name': widget.name,
-                              'otherName': prov.userName,
+                              'otherName': prov.nameUser,
                               'timeDate': DateTime.now().toUtc()
                             },
                           );
