@@ -4,6 +4,7 @@ import 'package:aban/constant/style.dart';
 import 'package:aban/provider/auth_provider.dart';
 import 'package:aban/widgets/buttons/submit_button.dart';
 import 'package:aban/widgets/textfield_registation.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -49,11 +50,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       validator: (value) {
                         if (value!.isEmpty) {
                           return 'برجاءادخال الاسم';
-                        } else if (value.length < 2) {
+                        } else if (value.length < 3) {
                           return 'يجب ان يتكون الاسم علي الاقل من ثلاثة احرف';
                         }
                       }),
                   TextFieldRegistation(
+
                       hintText: "Reasearsh@ksuedu.sa",
                       labelText: 'بريدك الجامعي',
                       scure: false,
@@ -61,19 +63,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         email = val;
                       },
                       validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'الرجاء كتابه البريد الالكتروني ';
-                        } else if (value.length < 5) {
-                          return 'الرجاء كتابه البريد الالكتروني بشكل صحيح';
-                        } else if (!value.toString().contains('@')) {
-                          return ' @ يجب ان يحتوي البريد الالكتروني علي  ';
-                        } else if (!value
-                                .toString()
-                                .contains('student.ksu.edu.sa') &&
-                            !value.toString().contains('ksu.edu.sa') &&
-                            !value.toString().contains('@gmail.com')) {
-                          return ' يجب ان يحتوي البريد الالكتروني علي\n  account@ksu.edu.sa او account@student.ksu.edu.sa ';
-                        }
+
+                        EmailValidator.validate(value) ? null : "Please enter a valid email";
+                        // if (value!.isEmpty) {
+                        //   return 'الرجاء كتابه البريد الالكتروني ';
+                        // } else if (value.length < 5) {
+                        //   return 'الرجاء كتابه البريد الالكتروني بشكل صحيح';
+                        // } else if (!value.toString().contains('@')) {
+                        //   return ' @ يجب ان يحتوي البريد الالكتروني علي  ';
+                        // } else if (!value
+                        //         .toString()
+                        //         .contains('student.ksu.edu.sa') &&
+                        //     !value.toString().contains('ksu.edu.sa') &&
+                        //
+                        //     !value.toString().contains('@gmail.com')) {
+                        //   return ' يجب ان يحتوي البريد الالكتروني علي\n  account@ksu.edu.sa او account@student.ksu.edu.sa ';
+                        // }
                       }),
                   TextFieldRegistation(
                       hintText: "*****",
