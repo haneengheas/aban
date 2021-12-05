@@ -247,7 +247,7 @@ class _CreateGraduatedProfileState extends State<CreateGraduatedProfile> {
                                       return DropdownMenuItem<String>(
                                         value: value,
                                         child: SizedBox(
-                                          width: sizeFromWidth(context, 5),
+                                          width: sizeFromWidth(context, 4),
                                           height: 50,
                                           // for example
                                           child:
@@ -268,8 +268,8 @@ class _CreateGraduatedProfileState extends State<CreateGraduatedProfile> {
                               child: Directionality(
                                   textDirection: TextDirection.rtl,
                                   child: TextFieldUser(
-                                    hintText: "المعرف الخاص بك",
-                                    labelText: "orcid iD",
+                                    hintText: "رابط المعرف الخاص بك",
+                                    labelText: "ORCID",
                                     onChanged: (value) {
                                       prov.id = value;
                                     },

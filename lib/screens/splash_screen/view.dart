@@ -32,7 +32,7 @@ class _SplashScreenState extends State<SplashScreen> {
           MaterialPageRoute(
               builder: (context) => NavigationFile(
                     counter: prov.counter!,
-                    title: ' مرحبا${provider.userName}',
+                    // title: ' مرحبا${provider.userName}',
                     d: studentDrawer(context),
                   )));
     }

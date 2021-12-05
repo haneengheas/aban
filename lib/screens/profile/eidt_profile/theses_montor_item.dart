@@ -38,7 +38,6 @@ class _ThesesGraduatedMontorItemState extends State<ThesesGraduatedMontorItem> {
 
   @override
   Widget build(BuildContext context) {
-    var prov = Provider.of<ProfileProvider>(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -343,8 +342,9 @@ void editTheses(
                                 degreeTheses = newValue!;
                               },
                               items: <String>[
+                                'Bachelor',
                                 'Master',
-                                'Phd'
+                                'PhD'
                               ].map<DropdownMenuItem<String>>((String value) {
                                 return DropdownMenuItem<String>(
                                   value: value,

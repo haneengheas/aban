@@ -107,15 +107,16 @@ class _LoginScreenState extends State<LoginScreen> {
                       _formKey.currentState!.save();
                       showLoading(context);
                         var login = await provider.login(email, password,context);
-                        if (login != null) {
 
+                        if (login != null) {
+                          await prov.getUserName();
                           Navigator.of(context).popUntil((route) => route.isFirst);
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => NavigationFile(
                                         d: studentDrawer(context),
-                                        title: '   مرحبا  ${provider.userName} ',
+                                        // title: '   مرحبا  ${provider.userName} ',
                                         counter: prov.counter!,
                                       )));
                         }
@@ -152,7 +153,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         MaterialPageRoute(
                             builder: (context) => NavigationFile(
                                   d: guestDrawer(context),
-                                  title: 'مرحبا',
+                                  // title: 'مرحبا',
                                   counter: prov.counter!,
                                 )));
                   },

@@ -300,8 +300,8 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                           child: Directionality(
                               textDirection: TextDirection.rtl,
                               child: TextFieldUser(
-                                hintText: "المعرف الخاص بك",
-                                labelText: "orcid iD",
+                                hintText: "رابط المعرف الخاص بك",
+                                labelText: "ORCID ",
                                 onChanged: (value) {
                                   prov.id = value;
                                 },
@@ -314,24 +314,6 @@ class _CreateMemberProfileState extends State<CreateMemberProfile> {
                               )),
                         ),
                       ),
-                      // SizedBox(
-                      //   width: sizeFromWidth(context, 2),
-                      //   child: Directionality(
-                      //       textDirection: TextDirection.rtl,
-                      //       child: TextFieldUser(
-                      //         labelText: 'رقم الهاتف',
-                      //         hintText: 'الهاتف ',
-                      //         onChanged: (value) {
-                      //           prov.phone = value;
-                      //         },
-                      //         validator: (value) {
-                      //           if (value.isEmpty) {
-                      //             return 'الرجاءادخال رقم الهاتف ';
-                      //           }
-                      //         },
-                      //         scure: false,
-                      //       )),
-                      // ),
                     ],
                   ),
                   Row(

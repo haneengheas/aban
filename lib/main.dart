@@ -1,12 +1,9 @@
 import 'package:aban/provider/auth_provider.dart';
 import 'package:aban/provider/model.dart';
 import 'package:aban/provider/profile_provider.dart';
-
 import 'package:aban/screens/splash_screen/view.dart';
-import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 late  bool islogin;
@@ -59,7 +56,9 @@ class _MyAppState extends State<MyApp> {
 void initState() {
     Future.delayed(Duration.zero, () {
       var prov = Provider.of<AuthProvider>(context, listen: false);
+      var provider = Provider.of<ProfileProvider>(context, listen: false);
       prov.getUserStatus();
+      provider.getUserName();
       setState(() {});
     });
 

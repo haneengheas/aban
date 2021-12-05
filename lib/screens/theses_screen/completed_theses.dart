@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class CompletedTheses extends StatefulWidget {
@@ -74,9 +75,9 @@ class _CompletedThesesState extends State<CompletedTheses> {
       },
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         width: sizeFromWidth(context, 1),
-        height: 120,
+        height: 130,
         decoration: BoxDecoration(
           color: clearblue,
           borderRadius: BorderRadius.circular(25),
@@ -93,14 +94,23 @@ class _CompletedThesesState extends State<CompletedTheses> {
                   children: [
                     Text(
                       'اسم الاطروحة : ' + theses.nameTheses!,
-                      style: labelStyle3,
+                      maxLines: 1,
+                      style:  GoogleFonts.cairo(
+                        textStyle: const TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w600,
+                          height: 1,
+                          color: black,
+                          overflow: TextOverflow.clip,
+                        ),
+                      ),
                     ),
                     Text(
-                      'المشرف:' + theses.nameTheses!,
+                      'المشرف:' + theses.nameSupervisors!,
                       style: hintStyle3,
                     ),
                     Text(
-                      'المشرفون المساعدون:' + theses.nameTheses!,
+                      'المشرفون المساعدون:' + theses.assistantSupervisors!,
                       style: hintStyle3,
                     ),
                   ],

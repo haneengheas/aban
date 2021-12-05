@@ -49,7 +49,6 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     var prov = Provider.of<ProfileProvider>(context);
-    var provider = Provider.of<AuthProvider>(context);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: white,
@@ -71,239 +70,243 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
           color: blue,
         ),
       ),
-      body: Column(
-        children: [
-          Container(
-            height: 270,
-            width: sizeFromWidth(context, 1),
-            margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-            decoration: BoxDecoration(
-              color: clearblue,
-              borderRadius: BorderRadius.circular(25),
-              border: Border.all(color: clearblue),
-            ),
-            child: Directionality(
-              textDirection: TextDirection.rtl,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              height: 320,
+              width: sizeFromWidth(context, 1),
+              margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              decoration: BoxDecoration(
+                color: clearblue,
+                borderRadius: BorderRadius.circular(25),
+                border: Border.all(color: clearblue),
+              ),
+              child: Directionality(
+                textDirection: TextDirection.rtl,
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'اسم المشروع:  ' + widget.nameProject,
-                              style: labelStyle3,
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'اسم المشروع:  ' + widget.nameProject,
+                                  style: labelStyle3,
+                                ),
+                                const SizedBox(
+                                  height: 5,
+                                ),
+                                Text(
+                                  ' القائد:  ' + widget.leader,
+                                  style: hintStyle,
+                                ),
+                                const SizedBox(
+                                  height: 5,
+                                ),
+                                Text(
+                                  'االاعضاء:  ' + widget.members,
+                                  style: hintStyle,
+                                ),
+                              ],
                             ),
-                            const SizedBox(
-                              height: 5,
-                            ),
-                            Text(
-                              ' القائد:  ' + widget.leader,
-                              style: hintStyle,
-                            ),
-                            const SizedBox(
-                              height: 5,
-                            ),
-                            Text(
-                              'االاعضاء:  ' + widget.members,
-                              style: hintStyle,
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 20, horizontal: 10),
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(
-                                'حالة المشروع',
-                                style: labelStyle3,
-                              ),
-                              Text(widget.status),
-                              prov.counter == 2
-                                  ? const SizedBox()
-                                  : InkWell(
-                                      onTap: () async {
-                                        DocumentSnapshot docRef =
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 20, horizontal: 10),
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'حالة المشروع',
+                                    style: labelStyle3,
+                                  ),
+                                  Text(widget.status),
+                                  prov.counter == 2
+                                      ? const SizedBox()
+                                      : InkWell(
+                                          onTap: () async {
+                                            DocumentSnapshot docRef =
+                                                await FirebaseFirestore.instance
+                                                    .collection('project')
+                                                    .doc(widget.id)
+                                                    .get();
+
+                                            Map<String, dynamic> docIsFav =
+                                                docRef.get("isFav");
+
+                                            if (docIsFav.containsKey(FirebaseAuth
+                                                .instance.currentUser!.uid)) {
+                                              docIsFav.addAll({
+                                                FirebaseAuth
+                                                        .instance.currentUser!.uid
+                                                        .toString():
+                                                    widget.isFav ? false : true
+                                              });
+                                            } else {
+                                              docIsFav.addAll({
+                                                FirebaseAuth
+                                                        .instance.currentUser!.uid:
+                                                    widget.isFav ? false : true
+                                              });
+                                            }
+
+                                            widget.isFav = !widget.isFav;
+                                            setState(() {});
+
                                             await FirebaseFirestore.instance
                                                 .collection('project')
                                                 .doc(widget.id)
-                                                .get();
-
-                                        Map<String, dynamic> docIsFav =
-                                            docRef.get("isFav");
-
-                                        if (docIsFav.containsKey(FirebaseAuth
-                                            .instance.currentUser!.uid)) {
-                                          docIsFav.addAll({
-                                            FirebaseAuth
-                                                    .instance.currentUser!.uid
-                                                    .toString():
-                                                widget.isFav ? false : true
-                                          });
-                                        } else {
-                                          docIsFav.addAll({
-                                            FirebaseAuth
-                                                    .instance.currentUser!.uid:
-                                                widget.isFav ? false : true
-                                          });
-                                        }
-
-                                        widget.isFav = !widget.isFav;
-                                        setState(() {});
-
-                                        await FirebaseFirestore.instance
-                                            .collection('project')
-                                            .doc(widget.id)
-                                            .update({'isFav': docIsFav});
-                                      },
-                                      child: Container(
-                                        height: 35,
-                                        width: 25,
-                                        margin: const EdgeInsets.symmetric(
-                                            vertical: 10, horizontal: 10),
-                                        child: !widget.isFav
-                                            ? const ImageIcon(
-                                                AssetImage(
-                                                  'assets/bookmark (1).png',
-                                                ),
-                                                color: blue,
-                                                size: 50,
-                                              )
-                                            : const ImageIcon(
-                                                AssetImage(
-                                                  'assets/bookmark (2).png',
-                                                ),
-                                                color: blue,
-                                                size: 50,
-                                              ),
-                                      ),
-                                    ),
-                            ]),
+                                                .update({'isFav': docIsFav});
+                                          },
+                                          child: Container(
+                                            height: 35,
+                                            width: 25,
+                                            margin: const EdgeInsets.symmetric(
+                                                vertical: 10, horizontal: 10),
+                                            child: !widget.isFav
+                                                ? const ImageIcon(
+                                                    AssetImage(
+                                                      'assets/bookmark (1).png',
+                                                    ),
+                                                    color: blue,
+                                                    size: 50,
+                                                  )
+                                                : const ImageIcon(
+                                                    AssetImage(
+                                                      'assets/bookmark (2).png',
+                                                    ),
+                                                    color: blue,
+                                                    size: 50,
+                                                  ),
+                                          ),
+                                        ),
+                                ]),
+                          ),
+                        ],
                       ),
+                      Text(
+                        'وصف المشروع',
+                        style: labelStyle3,
+                      ),
+                      Text(
+                        widget.description,
+                        style: hintStyle3,
+                      ),
+                      InkWell(
+                          onTap: () async {
+                            debugPrint(widget.projectLink);
+                            await launch('https://' + widget.projectLink);
+                          },
+                          child: const Text(
+                            'رابط المشروع',
+                            style: TextStyle(
+                                decoration: TextDecoration.underline,
+                                decorationThickness: 2,
+                                decorationColor: blue,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w400,
+                                color: blue),
+                          )),
+                      widget.userid == FirebaseAuth.instance.currentUser!.uid &&
+                              prov.counter != 2
+                          ? InkWell(
+                              onTap: () {
+                                editProject(
+                                  context,
+                                  text: 'تعديل مشروع',
+                                  indexed: widget.id,
+                                  projectLink: widget.projectLink,
+                                  projectStatus: widget.status,
+                                  projectName: widget.nameProject,
+                                  memberProjectName: widget.members,
+                                  leaderName: widget.leader,
+                                  descriptionProject: widget.description,
+                                  keys: formKeys,
+                                );
+                                setState(() {});
+                              },
+                              child: Row(
+                                children: const [
+                                  Icon(
+                                    Icons.edit,
+                                    color: blue,
+                                    size: 15,
+                                  ),
+                                  Text('تعديل المشروع',
+                                      style: TextStyle(
+                                          // decoration: TextDecoration.underline,
+                                          // decorationThickness: 2,
+                                          decorationColor: blue,
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w400,
+                                          color: blue))
+                                ],
+                              ),
+                            )
+                          : const SizedBox(),
+                      widget.userid == FirebaseAuth.instance.currentUser!.uid &&
+                              prov.counter != 2
+                          ? InkWell(
+                              onTap: () async {
+                                print(FirebaseAuth.instance.currentUser!.uid);
+                                await showDialogWarning(context,
+                                    text: 'هل انت متأكد من حذف المشروع',
+                                    ontap: () async {
+                                  await FirebaseFirestore.instance
+                                      .collection('project')
+                                      .doc(widget.id)
+                                      .delete()
+                                      .then((value) async {
+                                    await AwesomeDialog(
+                                            context: context,
+                                            title: "هام",
+                                            body:
+                                                const Text("تمت عملية الحذف بنجاح"),
+                                            dialogType: DialogType.SUCCES)
+                                        .show();
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => NavigationFile(
+                                                d: studentDrawer(context),
+                                                // title:
+                                                //     ' مرحبا${provider.userName} ',
+                                                counter: prov.counter!)));
+                                  });
+                                });
+                              },
+                              child: Row(
+                                children: const [
+                                  Icon(
+                                    Icons.delete,
+                                    color: red,
+                                    size: 15,
+                                  ),
+                                  Text('حذف المشروع',
+                                      style: TextStyle(
+                                          // decoration: TextDecoration.underline,
+                                          // decorationThickness: 2,
+                                          decorationColor: red,
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w400,
+                                          color: red))
+                                ],
+                              ),
+                            )
+                          : const SizedBox(),
                     ],
                   ),
-                  Text(
-                    'وصف المشروع',
-                    style: labelStyle3,
-                  ),
-                  Text(
-                    widget.description,
-                    style: hintStyle3,
-                  ),
-                  InkWell(
-                      onTap: () async {
-                        debugPrint(widget.projectLink);
-                        await launch('https://' + widget.projectLink);
-                      },
-                      child: const Text(
-                        'رابط المشروع',
-                        style: TextStyle(
-                            decoration: TextDecoration.underline,
-                            decorationThickness: 2,
-                            decorationColor: blue,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400,
-                            color: blue),
-                      )),
-                  widget.userid == FirebaseAuth.instance.currentUser!.uid &&
-                          prov.counter != 2
-                      ? InkWell(
-                          onTap: () {
-                            editProject(
-                              context,
-                              text: 'تعديل مشروع',
-                              indexed: widget.id,
-                              projectLink: widget.projectLink,
-                              projectStatus: widget.status,
-                              projectName: widget.nameProject,
-                              memberProjectName: widget.members,
-                              leaderName: widget.leader,
-                              descriptionProject: widget.description,
-                              keys: formKeys,
-                            );
-                            setState(() {});
-                          },
-                          child: Row(
-                            children: const [
-                              Icon(
-                                Icons.edit,
-                                color: blue,
-                                size: 15,
-                              ),
-                              Text('تعديل المشروع',
-                                  style: TextStyle(
-                                      // decoration: TextDecoration.underline,
-                                      // decorationThickness: 2,
-                                      decorationColor: blue,
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w400,
-                                      color: blue))
-                            ],
-                          ),
-                        )
-                      : const SizedBox(),
-                  widget.userid == FirebaseAuth.instance.currentUser!.uid &&
-                          prov.counter != 2
-                      ? InkWell(
-                          onTap: () async {
-                            print(FirebaseAuth.instance.currentUser!.uid);
-                            await showDialogWarning(context,
-                                text: 'هل انت متأكد من حذف المشروع',
-                                ontap: () async {
-                              await FirebaseFirestore.instance
-                                  .collection('project')
-                                  .doc(widget.id)
-                                  .delete()
-                                  .then((value) async {
-                                await AwesomeDialog(
-                                        context: context,
-                                        title: "هام",
-                                        body:
-                                            const Text("تمت عملية الحذف بنجاح"),
-                                        dialogType: DialogType.SUCCES)
-                                    .show();
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => NavigationFile(
-                                            d: studentDrawer(context),
-                                            title:
-                                                ' مرحبا${provider.userName} ',
-                                            counter: prov.counter!)));
-                              });
-                            });
-                          },
-                          child: Row(
-                            children: const [
-                              Icon(
-                                Icons.delete,
-                                color: red,
-                                size: 15,
-                              ),
-                              Text('حذف المشروع',
-                                  style: TextStyle(
-                                      // decoration: TextDecoration.underline,
-                                      // decorationThickness: 2,
-                                      decorationColor: red,
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w400,
-                                      color: red))
-                            ],
-                          ),
-                        )
-                      : const SizedBox(),
-                ],
+                ),
               ),
             ),
-          )
-        ],
+          ],
+        ),
       ),
     );
   }

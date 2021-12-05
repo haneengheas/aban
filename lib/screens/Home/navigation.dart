@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:aban/constant/style.dart';
 import 'package:aban/screens/Home/view.dart';
 import 'package:aban/screens/project_screen/view.dart';
@@ -6,14 +8,14 @@ import 'package:aban/screens/theses_screen/view.dart';
 import 'package:flutter/material.dart';
 
 class NavigationFile extends StatefulWidget {
-  final Widget d ;
-  final String title;
+   final Widget d ;
+   String ?title;
   final int counter;
 
   late final List <Widget> pages;
-  NavigationFile({Key? key,  required this.d,required this.title,required this.counter,}) : super(key: key){
+  NavigationFile( {this.title, required this.d,required this.counter,}){
     pages=[
-      HomeScreen(c: d, title: title,),
+      HomeScreen(c: d, ),
       const ProjectScreen(),
       const ThesesScreen(),
       const SeminarScreen() ,   ];

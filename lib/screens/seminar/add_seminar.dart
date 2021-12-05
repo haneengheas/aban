@@ -325,14 +325,14 @@ class _AddSeminarState extends State<AddSeminar> {
                           print(prov.location);
                           print(prov.type);
                           print(prov.from);
-                          print(auth.userName);
+                          print(prov.nameUser);
 
                           if (formKey.currentState!.validate()) {
                             formKey.currentState!.save();
                             await prov.addSeminar(
                                 context: context,
                                 seminaraddress: prov.seminaraddress,
-                                name: auth.userName,
+                                name: prov.nameUser,
                                 location: prov.location,
                                 description: prov.description,
                                 seminarlink: prov.seminarlink,

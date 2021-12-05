@@ -68,236 +68,240 @@ class _ThesesDetailsState extends State<ThesesDetails> {
           color: blue,
         ),
       ),
-      body: Column(
-        children: [
-          Container(
-            height: 250,
-            width: sizeFromWidth(context, 1),
-            margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-            decoration: BoxDecoration(
-              color: clearblue,
-              borderRadius: BorderRadius.circular(25),
-              border: Border.all(color: clearblue),
-            ),
-            child: Directionality(
-              textDirection: TextDirection.rtl,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              height: 300,
+              width: sizeFromWidth(context, 1),
+              margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+              decoration: BoxDecoration(
+                color: clearblue,
+                borderRadius: BorderRadius.circular(25),
+                border: Border.all(color: clearblue),
+              ),
+              child: Directionality(
+                textDirection: TextDirection.rtl,
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'اسم الاطروحة:  ' + widget.nameTheses!,
-                              style: labelStyle3,
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'اسم الاطروحة:  ' + widget.nameTheses!,
+                                  style: labelStyle3,
+                                ),
+                                const SizedBox(
+                                  height: 5,
+                                ),
+                                Text(
+                                  ' المشرف:  ' + widget.nameSupervisors!,
+                                  style: hintStyle,
+                                ),
+                                const SizedBox(
+                                  height: 5,
+                                ),
+                                Text(
+                                  'المشرفون المساعدون:  ' +
+                                      widget.assistantSupervisors!,
+                                  style: hintStyle,
+                                ),
+                                const SizedBox(
+                                  height: 5,
+                                ),
+                                Text(
+                                  ' الدرجة العلمية : ' + widget.degreeTheses!,
+                                  style: hintStyle,
+                                ),
+                              ],
                             ),
-                            const SizedBox(
-                              height: 5,
-                            ),
-                            Text(
-                              ' المشرف:  ' + widget.nameSupervisors!,
-                              style: hintStyle,
-                            ),
-                            const SizedBox(
-                              height: 5,
-                            ),
-                            Text(
-                              'المشرفون المساعدون:  ' +
-                                  widget.assistantSupervisors!,
-                              style: hintStyle,
-                            ),
-                            const SizedBox(
-                              height: 5,
-                            ),
-                            Text(
-                              ' الدرجة العلمية : ' + widget.degreeTheses!,
-                              style: hintStyle,
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 20, horizontal: 10),
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(
-                                'حالة الاطروحة',
-                                style: labelStyle3,
-                              ),
-                              Text(widget.thesesStatus!),
-                              prov.counter == 2
-                                  ? const SizedBox()
-                                  : InkWell(
-                                      onTap: () async {
-                                        DocumentSnapshot docRef =
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 20, horizontal: 10),
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'حالة الاطروحة',
+                                    style: labelStyle3,
+                                  ),
+                                  Text(widget.thesesStatus!),
+                                  prov.counter == 2
+                                      ? const SizedBox()
+                                      : InkWell(
+                                          onTap: () async {
+                                            DocumentSnapshot docRef =
+                                                await FirebaseFirestore.instance
+                                                    .collection('theses')
+                                                    .doc(widget.docid)
+                                                    .get();
+
+                                            Map<String, dynamic> docIsFav =
+                                                docRef.get("isFav");
+
+                                            if (docIsFav.containsKey(FirebaseAuth
+                                                .instance.currentUser!.uid)) {
+                                              docIsFav.addAll({
+                                                FirebaseAuth
+                                                        .instance.currentUser!.uid
+                                                        .toString():
+                                                    widget.isFav! ? false : true
+                                              });
+                                            } else {
+                                              docIsFav.addAll({
+                                                FirebaseAuth
+                                                        .instance.currentUser!.uid:
+                                                    widget.isFav! ? false : true
+                                              });
+                                            }
+
+                                            widget.isFav = !widget.isFav!;
                                             await FirebaseFirestore.instance
                                                 .collection('theses')
                                                 .doc(widget.docid)
-                                                .get();
+                                                .update({'isFav': docIsFav});
 
-                                        Map<String, dynamic> docIsFav =
-                                            docRef.get("isFav");
-
-                                        if (docIsFav.containsKey(FirebaseAuth
-                                            .instance.currentUser!.uid)) {
-                                          docIsFav.addAll({
-                                            FirebaseAuth
-                                                    .instance.currentUser!.uid
-                                                    .toString():
-                                                widget.isFav! ? false : true
-                                          });
-                                        } else {
-                                          docIsFav.addAll({
-                                            FirebaseAuth
-                                                    .instance.currentUser!.uid:
-                                                widget.isFav! ? false : true
-                                          });
-                                        }
-
-                                        widget.isFav = !widget.isFav!;
-                                        await FirebaseFirestore.instance
-                                            .collection('theses')
-                                            .doc(widget.docid)
-                                            .update({'isFav': docIsFav});
-
-                                        setState(() {});
-                                      },
-                                      child: Container(
-                                        height: 40,
-                                        width: 25,
-                                        margin: const EdgeInsets.symmetric(
-                                            vertical: 10, horizontal: 10),
-                                        child: !widget.isFav!
-                                            ? const ImageIcon(
-                                                AssetImage(
-                                                  'assets/bookmark (1).png',
-                                                ),
-                                                color: blue,
-                                                size: 50,
-                                              )
-                                            : const ImageIcon(
-                                                AssetImage(
-                                                  'assets/bookmark (2).png',
-                                                ),
-                                                color: blue,
-                                                size: 50,
-                                              ),
-                                      ),
-                                    ),
-                            ]),
+                                            setState(() {});
+                                          },
+                                          child: Container(
+                                            height: 40,
+                                            width: 25,
+                                            margin: const EdgeInsets.symmetric(
+                                                vertical: 10, horizontal: 10),
+                                            child: !widget.isFav!
+                                                ? const ImageIcon(
+                                                    AssetImage(
+                                                      'assets/bookmark (1).png',
+                                                    ),
+                                                    color: blue,
+                                                    size: 50,
+                                                  )
+                                                : const ImageIcon(
+                                                    AssetImage(
+                                                      'assets/bookmark (2).png',
+                                                    ),
+                                                    color: blue,
+                                                    size: 50,
+                                                  ),
+                                          ),
+                                        ),
+                                ]),
+                          ),
+                        ],
                       ),
+                      InkWell(
+                          onTap: () async {
+                            debugPrint(widget.linkTheses!);
+                            await launch('https://' + widget.linkTheses!);
+                          },
+                          child: const Text(
+                            'رابط الاطروحة',
+                            style: TextStyle(
+                                decoration: TextDecoration.underline,
+                                decorationThickness: 2,
+                                decorationColor: blue,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w400,
+                                color: blue),
+                          )),
+                      widget.userId == FirebaseAuth.instance.currentUser!.uid && prov.counter !=2
+                          ? InkWell(
+                              onTap: () {
+                                editTheses(context,
+                                    text: 'تعديل اطروحة',
+                                    indexed: widget.docid,
+                                    nameTheses: widget.nameTheses,
+                                    linkTheses: widget.linkTheses,
+                                    nameSupervisors: widget.nameSupervisors,
+                                    assistantSupervisors:
+                                        widget.assistantSupervisors,
+                                    degreeTheses: widget.degreeTheses,
+                                    thesesStatus: widget.thesesStatus,
+                                    key: formKeys);
+                                setState(() {});
+                              },
+                              child: Row(
+                                children: const [
+                                  Icon(
+                                    Icons.edit,
+                                    color: blue,
+                                    size: 15,
+                                  ),
+                                  Text('تعديل الاطروحة',
+                                      style: TextStyle(
+                                          // decoration: TextDecoration.underline,
+                                          // decorationThickness: 2,
+                                          decorationColor: blue,
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w400,
+                                          color: blue))
+                                ],
+                              ),
+                            )
+                          : const SizedBox(),
+                      widget.userId == FirebaseAuth.instance.currentUser!.uid && prov.counter !=2
+                          ? InkWell(
+                              onTap: () async {
+                                print(FirebaseAuth.instance.currentUser!.uid);
+                                await showDialogWarning(context,
+                                    text: 'هل انت متأكد من حذف الاطروحة',
+                                    ontap: () async {
+                                  await FirebaseFirestore.instance
+                                      .collection('theses')
+                                      .doc(widget.docid)
+                                      .delete()
+                                      .then((value) async {
+                                    await AwesomeDialog(
+                                            context: context,
+                                            title: "هام",
+                                            body:
+                                                const Text("تمت عملية الحذف بنجاح"),
+                                            dialogType: DialogType.SUCCES)
+                                        .show();
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => NavigationFile(
+                                                d: studentDrawer(context),
+                                                // title:
+                                                //     ' مرحبا${provider.userName} ',
+                                                counter: prov.counter!)));
+                                  });
+                                });
+                              },
+                              child: Row(
+                                children: const [
+                                  Icon(
+                                    Icons.delete,
+                                    color: red,
+                                    size: 15,
+                                  ),
+                                  Text('حذف الاطروحة',
+                                      style: TextStyle(
+                                          // decoration: TextDecoration.underline,
+                                          // decorationThickness: 2,
+                                          decorationColor: red,
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w400,
+                                          color: red))
+                                ],
+                              ),
+                            )
+                          : const SizedBox(),
                     ],
                   ),
-                  InkWell(
-                      onTap: () async {
-                        debugPrint(widget.linkTheses!);
-                        await launch('https://' + widget.linkTheses!);
-                      },
-                      child: const Text(
-                        'رابط الاطروحة',
-                        style: TextStyle(
-                            decoration: TextDecoration.underline,
-                            decorationThickness: 2,
-                            decorationColor: blue,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400,
-                            color: blue),
-                      )),
-                  widget.userId == FirebaseAuth.instance.currentUser!.uid && prov.counter !=2
-                      ? InkWell(
-                          onTap: () {
-                            editTheses(context,
-                                text: 'تعديل اطروحة',
-                                indexed: widget.docid,
-                                nameTheses: widget.nameTheses,
-                                linkTheses: widget.linkTheses,
-                                nameSupervisors: widget.nameSupervisors,
-                                assistantSupervisors:
-                                    widget.assistantSupervisors,
-                                degreeTheses: widget.degreeTheses,
-                                thesesStatus: widget.thesesStatus,
-                                key: formKeys);
-                            setState(() {});
-                          },
-                          child: Row(
-                            children: const [
-                              Icon(
-                                Icons.edit,
-                                color: blue,
-                                size: 15,
-                              ),
-                              Text('تعديل الاطروحة',
-                                  style: TextStyle(
-                                      // decoration: TextDecoration.underline,
-                                      // decorationThickness: 2,
-                                      decorationColor: blue,
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w400,
-                                      color: blue))
-                            ],
-                          ),
-                        )
-                      : const SizedBox(),
-                  widget.userId == FirebaseAuth.instance.currentUser!.uid && prov.counter !=2
-                      ? InkWell(
-                          onTap: () async {
-                            print(FirebaseAuth.instance.currentUser!.uid);
-                            await showDialogWarning(context,
-                                text: 'هل انت متأكد من حذف الاطروحة',
-                                ontap: () async {
-                              await FirebaseFirestore.instance
-                                  .collection('theses')
-                                  .doc(widget.docid)
-                                  .delete()
-                                  .then((value) async {
-                                await AwesomeDialog(
-                                        context: context,
-                                        title: "هام",
-                                        body:
-                                            const Text("تمت عملية الحذف بنجاح"),
-                                        dialogType: DialogType.SUCCES)
-                                    .show();
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => NavigationFile(
-                                            d: studentDrawer(context),
-                                            title:
-                                                ' مرحبا${provider.userName} ',
-                                            counter: prov.counter!)));
-                              });
-                            });
-                          },
-                          child: Row(
-                            children: const [
-                              Icon(
-                                Icons.delete,
-                                color: red,
-                                size: 15,
-                              ),
-                              Text('حذف الاطروحة',
-                                  style: TextStyle(
-                                      // decoration: TextDecoration.underline,
-                                      // decorationThickness: 2,
-                                      decorationColor: red,
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w400,
-                                      color: red))
-                            ],
-                          ),
-                        )
-                      : const SizedBox(),
-                ],
+                ),
               ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }
@@ -422,6 +426,7 @@ void editTheses(
                                 degreeTheses = newValue!;
                               },
                               items: <String>[
+                                'Bachelor',
                                 'Master',
                                 'Phd'
                               ].map<DropdownMenuItem<String>>((String value) {

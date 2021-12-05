@@ -110,11 +110,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
               elevation: 0,
               leading: IconButton(
                 onPressed: () {
+                  print(prov.userName);
                   Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) => NavigationFile(
-                                title: ' مرحبا${prov.userName} ',
+                                // title: ' مرحبا${prov.userName} ',
                                 d: studentDrawer(context),
                                 counter: provider.counter!,
                               )));
@@ -251,17 +252,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                 MainAxisAlignment.center,
                                             children: [
                                               Expanded(
-                                                child: Text(
-                                                  "Orcid id:${snapshot.data!.docs[0]['id']}",
-                                                  style: GoogleFonts.cairo(
-                                                    textStyle: const TextStyle(
-                                                        fontSize: 15,
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        height: 1.5,
-                                                        decoration: TextDecoration.underline,
-                                                        decorationThickness: 2,
-                                                        color: gray),
+                                                child: InkWell(
+                                                  onTap: () async {
+                                                    print(snapshot.data!.docs[0]['id']);
+                                                    await launch(
+                                                        'https://'+snapshot.data!.docs[0]['id']);
+                                                  },
+                                                  child: Text(
+                                                    "Orcid:${snapshot.data!.docs[0]['id']}",
+                                                    style: GoogleFonts.cairo(
+                                                      textStyle: const TextStyle(
+                                                          fontSize: 15,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          height: 1.5,
+                                                          decoration: TextDecoration.underline,
+                                                          decorationThickness: 2,
+                                                          color: blue),
+                                                    ),
                                                   ),
                                                 ),
                                               ),
