@@ -29,6 +29,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool validate(String value) {
     String pattern =
         r'^[a-zA-Z_][a-zA-Z0-9_]*';
+
     RegExp regExp = RegExp(pattern);
     return regExp.hasMatch(value);
   }
@@ -55,7 +56,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       validator: (value) {
                         if (value!.isEmpty) {
                           return 'برجاءادخال الاسم';
-                        } else if (value.length < 2) {
+                        } else if (value.length < 3) {
                           return 'يجب ان يتكون الاسم علي الاقل من ثلاثة احرف';
                         }
                       }),
@@ -74,7 +75,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         } else if (!value.toString().contains('@')) {
                           return ' @ يجب ان يحتوي البريد الالكتروني علي  ';
                         } else if (!validate(value)) {
-                          return 'لا يجب ادخال رقم اولا';
+                          return 'يجب أن لا يبدأ البريد الالكتروني برقم';
                         } else if (!value
                                 .toString()
                                 .contains('student.ksu.edu.sa') &&

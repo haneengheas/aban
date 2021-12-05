@@ -46,7 +46,7 @@ dependencies:
   intl:
   intl_phone_number_input: ^0.7.0+2
   email_validator:
-
+  queen_validators:
 
 
 
