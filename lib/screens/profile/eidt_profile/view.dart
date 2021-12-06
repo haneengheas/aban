@@ -673,13 +673,7 @@ class _EditProfileState extends State<EditProfile> {
                                             const ProfileScreen()));
                                   });
                                 } else {
-                                  await FirebaseFirestore.instance
-                                      .collection('user')
-                                      .doc(
-                                      FirebaseAuth.instance.currentUser!.uid)
-                                      .update({
-                                    'username': name.text,
-                                  });
+
                                   await FirebaseFirestore.instance
                                       .collection('member')
                                       .doc(

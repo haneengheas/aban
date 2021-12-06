@@ -227,7 +227,7 @@ class _MemberProfileState extends State<MemberProfile> {
                                         'https://'+widget.id);
                                   },
                                   child: Text(
-                                    "Orcid id:${widget.id}",
+                                    "ORCID",
                                     style: GoogleFonts.cairo(
                                       textStyle: const TextStyle(
                                           fontSize: 15,

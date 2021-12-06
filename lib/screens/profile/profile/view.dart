@@ -259,7 +259,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                         'https://'+snapshot.data!.docs[0]['id']);
                                                   },
                                                   child: Text(
-                                                    "Orcid:${snapshot.data!.docs[0]['id']}",
+                                                    "ORCID",
                                                     style: GoogleFonts.cairo(
                                                       textStyle: const TextStyle(
                                                           fontSize: 15,
