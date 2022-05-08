@@ -164,7 +164,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           },
                         ),
                         Text(
-                          'طالب دراسات عليا',
+                          'طالب ',
                           style: hintStyle,
                         ),
                       ],
