@@ -8,6 +8,7 @@ import 'package:aban/screens/profile/profile/view.dart';
 import 'package:aban/screens/registration/regist_screen/view.dart';
 import 'package:aban/screens/supervision/graduated/view.dart';
 import 'package:aban/screens/supervision/member/view.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import "package:quds_ui_kit/quds_ui_kit.dart";
@@ -145,7 +146,8 @@ Widget studentDrawer(BuildContext context) {
                 child: Text(
                   'تسجيل خروج',
                 )),
-            onPressed: () {
+            onPressed: ()async {
+              await FirebaseAuth.instance.signOut();
               Navigator.of(context).popUntil((route) => route.isFirst);
               Navigator.pushReplacement(
                   context,

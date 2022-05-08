@@ -59,7 +59,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: 20,
               ),
               TextFieldRegistation(
-                  hintText: "Reasearsh@ksuedu.sa",
+                  hintText: "student@std.mans.edu.eg",
                   labelText: 'بريدك الجامعي',
                   scure: false,
                   onChanged: (val) {
@@ -74,10 +74,12 @@ class _LoginScreenState extends State<LoginScreen> {
                       return ' @ يجب ان يحتوي البريد الالكتروني علي  ';
                     } else if (!value
                         .toString()
-                        .contains('student.ksu.edu.sa') &&
-                        !value.toString().contains('ksu.edu.sa') &&
-                        !value.toString().contains('@gmail.com')) {
-                      return ' يجب ان يحتوي البريد الالكتروني علي  ksu.edu.sa او student.ksu.edu.sa ';
+                        .contains('@std.mans.edu.eg')
+                         &&
+                        // !value.toString().contains('ksu.edu.sa') &&
+                        !value.toString().contains('@gmail.com')
+                    ) {
+                      return ' يجب ان يحتوي البريد الالكتروني علي @std.mans.edu.eg ';
                     }
                   }),
               const SizedBox(

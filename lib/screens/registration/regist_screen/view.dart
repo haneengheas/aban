@@ -25,18 +25,19 @@ class _RegistScreenState extends State<RegistScreen> {
               alignment: Alignment.topCenter,
               height: MediaQuery.of(context).size.height,
               width: sizeFromWidth(context, 1),
-              padding:const EdgeInsets.symmetric(vertical: 20),
-              decoration:const BoxDecoration(
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              decoration: const BoxDecoration(
                 color: blue,
               ),
-              child:const Image(
-                image: AssetImage('assets/logo.png'),height: 185,
+              child: const Image(
+                image: AssetImage('assets/logo.png',),
+                height: 230,
               ),
             ),
             Container(
               width: sizeFromWidth(context, 1),
               height: MediaQuery.of(context).size.height / 1.4,
-              decoration:const BoxDecoration(
+              decoration: const BoxDecoration(
                   color: white,
                   borderRadius: BorderRadius.only(
                       topRight: Radius.circular(15),
@@ -57,7 +58,6 @@ class _RegistScreenState extends State<RegistScreen> {
                     tabs: const <Widget>[
                       Tab(
                         text: 'تسجيل جديد',
-
                       ),
                       Tab(
                         text: "تسجيل دخول",
@@ -65,7 +65,7 @@ class _RegistScreenState extends State<RegistScreen> {
                     ],
                   )),
                 ),
-                const  Expanded(
+                const Expanded(
                   child: SizedBox(
                     child: TabBarView(
                       children: [
@@ -78,7 +78,6 @@ class _RegistScreenState extends State<RegistScreen> {
               ]),
             ),
             // Expanded(
-
           ],
         ),
       ),
