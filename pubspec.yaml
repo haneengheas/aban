@@ -49,14 +49,6 @@ dependencies:
   queen_validators:
   animated_splash_screen:
 
-
-
-
-
-
-
-
-
   flutter:
     sdk: flutter
 
@@ -66,6 +58,12 @@ dependencies:
   cupertino_icons: ^1.0.2
 
 dev_dependencies:
+  flutter_launcher_icons:
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/logo.png"
   flutter_test:
     sdk: flutter
 

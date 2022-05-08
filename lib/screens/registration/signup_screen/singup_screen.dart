@@ -61,7 +61,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         }
                       }),
                   TextFieldRegistation(
-                      hintText: "student@std.mans.edu.eg",
+                      hintText: "Reasearsh@ksuedu.sa",
                       labelText: 'بريدك الجامعي',
                       scure: false,
                       onChanged: (val) {
@@ -78,12 +78,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           return 'يجب أن لا يبدأ البريد الالكتروني برقم';
                         } else if (!value
                                 .toString()
-                                .contains('@std.mans.edu.eg')
-                            &&
-                            // !value.toString().contains('ksu.edu.sa') &&
-                             !value.toString().contains('@gmail.com')
-                        ) {
-                          return ' يجب ان يحتوي البريد الالكتروني علي @std.mans.edu.eg ';
+                                .contains('student.ksu.edu.sa') &&
+                            !value.toString().contains('ksu.edu.sa') &&
+                            !value.toString().contains('@gmail.com')) {
+                          return ' يجب ان يحتوي البريد الالكتروني علي\n  ksu.edu.sa او student.ksu.edu.sa ';
                         }
                       }),
                   TextFieldRegistation(
@@ -160,13 +158,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   print(value);
                                   setState(() {
                                     object.usertype = value;
-
                                   });
                                 });
                           },
                         ),
                         Text(
-                          'طالب ',
+                          'طالب دراسات عليا',
                           style: hintStyle,
                         ),
                       ],

@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_typing_uninitialized_variables, avoid_print, must_be_immutable
 
 import 'package:aban/constant/style.dart';
-import 'package:aban/provider/auth_provider.dart';
 import 'package:aban/provider/profile_provider.dart';
 import 'package:aban/widgets/buttons/submit_button.dart';
 import 'package:aban/widgets/buttons/tetfielduser.dart';
@@ -29,7 +28,6 @@ class _AddSeminarState extends State<AddSeminar> {
   @override
   Widget build(BuildContext context) {
     var prov = Provider.of<ProfileProvider>(context);
-    var auth = Provider.of<AuthProvider>(context);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: white,

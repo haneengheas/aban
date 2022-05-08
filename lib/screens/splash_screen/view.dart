@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:aban/provider/auth_provider.dart';
 import 'package:aban/provider/profile_provider.dart';
 import 'package:aban/screens/Home/navigation.dart';
 import 'package:aban/screens/Home/studentdrawer.dart';
@@ -21,7 +20,6 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   login(context) {
     var prov = Provider.of<ProfileProvider>(context, listen: false);
-    var provider = Provider.of<AuthProvider>(context, listen: false);
 
     if (islogin == false) {
       Navigator.pushReplacement(context,

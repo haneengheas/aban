@@ -1,7 +1,6 @@
 // ignore_for_file: avoid_print
 
 import 'package:aban/constant/style.dart';
-import 'package:aban/provider/auth_provider.dart';
 import 'package:aban/provider/profile_provider.dart';
 import 'package:aban/screens/Home/guestdawer.dart';
 import 'package:aban/screens/Home/navigation.dart';
@@ -122,7 +121,6 @@ class _ProjectScreenState extends State<SeminarScreen> {
   @override
   Widget build(BuildContext context) {
     var prov = Provider.of<ProfileProvider>(context);
-    var provider = Provider.of<AuthProvider>(context);
     return DefaultTabController(
       length: 2,
       child: Scaffold(

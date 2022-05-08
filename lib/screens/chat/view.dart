@@ -2,11 +2,13 @@
 
 import 'package:aban/constant/alert_methods.dart';
 import 'package:aban/constant/style.dart';
+import 'package:aban/provider/auth_provider.dart';
 import 'package:aban/screens/chat/chat_item.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 import 'chat_room.dart';
 
@@ -22,6 +24,11 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var prov = Provider.of<AuthProvider>(context);
+    print(prov.userName);
+
+    print(
+        '000000000000000000000000000000000000000000000000000000000000000000000');
     return Scaffold(
         backgroundColor: white,
         appBar: AppBar(

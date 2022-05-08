@@ -13,7 +13,7 @@ class NavigationFile extends StatefulWidget {
   final int counter;
 
   late final List <Widget> pages;
-  NavigationFile( {this.title, required this.d,required this.counter,}){
+  NavigationFile( {Key? key, this.title, required this.d,required this.counter,}) : super(key: key){
     pages=[
       HomeScreen(c: d, ),
       const ProjectScreen(),

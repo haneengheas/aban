@@ -159,10 +159,6 @@ class _ThesesBookMarkState extends State<ThesesBookMark> {
                       if (theses.isFav == false) {
                         docIsFav.remove(FirebaseAuth.instance.currentUser!.uid);
                         await FirebaseFirestore.instance
-                            .collection('thesesBookmark')
-                            .doc(theses.id)
-                            .update({'isFav': docIsFav});
-                        await FirebaseFirestore.instance
                             .collection('theses')
                             .doc(theses.id)
                             .update({'isFav': docIsFav});

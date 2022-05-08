@@ -1,7 +1,6 @@
 // ignore_for_file: must_be_immutable, avoid_print
 import 'package:aban/constant/alert_methods.dart';
 import 'package:aban/constant/style.dart';
-import 'package:aban/provider/auth_provider.dart';
 import 'package:aban/provider/profile_provider.dart';
 import 'package:aban/screens/Home/navigation.dart';
 import 'package:aban/screens/Home/studentdrawer.dart';
@@ -49,7 +48,6 @@ class _ThesesDetailsState extends State<ThesesDetails> {
   @override
   Widget build(BuildContext context) {
     var prov = Provider.of<ProfileProvider>(context);
-    var provider = Provider.of<AuthProvider>(context);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: white,

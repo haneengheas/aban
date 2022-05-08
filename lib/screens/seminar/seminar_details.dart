@@ -2,7 +2,6 @@
 
 import 'package:aban/constant/alert_methods.dart';
 import 'package:aban/constant/style.dart';
-import 'package:aban/provider/auth_provider.dart';
 import 'package:aban/provider/profile_provider.dart';
 import 'package:aban/screens/Home/navigation.dart';
 import 'package:aban/screens/Home/studentdrawer.dart';
@@ -62,7 +61,6 @@ class _SeminarDetailsState extends State<SeminarDetails> {
     print(myDateTime);
 
     var prov = Provider.of<ProfileProvider>(context);
-    var provider = Provider.of<AuthProvider>(context);
     return Scaffold(
       appBar: PreferredSize(
           child: customAppBar(context, title: 'ندوة'),
